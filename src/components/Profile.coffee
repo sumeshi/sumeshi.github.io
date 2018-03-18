@@ -1,4 +1,6 @@
 export default 
   name: 'Profile'
   data: () ->
-    msg: 'Shinta Nakano'
+    name: 'Shinta Nakano'
+    position: 'developer'
+    msg: "情報系の学生です。"
