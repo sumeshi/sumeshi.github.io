@@ -1,6 +1,5 @@
 <template lang='pug'>
   div#app
-    img(src="./assets/icon.jpg" width='30%')
     router-view
 </template>
 
