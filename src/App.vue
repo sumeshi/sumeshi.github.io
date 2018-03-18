@@ -1,5 +1,7 @@
 <template lang='pug'>
   div#app
+    nav.navbar.navbar-inverse.bg-inverse
+      div.navbar-brand sumeshi.github.io
     router-view
 </template>
 
@@ -11,7 +13,9 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+}
+.navbar {
+  color: white;
+  margin-bottom: 2em;
 }
 </style>

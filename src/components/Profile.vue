@@ -1,8 +1,7 @@
 <template lang='pug'>
   article.container-fluid
-    div.btn.btn-info hoge
     div.profile
-      img.rounded(src="../assets/icon.jpg" width='30%')
+      img.rounded-circle(src="../assets/icon.png" width='30%')
       h1 {{ msg }}
 </template>
 
