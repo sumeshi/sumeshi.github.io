@@ -1,8 +1,8 @@
 <template lang='pug'>
   article.container-fluid
-    div.row.profile-image
+    div.row
       div.col-md-12
-        img.rounded-circle(src="../assets/icon.png" width='25%')
+        img.rounded-circle.profile-img(src="../assets/icon.png" width='25%')
     div.row.profile-text
       div.col-md-12
         h1 {{ name }}
@@ -19,6 +19,9 @@
 <style lang='scss' scoped>
 h1, h2 {
   font-weight: normal;
+}
+.profile-img {
+  min-width: 250px;
 }
 .profile-text {
   padding: 30px 0 30px 0;
