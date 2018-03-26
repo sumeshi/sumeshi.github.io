@@ -17,10 +17,15 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang='scss' scoped>
+article {
+  height: 100vh;
+}
+
 h1, h2 {
   font-weight: normal;
 }
 .profile-img {
+  margin-top: 5em;
   min-width: 250px;
 }
 .profile-text {

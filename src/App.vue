@@ -1,8 +1,9 @@
 <template lang='pug'>
   div#app
-    nav.navbar.navbar-inverse.bg-inverse
+    nav.navbar.navbar-inverse.bg-inverse.text-white
       div.navbar-brand sumeshi.github.io
-    router-view
+    router-view(name='Profile')
+    router-view(name='Links')
 </template>
 
 <script lang='coffee' src='./App.coffee'></script>
@@ -15,7 +16,8 @@
   text-align: center;
 }
 .navbar {
-  color: white;
-  margin-bottom: 2em;
+  width: 100%;
+  position: fixed;
+  z-index: 3;
 }
 </style>

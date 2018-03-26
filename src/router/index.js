@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 import Profile from '@/components/Profile'
+import Links from '@/components/Links'
 
 Vue.use(Router)
 
@@ -10,8 +11,10 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'Profile',
-      component: Profile
+      components: {
+        Profile: Profile,
+        Links: Links
+      }
     }
   ]
 })
