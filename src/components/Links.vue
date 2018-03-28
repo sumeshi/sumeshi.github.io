@@ -1,12 +1,12 @@
 <template lang='pug'>
   article.container-fluid.bg-inverse
     div.row.link-buttons
-      div.col.card.link-cards(v-for="(link, button) in buttons")
+      div.col-sm.card.link-cards(v-for="button in buttons")
           div.card-body.p-4
-            h4.card-title {{ button }}
+            h4.card-title {{ button["name"] }}
             hr
-            p.card-text uoaaaa
-            a.card-link.float-right(:href="link") Link
+            p.card-text {{ button["msg"] }}
+            a.card-link.float-right(:href="button['link']") Link
 </template>
 
 <script lang='coffee' src='./Links.coffee'></script>
@@ -21,5 +21,6 @@ article {
 }
 .link-cards {
   margin: 1em 1em 1em 1em;
+  min-width: 100px;
 }
 </style>
