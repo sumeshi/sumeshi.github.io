@@ -1,30 +1,29 @@
-<template lang='pug'>
-  div#app
-    header
-      nav.navbar.navbar-inverse.bg-inverse.text-white
-        div.navbar-brand sumeshi.github.io
-    router-view(name='Profile')
-    router-view(name='Links')
-    footer
-      h6.bg-inverse.text-white ©2018 S.Nakano All Rights Reserved.
+<template>
+  <div id="app">
+    <div id="nav">
+      <router-link to="/">Home</router-link> |
+      <router-link to="/about">About</router-link>
+    </div>
+    <router-view/>
+  </div>
 </template>
 
-<script lang='coffee' src='./App.coffee'></script>
-
-<style lang='scss'>
-footer > h6 {
-  padding-bottom: 5px;
-  margin-bottom: 0;
-}
+<style lang="scss">
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
+  color: #2c3e50;
 }
-.navbar {
-  width: 100%;
-  position: fixed;
-  z-index: 3;
+#nav {
+  padding: 30px;
+  a {
+    font-weight: bold;
+    color: #2c3e50;
+    &.router-link-exact-active {
+      color: #42b983;
+    }
+  }
 }
 </style>
