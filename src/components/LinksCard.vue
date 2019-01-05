@@ -1,8 +1,8 @@
 <template lang="pug">
 v-layout.text-xs-center.mt-5(row wrap)
   v-flex(xs12)
-    v-btn.btn(v-for="[key, value] in Array.from(links)" :key="key" outline :href="value") 
-      span.body-1 {{ key }}
+    v-btn.btn(v-for="(link, index) in links" :key="index" outline :href="link.url" :color="link.color") 
+      span.body-1 {{ link.name }}
 </template>
 
 <script lang="ts">
@@ -12,11 +12,23 @@ import Component from 'vue-class-component';
 @Component({
 })
 export default class HelloWorld extends Vue {
-  private links = new Map([
-    ['Github', 'https://github.com/sumeshi/'],
-    ['Facebook', 'https://www.facebook.com/shinta.nakano.104'],
-    ['Docker Hub', 'https://hub.docker.com/u/sumeshi'],
-  ]);
+  private links: Array<{name: string; url: string}> = Array(
+    {
+      name: 'Github',
+      url: 'https://github.com/sumeshi/',
+      color: 'black',
+    },
+    {
+      name: 'Facebook',
+      url: 'https://www.facebook.com/shinta.nakano.104',
+      color: 'blue',
+    },
+    {
+      name: 'Docker Hub',
+      url: 'https://hub.docker.com/u/sumeshi',
+      color: 'green',
+    },
+  );
 }
 </script>
 
