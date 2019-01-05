@@ -10,7 +10,7 @@ fi
 
 # remove src files
 /bin/ls -A | grep -v -E '^(docs$|.git)' | xargs rm -rf
-mv ./docs/* ./
+mv docs/* .
 
 git config --global user.name "Circle CI"
 git config --global user.email "<>"
