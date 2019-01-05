@@ -37,6 +37,6 @@ jobs:
           name: Deploy development branch to develop
           command: |
             if [ "${CIRCLE_BRANCH}" = "${DEPLOY_BRANCH}" ]; then
-              chmod +x deploy.sh
+              chmod +x ./.circleci/deploy.sh
               ./.circleci/deploy.sh
             fi
