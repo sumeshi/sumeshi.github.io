@@ -38,5 +38,5 @@ jobs:
           command: |
             if [ "${CIRCLE_BRANCH}" = "${DEPLOY_BRANCH}" ]; then
               chmod +x deploy.sh
-              ./deploy.sh
+              ./.circleci/deploy.sh
             fi
