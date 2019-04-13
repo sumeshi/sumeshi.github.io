@@ -20,12 +20,12 @@ import Component from 'vue-class-component';
 @Component({
 })
 export default class HelloWorld extends Vue {
-  private avatarImage: string = require('../assets/images/ore2.png');
+  private avatarImage: File = require('../assets/images/ore3.jpg');
   private name: string = 'Shinta Nakano';
-  private caption: string = 'Developer';
+  private caption: string = 'Engineer';
   private comments: string[] = [
-    '情報系の学生です。',
-    'パソコンカチャカチャするのが好きです。',
+    '大学院生',
+    '渋谷ではたらく パソコンおたく',
   ];
 }
 </script>

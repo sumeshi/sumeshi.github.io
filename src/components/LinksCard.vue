@@ -24,7 +24,7 @@ export default class HelloWorld extends Vue {
       color: 'blue',
     },
     {
-      name: 'Docker Hub',
+      name: 'DockerHub',
       url: 'https://hub.docker.com/u/sumeshi',
       color: 'green',
     },

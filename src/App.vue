@@ -9,9 +9,9 @@
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
-import Toolbar from './components/Toolbar.vue';
-import HelloWorld from './components/HelloWorld.vue';
-import LinksCard from './components/LinksCard.vue';
+import Toolbar from '@/components/Toolbar.vue';
+import HelloWorld from '@/components/HelloWorld.vue';
+import LinksCard from '@/components/LinksCard.vue';
 
 @Component({
   components: {
