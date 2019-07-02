@@ -2,7 +2,7 @@
   v-app
     header
       toolbar
-    v-content
+    v-content.align-center
       hello-world
       links-card
 </template>

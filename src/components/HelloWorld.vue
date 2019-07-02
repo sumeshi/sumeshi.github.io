@@ -1,6 +1,6 @@
 <template lang="pug">
 v-layout.text-xs-center.justify-center(row wrap)
-  v-flex.mt-5(xs12)
+  v-flex(xs12)
       v-avatar(size="200")
         img(:src="avatarImage")
   v-flex.mt-5(xs12)
