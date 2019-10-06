@@ -1,16 +1,13 @@
 <template lang="pug">
-v-layout.text-xs-center.justify-center(row wrap)
-  v-flex(xs12)
-      v-avatar(size="200")
-        img(:src="avatarImage")
-  v-flex.mt-5(xs12)
-    p.title {{ name }}
-    p.caption.grey--text {{ caption }}
-  v-flex(xs4)
-    hr
-  v-flex.mt-5(xs12)
-    article(v-for="line in comments")
-      p.body-1 {{ line }}
+v-layout.text-center.justify-center(row wrap)
+  div.avatar(d-flex flex-column)
+    v-avatar(size="200")
+      img.elevation-2(:src="avatarImage")
+    p.title.pt-5 {{ name }}
+    p.overline.grey--text {{ caption }}
+    hr.ma-5
+    article(v-for="line in comments").mb-10
+      p.body-2 {{ line }}
 </template>
 
 <script lang="ts">
@@ -29,3 +26,8 @@ export default class HelloWorld extends Vue {
   ];
 }
 </script>
+
+<style lang="sass">
+.avatar
+  padding-top: 50px
+</style>

@@ -2,8 +2,8 @@
 v-container.mt-5.mb-5(fluid)
   v-flex
     v-layout.justify-center(wrap)
-      v-btn.btn.mt-3(v-for="(link, index) in links" :key="index" outline :href="link.url" :color="link.color") 
-        span.body-1 {{ link.name }}
+      v-btn.btn.mt-3.mr-2.ml-2(v-for="(link, index) in links" :key="index" outlined :href="link.url" :color="link.color") 
+        span.body {{ link.name }}
 </template>
 
 <script lang="ts">
@@ -24,11 +24,6 @@ export default class HelloWorld extends Vue {
       url: 'https://www.facebook.com/shinta.nakano.104',
       color: 'blue darken-4',
     },
-    // {
-    //   name: 'DockerHub',
-    //   url: 'https://hub.docker.com/u/sumeshi',
-    //   color: 'blue lighten-2',
-    // },
     {
       name: 'note',
       url: 'https://note.mu/sumeshi_kun',

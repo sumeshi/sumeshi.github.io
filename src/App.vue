@@ -23,3 +23,8 @@ import LinksCard from '@/components/LinksCard.vue';
 export default class App extends Vue {
 }
 </script>
+
+<style lang="sass">
+html
+  width: 100vw
+</style>
