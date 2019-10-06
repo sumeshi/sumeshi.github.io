@@ -1,4 +1,4 @@
-# hoge
+# README
 
 ## Project setup
 ```
