@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/precache-manifest.808bc8da557078370c64c036f7635522.js"
+  "/precache-manifest.5a284e2baba10a84881af3741bbd17fe.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "sumeshi.github.io"});
