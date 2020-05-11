@@ -1,7 +1,7 @@
 <template lang="pug">
 v-app-bar(app dark dense)
     v-layout.justify-center
-        v-toolbar-title.subheading
+        v-toolbar-title.font-weight-light
             span sumeshi.github.io
 </template>
 

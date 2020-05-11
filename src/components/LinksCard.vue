@@ -2,7 +2,7 @@
 v-container.mt-5.mb-5(fluid)
   v-flex
     v-layout.justify-center(wrap)
-      v-btn.btn.mt-3.mr-2.ml-2(v-for="(link, index) in links" :key="index" outlined :href="link.url" :color="link.color") 
+      v-btn.btn.mt-3.mr-2.ml-2(v-for="(link, index) in links" :key="index" outlined :href="link.url" :color="link.color" target="_blank") 
         span.body {{ link.name }}
 </template>
 
@@ -20,14 +20,14 @@ export default class HelloWorld extends Vue {
       color: 'black',
     },
     {
-      name: 'Facebook',
-      url: 'https://www.facebook.com/shinta.nakano.104',
-      color: 'blue darken-4',
+      name: 'Instagram',
+      url: 'https://instagram.com/sumeshi_kun',
+      color: 'pink',
     },
     {
-      name: 'note',
-      url: 'https://note.mu/sumeshi_kun',
-      color: 'green',
+      name: 'Facebook',
+      url: 'https://www.facebook.com/sumeshi.kun',
+      color: 'blue darken-4',
     },
     {
       name: 'Qiita',
