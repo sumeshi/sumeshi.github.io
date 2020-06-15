@@ -1,44 +1,35 @@
 # README
 
-<div style="text-align: center;">
-    <img src="https://avatars2.githubusercontent.com/u/35072092?s=460&v=4" width=200 style="border-radius: 50%;">
-    <h2>S.Nakano</h2>
-    <p style="opacity: 0.3;">Developer / Master's Student</p>
-</div>
+<img src="https://avatars2.githubusercontent.com/u/35072092?s=460&v=4" width=200>
+
+## S.Nakano
+DFIR Researcher / Software Developer
 
 ---
 
-## Self-Introduction
+I'm interested in cyber security, especially DFIR.
 
-My research interests include natural language processing and security, especially DFIR.
+I also enjoy programming and often create utility tools and web applications.
 
-I **love programming**, and at work I develop web applications.  
-Other than that, I create various tools for hobby and publish it on GitHub.
+## Skills Learned.
 
-I am also interested in junk machines, whiskey, music (including production in FL STUDIO), perfume, etc.
-
-## Development Environment
-|FrontEnd|BackEnd|Editor|Keyboard|
-|-|-|-|-|
-|macOS|ESXi + ArchLinux / Ubuntu|VSCode / vim|HHKB Professional 2|
-
-## Ability
-### Frequently Use Languages
+### Programming Languages
 - Python
-- TypeScript
+  - Datascience, NLP
+  - Django
+  - Flask
+- Node.js (Typescript)
+  - Angular
+  - Vue
 - Go
-- Rust
+- Rust *1
+- Nim *1
 
-### I can but don't use...
-Python is sufficient in most cases.
+*1 ... In many cases, creating a fast Python libraries.
 
-- Java (Use a little with Elasticsearch)
-- C / C++
-- Swift
-- Haxe
-- Javascript
-- Julia
-- Nim
-- Ruby
-- PHP
-- Perl
+## Technology of interest.
+- DFIR
+- Malware Analysis
+- DarkWeb
+- Natural Language Processing
+- Machine Learning

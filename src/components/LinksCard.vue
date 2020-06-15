@@ -20,19 +20,19 @@ export default class HelloWorld extends Vue {
       color: 'black',
     },
     {
-      name: 'Instagram',
-      url: 'https://instagram.com/sumeshi_kun',
-      color: 'pink',
-    },
-    {
-      name: 'Facebook',
-      url: 'https://www.facebook.com/sumeshi.kun',
-      color: 'blue darken-4',
+      name: 'Twitter',
+      url: 'https://twitter.com/sum3sh1',
+      color: 'blue lighten-1',
     },
     {
       name: 'Qiita',
       url: 'https://qiita.com/sumeshi',
-      color: 'green lighten-2',
+      color: 'green lighten-1',
+    },
+    {
+      name: 'Instagram',
+      url: 'https://instagram.com/sumeshi_kun',
+      color: 'pink',
     },
   );
 }
