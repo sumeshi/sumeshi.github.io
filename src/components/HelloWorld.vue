@@ -26,12 +26,7 @@ export default class HelloWorld extends Vue {
   private twitterId: string = 'sum3sh1';
   private caption: string = 'DFIR Researcher / Software Developer';
   private comments: string[] = [
-    '情報学を専攻するM2です.',
-    '　',
-    '専門はサイバーセキュリティ(DFIR)ですが, Web開発に興味があり,',
-    'Django/Angularでお仕事を頂いています.',
-    '　',
-    '割となんにでも興味があるので色々やってます.',
+    '社畜',
   ];
 
   // private mounted() {

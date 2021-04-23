@@ -29,11 +29,6 @@ export default class HelloWorld extends Vue {
       url: 'https://qiita.com/sumeshi',
       color: 'green lighten-1',
     },
-    {
-      name: 'Instagram',
-      url: 'https://instagram.com/sumeshi_kun',
-      color: 'pink',
-    },
   );
 }
 </script>
