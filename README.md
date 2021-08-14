@@ -21,9 +21,8 @@ I also enjoy programming and often create utility tools and web applications.
 - Node.js (Typescript)
   - Angular
   - Vue
-- Go
+- Go *1
 - Rust *1
-- Nim *1
 
 *1 ... In many cases, creating a fast Python libraries.
 
