@@ -13,7 +13,7 @@ I also enjoy programming and often create utility tools and web applications.
 
 ## Skills Learned.
 
-### Programming Languages
+### Programming Skills
 - Python
   - Datascience, NLP
   - Django
