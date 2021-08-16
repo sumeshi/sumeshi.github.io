@@ -32,3 +32,4 @@ I also enjoy programming and often create utility tools and web applications.
 - DarkWeb
 - Natural Language Processing
 - Machine Learning
+- Functional Programming
