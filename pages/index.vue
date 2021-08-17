@@ -3,10 +3,7 @@
     <v-col cols="12" sm="8" md="6">
       <v-card class="logo py-4 d-flex justify-center">
         <v-avatar size="240">
-          <img
-            src="/me.jpg"
-            alt="Vuetify.js"
-          ></img>
+          <img src="/me.jpg" alt="Vuetify.js">
         </v-avatar>
       </v-card>
       <v-card class="logo py-4 d-flex justify-center">
