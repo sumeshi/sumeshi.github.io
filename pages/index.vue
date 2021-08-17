@@ -18,7 +18,7 @@
           <p>社畜</p>
         </v-card-text>
       </v-card>
-      <v-card class="logo py-4 d-flex justify-center">
+      <v-card class="logo py-4 justify-center d-flex flex-wrap">
         <v-card-actions v-for="item of items" :key="item.name">
           <v-btn class="btn" :href="item.link" :color="item.color">
             <span class="caption">{{ item.name }}</span>
@@ -50,7 +50,7 @@ export default class Home extends Vue {
     },
     {
       name: 'Twitter',
-      link: 'https://twitter.com/sum5sh1',
+      link: 'https://twitter.com/sum3sh1',
       color: '#1da1f2'
     },
     {
