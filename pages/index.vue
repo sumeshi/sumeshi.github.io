@@ -13,7 +13,7 @@
         <v-card-text>
           <h1>S.Nakano</h1>
           <p>DFIR Researcher / Software Developer</p>
-          <v-divider></v-divider>
+          <v-divider />
         </v-card-text>
       </v-card>
       <v-card class="logo py-4 d-flex justify-center">
