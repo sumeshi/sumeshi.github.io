@@ -23,8 +23,8 @@
       </v-card>
       <v-card class="logo py-4 d-flex justify-center">
         <v-card-actions v-for="item of items" :key="item.name">
-          <v-btn class="btn" :href="item.link">
-            {{ item.name }}
+          <v-btn class="btn" :href="item.link" :color="item.color">
+            <span class="caption">{{ item.name }}</span>
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -49,7 +49,17 @@ export default class Home extends Vue {
     {
       name: 'GitHub',
       link: 'https://github.com/sumeshi',
-      color: 'black'
+      color: '#333333'
+    },
+    {
+      name: 'Twitter',
+      link: 'https://twitter.com/sum5sh1',
+      color: '#1da1f2'
+    },
+    {
+      name: 'Instagram',
+      link: 'https://instagram.com/sumeshi_kun',
+      color: '#e1306c'
     }
   ]
 }
