@@ -51,8 +51,13 @@ export default {
       items: [
         {
           icon: 'mdi-apps',
-          title: 'Welcome',
+          title: 'Home',
           to: '/'
+        },
+        {
+          icon: 'mdi-hammer-wrench',
+          title: 'Works',
+          to: '/works'
         }
       ],
       title: 'sumeshi.github.io'
