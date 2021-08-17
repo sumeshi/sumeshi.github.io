@@ -22,15 +22,38 @@
         </v-card-text>
       </v-card>
       <v-card class="logo py-4 d-flex justify-center">
-        <v-card-actions>
-          <v-btn class="btn" href="https://github.com/sumeshi">
-            GitHub
+        <v-card-actions v-for="item of items" :key="item.name">
+          <v-btn class="btn" :href="item.link">
+            {{ item.name }}
           </v-btn>
         </v-card-actions>
       </v-card>
     </v-col>
   </v-row>
 </template>
+
+<script lang="ts">
+import Vue from 'vue'
+import { Component } from 'nuxt-property-decorator'
+
+interface LinkButton {
+  name: string,
+  link: string,
+  color: string,
+}
+
+@Component({
+})
+export default class Home extends Vue {
+  private items: Array<LinkButton> = [
+    {
+      name: 'GitHub',
+      link: 'https://github.com/sumeshi',
+      color: 'black'
+    }
+  ]
+}
+</script>
 
 <style lang="scss" scoped>
 
