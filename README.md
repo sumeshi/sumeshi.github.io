@@ -31,7 +31,6 @@ I also enjoy programming and often create utility tools and web applications.
 
 - DFIR
 - Malware Analysis
-- DarkWeb
 - Natural Language Processing
 - Machine Learning
 - Functional Programming
