@@ -7,9 +7,13 @@ DFIR Researcher / Software Developer
 
 ---
 
-I'm interested in cyber security, especially DFIR.
+I'm a security engineer in Japan, focusing on DFIR.
+On GitHub, I create and publish tools that I want to have.
 
-I also enjoy programming and often create utility tools and web applications.
+I also enjoy learning new methods and programming languages, and am very interested in them.
+I'd like to get to know more like-minded people. 
+
+Thank you.
 
 ## Skills Learned.
 
