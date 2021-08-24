@@ -58,6 +58,11 @@ export default {
           icon: 'mdi-hammer-wrench',
           title: 'Works',
           to: '/works'
+        },
+        {
+          icon: 'mdi-notebook',
+          title: 'Posts',
+          to: '/posts'
         }
       ],
       title: 'sumeshi.github.io'
