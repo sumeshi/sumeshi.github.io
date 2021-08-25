@@ -1,15 +1,25 @@
 <template>
   <v-row justify="center" align="center">
-    <v-col cols="12" sm="8" md="6">
+    <v-col cols="12" sm="10" md="8">
       <div v-for="post of posts" :key="post.title">
         <v-card class="logo py-4 justify-center flex-wrap ma-2">
-          <v-card-title>
-            {{ post.title }}
-          </v-card-title>
-          <v-card-text>{{ post.publishedAt }}</v-card-text>
+          <v-row>
+            <v-col>
+              <v-card-title>
+                {{ post.title }}
+              </v-card-title>
+            </v-col>
+            <v-col>
+              <v-card-text class="text-right">
+                <span class="grey--text text--darken-2">
+                  {{ post.published_at.replace('T', ' ') }}
+                </span>
+              </v-card-text>
+            </v-col>
+          </v-row>
           <v-card-actions class="justify-center">
             <v-btn class="btn" :href="post.path">
-              <span class="caption">Open</span>
+              <span class="caption">see more</span>
             </v-btn>
           </v-card-actions>
         </v-card>
@@ -27,7 +37,7 @@ import axios from 'axios'
 interface PostIndex {
   title: string
   path: string
-  publishedAt: string
+  published_at: string
 }
 
 @Component({
