@@ -30,7 +30,7 @@
       <v-toolbar-title v-text="title" />
     </v-app-bar>
     <v-main>
-      <v-container>
+      <v-container fill-height>
         <Nuxt />
       </v-container>
     </v-main>
