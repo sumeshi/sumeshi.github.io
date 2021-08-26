@@ -63,6 +63,16 @@ export default {
           icon: 'mdi-notebook',
           title: 'Posts',
           to: '/posts'
+        },
+        {
+          icon: 'mdi-account',
+          title: 'Privacy Policy',
+          to: '/privacy-policy'
+        },
+        {
+          icon: 'mdi-file-document',
+          title: 'Terms and Conditions',
+          to: '/terms-and-conditions'
         }
       ],
       title: 'sumeshi.github.io'
