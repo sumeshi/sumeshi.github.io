@@ -46,7 +46,8 @@ export default {
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
     // https://go.nuxtjs.dev/pwa
-    '@nuxtjs/pwa'
+    '@nuxtjs/pwa',
+    '@nuxtjs/google-gtag'
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
@@ -57,6 +58,11 @@ export default {
     manifest: {
       lang: 'en'
     }
+  },
+
+  'google-gtag': {
+    id: 'G-DVLS4LMPGV',
+    debug: false
   },
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
