@@ -6,20 +6,37 @@
       app
     >
       <v-list>
-        <v-list-item
-          v-for="(item, i) in items"
-          :key="i"
-          :to="item.to"
-          router
-          exact
-        >
-          <v-list-item-action>
-            <v-icon>{{ item.icon }}</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title v-text="item.title" />
-          </v-list-item-content>
-        </v-list-item>
+        <v-list-item-group>
+          <v-list-item
+            v-for="(page, i) in pages"
+            :key="i"
+            :to="page.to"
+            router
+            exact
+          >
+            <v-list-item-action>
+              <v-icon>{{ page.icon }}</v-icon>
+            </v-list-item-action>
+            <v-list-item-content>
+              <v-list-item-title v-text="page.title" />
+            </v-list-item-content>
+          </v-list-item>
+          <v-divider></v-divider>
+          <v-list-item
+            v-for="(doc, j) in docs"
+            :key="j"
+            :to="doc.to"
+            router
+            exact
+          >
+            <v-list-item-action>
+              <v-icon>{{ doc.icon }}</v-icon>
+            </v-list-item-action>
+            <v-list-item-content>
+              <v-list-item-title v-text="doc.title" />
+            </v-list-item-content>
+          </v-list-item>
+        </v-list-item-group>
       </v-list>
     </v-navigation-drawer>
     <v-app-bar
@@ -48,7 +65,7 @@ export default {
   data () {
     return {
       drawer: false,
-      items: [
+      pages: [
         {
           icon: 'mdi-apps',
           title: 'Home',
@@ -65,14 +82,21 @@ export default {
           to: '/posts'
         },
         {
-          icon: 'mdi-account',
-          title: 'Privacy Policy',
-          to: '/privacy-policy'
-        },
+          icon: 'mdi-contacts',
+          title: 'About',
+          to: '/about'
+        }
+      ],
+      docs: [
         {
           icon: 'mdi-file-document',
           title: 'Terms and Conditions',
           to: '/terms-and-conditions'
+        },
+        {
+          icon: 'mdi-account',
+          title: 'Privacy Policy',
+          to: '/privacy-policy'
         }
       ],
       title: 'sumeshi.github.io'
