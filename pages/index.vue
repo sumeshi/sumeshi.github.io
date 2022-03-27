@@ -1,28 +1,53 @@
 <template>
   <v-row justify="center" align="center">
-    <v-col cols="12" sm="8" md="6">
-      <v-card class="logo py-4 d-flex justify-center">
-        <v-avatar size="240">
-          <img src="/me.jpg" alt="Vuetify.js">
-        </v-avatar>
-      </v-card>
-      <v-card class="logo py-4 d-flex justify-center">
-        <v-card-text>
-          <h1>S.Nakano</h1>
-          <p>DFIR Researcher / Software Developer</p>
-          <v-divider />
+    <v-col cols="12" sm="12" md="8">
+      <v-card class="logo pa-4 justify-center">
+        <v-card-text class="d-flex">
+          <v-card-text>
+            <h3>S.Nakano</h3>
+            <p class="overline grey--text text--darken-2">
+              DFIR Researcher / Software Developer
+            </p>
+            <p>twitter: <a href="https://twitter.com/sum3sh1">@sum3sh1</a></p>
+          </v-card-text>
+          <v-card-text align="center">
+            <router-link to="/about">
+              <v-hover v-slot="{hover}">
+                <v-avatar size="120" :elevation="hover ? 12 : 2" :class="{'on-hover': hover}">
+                  <img src="glitchme.jpg" alt="me">
+                </v-avatar>
+              </v-hover>
+            </router-link>
+          </v-card-text>
         </v-card-text>
       </v-card>
-      <v-card class="logo py-4 d-flex justify-center">
+      <v-card class="logo mt-5 pa-4 justify-center">
         <v-card-text>
-          <p>社畜</p>
+          <h2>Latest Posts</h2>
+          <v-divider></v-divider>
         </v-card-text>
-      </v-card>
-      <v-card class="logo py-4 justify-center d-flex flex-wrap">
-        <v-card-actions v-for="item of items" :key="item.name">
-          <v-btn class="btn" :href="item.link" :color="item.color">
-            <span class="caption">{{ item.name }}</span>
-          </v-btn>
+        <v-card-actions class="pr-5 pl-5">
+          <v-list
+            style="width: 100%;"
+          >
+            <v-list-item
+              v-for="(post, i) in posts"
+              :key="i"
+              :to="post.path"
+              router
+              exact
+            >
+              <v-list-item-action>
+                <div>
+                  <span class="grey--text text--darken-2">
+                    {{ post.published_at.replace('T', ' ') }}
+                  </span>
+                  <h3>{{post.title}}</h3>
+                  <p>summary (this feature is not yet implemented.)</p>
+                </div>
+              </v-list-item-action>
+            </v-list-item>
+          </v-list>
         </v-card-actions>
       </v-card>
     </v-col>
@@ -33,39 +58,37 @@
 import Vue from 'vue'
 import { Component } from 'nuxt-property-decorator'
 
-interface LinkButton {
-  name: string,
-  link: string,
-  color: string,
+import axios from 'axios'
+
+interface PostIndex {
+  title: string
+  path: string
+  published_at: string
 }
 
 @Component({
 })
 export default class Home extends Vue {
-  private items: Array<LinkButton> = [
-    {
-      name: 'GitHub',
-      link: 'https://github.com/sumeshi',
-      color: '#333333'
-    },
-    {
-      name: 'Twitter',
-      link: 'https://twitter.com/sum3sh1',
-      color: '#1da1f2'
-    },
-    {
-      name: 'Instagram',
-      link: 'https://instagram.com/sumeshi_kun',
-      color: '#e1306c'
-    }
-  ]
+  private posts: Array<PostIndex> = []
+
+  private mounted () {
+    axios.get('https://sumeshi.github.io/api/posts/').then(
+      (res) => {
+        this.posts = res.data
+      }
+    )
+  }
 }
 </script>
 
 <style lang="scss" scoped>
-
-.btn {
-  width: 120px;
+.v-avatar {
+  opacity: 0.6;
+  transition: opacity .2s ease-in-out;
 }
+
+.v-avatar:not(.on-hover) {
+  opacity: 1.0;
+ }
 
 </style>
