@@ -1,6 +1,6 @@
 <template>
   <v-row justify="center" align="center">
-    <v-col cols="12" sm="8" md="6">
+    <v-col cols="12" sm="12" md="12">
       <v-card class="logo py-4 justify-center flex-wrap ma-2">
         <v-card-title>
           <h1>Privacy Policy</h1>
