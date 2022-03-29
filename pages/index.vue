@@ -1,25 +1,34 @@
 <template>
   <v-row justify="center" align="center">
     <v-col cols="12" sm="12" md="8">
-      <v-card class="logo pa-4 justify-center">
-        <v-card-text class="d-flex">
-          <v-card-text>
-            <h3>S.Nakano</h3>
-            <p class="overline grey--text text--darken-2">
-              DFIR Researcher / Software Developer
-            </p>
-            <p>twitter: <a href="https://twitter.com/sum3sh1">@sum3sh1</a></p>
-          </v-card-text>
-          <v-card-text align="center">
-            <router-link to="/about">
-              <v-hover v-slot="{hover}">
-                <v-avatar size="120" :elevation="hover ? 12 : 2" :class="{'on-hover': hover}">
-                  <img src="glitchme.jpg" alt="me">
-                </v-avatar>
-              </v-hover>
-            </router-link>
-          </v-card-text>
-        </v-card-text>
+      <v-card class="logo pa-4" justify="center">
+        <v-row>
+          <v-card class="elevation-0 col-6">
+            <v-card-text>
+              <h3>S.Nakano</h3>
+              <p class="overline grey--text text--darken-2">
+                <span>DFIR Researcher / </span><span>Software Developer</span>
+              </p>
+              <p>twitter: <a href="https://twitter.com/sum3sh1">@sum3sh1</a></p>
+            </v-card-text>
+          </v-card>
+          <v-card class="elevation-0 col-6">
+            <v-card-text class="d-none d-sm-flex justify-center">
+              <router-link to="/about">
+                <v-hover v-slot="{hover}">
+                  <v-avatar size="120" :elevation="hover ? 12 : 2" :class="{'on-hover': hover}">
+                    <img src="glitchme.jpg" alt="me">
+                  </v-avatar>
+                </v-hover>
+              </router-link>
+            </v-card-text>
+          </v-card>
+        </v-row>
+        <v-card class="elevation-0">
+          <v-actions class="d-flex d-sm-none justify-center">
+            <v-btn to="/about" raised class="btn">see more</v-btn>
+          </v-actions>
+        </v-card>
       </v-card>
       <v-card class="logo mt-5 pa-4 justify-center">
         <v-card-text>
@@ -43,7 +52,7 @@
                     {{ post.published_at.replace('T', ' ') }}
                   </span>
                   <h3>{{post.title}}</h3>
-                  <p>summary (this feature is not yet implemented.)</p>
+                  <p>{{post.description}}</p>
                 </div>
               </v-list-item-action>
             </v-list-item>
@@ -63,6 +72,7 @@ import axios from 'axios'
 interface PostIndex {
   title: string
   path: string
+  description: string
   published_at: string
 }
 
@@ -82,6 +92,14 @@ export default class Home extends Vue {
 </script>
 
 <style lang="scss" scoped>
+
+span {
+  display: inline-block;
+}
+
+.btn {
+  width: 120px;
+}
 .v-avatar {
   opacity: 0.6;
   transition: opacity .2s ease-in-out;
