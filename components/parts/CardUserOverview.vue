@@ -1,5 +1,5 @@
 <template>
-  <v-card class="pt-2 pb-2 pr-4 pl-4" justify="center">
+  <v-card class="pa-4" justify="center">
     <v-row>
       <v-col>
         <v-card class="elevation-0">
