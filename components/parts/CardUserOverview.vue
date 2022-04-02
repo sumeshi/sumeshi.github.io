@@ -57,13 +57,12 @@ export default defineComponent({
       default: []
     }
   },
-
   setup() {
   },
 })
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .position {
   line-height: 1rem !important;
 }
