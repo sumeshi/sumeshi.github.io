@@ -1,6 +1,6 @@
 <template>
   <v-row justify="center" align="center">
-    <v-col cols="12" sm="10" md="8">
+    <v-col class="main">
       <div v-for="post of posts" :key="post.title">
         <v-card class="logo py-4 justify-center flex-wrap ma-2">
           <v-row>
@@ -56,6 +56,10 @@ export default class Posts extends Vue {
 </script>
 
 <style lang="scss" scoped>
+
+.main {
+  max-width: 900px
+}
 
 .btn {
   width: 120px;

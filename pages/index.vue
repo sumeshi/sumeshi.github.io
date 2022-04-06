@@ -1,6 +1,6 @@
 <template>
   <v-row justify="center" align="center">
-    <v-col cols="12" sm="8">
+    <v-col class="main">
       <CardUserOverview 
         name="S.Nakano"
         position="DFIR Researcher / Software Developer"
@@ -16,8 +16,7 @@
 </template>
 
 <script lang="ts">
-import { ref, defineComponent } from '@vue/composition-api'
-import { PostIndex } from '@/types/post'
+import { defineComponent } from '@vue/composition-api'
 import axios from 'axios'
 
 export default defineComponent({
@@ -37,4 +36,7 @@ export default defineComponent({
 
 
 <style lang="scss" scoped>
+.main {
+  max-width: 900px;
+}
 </style>

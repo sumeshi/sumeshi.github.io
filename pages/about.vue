@@ -1,10 +1,8 @@
 <template>
   <v-row justify="center" align="center">
-    <v-col cols="12" sm="8" md="6">
+    <v-col class="main">
       <v-card class="logo py-4 d-flex justify-center">
-        <v-avatar size="240">
-          <img src="/glitchme.jpg" alt="Vuetify.js">
-        </v-avatar>
+        <Icon src="glitchme.jpg" link="/" size="240" />
       </v-card>
       <v-card class="logo py-4 d-flex justify-center">
         <v-card-text>
@@ -18,9 +16,11 @@
       <v-card class="logo pa-4 d-flex justify-center">
         <v-card-text>
           <p>I am a security engineer working in Japan.</p>
-          <p>In my daily work, I do forensics and malware analysis.</p>
-          <p>I am interested in many things, not only security, but also new programming languages, design patterns, and technologies.</p>
-          <p>I am mainly active on twitter, so feel free to talk to me.</p>
+
+          <p>In my daily work, I do forensics and malware analysis.<br>
+          I am interested in many things, not only security, but also new programming languages, design patterns, and technologies.</p>
+
+          <p>If you have any questions or want to talk, please feel free to talk to me as I am mainly active on twitter.</p>
           <p>Thank you.</p>
         </v-card-text>
       </v-card>
@@ -69,6 +69,10 @@ export default class About extends Vue {
 </script>
 
 <style lang="scss" scoped>
+
+.main {
+  max-width: 900px;
+}
 
 .btn {
   width: 120px;
