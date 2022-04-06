@@ -48,7 +48,7 @@
     </v-app-bar>
     <v-main>
       <v-container fill-height>
-        <Nuxt />
+        <Nuxt class="nuxt" />
       </v-container>
     </v-main>
     <v-footer
@@ -104,3 +104,14 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.nuxt {
+  animation: fadeIn 0.3s ease 0s 1 normal;
+}
+
+@keyframes fadeIn {
+  0% {opacity: 0}
+  100% {opacity: 1}
+}
+</style>
