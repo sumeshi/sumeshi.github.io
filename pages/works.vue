@@ -1,8 +1,7 @@
 <template>
   <v-row justify="center" align="center">
-    <v-col cols="12" sm="8" md="6">
-      <div v-for="repo of repositories" :key="repo.name">
-        <v-card class="logo py-4 justify-center flex-wrap ma-2">
+      <div v-for="repo of repositories" :key="repo.name" class="d-flex">
+        <v-card class="card logo py-4 justify-center flex-wrap ma-2">
           <v-card-title>
             {{ repo.name }}<span v-if="repo.isArchived" class="pa-2 caption grey--text">Archived</span>
             <v-spacer />
@@ -19,7 +18,6 @@
           </v-card-actions>
         </v-card>
       </div>
-    </v-col>
   </v-row>
 </template>
 
@@ -123,6 +121,10 @@ export default class Works extends Vue {
 </script>
 
 <style lang="scss" scoped>
+
+.card {
+  width: 340px;
+}
 
 .btn {
   width: 120px;

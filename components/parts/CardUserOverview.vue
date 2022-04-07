@@ -8,7 +8,7 @@
           <p class="position mt-2 overline grey--text text--darken-2">
             {{position}}
           </p>
-          <div v-for="link of links" :key="link">
+          <div v-for="link of links" :key="link.key">
             <p>{{link.name}}: <a :href="link.url">{{link.message}}</a></p>
           </div>
           </v-card-text>

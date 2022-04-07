@@ -9,6 +9,7 @@
         :links="[{name: 'twitter', url: 'https://twitter.com/sum3sh1', message: '@sum3sh1'}]"
       />
       <CardPostLatests
+        title="Latest Posts"
         :postindices="posts"
       />
     </v-col>
@@ -28,7 +29,7 @@ export default defineComponent({
   mounted() {
     axios.get('https://sumeshi.github.io/api/posts/')
       .then((res) => {
-        this.posts = res.data
+        this.posts = res.data.slice(-5).reverse()
       });
   }
 });

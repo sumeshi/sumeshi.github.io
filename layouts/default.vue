@@ -23,8 +23,8 @@
           </v-list-item>
           <v-divider></v-divider>
           <v-list-item
-            v-for="(doc, j) in docs"
-            :key="j"
+            v-for="doc in docs"
+            :key="doc.key"
             :to="doc.to"
             router
             exact

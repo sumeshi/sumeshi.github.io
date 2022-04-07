@@ -2,7 +2,7 @@
   <v-row justify="center" align="center">
     <v-col class="main">
       <v-card class="logo py-4 d-flex justify-center">
-        <Icon src="glitchme.jpg" link="/" size="240" />
+        <Icon src="glitchme.jpg" link="/" :size="240" />
       </v-card>
       <v-card class="logo py-4 d-flex justify-center">
         <v-card-text>

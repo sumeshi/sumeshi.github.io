@@ -1,29 +1,10 @@
 <template>
   <v-row justify="center" align="center">
     <v-col class="main">
-      <div v-for="post of posts" :key="post.title">
-        <v-card class="logo py-4 justify-center flex-wrap ma-2">
-          <v-row>
-            <v-col>
-              <v-card-title>
-                {{ post.title }}
-              </v-card-title>
-            </v-col>
-            <v-col>
-              <v-card-text class="text-right">
-                <span class="grey--text text--darken-2">
-                  {{ post.published_at.replace('T', ' ') }}
-                </span>
-              </v-card-text>
-            </v-col>
-          </v-row>
-          <v-card-actions class="justify-center">
-            <v-btn class="btn" :href="post.path">
-              <span class="caption">see more</span>
-            </v-btn>
-          </v-card-actions>
-        </v-card>
-      </div>
+      <CardPostLatests
+        title="All Posts"
+        :postindices="posts"
+      />
     </v-col>
   </v-row>
 </template>
@@ -45,12 +26,12 @@ interface PostIndex {
 export default class Posts extends Vue {
   private posts: Array<PostIndex> = []
 
-  private mounted () {
+  mounted() {
     axios.get('https://sumeshi.github.io/api/posts/').then(
       (res) => {
-        this.posts = res.data
+        this.posts = res.data.reverse()
       }
-    )
+    );
   }
 }
 </script>

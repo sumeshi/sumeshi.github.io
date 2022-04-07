@@ -1,7 +1,7 @@
 <template>
   <v-card class="logo mt-5 pa-4 justify-center">
     <v-card-text>
-      <h2>Latest Posts</h2>
+      <h2>{{ title }}</h2>
       <v-divider></v-divider>
     </v-card-text>
     <v-card-actions class="pr-5 pl-5">
@@ -35,6 +35,10 @@ import { defineComponent } from '@vue/composition-api'
 
 export default defineComponent({
   props: {
+    title: {
+      type: String,
+      required: true
+    },
     postindices: {
       type: Array,
       required: true
