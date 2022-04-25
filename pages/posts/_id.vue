@@ -61,6 +61,12 @@ export default class Post extends Vue {
     published_at: ''
   };
 
+  private head() {
+    return {
+      title: this.post.title
+    }
+  }
+
   private mounted() {
     axios.get(`https://sumeshi.github.io/api/posts/${this.$route.params.id}/index.html`).then(
       (res) => {

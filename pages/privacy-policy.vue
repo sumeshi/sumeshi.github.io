@@ -178,6 +178,19 @@
   </v-row>
 </template>
 
+<script lang="ts">
+import { defineComponent } from '@vue/composition-api'
+
+export default defineComponent({
+  head() {
+    return {
+      title: 'PrivacyPolicy'
+    }
+  }
+})
+</script>
+
+
 <style lang="scss" scoped>
 h1 {
   margin: 1em 0 0.5em 0;

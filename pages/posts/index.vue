@@ -33,6 +33,12 @@ export default class Posts extends Vue {
       }
     );
   }
+
+  private head() {
+    return {
+      title: 'Posts'
+    }
+  }
 }
 </script>
 

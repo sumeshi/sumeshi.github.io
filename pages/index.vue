@@ -31,6 +31,11 @@ export default defineComponent({
       .then((res) => {
         this.posts = res.data.slice(-5).reverse()
       });
+  },
+  head() {
+    return {
+      title: 'Home'
+    }
   }
 });
 </script>

@@ -117,6 +117,12 @@ export default class Works extends Vue {
       }
     )
   }
+
+  private head() {
+    return {
+      title: 'Works'
+    }
+  }
 }
 </script>
 

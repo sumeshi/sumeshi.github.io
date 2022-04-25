@@ -65,6 +65,12 @@ export default class About extends Vue {
       color: '#e1306c'
     }
   ]
+
+  private head() {
+    return {
+      title: 'About'
+    }
+  }
 }
 </script>
 
