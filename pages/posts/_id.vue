@@ -1,8 +1,8 @@
 <template>
   <v-row justify="center" align="center">
-    <v-col cols="12" sm="10" md="8">
+    <v-col cols="12" sm="12" md="12">
       <div>
-        <v-card class="logo py-4 justify-center flex-wrap ma-2">
+        <v-card class="logo pr-8 pl-8 justify-center flex-wrap ma-2">
           <v-row>
             <v-col>
               <v-card-title>
@@ -18,9 +18,7 @@
             </v-col>
           </v-row>
           <v-divider style="margin-bottom: 2em;" />
-          <v-layout class="wrap" style="max-width: 100%; height: auto;" >
-            <v-card-text class="html-wrapper" v-html="$sanitize(post.html_text)" />
-          </v-layout>
+          <div class="html-wrapper" v-html="$sanitize(post.html_text)" />
           <v-divider style="margin: 2em 0 2em 0;" />
           <v-card-actions class="justify-center">
             <v-btn class="btn" @click="$router.go(-1)">
@@ -48,6 +46,7 @@ interface PostContent {
 }
 
 sanitizeHTML.defaults.allowedTags.push('img')
+sanitizeHTML.defaults.allowedTags.push('code')
 sanitizeHTML.defaults.allowedAttributes.img.push('style')
 Vue.prototype.$sanitize = sanitizeHTML
 
