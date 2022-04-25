@@ -1,4 +1,5 @@
 import colors from 'vuetify/es5/util/colors'
+import axios from 'axios'
 
 export default {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
@@ -52,7 +53,8 @@ export default {
     '@nuxtjs/axios',
     // https://go.nuxtjs.dev/pwa
     '@nuxtjs/pwa',
-    '@nuxtjs/google-gtag'
+    '@nuxtjs/google-gtag',
+    '@nuxtjs/sitemap'
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
@@ -68,6 +70,19 @@ export default {
   'google-gtag': {
     id: 'G-DVLS4LMPGV',
     debug: false
+  },
+
+  sitemap: {
+    hostname: 'https://sumeshi.github.io',
+    exclude: [
+      '/privacy-policy',
+      '/terms-and-conditions',
+      '/works',
+    ],
+    routes: async () => {
+      const res = await axios.get('https://sumeshi.github.io/api/posts/')
+      return res.data.map((post) => post.path)
+    }
   },
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
