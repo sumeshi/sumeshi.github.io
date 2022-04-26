@@ -74,6 +74,7 @@ export default {
   },
 
   sitemap: {
+    path: '/sitemap.xml',
     hostname: 'https://sumeshi.github.io',
     exclude: [
       '/privacy-policy',
