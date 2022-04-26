@@ -115,6 +115,10 @@ export default {
 
   generate: {
     dir: 'docs',
+    async routes () {
+      const articles = await axios.get('https://sumeshi.github.io/api/posts/')
+      return articles.data.map((post) => post.path.replace(/^\//, ''))
+    },
     fallback: true
   }
 }
