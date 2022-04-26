@@ -82,7 +82,7 @@ export default {
     ],
     routes: async () => {
       const res = await axios.get('https://sumeshi.github.io/api/posts/')
-      return res.data.map((post) => post.path)
+      return res.data.map((post) => ({url: post.path.replace(/^\//, ''), lastmod: post.published_at}))
     }
   },
 
