@@ -55,7 +55,10 @@ export default {
     // https://go.nuxtjs.dev/pwa
     '@nuxtjs/pwa',
     '@nuxtjs/google-gtag',
-    '@nuxtjs/sitemap'
+    '@nuxtjs/sitemap',
+    ['nuxt-highlightjs', {
+      style: 'a11y-dark'
+    }]
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
