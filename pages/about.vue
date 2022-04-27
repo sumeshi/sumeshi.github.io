@@ -55,6 +55,11 @@ export default class About extends Vue {
       color: '#333333'
     },
     {
+      name: 'Dev',
+      link: 'https://dev.to/sumeshi',
+      color: '#888888'
+    },
+    {
       name: 'Twitter',
       link: 'https://twitter.com/sum3sh1',
       color: '#1da1f2'
