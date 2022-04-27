@@ -81,13 +81,13 @@ export default class Post extends Vue {
   }
 
   private splitByTags(html: string) {
-    const splittedTags = html.split(/(<pre><code>|<\/code><\/pre>)/)
+    const splittedTags = html.split(/(<pre><code.*?>|<\/code><\/pre>)/)
     let elements = new Array()
     let isNextCode = false;
     splittedTags.forEach(t => {
-      if(t.match('<pre><code>')) {
+      if(t.match(/<pre><code.*?>/)) {
         isNextCode = true
-      } else if (t.match('</code></pre>')) {
+      } else if (t.match('</code.*?></pre>')) {
         isNextCode = false
       } else if (isNextCode) {
         elements.push({type: 'code', content: t})
