@@ -1,6 +1,13 @@
 <template>
   <v-row justify="center" align="center">
     <v-col class="main">
+      <CardText 
+        title="Posts"
+        :text="[
+          'セキュリティとか興味のあることとか色々。',
+          'ここで得た知識を悪用しないようお願いいたします。'
+        ]"
+      />
       <CardPostLatests
         title="All Posts"
         :postindices="posts"
