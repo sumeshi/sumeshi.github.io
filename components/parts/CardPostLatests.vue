@@ -20,7 +20,7 @@
               <span class="grey--text text--darken-2">
                 {{ postindex.published_at.replace('T', ' ') }}
               </span>
-              <h3>{{postindex.title}}</h3>
+              <h3>{{postindex.heading ? postindex.heading : postindex.title}}</h3>
               <p>{{postindex.description}}</p>
             </div>
           </v-list-item-action>
