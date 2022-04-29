@@ -1,24 +1,26 @@
 <template>
-  <v-row justify="center" align="center">
-      <div v-for="repo of repositories" :key="repo.name" class="d-flex">
-        <v-card class="card logo py-4 justify-center flex-wrap ma-2">
-          <v-card-title>
-            {{ repo.name }}<span v-if="repo.isArchived" class="pa-2 caption grey--text">Archived</span>
-            <v-spacer />
-            <v-btn icon text disabled>
-              <v-icon>mdi-star</v-icon>
-              <span class="caption">{{ repo.stargazers }}</span>
-            </v-btn>
-          </v-card-title>
-          <v-card-text>{{ repo.description }}</v-card-text>
-          <v-card-actions class="justify-center">
-            <v-btn class="btn" :href="repo.link">
-              <span class="caption">Open Repo</span>
-            </v-btn>
-          </v-card-actions>
-        </v-card>
-      </div>
-  </v-row>
+  <article>
+    <v-row class="mt-5" justify="center" align="center">
+        <div v-for="repo of repositories" :key="repo.name" class="d-flex">
+          <v-card class="card logo py-4 justify-center flex-wrap ma-2">
+            <v-card-title>
+              {{ repo.name }}<span v-if="repo.isArchived" class="pa-2 caption grey--text">Archived</span>
+              <v-spacer />
+              <v-btn icon text disabled>
+                <v-icon>mdi-star</v-icon>
+                <span class="caption">{{ repo.stargazers }}</span>
+              </v-btn>
+            </v-card-title>
+            <v-card-text>{{ repo.description }}</v-card-text>
+            <v-card-actions class="justify-center">
+              <v-btn class="btn" :href="repo.link">
+                <span class="caption">Open Repo</span>
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </div>
+    </v-row>
+  </article>
 </template>
 
 <script lang="ts">
