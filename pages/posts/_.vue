@@ -99,7 +99,7 @@ export default class Post extends Vue {
   }
 
   private mounted() {
-    axios.get(`https://sumeshi.github.io/api/posts/${this.$route.params.id}/index.html`).then(
+    axios.get(`https://sumeshi.github.io/api/posts/${this.$route.params.pathMatch}/index.html`).then(
       (res) => {
         this.post = res.data
         this.contents = this.splitByTags(this.post.html_text)
