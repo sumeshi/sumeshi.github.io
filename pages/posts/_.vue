@@ -6,7 +6,7 @@
           <v-row>
             <v-col>
               <v-card-title>
-                {{ post.title }}
+                {{ $route.params.pathMatch }}
               </v-card-title>
             </v-col>
             <v-col>
@@ -14,6 +14,12 @@
                 <span class="grey--text text--darken-2">
                   {{ post.published_at.replace('T', ' ') }}
                 </span>
+                <ButtonIcon 
+                  class="ml-2"
+                  iconName="mdi-github"
+                  :link="'https://github.com/sumeshi/api/blob/master/' + $route.params.pathMatch + '.md'"
+                  color="white"
+                />
               </v-card-text>
             </v-col>
           </v-row>
