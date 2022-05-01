@@ -1,5 +1,5 @@
 <template>
-  <v-btn icon :href="link" :color="color" raised>
+  <v-btn icon small :href="link" :color="color" raised>
     <v-icon>{{ iconName }}</v-icon>
   </v-btn>
 </template>

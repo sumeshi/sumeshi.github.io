@@ -2,10 +2,10 @@
   <v-row justify="center" align="center">
     <v-col cols="12" sm="12" md="12">
       <div>
-        <v-card class="logo pr-8 pl-8 justify-center flex-wrap ma-2">
+        <v-card class="logo pr-8 pl-8 justify-center flex-wrap">
           <v-row>
             <v-col>
-              <v-card-title>
+              <v-card-title class="overline">
                 {{ $route.params.pathMatch }}
               </v-card-title>
             </v-col>
@@ -15,7 +15,7 @@
                   {{ post.published_at.replace('T', ' ') }}
                 </span>
                 <ButtonIcon 
-                  class="ml-2"
+                  class="ml-2 mb-1"
                   iconName="mdi-github"
                   :link="'https://github.com/sumeshi/api/blob/master/' + $route.params.pathMatch + '.md'"
                   color="white"
