@@ -44,7 +44,9 @@
       app
     >
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
-      <v-toolbar-title v-text="title" />
+      <router-link class="toolbar-title" to="/">
+        <v-toolbar-title v-text="title" />
+      </router-link>
     </v-app-bar>
     <v-main>
       <v-container fill-height>
@@ -106,6 +108,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
+.toolbar-title {
+  color: white;
+  margin-left: 1em;
+  text-decoration: none;
+}
+
 .nuxt {
   animation: fadeIn 0.3s ease 0s 1 normal;
 }
