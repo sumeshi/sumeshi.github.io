@@ -1,6 +1,6 @@
 <template>
   <v-row justify="center" align="center">
-    <v-col cols="12" sm="12" md="12">
+    <v-col class="article" cols="12" sm="12" md="12">
       <div>
         <v-card class="logo pr-8 pl-8 justify-center flex-wrap">
           <v-row>
@@ -116,6 +116,9 @@ export default class Post extends Vue {
 </script>
 
 <style lang="scss">
+.article {
+  max-width: 1280px;
+}
 
 .btn {
   width: 120px;
