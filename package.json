@@ -21,7 +21,7 @@
     "nuxt": "^2.15.8",
     "nuxt-highlightjs": "^1.0.2",
     "sanitize-html": "^2.7.0",
-    "vuetify": "^2.6.4"
+    "vuetify": "^2.6.10"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.17.0",
