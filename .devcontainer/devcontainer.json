@@ -1,0 +1,11 @@
+{
+    "name": "dev",
+    "dockerFile": "Dockerfile",
+    "postCreateCommand": "/bin/sh ./.devcontainer/postCreateCommands.sh",
+    "remoteUser": "dev",
+    "remoteEnv": {
+        "PATH": "${containerEnv:PATH}:~/.npm-global/bin"
+    },
+    "settings": {
+    }
+}
