@@ -3,10 +3,10 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "nuxt",
-    "build": "nuxt build",
-    "start": "nuxt start",
-    "generate": "nuxt generate",
+    "dev": "NODE_OPTIONS=--openssl-legacy-provider nuxt",
+    "build": "NODE_OPTIONS=--openssl-legacy-provider nuxt build",
+    "start": "NODE_OPTIONS=--openssl-legacy-provider nuxt start",
+    "generate": "NODE_OPTIONS=--openssl-legacy-provider nuxt generate",
     "lint:js": "eslint --ext \".js,.vue\" --ignore-path .gitignore .",
     "lint": "npm run lint:js"
   },
@@ -16,23 +16,24 @@
     "@nuxtjs/pwa": "^3.3.5",
     "@nuxtjs/sitemap": "^2.4.0",
     "@types/sanitize-html": "^2.6.2",
-    "@vue/composition-api": "^1.4.9",
-    "core-js": "^3.21.1",
+    "@vue/composition-api": "^1.7.1",
+    "core-js": "^3.26.0",
     "nuxt": "^2.15.8",
-    "nuxt-highlightjs": "^1.0.2",
-    "sanitize-html": "^2.7.0",
-    "vuetify": "^2.6.4"
+    "nuxt-highlightjs": "^1.0.3",
+    "sanitize-html": "^2.7.3",
+    "vuetify": "^2.6.12"
   },
   "devDependencies": {
-    "@babel/eslint-parser": "^7.17.0",
+    "@babel/eslint-parser": "^7.19.1",
     "@nuxt/types": "^2.15.8",
     "@nuxt/typescript-build": "^2.1.0",
-    "@nuxtjs/eslint-config-typescript": "^9.0.0",
-    "@nuxtjs/eslint-module": "^3.0.2",
+    "@nuxtjs/eslint-config-typescript": "^11.0.0",
+    "@nuxtjs/eslint-module": "^3.1.0",
     "@nuxtjs/vuetify": "^1.12.3",
-    "eslint": "^8.12.0",
-    "eslint-plugin-nuxt": "^3.2.0",
-    "eslint-plugin-vue": "^8.5.0",
+    "eslint": "^8.26.0",
+    "eslint-plugin-nuxt": "^4.0.0",
+    "eslint-plugin-vue": "^9.7.0",
+    "npm-check-updates": "^16.3.16",
     "nuxt-property-decorator": "^2.9.1"
   }
 }
