@@ -27,7 +27,7 @@ export default {
       // { hid: 'og:image', property: 'og:image', content: '' },
 
       // { hid: 'twitter:card', name: 'twitter:card', content: '' },
-      { hid: 'twitter:site', name: 'twitter:site', content: '@sum3sh1' }
+      { hid: 'twitter:site', name: 'twitter:site', content: '@sum3sh1' },
       { name: 'google-site-verification', content: 'oKJDJNVxCY8_al6JndvVYqrjdywDE_5S6ypSCNNFKc8' }
     ],
     link: [
