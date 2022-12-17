@@ -64,8 +64,7 @@
 
 <script setup lang="ts">
 const drawer: Ref<bool> = useState('drawer', () => false)
-defineProps({
-  pages: [
+const pages = [
     {
       icon: 'mdi-apps',
       title: 'Home',
@@ -86,8 +85,9 @@ defineProps({
       title: 'About',
       to: '/about'
     }
-  ],
-  docs: [
+  ];
+
+const docs = [
     {
       icon: 'mdi-file-document',
       title: 'Terms and Conditions',
@@ -98,11 +98,11 @@ defineProps({
       title: 'Privacy Policy',
       to: '/privacy-policy'
     }
-  ],
-  title: {
-    type: String,
-    default: 'sumeshi.github.io',
-  }
+  ];
+
+const title = 'sumeshi.github.io';
+
+defineProps({
 })
 </script>
 

@@ -4,7 +4,7 @@
       <CardUserOverview
         name="S.Nakano"
         position="DFIR Researcher / Software Developer"
-        :icon="{src: 'glitchme.jpg', link: '/about'}"
+        :icon="{src: '/_nuxt/assets/glitchme.jpg', link: '/about'}"
         :button="{message: 'see more', link: '/about'}"
         :links="[{name: 'twitter', url: 'https://twitter.com/sum3sh1', message: '@sum3sh1'}]"
       />

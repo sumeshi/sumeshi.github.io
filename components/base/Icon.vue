@@ -8,29 +8,19 @@
   </router-link>
 </template>
 
-<script lang="ts">
-import { defineComponent } from '@vue/composition-api'
+<script setup lang="ts">
+const generateImgPath = (src: string): string => {
+  return new URL(src, import.meta.url).href
+}
 
-export default defineComponent({
-  props: {
-    src: {
-      type: String,
-      required: true
-    },
-    link: {
-      type: String,
-      required: true
-    },
-    size: {
-      type: Number,
-      required: false,
-      default: 120
-    }
-  },
-
-  setup() {
-  },
-})
+const props = defineProps<{
+  src: string,
+  link: string,
+  size: {
+    type: number,
+    default: 120,
+  }
+}>()
 </script>
 
 
