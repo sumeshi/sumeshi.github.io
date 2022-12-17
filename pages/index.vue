@@ -1,48 +1,13 @@
-<template>
-  <v-row justify="center" align="center">
-    <v-col class="main">
-      <CardUserOverview 
-        name="S.Nakano"
-        position="DFIR Researcher / Software Developer"
-        :icon="{src: 'glitchme.jpg', link: '/about'}"
-        :button="{message: 'see more', link: '/about'}"
-        :links="[{name: 'twitter', url: 'https://twitter.com/sum3sh1', message: '@sum3sh1'}]"
-      />
-      <CardPostLatests
-        title="Latest Posts"
-        :postindices="posts"
-      />
-    </v-col>
-  </v-row>
-</template>
-
-<script lang="ts">
-import { defineComponent } from '@vue/composition-api'
-import axios from 'axios'
-
-export default defineComponent({
-  data() {
-    return {
-      posts: [],
-    };
+<script setup lang="ts">
+defineProps({
+  text: {
+    type: String,
+    default: 'hogemaru',
   },
-  mounted() {
-    axios.get('https://sumeshi.github.io/api/posts/')
-      .then((res) => {
-        this.posts = res.data.slice(-5).reverse()
-      });
-  },
-  head() {
-    return {
-      title: 'Home'
-    }
-  }
-});
+})
 </script>
 
-
-<style lang="scss" scoped>
-.main {
-  max-width: 900px;
-}
-</style>
+<template>
+  <p>index</p>
+  <p>{{ text }}</p>
+</template>
