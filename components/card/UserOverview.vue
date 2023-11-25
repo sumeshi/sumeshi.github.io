@@ -17,7 +17,7 @@
       <v-col class="d-none d-sm-flex justify-center align-center">
         <v-card class="elevation-0">
           <v-card-actions>
-            <BaseIcon :src="icon.src" :link="icon.link" />
+            <BaseIcon :src="icon.src" :link="icon.link" :size=120 />
           </v-card-actions>
         </v-card>
       </v-col>

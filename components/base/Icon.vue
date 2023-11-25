@@ -9,17 +9,10 @@
 </template>
 
 <script setup lang="ts">
-const generateImgPath = (src: string): string => {
-  return new URL(src, import.meta.url).href
-}
-
 const props = defineProps<{
   src: string,
   link: string,
-  size: {
-    type: number,
-    default: 120,
-  }
+  size: number,
 }>()
 </script>
 
