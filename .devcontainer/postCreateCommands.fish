@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/fish
 
 # change npm default directory
 mkdir ~/.npm-global
@@ -9,4 +9,3 @@ npm install -g npm-check-updates
 
 # prepare project
 npm install
-echo 'Welcome to the sumeshi.github.io development environment!'

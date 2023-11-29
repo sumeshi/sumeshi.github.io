@@ -1,11 +1,18 @@
 {
     "name": "dev",
     "dockerFile": "Dockerfile",
-    "postCreateCommand": "/bin/sh ./.devcontainer/postCreateCommands.sh",
+    "postCreateCommand": "/usr/bin/fish ./.devcontainer/postCreateCommands.fish",
     "remoteUser": "dev",
     "remoteEnv": {
         "PATH": "${containerEnv:PATH}:~/.npm-global/bin"
     },
-    "settings": {
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "ms-azuretools.vscode-docker"
+            ],
+            "settings": {
+            }
+        }
     }
 }
