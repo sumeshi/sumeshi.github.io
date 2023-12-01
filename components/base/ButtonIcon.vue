@@ -4,29 +4,16 @@
   </v-btn>
 </template>
 
-<script lang="ts">
-import { defineComponent } from '@vue/composition-api'
+<script lang="ts" setup>
+interface Props {
+  iconName: string
+  link: string
+  color: string
+}
 
-export default defineComponent({
-  props: {
-    iconName: {
-      type: String,
-      required: true
-    },
-    link: {
-      type: String,
-      required: true
-    },
-    color: {
-      type: String,
-      required: false,
-      default: ""
-    }
-  },
-
-  setup() {
-  },
+const props = withDefaults(defineProps<Props>(), {
 })
+
 </script>
 
 

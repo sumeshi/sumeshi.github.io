@@ -11,22 +11,12 @@
   </v-card>
 </template>
 
-<script lang="ts">
-import { defineComponent } from '@vue/composition-api'
-
-export default defineComponent({
-  props: {
-    title: {
-      type: String,
-      required: false
-    },
-    text: {
-      type: Array,
-      required: false
-    },
-  },
-  setup() {
-  },
+<script lang="ts" setup>
+interface Props {
+  title: string
+  text: Array<string>
+}
+const props = withDefaults(defineProps<Props>(), {
 })
 </script>
 

@@ -1,32 +1,19 @@
 <template>
-  <v-btn class="btn" :to="link" :color="color" raised>{{message}}</v-btn>
+  <v-btn class="btn" :to="link" :color="color" raised>{{ message }}</v-btn>
 </template>
 
-<script lang="ts">
-import { defineComponent } from '@vue/composition-api'
+<script lang="ts" setup>
+interface Props {
+  message: string
+  link: string
+  color?: string
+}
 
-export default defineComponent({
-  props: {
-    message: {
-      type: String,
-      required: true
-    },
-    link: {
-      type: String,
-      required: true
-    },
-    color: {
-      type: String,
-      required: false,
-      default: ""
-    }
-  },
-
-  setup() {
-  },
+const props = withDefaults(defineProps<Props>(), {
+  color: 'white'
 })
-</script>
 
+</script>
 
 <style lang="scss">
 .btn {

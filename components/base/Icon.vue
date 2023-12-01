@@ -1,6 +1,6 @@
 <template>
   <router-link :to="link">
-    <v-hover v-slot="{hover}">
+    <v-hover v-slot="{ hover }">
       <v-avatar :size="size" :elevation="hover ? 12 : 2" :class="{'on-hover': hover}">
         <img :src="src">
       </v-avatar>
@@ -8,14 +8,17 @@
   </router-link>
 </template>
 
-<script setup lang="ts">
-const props = defineProps<{
-  src: string,
-  link: string,
-  size: number,
-}>()
-</script>
+<script lang="ts" setup>
+interface Props {
+  src: string
+  link: string
+  size?: number
+}
 
+const props = withDefaults(defineProps<Props>(), {
+  size: 100,
+})
+</script>
 
 <style lang="sass">
 .v-avatar
@@ -24,5 +27,4 @@ const props = defineProps<{
 
 .v-avatar:not(.on-hover)
   opacity: 1.0
-
 </style>

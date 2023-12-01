@@ -30,23 +30,16 @@
   </v-card>
 </template>
 
-<script lang="ts">
-import { defineComponent } from '@vue/composition-api'
+<script lang="ts" setup>
+import type { PostIndex } from '@/types/post'
 
-export default defineComponent({
-  props: {
-    title: {
-      type: String,
-      required: true
-    },
-    postindices: {
-      type: Array,
-      required: true
-    }
-  },
-  setup() {
-  },
+interface Props {
+  title: string
+  postindices: Array<PostIndex>
+}
+const props = withDefaults(defineProps<Props>(), {
 })
+
 </script>
 
 <style lang="scss" scoped>
