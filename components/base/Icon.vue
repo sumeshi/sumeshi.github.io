@@ -1,11 +1,15 @@
 <template>
-  <router-link :to="link">
-    <v-hover v-slot="{ hover }">
-      <v-avatar :size="size" :elevation="hover ? 12 : 2" :class="{'on-hover': hover}">
-        <img :src="src">
-      </v-avatar>
-    </v-hover>
-  </router-link>
+  <v-hover v-slot="{ isHovering, props }" >
+    <v-avatar
+      :size="size"
+      :elevation="isHovering ? 16 : 2"
+      :class="{ 'on-hover': isHovering }"
+      class="mx-auto"
+      v-bind="props"
+    >
+      <v-img :src="src" />
+    </v-avatar>
+  </v-hover>
 </template>
 
 <script lang="ts" setup>
@@ -16,7 +20,7 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  size: 100,
+  size: 200,
 })
 </script>
 

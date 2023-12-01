@@ -1,5 +1,14 @@
 <template>
-  <v-btn class="btn" :to="link" :color="color" raised>{{ message }}</v-btn>
+  <v-btn
+    class="btn"
+    :href="link"
+    :color="color"
+    target="_blank"
+    rel="noopener noreferrer"
+    raised
+  >
+    {{ message }}
+  </v-btn>
 </template>
 
 <script lang="ts" setup>
@@ -10,7 +19,7 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  color: 'white'
+  color: 'black'
 })
 
 </script>
