@@ -33,7 +33,7 @@ Thank you.
 
 ### [evtx2es](https://github.com/sumeshi/evtx2es), [mft2es](https://github.com/sumeshi/mft2es):
 - Python tools for importing Windows artifacts into Elasticsearch.
-- Included as standard in the DFIR-focused Linux distribution [Tsurugi Linux LAB 2022.1 - 2023.1](https://tsurugi-linux.org).
+- Included as standard in the DFIR-focused Linux distribution [Tsurugi Linux LAB](https://tsurugi-linux.org) 2022.1 - 2023.1.
 
 ### [ntfsdump](https://github.com/sumeshi/ntfsdump), [ntfsfind](https://github.com/sumeshi/ntfsfind):
 - Forensic tools for extracting Windows artifacts from image files.
