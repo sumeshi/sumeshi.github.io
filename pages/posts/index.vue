@@ -32,7 +32,7 @@ onMounted(async () => {
     const response = await axios.get('https://sumeshi.github.io/api/posts/')
     posts.value = response.data.reverse()
   } catch (error) {
-    console.error('failed to fetch posts data: ', error)
+    console.error('Failed to fetch posts data: ', error)
   }
 })
 

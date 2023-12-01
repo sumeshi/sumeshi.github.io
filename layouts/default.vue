@@ -53,11 +53,6 @@ const pages = [
     to: '/'
   },
   {
-    icon: 'mdi-contacts',
-    title: 'About',
-    to: '/about'
-  },
-  {
     icon: 'mdi-notebook',
     title: 'Posts',
     to: '/posts'
