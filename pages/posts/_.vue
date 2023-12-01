@@ -44,8 +44,7 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import { Component } from 'nuxt-property-decorator'
+import { onMounted, ref } from 'vue'
 
 import axios from 'axios'
 import sanitizeHTML from 'sanitize-html'
@@ -66,53 +65,50 @@ sanitizeHTML.defaults.allowedTags.push('img')
 sanitizeHTML.defaults.allowedAttributes.img.push('style')
 Vue.prototype.$sanitize = sanitizeHTML
 
-@Component({
-})
-export default class Post extends Vue {
-  private post: PostContent = {
-    title: '',
-    path: '',
-    html_text: '',
-    published_at: '',
-  };
+const post: PostContent = {
+  title: '',
+  path: '',
+  html_text: '',
+  published_at: '',
+};
 
-  private contents: Contents[] = [
-    {type: 'text', content: ''}
-  ]
+const contents: Contents[] = [
+  {type: 'text', content: ''}
+]
 
-  private head() {
-    return {
-      title: this.post.title
+splitByTags((html: string) => {
+  const splittedTags = html.split(/(<pre><code.*?>|<\/code><\/pre>)/)
+  let elements = new Array()
+  let isNextCode = false;
+  splittedTags.forEach(t => {
+    if(t.match(/<pre><code.*?>/)) {
+      isNextCode = true
+    } else if (t.match('</code.*?></pre>')) {
+      isNextCode = false
+    } else if (isNextCode) {
+      elements.push({type: 'code', content: t})
+    } else if (!isNextCode) {
+      elements.push({type: 'text', content: t})
     }
-  }
+  })
+  return elements
+});
 
-  private splitByTags(html: string) {
-    const splittedTags = html.split(/(<pre><code.*?>|<\/code><\/pre>)/)
-    let elements = new Array()
-    let isNextCode = false;
-    splittedTags.forEach(t => {
-      if(t.match(/<pre><code.*?>/)) {
-        isNextCode = true
-      } else if (t.match('</code.*?></pre>')) {
-        isNextCode = false
-      } else if (isNextCode) {
-        elements.push({type: 'code', content: t})
-      } else if (!isNextCode) {
-        elements.push({type: 'text', content: t})
-      }
-    })
-    return elements
-  }
 
-  private mounted() {
-    axios.get(`https://sumeshi.github.io/api/posts/${this.$route.params.pathMatch}/index.html`).then(
-      (res) => {
-        this.post = res.data
-        this.contents = this.splitByTags(this.post.html_text)
-      }
-    )
-  }
-}
+const posts = ref([])
+onMounted(() => {
+  axios.get(`https://sumeshi.github.io/api/posts/${this.$route.params.pathMatch}/index.html`).then(
+    (res) => {
+      this.post = res.data
+      this.contents = this.splitByTags(this.post.html_text)
+    }
+  )
+})
+
+useHead({
+  title: this.post.title,
+})
+
 </script>
 
 <style lang="scss">

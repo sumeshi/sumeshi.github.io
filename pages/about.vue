@@ -35,48 +35,39 @@
   </v-row>
 </template>
 
-<script lang="ts">
-import Vue from 'vue'
-import { Component } from 'nuxt-property-decorator'
-
+<script lang="ts" setup>
 interface LinkButton {
   name: string,
   link: string,
   color: string,
 }
 
-@Component({
-})
-export default class About extends Vue {
-  private items: Array<LinkButton> = [
-    {
-      name: 'GitHub',
-      link: 'https://github.com/sumeshi',
-      color: '#333333'
-    },
-    {
-      name: 'Dev',
-      link: 'https://dev.to/sumeshi',
-      color: '#888888'
-    },
-    {
-      name: 'Twitter',
-      link: 'https://twitter.com/sum3sh1',
-      color: '#1da1f2'
-    },
-    {
-      name: 'Instagram',
-      link: 'https://instagram.com/sumeshi_kun',
-      color: '#e1306c'
-    }
-  ]
-
-  private head() {
-    return {
-      title: 'About'
-    }
+const items: Array<LinkButton> = [
+  {
+    name: 'GitHub',
+    link: 'https://github.com/sumeshi',
+    color: '#333333'
+  },
+  {
+    name: 'Dev',
+    link: 'https://dev.to/sumeshi',
+    color: '#888888'
+  },
+  {
+    name: 'Twitter',
+    link: 'https://twitter.com/sum3sh1',
+    color: '#1da1f2'
+  },
+  {
+    name: 'Instagram',
+    link: 'https://instagram.com/sumeshi_kun',
+    color: '#e1306c'
   }
-}
+]
+
+useHead({
+  title: 'About',
+})
 </script>
 
 <style lang="scss" scoped>

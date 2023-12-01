@@ -8,7 +8,7 @@
           'ここで得た知識を悪用しないようお願いいたします。'
         ]"
       />
-      <CardPostLatests
+      <CardListLatest
         title="All Posts"
         :postindices="posts"
       />
@@ -16,10 +16,8 @@
   </v-row>
 </template>
 
-<script lang="ts">
-import Vue from 'vue'
-import { Component } from 'nuxt-property-decorator'
-
+<script lang="ts" setup>
+import { ref, onMounted } from 'vue'
 import axios from 'axios'
 
 interface PostIndex {
@@ -28,25 +26,19 @@ interface PostIndex {
   published_at: string
 }
 
-@Component({
+const posts: Ref<Array<PostIndex>> = ref([])
+onMounted(async () => {
+  try {
+    const response = await axios.get('https://sumeshi.github.io/api/posts/')
+    posts.value = response.data.reverse()
+  } catch (error) {
+    console.error('failed to fetch posts data: ', error)
+  }
 })
-export default class Posts extends Vue {
-  private posts: Array<PostIndex> = []
 
-  mounted() {
-    axios.get('https://sumeshi.github.io/api/posts/').then(
-      (res) => {
-        this.posts = res.data.reverse()
-      }
-    );
-  }
-
-  private head() {
-    return {
-      title: 'Posts'
-    }
-  }
-}
+useHead({
+  title: 'Posts',
+})
 </script>
 
 <style lang="scss" scoped>
