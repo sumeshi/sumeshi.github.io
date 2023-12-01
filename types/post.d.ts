@@ -3,4 +3,5 @@ export interface PostIndex {
   path: string
   description: string
   published_at: string
+  heading: string
 }
