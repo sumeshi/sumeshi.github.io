@@ -1,27 +1,21 @@
 <template>
-  <v-card class="logo mt-5 pa-4 justify-center">
-    <v-card-text>
-      <h2>{{ title }}</h2>
-      <v-divider></v-divider>
-    </v-card-text>
+  <v-card class="mt-5 pa-4 justify-center">
+    <v-card-title class="pb-2 font-weight-black">{{ title }}</v-card-title>
+    <v-divider></v-divider>
     <v-card-actions class="pr-5 pl-5">
-      <v-list
-        style="width: 100%;"
-      >
+      <v-list>
         <v-list-item
-          v-for="(postindex, i) in postindices"
+          v-for="(postIndex, i) in postIndices"
           :key="i"
-          :to="postindex.path"
+          :to="postIndex.path"
           router
           exact
         >
           <v-list-item-action>
-            <div>
-              <span class="grey--text text--darken-2">
-                {{ postindex.published_at.replace('T', ' ') }}
-              </span>
-              <h3>{{postindex.heading ? postindex.heading : postindex.title}}</h3>
-              <p>{{postindex.description}}</p>
+            <div class="pb-2">
+              <span class="text-caption">{{ postIndex.published_at.replace('T', ' ') }}</span>
+              <h3>{{postIndex.heading ? postIndex.heading : postIndex.title}}</h3>
+              <p class="text-body-2">{{postIndex.description}}</p>
             </div>
           </v-list-item-action>
         </v-list-item>
@@ -35,11 +29,10 @@ import type { PostIndex } from '@/types/post'
 
 interface Props {
   title: string
-  postindices: Array<PostIndex>
+  postIndices: Array<PostIndex>
 }
 const props = withDefaults(defineProps<Props>(), {
 })
-
 </script>
 
 <style lang="scss" scoped>

@@ -2,10 +2,10 @@
   <v-card class="mt-5 pa-4" justify="center">
     <v-row>
       <v-col>
-        <v-card>
-          <v-card-title class="font-weight-black">$ WHOAMI</v-card-title>
+        <v-card class="elevation-0">
+          <v-card-title class="font-weight-black">$ whoami</v-card-title>
           <v-card-text>
-            <v-card>
+            <v-card class="elevation-0">
               <v-card-title>About Me</v-card-title>
               <v-card-text class="text-body-2">
                 <p class="pb-2">I am a security engineer working in Japan, focusing on forensics and malware analysis.</p>
@@ -15,7 +15,7 @@
               </v-card-text>
             </v-card>
 
-            <v-card>
+            <v-card class="elevation-0">
               <v-card-title>Career and Experience</v-card-title>
                 <v-card-text>
                   <h3 class="mt-2">From Bachelor's Year 4 to Master's Year 2:</h3>
@@ -37,7 +37,7 @@
                 </v-card-text>
             </v-card>
 
-            <v-card>
+            <v-card class="elevation-0">
               <v-card-title>Projects and Contributions</v-card-title>
                 <v-card-text>
                   <h3 class="mt-2"><a href="https://github.com/sumeshi/evtx2es" target="_blank" rel="noopener noreferrer">evtx2es</a>, <a href="https://github.com/sumeshi/mft2es" target="_blank" rel="noopener noreferrer">mft2es</a>:</h3>

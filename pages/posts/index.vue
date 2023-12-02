@@ -10,7 +10,7 @@
       />
       <CardListLatest
         title="All Posts"
-        :postindices="posts"
+        :postIndices="posts"
       />
     </v-col>
   </v-row>
@@ -19,12 +19,7 @@
 <script lang="ts" setup>
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
-
-interface PostIndex {
-  title: string
-  path: string
-  published_at: string
-}
+import type { PostIndex } from '@/types/post'
 
 const posts: Ref<Array<PostIndex>> = ref([])
 onMounted(async () => {
@@ -42,7 +37,6 @@ useHead({
 </script>
 
 <style lang="scss" scoped>
-
 .main {
   max-width: 900px
 }
@@ -50,5 +44,4 @@ useHead({
 .btn {
   width: 120px;
 }
-
 </style>

@@ -14,7 +14,7 @@
       />
       <CardListLatest
         title="Latest Posts"
-        :postindices="posts"
+        :postIndices="posts"
       />
     </v-col>
   </v-row>
