@@ -28,7 +28,10 @@
     "sass": "^1.69.5"
   },
   "dependencies": {
+    "@types/sanitize-html": "^2.9.5",
     "axios": "^1.6.2",
+    "highlight.js": "^11.9.0",
+    "sanitize-html": "^2.11.0",
     "vuetify": "^3.4.4"
   }
 }
