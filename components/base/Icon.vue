@@ -1,14 +1,16 @@
 <template>
   <v-hover v-slot="{ isHovering, props }" >
-    <v-avatar
-      :size="size"
-      :elevation="isHovering ? 16 : 2"
-      :class="{ 'on-hover': isHovering }"
-      class="mx-auto"
-      v-bind="props"
-    >
-      <v-img :src="src" />
-    </v-avatar>
+    <router-link to="posts">
+      <v-avatar
+        :size="size"
+        :elevation="isHovering ? 16 : 2"
+        :class="{ 'on-hover': isHovering }"
+        class="mx-auto"
+        v-bind="props"
+      >
+        <v-img :src="src" />
+      </v-avatar>
+    </router-link>
   </v-hover>
 </template>
 
@@ -24,7 +26,7 @@ const props = withDefaults(defineProps<Props>(), {
 })
 </script>
 
-<style lang="sass">
+<style lang="sass" scoped>
 .v-avatar
   opacity: 0.6
   transition: opacity .2s ease-in-out
