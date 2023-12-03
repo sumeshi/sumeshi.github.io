@@ -107,6 +107,23 @@ useHead({
 </script>
 
 <style lang="scss">
+ul {
+  list-style-position: outside;
+
+  li {
+    margin-left: 1em;
+  }
+}
+
+ol {
+  margin-top: 0.5em;
+  list-style-position: outside;
+
+  li {
+    margin-left: 1.5em;
+  }
+}
+
 .article {
   max-width: 1280px;
 }

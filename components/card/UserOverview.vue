@@ -8,7 +8,7 @@
             <h3> {{ name }} </h3>
             <p class="mt-2 text-caption"> {{ position }} </p>
             <div class="mt-4" v-for="(link, index) of links" :key="index">
-              <BaseButtonExternal variant="outlined" class="text-caption" :message="`${link.name} | ${link.message}`" :link="link.url" :color="link.color"/>
+              <BaseButtonExternal variant="outlined" class="text-caption" :message="`${link.name} | ${link.message}`" :link="link.url" :color="link.color" />
             </div>
           </v-card-text>
         </v-card>

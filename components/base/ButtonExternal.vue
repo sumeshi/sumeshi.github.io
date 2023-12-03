@@ -6,6 +6,7 @@
     target="_blank"
     rel="noopener noreferrer"
     raised
+    width="180"
   >
     {{ message }}
   </v-btn>
