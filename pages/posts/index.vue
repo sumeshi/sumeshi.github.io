@@ -42,6 +42,6 @@ useHead({
 }
 
 .btn {
-  width: 120px;
+  width: 180px;
 }
 </style>
