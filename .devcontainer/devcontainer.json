@@ -10,7 +10,8 @@
         "vscode": {
             "extensions": [
 				"ms-azuretools.vscode-docker",
-				"Vue.volar"
+				"Vue.volar",
+				"naumovs.color-highlight"
 			],
             "settings": {
             }
