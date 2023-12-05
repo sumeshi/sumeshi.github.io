@@ -1,46 +1,41 @@
 <template>
-  <v-row>
-    <v-col class="article" cols="12" sm="12" md="12">
-      <v-card class="pa-5 justify-center flex-wrap">
+  <v-card class="pa-5">
+    <!--title bar-->
+    <v-card-title class="text-overline">
+      <div class="d-flex justify-space-between">
+        <span class="me-auto">{{ $route.params.categoryName }} / {{ $route.params.postId }}</span>
+        <span class="text-grey-darken-1">{{ post.published_at.replace('T', ' ') }}</span>
+        <span>
+          <BaseButtonIcon 
+            class="ma-1 ml-1"
+            iconName="mdi-github"
+            :link="`https://github.com/sumeshi/api/blob/master/${$route.params.categoryName}/${$route.params.postId}.md`"
+            color="black"
+            size="18"
+          />
+        </span>
+      </div>
+    </v-card-title>
 
-        <!--title bar-->
-        <v-card-title class="text-overline">
-          <div class="d-flex justify-space-between">
-            <span class="me-auto">{{ $route.params.categoryName }} / {{ $route.params.postId }}</span>
-            <span class="text-grey-darken-1">{{ post.published_at.replace('T', ' ') }}</span>
-            <span>
-              <BaseButtonIcon 
-                class="ma-1 ml-1"
-                iconName="mdi-github"
-                :link="`https://github.com/sumeshi/api/blob/master/${$route.params.categoryName}/${$route.params.postId}.md`"
-                color="black"
-                size="18"
-              />
-            </span>
-          </div>
-        </v-card-title>
+    <v-divider style="margin-bottom: 2em;" />
+    <div v-for="content of post.contents" :key="content.id">
+      <!--markdown-->
+      <div class="html-wrapper" v-if="content.type == 'text'" v-html="content.content" ></div>
 
-        <v-divider style="margin-bottom: 2em;" />
-        <div v-for="content of post.contents" :key="content.id">
-          <!--markdown-->
-          <div class="html-wrapper" v-if="content.type == 'text'" v-html="content.content" ></div>
-
-          <!--codeblock-->
-          <div class="mt-2 mb-2" v-if="content.type == 'code'">
-            <v-card class="pa-2" color="#1a1b26">
-              <pre style="white-space: pre-wrap"><code v-html="content.content"></code></pre>
-            </v-card>
-          </div>
-        </div>
-        <v-divider style="margin: 2em 0 2em 0;" />
-        <v-card-actions class="justify-center">
-          <v-btn class="btn" @click="$router.go(-1)">
-            <span class="caption">back</span>
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-col>
-  </v-row>
+      <!--codeblock-->
+      <div class="mt-2 mb-2" v-if="content.type == 'code'">
+        <v-card class="pa-2" color="#1a1b26">
+          <pre style="white-space: pre-wrap"><code v-html="content.content"></code></pre>
+        </v-card>
+      </div>
+    </div>
+    <v-divider style="margin: 2em 0 2em 0;" />
+    <v-card-actions class="justify-center">
+      <v-btn class="btn" variant="outlined" @click="$router.go(-1)">
+        <span class="caption">back</span>
+      </v-btn>
+    </v-card-actions>
+  </v-card>
 </template>
 
 <script lang="ts" setup>
@@ -124,8 +119,14 @@ ol {
   }
 }
 
-.article {
-  max-width: 1280px;
+table, td, th {
+  margin: 1em auto;
+  border: 1px #555 solid;
+  border-collapse: collapse;
+}
+
+td, th {
+  padding: 5px 5px 5px 5px;
 }
 
 .btn {
