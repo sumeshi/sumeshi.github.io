@@ -23,15 +23,16 @@
     "postinstall": "nuxt prepare"
   },
   "devDependencies": {
-    "@mdi/font": "^7.3.67",
-    "nuxt": "3.8.2",
-    "sass": "^1.69.5"
+    "@mdi/font": "^7.4.47",
+    "nuxt": "3.11.2",
+    "nuxt-gtag": "^2.0.5",
+    "sass": "^1.76.0"
   },
   "dependencies": {
-    "@types/sanitize-html": "^2.9.5",
-    "axios": "^1.6.2",
+    "@types/sanitize-html": "^2.11.0",
+    "axios": "^1.6.8",
     "highlight.js": "^11.9.0",
-    "sanitize-html": "^2.11.0",
-    "vuetify": "^3.4.4"
+    "sanitize-html": "^2.13.0",
+    "vuetify": "^3.6.3"
   }
 }

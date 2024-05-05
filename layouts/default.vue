@@ -3,7 +3,7 @@
     <!--navigation menu-->
     <v-navigation-drawer v-model="drawer" fixed app>
       <div class="navmenu d-flex flex-column">
-        <v-list>
+        <v-list style="height: 100%">
           <v-list-item
             v-for="(page, i) in pages"
             :key="i"

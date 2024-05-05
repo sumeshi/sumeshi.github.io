@@ -5,6 +5,13 @@ export default defineNuxtConfig({
     'vuetify/lib/styles/main.sass',
     '@mdi/font/css/materialdesignicons.min.css',
   ],
+  modules: ['nuxt-gtag'],
+  gtag: {
+    id: 'G-DVLS4LMPGV',
+    config: {
+      page_title: 'sumeshi.github.io'
+    },
+  },
   build: {
     transpile: ['vuetify'],
   },
