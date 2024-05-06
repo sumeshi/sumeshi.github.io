@@ -3,7 +3,7 @@
     <v-card-title class="pb-2 font-weight-black">{{ title }}</v-card-title>
     <v-divider></v-divider>
     <v-card-actions class="pr-5 pl-5">
-      <v-list>
+      <v-list class="w-100">
         <v-list-item
           v-for="(postIndex, i) in postIndices"
           :key="i"
