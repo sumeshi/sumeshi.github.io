@@ -1,11 +1,15 @@
 <template>
   <v-row justify="center" align="center">
     <v-col class="main">
-      <CardText 
+      <CardButton
         title="Posts"
         :text="[
-          'セキュリティとか興味のあることとか色々。',
-          'ここで得た知識を悪用しないようお願いいたします。'
+          'セキュリティとか興味のあることとか色々。ここで得た知識を悪用しないように。',
+          'まとまった内容はdevとかzennに書きます。'
+        ]"
+        :links="[
+          { name: 'dev.to', url: 'https://dev.to/sum3sh1', message: '@sum3sh1', color: 'white' },
+          { name: 'zenn.dev', url: 'https://zenn.dev/sum3sh1', message: '@sum3sh1', color: 'blue-lighten-2' },
         ]"
       />
       <CardListLatest
