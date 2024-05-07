@@ -49,6 +49,60 @@
                 </v-card-text>
             </v-card>
 
+            <v-card class="elevation-0">
+              <v-card-title>Tech Stack</v-card-title>
+                <v-card-text>
+                  <v-table>
+                    <thead>
+                      <tr>
+                        <th class="text-left">
+                          <b>Category</b>
+                        </th>
+                        <th class="text-left">
+                          <b>Technologies</b>
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>Programming Languages/Frameworks</td>
+                        <td>
+                          <tr>
+                            <h4>Frontend</h4>
+                            <td>HTML, CSS, JavaScript, TypeScript, Vue, Nuxt, Angular</td>
+                          </tr>
+                          <tr>
+                            <h4>Backend</h4>
+                            <td>Python, TypeScript, Go, Ruby, Java, PHP</td>
+                          </tr>
+                          <tr>
+                            <h4>Others</h4>
+                            <td>Rust, Nim, C++, C#(.NET), Julia, Swift</td>
+                          </tr>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Infrastructure</td>
+                        <td>
+                          <tr>
+                            <h4>Virtualization</h4>
+                            <td>Proxmox, ESXi, Hyper-V, Docker, Vmware Workstation, VirtualBox</td>
+                          </tr>
+                          <tr>
+                            <h4>DataBase</h4>
+                            <td>PostgreSQL, Elasticsearch, SQLite, MongoDB, MySQL</td>
+                          </tr>
+                          <tr>
+                            <h4>CI/Environment</h4>
+                            <td>GitLab CI, GitHub Actions, CircleCI, Ansible</td>
+                          </tr>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </v-table>
+                </v-card-text>
+            </v-card>
+
           </v-card-text>
         </v-card>
       </v-col>
@@ -64,5 +118,9 @@ ul {
   li {
     margin-left: 1em;
   }
+}
+
+h4 {
+  margin: 1em;
 }
 </style>
