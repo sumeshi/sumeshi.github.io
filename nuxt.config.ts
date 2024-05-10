@@ -28,7 +28,7 @@ export default defineNuxtConfig({
         { name: "twitter:image", content: "https://sumeshi.github.io/img/card.png" }
       ],
       link: [
-        { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+        { rel: 'icon', type: 'image/x-icon', href: '/img/favicon.ico' }
       ]
     }
   },
