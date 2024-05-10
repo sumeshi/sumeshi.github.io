@@ -5,7 +5,7 @@
         <!--title bar-->
         <v-card-title class="text-overline">
           <div class="d-flex justify-space-between">
-            <span class="me-auto pt-1">> <NuxtLink :to="'/posts/' + $route.params.categoryName">{{ $route.params.categoryName }}</NuxtLink> / {{ $route.params.postId }}</span>
+            <span class="me-auto pt-1"><NuxtLink to='/posts/'>POSTS</NuxtLink> / <NuxtLink :to="'/posts/' + $route.params.categoryName">{{ $route.params.categoryName }}</NuxtLink> / {{ $route.params.postId }}</span>
             <span class="pt-1 text-grey-darken-1">{{ post.published_at.replace('T', ' ') }}</span>
             <span>
               <BaseButtonIcon 
