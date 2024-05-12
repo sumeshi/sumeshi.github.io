@@ -14,7 +14,7 @@
           <v-list-item-action>
             <div class="pb-2 w-100">
               <div class="d-flex">
-                <span class="text-caption">{{ postIndex.published_at.replace('T', ' ') }}</span>
+                <span class="mt-3 text-caption">{{ postIndex.published_at.replace('T', ' ') }}</span>
                 <v-spacer></v-spacer>
                 <v-chip-group>
                   <v-chip class="categorybutton justify-center" variant="tonal" size="x-small" :to="'/posts/' + postIndex.path.replace('/posts/', '').replace(/\/.*/, '')"><span class="text-uppercase" style="font-size: 10px;">{{ postIndex.path.replace('/posts/', '').replace(/\/.*/, '') }}</span></v-chip>
