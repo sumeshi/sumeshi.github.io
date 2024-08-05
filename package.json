@@ -24,7 +24,7 @@
   },
   "devDependencies": {
     "@mdi/font": "^7.4.47",
-    "nuxt": "3.11.2",
+    "nuxt": "3.12.4",
     "nuxt-gtag": "^2.0.5",
     "sass": "^1.76.0"
   },
