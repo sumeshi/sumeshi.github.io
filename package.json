@@ -1,6 +1,6 @@
 {
   "name": "sumeshi.github.io",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "<img src=\"https://avatars2.githubusercontent.com/u/35072092?s=460&v=4\" width=200>",
   "main": "index.js",
   "private": true,
@@ -24,15 +24,15 @@
   },
   "devDependencies": {
     "@mdi/font": "^7.4.47",
-    "nuxt": "3.11.2",
-    "nuxt-gtag": "^2.0.5",
-    "sass": "^1.76.0"
+    "nuxt": "3.14.1592",
+    "nuxt-gtag": "^3.0.2"
   },
   "dependencies": {
-    "@types/sanitize-html": "^2.11.0",
-    "axios": "^1.6.8",
-    "highlight.js": "^11.9.0",
-    "sanitize-html": "^2.13.0",
-    "vuetify": "^3.6.3"
+    "@types/sanitize-html": "^2.13.0",
+    "axios": "^1.7.9",
+    "highlight.js": "^11.10.0",
+    "sanitize-html": "^2.13.1",
+    "sass": "^1.82.0",
+    "vuetify": "^3.7.5"
   }
 }
