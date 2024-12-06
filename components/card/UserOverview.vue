@@ -5,7 +5,7 @@
       align="center"
       justify="center"
     >
-      <v-col class="d-flex justify-center align-center mb-2 mb-sm-0" >
+      <v-col class="d-flex justify-center align-center mt-4 mb-2 mb-sm-0" >
         <v-card class="elevation-0">
           <v-card-actions>
             <BaseIcon :src="icon.src" :link="icon.link" :size="120" />
@@ -31,6 +31,12 @@
         </v-card>
       </v-col>
     </v-row>
+
+    <v-row>
+      <v-col class="text-right pa-0 mr-8 mb-4">
+        <v-btn variant="flat" class="text-caption" to="about">$ whoami</v-btn>
+      </v-col>
+    </v-row>
   </v-card>
 </template>
 
@@ -47,8 +53,4 @@ interface Props {
 
 const props = withDefaults(defineProps<Props>(), {
 })
-
 </script>
-
-<style lang="scss" scoped>
-</style>
