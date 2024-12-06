@@ -10,8 +10,6 @@
           { name: 'X', url: 'https://twitter.com/sum3sh1', message: '@sum3sh1', color: 'white' },
         ]"
       />
-      <CardUserAbout
-      />
       <CardListLatest
         title="Latest Posts"
         :postIndices="posts"
