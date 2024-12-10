@@ -31,12 +31,6 @@
         </v-card>
       </v-col>
     </v-row>
-
-    <v-row>
-      <v-col class="text-right pa-0 mr-8 mb-4">
-        <v-btn variant="flat" class="text-caption" to="about">$ whoami</v-btn>
-      </v-col>
-    </v-row>
   </v-card>
 </template>
 
