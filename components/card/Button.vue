@@ -7,8 +7,8 @@
               <p class="lines">{{ line }}</p>
             </div>
           </v-card-text>
-          <v-card-actions class="text-center">
-            <div class="pa-4 w-100" v-for="(link, index) of links" :key="index">
+          <v-card-actions class="text-center d-flex flex-wrap justify-center">
+            <div class="pa-4" v-for="(link, index) of links" :key="index">
               <BaseButtonExternal variant="outlined" class="text-caption" :message="`${link.name} | ${link.message}`" :link="link.url" :color="link.color" />
             </div>
           </v-card-actions>
