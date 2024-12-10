@@ -59,11 +59,6 @@
       </v-container>
     </v-main>
 
-    <!--footer-->
-    <v-footer app class="justify-center" >
-      <span class="text-caption">&copy; {{ new Date().getFullYear() }} S.Nakano</span>
-    </v-footer>
-
   </v-app>
 </template>
 
@@ -77,6 +72,16 @@ const pages = [
     icon: 'mdi-apps',
     title: 'Home',
     to: '/'
+  },
+  {
+    icon: 'mdi-account',
+    title: 'About',
+    to: '/about'
+  },
+  {
+    icon: 'mdi-pencil',
+    title: 'Works',
+    to: '/works'
   },
   {
     icon: 'mdi-notebook',
