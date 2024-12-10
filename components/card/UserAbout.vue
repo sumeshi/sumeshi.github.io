@@ -2,125 +2,137 @@
   <v-card class="mt-5 pa-4" justify="center">
     <v-row>
       <v-col>
+        <v-btn-toggle class="d-flex justify-end" v-model="togglelang">
+          <v-btn height="32"><p class="text-overline">EN</p></v-btn>
+          <v-btn height="32"><p class="text-overline">JA</p></v-btn>
+        </v-btn-toggle>
+        <v-parallax class="mb-8" src="/img/blurdog.jpg" scale=0.9 height="200">
+          <div class="d-flex flex-column fill-height justify-center align-center text-white">
+            <p class="subheading">
+              <b>"Do one thing every day that scares you."</b>
+            </p>
+            <p class="caption">
+              — Mary Schmich, Chicago Tribune, 1 June 1997
+            </p>
+          </div>
+        </v-parallax>
         <v-card class="elevation-0">
           <v-card-title class="font-weight-black">$ whoami</v-card-title>
           <v-card-text>
-            <v-card class="elevation-0">
-              <v-card-title>About Me</v-card-title>
-              <v-card-text class="text-body-2">
-                <p class="pb-2">I am a security engineer working in Japan, focusing on forensics and malware analysis.</p>
-                <p class="pb-2">My interests extend beyond security to include new programming languages, design patterns, and technologies.</p>
-                <p class="pb-2">I am primarily active on Twitter and welcome discussions there.</p>
-                <p class="pb-2">Thank you.</p>
-              </v-card-text>
-            </v-card>
+            <div v-for="a in togglelang ? aboutme_ja : aboutme_en">
+              <p class="pb-2">{{ a }}</p>
+            </div>
+          </v-card-text>
+        </v-card>
 
-            <v-card class="elevation-0">
-              <v-card-title>Career and Experience</v-card-title>
-                <v-card-text>
-                  <h3 class="mt-2 mb-2">From Bachelor's Year 4 to Master's Year 2:</h3>
-                  <ul>
-                    <li class="pb-2">Worked as a Web Engineer for 2 years at a Japanese venture company.</li>
-                    <li class="pb-2">Focused on front-end development with Angular and back-end development with Python.</li>
-                    <li class="pb-2">Developed a full-text search feature utilizing Elasticsearch and machine learning, performed PostgreSQL performance tuning, and created efficient data search queries.</li>
-                  </ul>
+        <v-card class="elevation-0">
+          <v-card-title class="font-weight-black">$ history</v-card-title>
+          <v-card-text>
+            <div v-for="(hv, hk) in togglelang ? history_ja : history_en" :key="hk" >
+              <h3 class="mt-2 mb-2">{{ hk }}</h3>
+              <ul v-for="hvv in hv" :key="hvv" >
+                <li class="pb-2">{{ hvv }}</li>
+              </ul>
+            </div>
+          </v-card-text>
+        </v-card>
 
-                  <h3 class="mt-5 mb-2">After Master's Degree to Present:</h3>
-                  <ul>
-                    <li class="pb-2">Engaged in cybersecurity research at a Japanese IT company.</li>
-                    <li class="pb-2">Specialized in incident response and forensics, malware analysis, and threat intelligence.</li>
-                  </ul>
-                </v-card-text>
-            </v-card>
-
-            <v-card class="elevation-0">
-              <v-card-title>Projects and Contributions</v-card-title>
-                <v-card-text>
-                  <h3 class="mt-2 mb-2"><a href="https://github.com/sumeshi/evtx2es" target="_blank" rel="noopener noreferrer">evtx2es</a>, <a href="https://github.com/sumeshi/mft2es" target="_blank" rel="noopener noreferrer">mft2es</a>:</h3>
-                  <ul>
-                    <li class="pb-2">Python tools for importing Windows artifacts into Elasticsearch.</li>
-                    <li class="pb-2">Included as standard in the DFIR-focused Linux distribution <a href="https://tsurugi-linux.org" target="_blank" rel="noopener noreferrer">Tsurugi Linux LAB</a> 2022.1 - 2023.1.</li>
-                  </ul>
-
-                  <h3 class="mt-2 mb-2"><a href="https://github.com/sumeshi/ntfsdump" target="_blank" rel="noopener noreferrer">ntfsdump</a>, <a href="https://github.com/sumeshi/ntfsfind" target="_blank" rel="noopener noreferrer">ntfsfind</a>:</h3>
-                  <ul>
-                    <li class="pb-2">Forensic tools for extracting Windows artifacts from image files.</li>
-                  </ul>
-                </v-card-text>
-            </v-card>
-
-            <v-card class="elevation-0">
-              <v-card-title>Tech Stack</v-card-title>
-                <v-card-text>
-                  <v-table>
-                    <thead>
-                      <tr>
-                        <th class="text-left">
-                          <b>Category</b>
-                        </th>
-                        <th class="text-left">
-                          <b>Technologies</b>
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td>Programming Languages/Frameworks</td>
-                        <td>
-                          <tr>
-                            <h4>Frontend</h4>
-                            <td>HTML, CSS, JavaScript, TypeScript, Vue, Nuxt, Angular</td>
-                          </tr>
-                          <tr>
-                            <h4>Backend</h4>
-                            <td>Python, TypeScript, Go, Ruby, Java, PHP</td>
-                          </tr>
-                          <tr>
-                            <h4>Others</h4>
-                            <td>Rust, Nim, C++, C#(.NET), Julia, Swift</td>
-                          </tr>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>Infrastructure</td>
-                        <td>
-                          <tr>
-                            <h4>Virtualization</h4>
-                            <td>Proxmox, ESXi, Hyper-V, Docker, Vmware Workstation, VirtualBox</td>
-                          </tr>
-                          <tr>
-                            <h4>DataBase</h4>
-                            <td>PostgreSQL, Elasticsearch, SQLite, MongoDB, MySQL</td>
-                          </tr>
-                          <tr>
-                            <h4>CI/Environment</h4>
-                            <td>GitLab CI, GitHub Actions, CircleCI, Ansible</td>
-                          </tr>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </v-table>
-                </v-card-text>
-            </v-card>
-
+        <v-card class="elevation-0">
+          <v-card-title class="font-weight-black">$ ls /usr/local/bin</v-card-title>
+          <v-card-text>
+            <v-table>
+              <thead>
+                <tr>
+                  <th class="text-left">Category</th>
+                  <th class="text-left">Technologies</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="(tv, tk) in techstack" :key="tk" >
+                  <td>{{ tk }}</td>
+                  <v-list nav density="compact">
+                    <v-list-item
+                      v-for="tvv in tv"
+                      :key="tvv"
+                      :title="tvv"
+                      class="pa-0 ma-0"
+                    ></v-list-item>
+                  </v-list>
+                </tr>
+              </tbody>
+            </v-table>
           </v-card-text>
         </v-card>
       </v-col>
-
     </v-row>
   </v-card>
 </template>
 
+<script setup lang="ts">
+import { ref } from 'vue'
+
+const togglelang = ref(0)
+
+const aboutme_en = ref([
+  'I work as a security engineer in Japan, specializing in incident response. I have particular expertise in digital forensics and malware analysis.',
+  'In my spare time, I’m interested in system development, and I occasionally create and release the tools I need.',
+  'I’m often active on GitHub and X, so feel free to reach out anytime.'
+]);
+
+const aboutme_ja = ref([
+  'デジタルフォレンジックとかマルウェア解析とかやってるセキュリティエンジニアです。',
+  '正直セキュリティよりシステム開発とかのが好きなので、暇なときにツールつくってGitHubで公開とかしてます。',
+]);
+
+const history_en = ref({
+  'From Bachelor\'s Year 4 to Master\'s Year 2': [
+    'Worked as a Web Engineer at an IT venture company for 3 years',
+    'Front-end development using Angular and Vue',
+    'Back-end development using Django REST framework',
+    'Developed full-text search features utilizing Elasticsearch and machine learning',
+    'Improved PostgreSQL performance and tuned high-efficiency data structures and queries',
+    'Introduced and optimized GitLab and GitLab CI',
+    'Developed a log analysis system',
+    'Developed forensic tools'
+  ],
+  'After Completing Master\'s Degree to Present': [
+    'Digital Forensic Researcher',
+    'Malware Analyst',
+    'Providing threat intelligence information',
+    'Lecturer for university courses on incident response',
+    'Participation in security contests'
+  ]
+});
+
+const history_ja = ref({
+  '学部4年生から修士2年生まで': [
+    'ITベンチャー企業で3年間Webエンジニアとして勤務',
+    'Angular, Vueを使ったフロントエンド開発',
+    'Django REST frameworkを使ったバックエンド開発',
+    'Elasticsearchと機械学習を活用した全文検索機能の開発',
+    'PostgreSQLのパフォーマンス改善, 高効率なデータ構造・クエリのチューニング',
+    'GitLab, GitLab CIの導入とパフォーマンス改善',
+    'ログ分析システムの開発',
+    'フォレンジックツールの開発',
+  ],
+  '修士課程から現在まで': [
+    'デジタルフォレンジックリサーチャー',
+    'マルウェアアナリスト',
+    '脅威インテリジェンス情報の発信',
+    'インシデントレスポンスに関する大学授業の講師',
+    'セキュリティコンテストへの参加',
+  ]
+});
+
+const techstack = ref({
+  "Frontend Dev": ["HTML", "CSS", "TypeScript", "JavaScript", "Vue", "Angular"],
+  "Backend Dev": ["Python", "Go", "TypeScript", "Ruby", "PHP"],
+  "Software Dev": ["Python", "C++", "Rust", "Java", "Go", "C# (.NET)", "Nim", "Swift"],
+  "DBMS": ["PostgreSQL", "Elasticsearch", "SQLite", "MongoDB", "MySQL"],
+  "Virtualization": ["Proxmox", "ESXi", "Hyper-V", "KVM", "Docker", "Kubernetes"],
+  "CI/CM": ["GitLab CI", "GitHub Actions", "Ansible"]
+});
+</script>
+
 <style lang="scss" scoped>
-ul {
-  list-style-position: outside;
-
-  li {
-    margin-left: 1em;
-  }
-}
-
-h4 {
-  margin: 1em;
-}
 </style>

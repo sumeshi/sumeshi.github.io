@@ -4,13 +4,18 @@
       <CardUserOverview
         name="S.Nakano"
         position="DFIR Researcher / Software Developer"
-        :icon="{ src: '/img/me.jpg', link: '/posts' }"
+        :icon="{ src: '/img/me.jpg', link: '/about' }"
         :links="[
           { name: 'GitHub', url: 'https://github.com/sumeshi', message: '@sumeshi', color: 'white' },
           { name: 'X', url: 'https://twitter.com/sum3sh1', message: '@sum3sh1', color: 'white' },
         ]"
       />
-      <CardUserAbout
+      <CardUserLinks 
+        :buttons="[
+          { message: '$ whoami', link: 'about'},
+          { message: '$ ps aux', link: 'works'},
+          { message: '$ ls posts/', link: 'posts'},
+        ]"
       />
       <CardListLatest
         title="Latest Posts"
