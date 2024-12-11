@@ -56,6 +56,7 @@
                       :key="tvv"
                       :title="tvv"
                       class="pa-0 ma-0"
+                      slim
                     ></v-list-item>
                   </v-list>
                 </tr>
@@ -81,7 +82,7 @@ const aboutme_en = ref([
 
 const aboutme_ja = ref([
   'デジタルフォレンジックとかマルウェア解析とかやってるセキュリティエンジニアです。',
-  '正直セキュリティよりシステム開発とかのが好きなので、暇なときにツールつくってGitHubで公開とかしてます。',
+  'ぶっちゃけセキュリティよりはシステム開発とかのが好きなので、そっち方向の知見のほうが多いかも。暇なときにツールつくってGitHubで公開とかしてます。',
 ]);
 
 const history_en = ref({
@@ -133,6 +134,3 @@ const techstack = ref({
   "CI/CM": ["GitLab CI", "GitHub Actions", "Ansible"]
 });
 </script>
-
-<style lang="scss" scoped>
-</style>

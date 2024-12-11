@@ -1,13 +1,9 @@
 <template>
-  <v-card class="pa-4" justify="center">
-    <v-row
-      class="d-flex flex-column flex-sm-row"
-      align="center"
-      justify="center"
-    >
+  <v-row align="center" justify="center" >
+    <v-col class="main d-flex flex-column flex-sm-row" >
       <CardUserAbout />
-    </v-row>
-  </v-card>
+    </v-col>
+  </v-row>
 </template>
 
 <script setup lang="ts">
@@ -15,3 +11,9 @@ useHead({
   title: 'About',
 })
 </script>
+
+<style lang="scss" scoped>
+.main {
+  max-width: 900px;
+}
+</style>
