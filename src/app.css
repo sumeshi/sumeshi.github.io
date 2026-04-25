@@ -1,0 +1,75 @@
+@import 'tailwindcss';
+
+/* ─── Post content renderer ─────────────────────────────────── */
+.html-wrapper h1,
+.html-wrapper h2,
+.html-wrapper h3,
+.html-wrapper h4,
+.html-wrapper h5,
+.html-wrapper h6 {
+  border-bottom: 1px dashed #333;
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.html-wrapper ul {
+  list-style: disc outside;
+  padding-left: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.html-wrapper ol {
+  list-style: decimal outside;
+  padding-left: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.html-wrapper li {
+  margin-left: 1em;
+  padding-bottom: 0.25rem;
+}
+
+.html-wrapper a {
+  color: #818cf8;
+  text-decoration: underline;
+}
+
+.html-wrapper a:visited {
+  color: #999;
+}
+
+.html-wrapper img {
+  padding: 1rem 0;
+  max-width: 100%;
+}
+
+.html-wrapper p {
+  margin-bottom: 1rem;
+  line-height: 1.75;
+}
+
+.html-wrapper pre {
+  margin: 0;
+}
+
+.html-wrapper code:not(pre code) {
+  background: #1e2433;
+  padding: 0.125rem 0.375rem;
+  border-radius: 0.25rem;
+  font-size: 0.875em;
+  font-family: ui-monospace, monospace;
+}
+
+.html-wrapper table {
+  margin: 1em auto;
+  border: 1px #555 solid;
+  border-collapse: collapse;
+}
+
+.html-wrapper td,
+.html-wrapper th {
+  border: 1px #555 solid;
+  padding: 5px 8px;
+}

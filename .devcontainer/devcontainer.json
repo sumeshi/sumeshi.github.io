@@ -10,7 +10,8 @@
         "vscode": {
             "extensions": [
 				"ms-azuretools.vscode-docker",
-				"Vue.volar",
+				"svelte.svelte-vscode",
+				"bradlc.vscode-tailwindcss",
 				"naumovs.color-highlight"
 			],
             "settings": {

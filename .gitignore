@@ -1,8 +1,7 @@
 node_modules
 *.log*
-.nuxt
-.nitro
-.cache
-.output
+.svelte-kit
 .env
-dist
+build
+.claude
+.codex

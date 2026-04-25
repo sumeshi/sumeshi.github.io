@@ -1,4 +1,4 @@
-FROM node:21-bookworm
+FROM node:22-bookworm
 
 ARG USERNAME=dev
 RUN useradd -m -d /home/$USERNAME -s /bin/bash $USERNAME\
