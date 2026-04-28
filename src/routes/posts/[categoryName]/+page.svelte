@@ -1,70 +1,69 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
   import { page } from '$app/stores';
-  import { pathWithBase, postHref } from '$lib/paths';
+  import Breadcrumb from '$lib/components/Breadcrumb.svelte';
+  import LoadingPulse from '$lib/components/LoadingPulse.svelte';
+  import PageMeta from '$lib/components/PageMeta.svelte';
+  import PostListItem from '$lib/components/PostListItem.svelte';
+  import { createAsyncDataState } from '$lib/load-state.svelte';
+  import { pathWithBase } from '$lib/paths';
+  import { fetchCategoryPosts } from '$lib/posts';
+  import { pageTitle } from '$lib/site';
   import type { PostIndex } from '$lib/types';
 
-  let posts: PostIndex[] = $state([]);
-  let loading = $state(true);
+  const postState = createAsyncDataState<PostIndex[]>([]);
 
   const categoryName = $derived($page.params.categoryName);
+  const categoryLabel = $derived(categoryName ?? 'unknown');
 
-  onMount(async () => {
-    try {
-      const res = await fetch(`https://sumeshi.github.io/api/posts/${categoryName}`);
-      const data: PostIndex[] = await res.json();
-      posts = data.reverse();
-    } catch (e) {
-      console.error('Failed to fetch category posts:', e);
-    } finally {
-      loading = false;
+  async function loadCategoryPosts(category: string, signal?: AbortSignal): Promise<void> {
+    await postState.load((loadSignal) => fetchCategoryPosts(category, loadSignal), {
+      errorMessage: 'Failed to load posts for this category.',
+      onError: (error) => {
+        console.error('Failed to fetch category posts:', error);
+      },
+    }, signal);
+  }
+
+  $effect(() => {
+    if (!categoryName) {
+      postState.fail('Category not found.', []);
+      return;
     }
+
+    const controller = new AbortController();
+
+    void loadCategoryPosts(categoryName, controller.signal);
+
+    return () => controller.abort();
   });
 </script>
 
-<svelte:head>
-  <title>{categoryName} | Posts | sumeshi</title>
-</svelte:head>
+<PageMeta
+  title={pageTitle(`${categoryLabel} | Posts`)}
+  description={`${categoryLabel} カテゴリの投稿一覧`}
+/>
 
-<div class="max-w-3xl mx-auto space-y-4">
-  <!-- Breadcrumb -->
-  <nav class="text-xs text-gray-500 font-mono">
-    <a href={pathWithBase('/posts')} class="hover:text-gray-300 transition-colors">POSTS</a>
-    <span class="mx-1">/</span>
-    <span class="text-gray-300">{categoryName}</span>
-  </nav>
+<div class="site-container space-y-4">
+  <Breadcrumb items={[{ label: 'POSTS', href: pathWithBase('/posts') }, { label: categoryLabel }]} />
 
-  <div class="bg-gray-900/50 border border-gray-800 rounded-xl p-6">
+  <div class="panel-card panel-surface">
     <div class="flex items-baseline justify-between mb-5">
-      <h1 class="font-mono font-bold text-white">{categoryName}</h1>
-      {#if !loading}
-        <span class="text-gray-500 text-sm">{posts.length} post{posts.length !== 1 ? 's' : ''}</span>
+      <h1 class="page-title">{categoryLabel}</h1>
+      {#if !postState.state.loading}
+        <span class="text-gray-500 text-sm">{postState.state.value.length} post{postState.state.value.length !== 1 ? 's' : ''}</span>
       {/if}
     </div>
 
-    {#if loading}
-      <p class="text-gray-600 text-sm">Loading...</p>
-    {:else if posts.length === 0}
+    {#if postState.state.loading}
+      <LoadingPulse lines={4} />
+    {:else if postState.state.errorMessage}
+      <p class="text-red-300 text-sm">{postState.state.errorMessage}</p>
+    {:else if postState.state.value.length === 0}
       <p class="text-gray-600 text-sm">No posts in this category.</p>
     {:else}
       <div class="space-y-2">
-        {#each posts as post}
-          <a
-            href={postHref(post.path)}
-            class="block group border border-gray-800 hover:border-gray-600 rounded-lg p-4 transition-colors"
-          >
-            <div class="flex items-start justify-between gap-4">
-              <h3 class="text-gray-200 font-medium text-sm group-hover:text-indigo-400 transition-colors line-clamp-1">
-                {post.title}
-              </h3>
-              <span class="text-gray-600 text-xs whitespace-nowrap shrink-0">
-                {post.published_at?.substring(0, 10) ?? ''}
-              </span>
-            </div>
-            {#if post.description}
-              <p class="text-gray-500 text-xs mt-1 line-clamp-2">{post.description}</p>
-            {/if}
-          </a>
+        {#each postState.state.value as post}
+          <PostListItem {post} />
         {/each}
       </div>
     {/if}

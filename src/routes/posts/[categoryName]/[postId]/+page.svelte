@@ -1,94 +1,87 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
+  import LoadingPulse from '$lib/components/LoadingPulse.svelte';
+  import Breadcrumb from '$lib/components/Breadcrumb.svelte';
+  import PageMeta from '$lib/components/PageMeta.svelte';
   import { page } from '$app/stores';
   import { goto } from '$app/navigation';
+  import { createAsyncDataState } from '$lib/load-state.svelte';
   import { pathWithBase } from '$lib/paths';
+  import { formatPostPublishedAt } from '$lib/posts';
+  import { pageTitle, siteDescription } from '$lib/site';
+  import { fetchPostContent, parsePostContent, postSourceUrl } from '$lib/post-content';
   import type { PostContent, ContentBlock } from '$lib/types';
-  import hljs from 'highlight.js';
   import 'highlight.js/styles/tokyo-night-dark.css';
 
-  let post: PostContent = $state({
+  const emptyPost: PostContent = {
     title: '',
     path: '',
     html_text: '',
     published_at: '',
-  });
+  };
+
+  const postState = createAsyncDataState<PostContent>({ ...emptyPost });
   let contents: ContentBlock[] = $state([]);
-  let loading = $state(true);
 
   const categoryName = $derived($page.params.categoryName);
   const postId = $derived($page.params.postId);
+  const breadcrumbTitle = $derived(postState.state.value.title || postId || 'Post');
+  const postDescription = $derived(
+    postState.state.value.html_text
+      ? postState.state.value.html_text.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 150)
+      : siteDescription
+  );
 
-  function sanitize(html: string): string {
-    // Allow only safe tags for post content
-    const allowed = [
-      'h1','h2','h3','h4','h5','h6',
-      'p','ul','ol','li','blockquote',
-      'strong','em','code','pre','br',
-      'a','img','table','thead','tbody','tr','th','td',
-    ];
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(html, 'text/html');
-    // Remove script and style tags
-    doc.querySelectorAll('script, style, iframe, object, embed').forEach((el) => el.remove());
-    return doc.body.innerHTML;
+  async function loadPost(category: string, id: string, signal?: AbortSignal): Promise<void> {
+    await postState.load((loadSignal) => fetchPostContent(category, id, loadSignal), {
+      errorMessage: 'Failed to load this post.',
+      onSuccess: async (data) => {
+        contents = await parsePostContent(data.html_text);
+      },
+      onError: (error) => {
+        contents = [];
+        console.error('Failed to fetch post:', error);
+      },
+    }, signal);
   }
 
-  function parseContents(html: string): ContentBlock[] {
-    const parts = html.split(/(<pre><code[^>]*>|<\/code><\/pre>)/);
-    const blocks: ContentBlock[] = [];
-    let insideCode = false;
-
-    for (const part of parts) {
-      if (/<pre><code[^>]*>/.test(part)) {
-        insideCode = true;
-      } else if (/<\/code><\/pre>/.test(part)) {
-        insideCode = false;
-      } else if (insideCode) {
-        blocks.push({ type: 'code', content: hljs.highlightAuto(sanitize(part)).value });
-      } else {
-        blocks.push({ type: 'text', content: sanitize(part) });
-      }
+  $effect(() => {
+    if (!categoryName || !postId) {
+      contents = [];
+      postState.fail('Post not found.', { ...emptyPost });
+      return;
     }
-    return blocks;
-  }
 
-  onMount(async () => {
-    try {
-      const url = `https://sumeshi.github.io/api/posts/${categoryName}/${postId}/index.html`;
-      const res = await fetch(url);
-      const data: PostContent = await res.json();
-      post = data;
-      contents = parseContents(data.html_text);
-    } catch (e) {
-      console.error('Failed to fetch post:', e);
-    } finally {
-      loading = false;
-    }
+    const controller = new AbortController();
+
+    void loadPost(categoryName, postId, controller.signal);
+
+    return () => controller.abort();
   });
 </script>
 
-<svelte:head>
-  <title>{post.title || postId} | sumeshi</title>
-</svelte:head>
+<PageMeta
+  title={pageTitle(postState.state.value.title || postId || 'Post')}
+  description={postDescription}
+/>
 
-<div class="max-w-5xl mx-auto">
-  <div class="bg-gray-900/50 border border-gray-800 rounded-xl overflow-hidden">
+<div class="site-container">
+  <div class="panel-shell panel-surface">
     <!-- Title bar -->
-    <div class="px-6 py-4 border-b border-gray-800 flex items-center justify-between gap-4">
-      <nav class="font-mono text-xs text-gray-500 min-w-0">
-        <a href={pathWithBase('/posts')} class="hover:text-gray-300 transition-colors">POSTS</a>
-        <span class="mx-1">/</span>
-        <a href={pathWithBase(`/posts/${categoryName}`)} class="hover:text-gray-300 transition-colors">{categoryName}</a>
-        <span class="mx-1">/</span>
-        <span class="text-gray-400 truncate">{postId}</span>
-      </nav>
-      <div class="flex items-center gap-3 shrink-0">
-        {#if post.published_at}
-          <span class="text-gray-500 text-xs">{post.published_at.replace('T', ' ').substring(0, 16)}</span>
+    <div class="flex flex-col gap-3 border-b border-gray-800 px-6 py-4 sm:flex-row sm:items-start sm:justify-between">
+      <Breadcrumb
+        items={[
+          { label: 'POSTS', href: pathWithBase('/posts') },
+          { label: categoryName ?? '', href: pathWithBase(`/posts/${categoryName}`) },
+          { label: breadcrumbTitle },
+        ]}
+        wrap={true}
+      />
+      <div class="flex items-center gap-3 self-start sm:shrink-0">
+        {#if postState.state.value.published_at}
+          <span class="hidden text-xs text-gray-500 sm:inline">{formatPostPublishedAt(postState.state.value.published_at)}</span>
         {/if}
         <a
-          href="https://github.com/sumeshi/api/blob/master/{categoryName}/{postId}.md"
+          href={postSourceUrl(categoryName ?? '', postId ?? '')}
           target="_blank"
           rel="noopener noreferrer"
           class="text-gray-500 hover:text-white transition-colors"
@@ -103,17 +96,21 @@
 
     <!-- Post content -->
     <div class="p-6">
-      {#if loading}
-        <p class="text-gray-600 text-sm">Loading...</p>
+      {#if postState.state.loading}
+        <LoadingPulse lines={6} />
+      {:else if postState.state.errorMessage}
+        <p class="text-red-300 text-sm">{postState.state.errorMessage}</p>
+      {:else if contents.length === 0}
+        <p class="text-gray-600 text-sm">No content available.</p>
       {:else}
-        {#each contents as block}
+        {#each contents as block, index (`${block.type}-${index}`)}
           {#if block.type === 'text'}
             <div class="html-wrapper text-gray-300 text-sm leading-relaxed">
               {@html block.content}
             </div>
           {:else}
-            <div class="mt-3 mb-3 rounded-lg overflow-hidden" style="background:#1a1b26;">
-              <pre class="p-4 overflow-x-auto text-sm leading-relaxed" style="white-space: pre-wrap;"><code>{@html block.content}</code></pre>
+            <div class="mt-3 mb-3 overflow-hidden rounded-lg" style="background:#1a1b26;">
+              <pre class="overflow-x-auto p-4 text-sm leading-relaxed" style="white-space: pre-wrap;"><code>{@html block.content}</code></pre>
             </div>
           {/if}
         {/each}
@@ -124,7 +121,7 @@
     <div class="px-6 py-4 border-t border-gray-800 flex justify-center">
       <button
         onclick={() => goto(pathWithBase('/posts'))}
-        class="text-sm border border-gray-600 hover:border-gray-400 text-gray-400 hover:text-white rounded px-6 py-2 transition-colors"
+        class="action-button"
       >
         back
       </button>

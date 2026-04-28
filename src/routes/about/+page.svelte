@@ -1,8 +1,12 @@
 <script lang="ts">
+  import Badge from '$lib/components/Badge.svelte';
+  import PageMeta from '$lib/components/PageMeta.svelte';
   import { pathWithBase } from '$lib/paths';
+  import { pageTitle } from '$lib/site';
 
   type Lang = 'en' | 'ja';
-  let lang: Lang = $state('en');
+
+  let lang: Lang = $state('ja');
 
   const aboutme = {
     en: [
@@ -55,7 +59,7 @@
         'セキュリティコンテストへの参加',
       ],
     },
-  };
+  } satisfies Record<Lang, Record<string, string[]>>;
 
   const techstack: Record<string, string[]> = {
     'Frontend Dev': ['HTML', 'CSS', 'TypeScript', 'JavaScript', 'Vue', 'Angular'],
@@ -67,66 +71,63 @@
   };
 </script>
 
-<svelte:head>
-  <title>About | sumeshi</title>
-</svelte:head>
+<PageMeta
+  title={pageTitle('About')}
+  description="Profile and background for S.Nakano, including bilingual overview, history, and technology stack."
+/>
 
-<div class="max-w-3xl mx-auto space-y-4">
-  <div class="bg-gray-900/50 border border-gray-800 rounded-xl overflow-hidden">
-    <!-- Language toggle -->
-    <div class="flex justify-end p-4 border-b border-gray-800">
-      <div class="flex rounded-lg overflow-hidden border border-gray-700">
-        {#each ['en', 'ja'] as l (l)}
+<div class="site-container space-y-4">
+  <div class="panel-shell panel-surface">
+    <div class="flex justify-end border-b border-gray-800 p-4">
+      <div class="flex overflow-hidden rounded-lg border border-gray-700">
+        {#each ['en', 'ja'] as option (option)}
           <button
-            onclick={() => (lang = l as Lang)}
+            type="button"
+            onclick={() => (lang = option as Lang)}
             class="px-4 py-1.5 text-xs font-semibold uppercase tracking-wider transition-colors
-              {lang === l ? 'bg-indigo-600 text-white' : 'text-gray-400 hover:text-white'}"
+              {lang === option ? 'bg-indigo-600 text-white' : 'text-gray-400 hover:text-white'}"
+            aria-pressed={lang === option}
           >
-            {l}
+            {option}
           </button>
         {/each}
       </div>
     </div>
 
-    <!-- Hero / quote -->
-    <div
-      class="relative h-48 flex flex-col items-center justify-center text-center px-6"
-      style="background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%);"
-    >
+    <div class="relative flex h-48 flex-col items-center justify-center px-6 text-center">
       <img
         src={pathWithBase('/img/blurdog.jpg')}
         alt=""
-        class="absolute inset-0 w-full h-full object-cover opacity-20"
+        class="absolute inset-0 h-full w-full object-cover opacity-20"
       />
+      <div class="absolute inset-0 bg-[linear-gradient(135deg,rgba(15,23,42,0.96),rgba(30,27,75,0.88),rgba(12,17,27,0.96))]"></div>
       <div class="relative z-10">
-        <p class="text-white font-semibold text-sm md:text-base italic">
+        <p class="text-white text-sm font-semibold italic md:text-base">
           "Do one thing every day that scares you."
         </p>
-        <p class="text-gray-400 text-xs mt-2">— Mary Schmich, Chicago Tribune, 1 June 1997</p>
+        <p class="mt-2 text-xs text-gray-400">Mary Schmich, Chicago Tribune, June 1, 1997</p>
       </div>
     </div>
 
-    <!-- $ whoami -->
-    <section class="p-6 border-b border-gray-800">
-      <h2 class="font-mono font-bold text-white mb-4">$ whoami</h2>
+    <section class="panel-section">
+      <h2 class="section-title mb-4">$ whoami</h2>
       <div class="space-y-3">
         {#each aboutme[lang] as paragraph}
-          <p class="text-gray-300 text-sm leading-relaxed">{paragraph}</p>
+          <p class="text-sm leading-relaxed text-gray-300">{paragraph}</p>
         {/each}
       </div>
     </section>
 
-    <!-- $ history -->
-    <section class="p-6 border-b border-gray-800">
-      <h2 class="font-mono font-bold text-white mb-4">$ history</h2>
+    <section class="panel-section">
+      <h2 class="section-title mb-4">$ history</h2>
       {#each Object.entries(history[lang]) as [period, items]}
         <div class="mb-5">
-          <h3 class="text-indigo-400 text-sm font-semibold mb-2">{period}</h3>
+          <h3 class="mb-2 text-sm font-semibold text-indigo-400">{period}</h3>
           <ul class="space-y-1.5">
             {#each items as item}
-              <li class="text-gray-300 text-sm flex gap-2">
-                <span class="text-gray-600 shrink-0">–</span>
-                {item}
+              <li class="flex gap-2 text-sm text-gray-300">
+                <span class="shrink-0 text-gray-600">–</span>
+                <span>{item}</span>
               </li>
             {/each}
           </ul>
@@ -134,27 +135,26 @@
       {/each}
     </section>
 
-    <!-- $ ls /usr/local/bin -->
-    <section class="p-6">
-      <h2 class="font-mono font-bold text-white mb-4">$ ls /usr/local/bin</h2>
+    <section class="panel-section">
+      <h2 class="section-title mb-4">$ techstack</h2>
       <div class="overflow-x-auto">
         <table class="w-full text-sm">
           <thead>
             <tr class="border-b border-gray-800">
-              <th class="text-left text-gray-500 font-medium pb-2 pr-6 w-36">Category</th>
-              <th class="text-left text-gray-500 font-medium pb-2">Technologies</th>
+              <th class="w-36 pb-2 pr-6 text-left font-medium text-gray-500">Category</th>
+              <th class="pb-2 text-left font-medium text-gray-500">Technologies</th>
             </tr>
           </thead>
           <tbody>
             {#each Object.entries(techstack) as [category, techs]}
               <tr class="border-b border-gray-800/50">
-                <td class="py-3 pr-6 text-gray-400 align-top">{category}</td>
+                <td class="py-3 pr-6 align-top text-gray-400">{category}</td>
                 <td class="py-3">
                   <div class="flex flex-wrap gap-1.5">
                     {#each techs as tech}
-                      <span class="text-xs text-gray-300 bg-gray-800 border border-gray-700 rounded px-2 py-0.5">
+                      <Badge variant="gray" size="xs" shape="rounded" className="px-2 py-0.5">
                         {tech}
-                      </span>
+                      </Badge>
                     {/each}
                   </div>
                 </td>

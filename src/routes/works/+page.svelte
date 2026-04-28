@@ -1,84 +1,82 @@
-<svelte:head>
-  <title>Works | sumeshi</title>
-</svelte:head>
+<script lang="ts">
+  import Badge from '$lib/components/Badge.svelte';
+  import PageMeta from '$lib/components/PageMeta.svelte';
+  import { pageTitle } from '$lib/site';
 
-<div class="max-w-3xl mx-auto">
-  <div class="bg-gray-900/50 border border-gray-800 rounded-xl p-6">
-    <h1 class="font-mono font-bold text-white text-lg mb-6">$ ps aux</h1>
+  type Project = {
+    title: string;
+    hrefs: { label: string; url: string }[];
+    summary: string[];
+  };
 
-    <div class="space-y-6 text-sm">
-      <div>
-        <h3 class="text-base font-semibold mb-2">
-          <a
-            href="https://github.com/sumeshi/evtx2es"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="text-indigo-400 hover:text-indigo-300 transition-colors"
-          >evtx2es</a>,
-          <a
-            href="https://github.com/sumeshi/mft2es"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="text-indigo-400 hover:text-indigo-300 transition-colors"
-          >mft2es</a>
-        </h3>
-        <ul class="space-y-2 text-gray-300">
-          <li class="flex gap-2">
-            <span class="text-gray-600 shrink-0">–</span>
-            Python tools for importing Windows artifacts into Elasticsearch.
-          </li>
-          <li class="flex gap-2">
-            <span class="text-gray-600 shrink-0">–</span>
-            Included as standard in the DFIR-focused Linux distribution
-            <a
-              href="https://tsurugi-linux.org"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="text-indigo-400 hover:text-indigo-300"
-            >Tsurugi Linux LAB</a> 2022.1 – 2024.1.
-          </li>
-        </ul>
-      </div>
+  const projects: Project[] = [
+    {
+      title: 'evtx2es / mft2es',
+      hrefs: [
+        { label: 'evtx2es', url: 'https://github.com/sumeshi/evtx2es' },
+        { label: 'mft2es', url: 'https://github.com/sumeshi/mft2es' },
+      ],
+      summary: [
+        'Windows artifacts を Elasticsearch に取り込むための Python ツール群。',
+        'DFIR 向け Linux ディストリビューションの Tsurugi Linux LAB に標準搭載された。',
+      ],
+    },
+    {
+      title: 'ntfsdump / ntfsfind',
+      hrefs: [
+        { label: 'ntfsdump', url: 'https://github.com/sumeshi/ntfsdump' },
+        { label: 'ntfsfind', url: 'https://github.com/sumeshi/ntfsfind' },
+      ],
+      summary: ['イメージファイルから Windows artifacts を抽出するフォレンジックツール群。'],
+    },
+    {
+      title: 'Quilter-CSV',
+      hrefs: [{ label: 'Quilter-CSV', url: 'https://github.com/sumeshi/quilter-csv' }],
+      summary: ['イベントログのような巨大 CSV を高速に絞り込んで分析するためのツール。'],
+    },
+  ];
+</script>
 
-      <div>
-        <h3 class="text-base font-semibold mb-2">
-          <a
-            href="https://github.com/sumeshi/ntfsdump"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="text-indigo-400 hover:text-indigo-300 transition-colors"
-          >ntfsdump</a>,
-          <a
-            href="https://github.com/sumeshi/ntfsfind"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="text-indigo-400 hover:text-indigo-300 transition-colors"
-          >ntfsfind</a>
-        </h3>
-        <ul class="space-y-2 text-gray-300">
-          <li class="flex gap-2">
-            <span class="text-gray-600 shrink-0">–</span>
-            Forensic tools for extracting Windows artifacts from image files.
-          </li>
-        </ul>
-      </div>
+<PageMeta
+  title={pageTitle('Works')}
+  description="Selected open-source tools and research utilities shaped by DFIR work and day-to-day analysis needs."
+/>
 
-      <div>
-        <h3 class="text-base font-semibold mb-2">
-          <a
-            href="https://github.com/sumeshi/quilter-csv"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="text-indigo-400 hover:text-indigo-300 transition-colors"
-          >Quilter-CSV</a>
-        </h3>
-        <ul class="space-y-2 text-gray-300">
-          <li class="flex gap-2">
-            <span class="text-gray-600 shrink-0">–</span>
-            A tool that provides elastic and rapid filtering for efficient analysis of huge CSV files, such as event logs.
-          </li>
-        </ul>
-      </div>
+<div class="site-container">
+  <div class="panel-card panel-surface">
+    <h1 class="page-title mb-6">$ ps aux</h1>
+    <p class="mb-6 max-w-2xl text-sm leading-6 text-gray-400">
+      Selected open-source tools and research utilities that grew out of DFIR work and day-to-day analysis needs.
+    </p>
+
+    <div class="space-y-4 text-sm">
+      {#each projects as project}
+        <article class="subtle-card shadow-sm">
+          <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+            <div class="min-w-0">
+              <p class="text-xs uppercase tracking-[0.16em] text-gray-500">Project</p>
+              <h2 class="mt-1 text-base font-semibold text-white">{project.title}</h2>
+            </div>
+
+            <div class="flex flex-wrap gap-2">
+              {#each project.hrefs as link}
+                <Badge href={link.url} external={true} variant="indigo" size="sm" shape="pill">
+                  {link.label}
+                </Badge>
+              {/each}
+            </div>
+          </div>
+
+          <ul class="mt-4 space-y-2 text-gray-300">
+            {#each project.summary as line}
+              <li class="flex gap-2">
+                <span class="shrink-0 text-gray-600">–</span>
+                <span>{line}</span>
+              </li>
+            {/each}
+          </ul>
+        </article>
+      {/each}
     </div>
 
     <div class="mt-8 flex justify-center">
@@ -86,7 +84,7 @@
         href="https://github.com/sumeshi"
         target="_blank"
         rel="noopener noreferrer"
-        class="text-sm border border-gray-600 hover:border-gray-400 text-gray-400 hover:text-white rounded px-5 py-2 transition-colors"
+        class="action-button"
       >
         GitHub | @sumeshi
       </a>

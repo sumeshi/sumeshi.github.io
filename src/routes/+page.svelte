@@ -1,117 +1,183 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
-  import { pathWithBase, postHref } from '$lib/paths';
-  import type { PostIndex } from '$lib/types';
-
-  let posts: PostIndex[] = $state([]);
-  let loading = $state(true);
+  import Badge from '$lib/components/Badge.svelte';
+  import PageMeta from '$lib/components/PageMeta.svelte';
+  import { pathWithBase } from '$lib/paths';
+  import { siteName, siteDescription } from '$lib/site';
 
   const socialLinks = [
-    { name: 'GitHub', url: 'https://github.com/sumeshi', message: '@sumeshi' },
-    { name: 'X', url: 'https://twitter.com/sum3sh1', message: '@sum3sh1' },
+    { name: 'GitHub', url: 'https://github.com/sumeshi' },
+    { name: 'X', url: 'https://twitter.com/sum3sh1' },
+  ];
+  const writingPlatforms = [
+    {
+      name: 'Zenn',
+      url: 'https://zenn.dev/sum3sh1',
+      meta: 'Tech',
+      tone: 'border-cyan-400/20 bg-cyan-400/10 text-cyan-200 hover:border-cyan-300 hover:text-white',
+      external: true,
+    },
+    {
+      name: 'Note',
+      url: 'https://note.com/sumeshi_kun/',
+      meta: 'Ideas',
+      tone: 'border-neutral-400/20 bg-neutral-400/10 text-neutral-200 hover:border-neutral-300 hover:text-white',
+      external: true,
+    },
+    {
+      name: 'DEV',
+      url: 'https://dev.to/sum3sh1',
+      meta: 'English tech',
+      tone: 'border-neutral-400/20 bg-neutral-400/10 text-neutral-200 hover:border-white hover:text-white',
+      external: true,
+    },
+    {
+      name: 'Qiita',
+      url: 'https://qiita.com/sumeshi',
+      meta: 'Tech archives',
+      tone: 'border-green-400/20 bg-green-400/10 text-green-200 hover:border-green-300 hover:text-white',
+      external: true,
+    },
+    {
+      name: 'Speaker Deck',
+      url: 'https://speakerdeck.com/sumeshi',
+      meta: 'Slides',
+      tone: 'border-orange-400/20 bg-orange-400/10 text-orange-200 hover:border-orange-300 hover:text-white',
+      external: true,
+    },
+    {
+      name: 'Posts',
+      url: pathWithBase('/posts'),
+      meta: 'Private notes',
+      tone: 'border-indigo-400/20 bg-indigo-400/10 text-indigo-200 hover:border-indigo-300 hover:text-white',
+      external: false,
+    },
   ];
 
-  const navButtons = [
-    { label: '$ whoami', href: '/about' },
-    { label: '$ ps aux', href: '/works' },
-    { label: '$ ls posts/', href: '/posts' },
-  ];
-
-  onMount(async () => {
-    try {
-      const res = await fetch('https://sumeshi.github.io/api/posts/');
-      const data: PostIndex[] = await res.json();
-      posts = data.slice(-5).reverse();
-    } catch (e) {
-      console.error('Failed to fetch posts:', e);
-    } finally {
-      loading = false;
+  const badges = ['Incident Response', 'Digital Forensics', 'Malware Analysis'];
+  const certifications = [
+    {
+      name: 'GREM',
+      url: 'https://www.giac.org/certifications/reverse-engineering-malware-grem',
+    },
+    {
+      name: 'GCFA',
+      url: 'https://www.giac.org/certifications/certified-forensic-analyst-gcfa',
     }
-  });
+  ];
 </script>
 
+<PageMeta title={siteName} description={siteDescription} />
+
 <svelte:head>
-  <title>Home | sumeshi</title>
+  {@html `<script type="application/ld+json">${JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "S.Nakano",
+    "url": "https://sumeshi.github.io",
+    "jobTitle": "DFIR Researcher / Software Developer",
+    "sameAs": [
+      "https://github.com/sumeshi",
+      "https://twitter.com/sum3sh1",
+      "https://zenn.dev/sum3sh1",
+      "https://dev.to/sum3sh1"
+    ]
+  })}</script>`}
 </svelte:head>
 
-<div class="max-w-3xl mx-auto space-y-4">
-  <!-- User overview -->
-  <div class="bg-gray-900/50 border border-gray-800 rounded-xl p-6">
-    <div class="flex items-center gap-5">
-      <a href={pathWithBase('/about')} class="shrink-0">
+<div class="site-container">
+  <section class="panel-card panel-surface">
+    <div class="relative flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-6">
+      <a href={pathWithBase('/about')} class="shrink-0 self-start sm:self-start">
         <img
           src={pathWithBase('/img/me.jpg')}
-          alt="S.Nakano"
-          class="w-20 h-20 rounded-full object-cover border-2 border-gray-700 hover:border-indigo-500 transition-colors"
+          alt="Portrait of S.Nakano"
+          class="h-20 w-20 rounded-2xl object-cover border border-gray-700/80 shadow-lg transition-transform duration-300 hover:scale-[1.02] sm:h-28 sm:w-28"
         />
       </a>
-      <div>
-        <h1 class="text-white text-xl font-bold">S.Nakano</h1>
-        <p class="text-gray-400 text-sm mt-0.5">DFIR Researcher / Software Developer</p>
-        <div class="flex flex-wrap gap-2 mt-3">
-          {#each socialLinks as link}
+
+      <div class="min-w-0 flex-1">
+        <h1 class="mt-3 font-sans text-[1.5rem] font-black tracking-[-0.05em] text-white sm:mt-4 sm:text-[2.5rem] md:text-[3rem]">
+          S.Nakano
+        </h1>
+        <p class="mt-1.5 text-[12px] uppercase tracking-[0.18em] text-gray-500 sm:mt-2 sm:text-sm">
+          DFIR Researcher / Software Developer
+        </p>
+
+        <p class="mt-4 max-w-2xl text-sm leading-6 text-gray-300 sm:mt-5 sm:leading-7 md:text-[15px]">
+          2021年よりサイバーセキュリティ分野で調査研究とインシデント対応に従事。
+          デジタルフォレンジックおよびマルウェア解析を専門とし、調査で得た知見をもとにOSSを開発・公開している。
+        </p>
+
+        <div class="mt-3 flex flex-wrap gap-2">
+          {#each badges as badge}
+            <Badge variant="indigo" size="xs" shape="pill" className="text-[10px] uppercase tracking-[0.14em]">
+              {badge}
+            </Badge>
+          {/each}
+        </div>
+
+        <div class="border-t border-gray-800/80 pt-4 sm:mt-6">
+          <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+            <div class="min-w-0">
+              <p class="text-[11px] font-semibold uppercase tracking-[0.18em] text-gray-500">Certifications</p>
+              <div class="mt-2 flex flex-wrap gap-2">
+                {#each certifications as cert}
+                  <Badge
+                    href={cert.url}
+                    external={true}
+                    variant="amber"
+                    size="xs"
+                    shape="rounded"
+                    className="rounded-lg"
+                  >
+                    {cert.name}
+                  </Badge>
+                {/each}
+              </div>
+            </div>
+
+            <div class="flex items-center gap-2 self-start sm:self-auto">
+              {#each socialLinks as link}
+                <a
+                  href={link.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={link.name}
+                  title={link.name}
+                  class="icon-button"
+                >
+                  {#if link.name === 'GitHub'}
+                    <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                      <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.44 9.8 8.2 11.39.6.11.82-.26.82-.57 0-.28-.01-1.22-.01-2.21-3.34.73-4.04-1.42-4.04-1.42-.55-1.39-1.33-1.76-1.33-1.76-1.09-.75.08-.73.08-.73 1.2.08 1.84 1.24 1.84 1.24 1.08 1.84 2.82 1.31 3.5 1 .11-.78.42-1.31.76-1.61-2.67-.31-5.47-1.34-5.47-5.95 0-1.31.47-2.38 1.24-3.22-.12-.3-.54-1.56.12-3.25 0 0 1.01-.32 3.3 1.23A11.4 11.4 0 0 1 12 6.8c1.02 0 2.05.14 3.01.41 2.28-1.55 3.29-1.23 3.29-1.23.66 1.69.24 2.95.12 3.25.77.84 1.24 1.91 1.24 3.22 0 4.62-2.81 5.63-5.49 5.94.43.37.82 1.1.82 2.22 0 1.6-.01 2.88-.01 3.28 0 .31.22.69.83.57C20.57 21.79 24 17.31 24 12 24 5.37 18.63 0 12 0Z" />
+                    </svg>
+                  {:else}
+                    <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                      <path d="M18.9 2H22l-6.76 7.73L23.2 22h-6.24l-4.89-7.38L5.62 22H2.5l7.24-8.28L1.6 2h6.4l4.42 6.76L18.9 2Zm-1.1 18h1.73L7.03 3.9H5.18L17.8 20Z" />
+                    </svg>
+                  {/if}
+                </a>
+              {/each}
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-4 grid grid-cols-2 gap-2 border-t border-gray-800/80 pt-4 sm:grid-cols-3">
+          {#each writingPlatforms as platform}
             <a
-              href={link.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              class="text-xs text-gray-400 hover:text-white border border-gray-700 hover:border-gray-500 rounded px-2 py-1 transition-colors"
+              href={platform.url}
+              target={platform.external ? '_blank' : undefined}
+              rel={platform.external ? 'noopener noreferrer' : undefined}
+              class={`group flex min-h-[64px] flex-col justify-between rounded-xl border px-3 py-3 text-left transition-colors ${platform.tone}`}
             >
-              {link.name} | {link.message}
+              <span class="text-[10px] uppercase tracking-[0.14em] opacity-70">{platform.meta}</span>
+              <div class="flex items-end justify-between gap-3">
+                <span class="text-sm font-semibold leading-tight">{platform.name}</span>
+                <span class="text-xs opacity-70 transition-transform group-hover:translate-x-0.5">↗</span>
+              </div>
             </a>
           {/each}
         </div>
       </div>
     </div>
-  </div>
-
-  <!-- Navigation shortcuts -->
-  <div class="bg-gray-900/50 border border-gray-800 rounded-xl p-6">
-    <div class="flex flex-wrap gap-3">
-          {#each navButtons as btn}
-        <a
-          href={pathWithBase(btn.href)}
-          class="font-mono text-sm border border-gray-700 hover:border-indigo-500 text-gray-300 hover:text-white rounded px-4 py-2 min-w-[160px] text-center transition-colors"
-        >
-          {btn.label}
-        </a>
-      {/each}
-    </div>
-  </div>
-
-  <!-- Latest posts -->
-  <div class="bg-gray-900/50 border border-gray-800 rounded-xl p-6">
-    <h2 class="text-xs font-semibold tracking-widest uppercase text-gray-500 mb-4">Latest Posts</h2>
-
-    {#if loading}
-      <p class="text-gray-600 text-sm">Loading...</p>
-    {:else if posts.length === 0}
-      <p class="text-gray-600 text-sm">No posts found.</p>
-    {:else}
-      <div class="space-y-3">
-        {#each posts as post}
-          <a
-            href={postHref(post.path)}
-            class="block group border border-gray-800 hover:border-gray-600 rounded-lg p-4 transition-colors"
-          >
-            <div class="flex items-start justify-between gap-4">
-              <h3 class="text-gray-200 font-medium text-sm group-hover:text-indigo-400 transition-colors line-clamp-1">
-                {post.title}
-              </h3>
-              <span class="text-gray-600 text-xs whitespace-nowrap shrink-0">
-                {post.published_at?.substring(0, 10) ?? ''}
-              </span>
-            </div>
-            {#if post.description}
-              <p class="text-gray-500 text-xs mt-1 line-clamp-2">{post.description}</p>
-            {/if}
-            {#if post.heading}
-              <span class="inline-block mt-2 text-xs text-indigo-400 bg-indigo-600/10 border border-indigo-600/20 rounded px-2 py-0.5">
-                {post.heading}
-              </span>
-            {/if}
-          </a>
-        {/each}
-      </div>
-    {/if}
-  </div>
+  </section>
 </div>

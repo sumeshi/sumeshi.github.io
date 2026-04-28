@@ -1,8 +1,10 @@
 export interface PostIndex {
+  // `title` is the stable post title from the API response.
   title: string;
   path: string;
   description: string;
   published_at: string;
+  // `heading` is an optional display-oriented heading used by some older entries.
   heading: string;
 }
 

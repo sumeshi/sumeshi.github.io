@@ -1,5 +1,216 @@
 @import 'tailwindcss';
 
+html {
+  scrollbar-gutter: stable;
+}
+
+.site-container {
+  margin-inline: auto;
+  width: 100%;
+  max-width: 48rem;
+}
+
+@media (min-width: 1024px) {
+  .site-container {
+    max-width: 56rem;
+  }
+}
+
+@media (min-width: 1280px) {
+  .site-container {
+    max-width: 64rem;
+  }
+}
+
+.site-topbar,
+.site-sidebar,
+.site-main {
+  background: #0c111b;
+}
+
+.site-topbar {
+  border-bottom: 1px solid rgb(31 41 55);
+}
+
+.site-sidebar {
+  border-right: 1px solid rgb(31 41 55);
+}
+
+.site-sidebar-title {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.site-sidebar-title-mark {
+  font-size: 1.125rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.site-sidebar-title-copy {
+  color: rgb(156 163 175);
+  font-size: 0.6875rem;
+  letter-spacing: 0.12em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+.site-main {
+  min-height: 100vh;
+  color: rgb(243 244 246);
+}
+
+.site-overlay {
+  background: rgb(0 0 0 / 0.5);
+}
+
+.site-dialog-backdrop {
+  background: rgb(0 0 0 / 0.6);
+}
+
+.site-dialog {
+  background: rgb(17 24 39);
+  border: 1px solid rgb(55 65 81);
+  border-radius: 0.75rem;
+  box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.55);
+}
+
+.panel-card {
+  background: rgb(17 24 39 / 0.5);
+  border: 1px solid rgb(31 41 55);
+  border-radius: 0.75rem;
+  padding: 1.25rem;
+}
+
+.panel-shell {
+  background: rgb(17 24 39 / 0.5);
+  border: 1px solid rgb(31 41 55);
+  border-radius: 0.75rem;
+}
+
+.panel-surface {
+  background:
+    radial-gradient(circle at top right, rgb(99 102 241 / 0.16), transparent 34%),
+    radial-gradient(circle at bottom left, rgb(14 165 233 / 0.1), transparent 28%),
+    rgb(17 24 39 / 0.5);
+  isolation: isolate;
+  overflow: hidden;
+  position: relative;
+}
+
+.panel-surface::after {
+  content: '';
+  position: absolute;
+  inset-inline: 0;
+  top: 0;
+  height: 1px;
+  pointer-events: none;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgb(129 140 248 / 0.4),
+    transparent
+  );
+  z-index: 1;
+}
+
+.panel-section {
+  padding: 1.5rem;
+}
+
+.panel-section + .panel-section {
+  border-top: 1px solid rgb(31 41 55);
+}
+
+.subtle-card {
+  border: 1px solid rgb(31 41 55);
+  border-radius: 0.75rem;
+  background: rgb(3 7 18 / 0.3);
+  padding: 1.25rem;
+  transition: border-color 150ms ease;
+}
+
+.subtle-card:hover {
+  border-color: rgb(55 65 81);
+}
+
+.page-title {
+  color: rgb(255 255 255);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New, monospace;
+  font-size: 1.125rem;
+  font-weight: 700;
+}
+
+.section-title {
+  color: rgb(255 255 255);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New, monospace;
+  font-weight: 700;
+}
+
+.action-button {
+  border: 1px solid rgb(75 85 99);
+  border-radius: 0.375rem;
+  color: rgb(156 163 175);
+  font-size: 0.875rem;
+  padding: 0.5rem 1.25rem;
+  transition: color 150ms ease, border-color 150ms ease;
+}
+
+.action-button:hover {
+  border-color: rgb(156 163 175);
+  color: rgb(255 255 255);
+}
+
+.icon-button {
+  align-items: center;
+  background: rgb(3 7 18 / 0.7);
+  border: 1px solid rgb(55 65 81);
+  border-radius: 0.75rem;
+  color: rgb(209 213 219);
+  display: inline-flex;
+  height: 2.25rem;
+  justify-content: center;
+  transition: color 150ms ease, border-color 150ms ease;
+  width: 2.25rem;
+}
+
+.icon-button:hover {
+  border-color: rgb(129 140 248);
+  color: rgb(255 255 255);
+}
+
+@media (min-width: 640px) {
+  .icon-button {
+    height: 2.5rem;
+    width: 2.5rem;
+  }
+}
+
+.loading-block {
+  border: 1px solid rgb(31 41 55);
+  border-radius: 0.75rem;
+  background: rgb(17 24 39 / 0.35);
+  padding: 1rem;
+}
+
+.loading-line {
+  display: block;
+  height: 0.75rem;
+  border-radius: 9999px;
+  background: rgb(55 65 81 / 0.6);
+}
+
+@media (min-width: 640px) {
+  .panel-card {
+    padding: 1.5rem;
+  }
+
+  .subtle-card {
+    padding: 1.5rem;
+  }
+}
+
 /* ─── Post content renderer ─────────────────────────────────── */
 .html-wrapper h1,
 .html-wrapper h2,

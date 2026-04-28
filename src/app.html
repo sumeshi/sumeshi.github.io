@@ -1,17 +1,48 @@
 <!doctype html>
-<html lang="en">
+<html lang="ja">
   <head>
     <meta charset="utf-8" />
     <link rel="icon" href="%sveltekit.assets%/img/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="DFIR Researcher / Software Developer" />
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-DVLS4LMPGV"></script>
+    <meta name="theme-color" content="#0C111B" />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
     <script>
       window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-DVLS4LMPGV');
+      window.gtag = function gtag(){window.dataLayer.push(arguments);}
+
+      window.sipdepAnalytics = {
+        consentKey: 'sipdep.analytics.consent',
+        hasConsent() {
+          try {
+            return window.localStorage.getItem(this.consentKey) === 'granted';
+          } catch {
+            return false;
+          }
+        },
+        grantConsent() {
+          try {
+            window.localStorage.setItem(this.consentKey, 'granted');
+          } catch {}
+          window.location.reload();
+        },
+        revokeConsent() {
+          try {
+            window.localStorage.removeItem(this.consentKey);
+          } catch {}
+          window.location.reload();
+        }
+      };
+
+      if (window.sipdepAnalytics.hasConsent()) {
+        const script = document.createElement('script');
+        script.async = true;
+        script.src = 'https://www.googletagmanager.com/gtag/js?id=G-DVLS4LMPGV';
+        document.head.appendChild(script);
+
+        window.gtag('js', new Date());
+        window.gtag('config', 'G-DVLS4LMPGV');
+      }
     </script>
     %sveltekit.head%
   </head>

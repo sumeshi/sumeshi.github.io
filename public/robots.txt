@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://sumeshi.github.io/sitemap.xml
