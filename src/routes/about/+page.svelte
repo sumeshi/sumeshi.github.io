@@ -6,17 +6,16 @@
 
   type Lang = 'en' | 'ja';
 
-  let lang: Lang = $state('ja');
+  let lang: Lang = $state('en');
 
   const aboutme = {
     en: [
-      'I work as a security engineer in Japan, specializing in incident response. I have particular expertise in digital forensics and malware analysis.',
-      "In my spare time, I'm interested in system development, and I occasionally create and release the tools I need.",
-      "I'm often active on GitHub and X, so feel free to reach out anytime.",
+      'I specialize in cybersecurity, particularly incident response.',
+      'With a background in software engineering, I enjoy applying that experience in my work. I also build tools I find useful and release them as open source on GitHub.',
     ],
     ja: [
-      'デジタルフォレンジックとかマルウェア解析とかやってるセキュリティエンジニアです。',
-      'ぶっちゃけセキュリティよりはシステム開発とかのが好きなので、そっち方向の知見のほうが多いかも。暇なときにツールつくってGitHubで公開とかしてます。',
+      'サイバーセキュリティ、とりわけインシデントレスポンスを専門にしています。',
+      'システム開発畑から来ているので、そっち方面の知見を活かして楽しく過ごしています。また、自分がほしいなと思ったツールをOSSとして開発、GitHubで公開しています。',
     ],
   };
 
@@ -33,11 +32,15 @@
         'Developed forensic tools',
       ],
       "After Completing Master's Degree to Present": [
-        'Digital Forensic Researcher',
+        'Incident Handler',
+        'Digital Forensics Researcher',
         'Malware Analyst',
-        'Providing threat intelligence information',
+        'Analysis and dissemination of threat intelligence',
         'Lecturer for university courses on incident response',
-        'Participation in security contests',
+        'Participation and high-ranking placements in security competitions',
+        'Cybersecurity instructor for government and private organizations',
+        'Trained over 1,000 individuals in cybersecurity and incident response',
+        'Conducted incident investigations in large-scale environments involving hundreds of systems',
       ],
     },
     ja: {
@@ -52,28 +55,50 @@
         'フォレンジックツールの開発',
       ],
       '修士課程から現在まで': [
-        'デジタルフォレンジックリサーチャー',
+        'インシデントハンドラー',
+        'デジタルフォレンジック研究者',
         'マルウェアアナリスト',
-        '脅威インテリジェンス情報の発信',
-        'インシデントレスポンスに関する大学授業の講師',
-        'セキュリティコンテストへの参加',
+        '脅威インテリジェンス情報の分析・発信',
+        'インシデントレスポンスの大学講師',
+        'セキュリティコンテストへの参加・上位入賞',
+        '官公庁・民間組織向けサイバーセキュリティ講師',
+        'サイバーセキュリティ人材育成 (述べ1,000人超)',
+        'インシデント調査対応 (累計数百台規模)',
       ],
     },
   } satisfies Record<Lang, Record<string, string[]>>;
 
   const techstack: Record<string, string[]> = {
-    'Frontend Dev': ['HTML', 'CSS', 'TypeScript', 'JavaScript', 'Vue', 'Angular'],
-    'Backend Dev': ['Python', 'Go', 'TypeScript', 'Ruby', 'PHP'],
-    'Software Dev': ['Python', 'C++', 'Rust', 'Java', 'Go', 'C# (.NET)', 'Nim', 'Swift'],
-    DBMS: ['PostgreSQL', 'Elasticsearch', 'SQLite', 'MongoDB', 'MySQL'],
-    Virtualization: ['Proxmox', 'ESXi', 'Hyper-V', 'KVM', 'Docker', 'Kubernetes'],
-    'CI/CM': ['GitLab CI', 'GitHub Actions', 'Ansible'],
+    'Languages': [
+      'Python', 'Rust', 'Go', 'C/C++', 'TypeScript', 'JavaScript',  'Ruby', 'PHP', 'Java', 'C# (.NET)', 'Swift', 'Nim'
+    ],
+    'Frontend': [
+      'HTML', 'CSS', 'Svelte', 'Vue', 'Nuxt', 'Angular', 'React', 'Next'
+    ],
+    'Backend': [
+      'Django', 'Flask', 'FastAPI', 'Express', 'Ruby on Rails', 'Laravel', 'Spring Boot'
+    ],
+    'Databases': [
+      'Elasticsearch', 'PostgreSQL', 'DuckDB', 'Redis', 'SQLite', 'MySQL', 'MongoDB'
+    ],
+    'Cloud Platforms': [
+      'AWS', 'Azure', 'Google Cloud', 'Vercel', 'Netlify', 'Heroku'
+    ],
+    'Containers & Virtualization': [
+      'Docker', 'Kubernetes', 'KVM', 'ESXi', 'Proxmox', 'Hyper-V'
+    ],
+    'CI/CD & Automation': [
+      'GitHub Actions', 'GitLab CI', 'Circle CI', 'Jenkins', 'Ansible'
+    ],
+    'Operating Systems': [
+      'Windows', 'Windows Server', 'macOS', 'Ubuntu', 'Debian', 'Arch', 'RHEL', 'FreeBSD'
+    ]
   };
 </script>
 
 <PageMeta
   title={pageTitle('About')}
-  description="Profile and background for S.Nakano, including bilingual overview, history, and technology stack."
+  description="プロフィールと背景、テックスタックなど。"
 />
 
 <div class="site-container space-y-4">
@@ -136,7 +161,7 @@
     </section>
 
     <section class="panel-section">
-      <h2 class="section-title mb-4">$ techstack</h2>
+      <h2 class="section-title mb-4">$ ls /usr/local/bin</h2>
       <div class="overflow-x-auto">
         <table class="w-full text-sm">
           <thead>

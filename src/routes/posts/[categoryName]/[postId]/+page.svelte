@@ -109,8 +109,8 @@
               {@html block.content}
             </div>
           {:else}
-            <div class="mt-3 mb-3 overflow-hidden rounded-lg" style="background:#1a1b26;">
-              <pre class="overflow-x-auto p-4 text-sm leading-relaxed" style="white-space: pre-wrap;"><code>{@html block.content}</code></pre>
+            <div class="code-block">
+              <pre><code>{@html block.content}</code></pre>
             </div>
           {/if}
         {/each}

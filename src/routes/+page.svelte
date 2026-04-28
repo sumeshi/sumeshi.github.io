@@ -6,7 +6,7 @@
 
   const socialLinks = [
     { name: 'GitHub', url: 'https://github.com/sumeshi' },
-    { name: 'X', url: 'https://twitter.com/sum3sh1' },
+    { name: 'X', url: 'https://x.com/sum3sh1' },
   ];
   const writingPlatforms = [
     {
@@ -27,7 +27,7 @@
       name: 'DEV',
       url: 'https://dev.to/sum3sh1',
       meta: 'English tech',
-      tone: 'border-neutral-400/20 bg-neutral-400/10 text-neutral-200 hover:border-white hover:text-white',
+      tone: 'border-neutral-400/20 bg-neutral-400/10 text-neutral-200 hover:border-neutral-300 hover:text-white',
       external: true,
     },
     {
@@ -62,6 +62,10 @@
     {
       name: 'GCFA',
       url: 'https://www.giac.org/certifications/certified-forensic-analyst-gcfa',
+    },
+    {
+      name: 'CDFP-B',
+      url: 'https://digitalforensic.jp/home/act/cdfp/',
     }
   ];
 </script>
@@ -77,9 +81,12 @@
     "jobTitle": "DFIR Researcher / Software Developer",
     "sameAs": [
       "https://github.com/sumeshi",
-      "https://twitter.com/sum3sh1",
+      "https://x.com/sum3sh1",
       "https://zenn.dev/sum3sh1",
-      "https://dev.to/sum3sh1"
+      "https://note.com/sumeshi_kun/",
+      "https://dev.to/sum3sh1",
+      "https://qiita.com/sumeshi",
+      "https://speakerdeck.com/sumeshi"
     ]
   })}</script>`}
 </svelte:head>
@@ -104,8 +111,8 @@
         </p>
 
         <p class="mt-4 max-w-2xl text-sm leading-6 text-gray-300 sm:mt-5 sm:leading-7 md:text-[15px]">
-          2021年よりサイバーセキュリティ分野で調査研究とインシデント対応に従事。
-          デジタルフォレンジックおよびマルウェア解析を専門とし、調査で得た知見をもとにOSSを開発・公開している。
+          サイバーセキュリティ分野における調査研究およびインシデント対応業務に従事。<br>
+          デジタルフォレンジックおよびマルウェア解析を専門とし、調査で得た知見をもとに技術トレーニングの実施やOSS開発を行っている。
         </p>
 
         <div class="mt-3 flex flex-wrap gap-2">
@@ -133,6 +140,7 @@
                     {cert.name}
                   </Badge>
                 {/each}
+                ...
               </div>
             </div>
 

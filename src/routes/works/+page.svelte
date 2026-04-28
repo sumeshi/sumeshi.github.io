@@ -11,35 +11,91 @@
 
   const projects: Project[] = [
     {
-      title: 'evtx2es / mft2es',
+      title: 'Windowsログ解析支援ツールの開発',
       hrefs: [
         { label: 'evtx2es', url: 'https://github.com/sumeshi/evtx2es' },
-        { label: 'mft2es', url: 'https://github.com/sumeshi/mft2es' },
       ],
       summary: [
-        'Windows artifacts を Elasticsearch に取り込むための Python ツール群。',
-        'DFIR 向け Linux ディストリビューションの Tsurugi Linux LAB に標準搭載された。',
+        'Windows Eventlog を高速にパースし Elasticsearch にインポートするための Python 製ツール。',
+        'DFIR 向け Linux ディストリビューション 「Tsurugi Linux [LAB]」「DRIFT Fast XS」 に標準搭載された。',
       ],
     },
     {
-      title: 'ntfsdump / ntfsfind',
+      title: 'Windowsアーティファクト解析支援ツールの開発',
+      hrefs: [
+        { label: 'mft2es', url: 'https://github.com/sumeshi/mft2es' },
+        { label: 'prefetch2es', url: 'https://github.com/sumeshi/prefetch2es' },
+        { label: 'reg2es', url: 'https://github.com/sumeshi/reg2es' },
+      ],
+      summary: [
+        'Windows Artifacts を高速にパースし Elasticsearch にインポートするための Python 製ツール。',
+        'mft2es, mft2json は、DFIR 向け Linux ディストリビューション 「Tsurugi Linux [LAB]」 に標準搭載された。',
+      ],
+    },
+    {
+      title: 'Windowsディスク解析支援ツールの開発',
       hrefs: [
         { label: 'ntfsdump', url: 'https://github.com/sumeshi/ntfsdump' },
         { label: 'ntfsfind', url: 'https://github.com/sumeshi/ntfsfind' },
       ],
-      summary: ['イメージファイルから Windows artifacts を抽出するフォレンジックツール群。'],
+      summary: [
+        'Windows Disk Image File から任意のファイルを検索し、直接ダンプするための Python 製ツール。',
+      ],
     },
     {
-      title: 'Quilter-CSV',
-      hrefs: [{ label: 'Quilter-CSV', url: 'https://github.com/sumeshi/quilter-csv' }],
-      summary: ['イベントログのような巨大 CSV を高速に絞り込んで分析するためのツール。'],
+      title: 'ログ解析支援ツールの開発',
+      hrefs: [
+        { label: 'Trivium', url: 'https://github.com/sumeshi/trivium' },
+        { label: 'Quilter-CSV', url: 'https://github.com/sumeshi/quilter-csv' },
+        { label: 'qsv-rs', url: 'https://github.com/sumeshi/qsv-rs' }
+      ],
+      summary: [
+        '数百GBオーダーを想定した、巨大なCSV形式ファイルを高速かつ複雑な条件のもとフィルタ可能な Python/Rust 製ツール。',
+        'フィルタされたCSVファイルに対してIOCによるフラグ付けなどが可能な Rust - Tauri 製ツール。',
+      ],
+    },
+    {
+      title: '異言語スキャンツールの開発',
+      hrefs: [
+        { label: 'langscan', url: 'https://github.com/sumeshi/langscan' },
+      ],
+      summary: [
+        'テキスト内に異言語(中露北など)の文字列が存在しないかをスキャンする Rust製 ツール。',
+      ],
+    },
+    {
+      title: '統合フォレンジックツールの開発(一部非公開)',
+      hrefs: [
+        { label: 'ez4en6', url: 'https://github.com/sumeshi/' },
+        { label: 'i2t-f3', url: 'https://github.com/sumeshi/i2t-f3' }
+      ],
+      summary: [
+        'フォレンジックツール群の組み合わせによる一部分析自動化の試み。',
+      ],
+    },
+    {
+      title: 'ローカルLLMを活用したインテリジェンス情報収集・分析ツールの開発(非公開)',
+      hrefs: [
+        { label: 'Desidia', url: 'https://github.com/sumeshi/' },
+      ],
+      summary: [
+        'ニュースサイト、アンダーグラウンドフォーラムなどから情報を収集し、ローカルLLMによる要約や',
+        '自然言語処理による分析とタグ付け、相関分析などを行う。',
+      ],
+    },
+    {
+      title: 'ツールの言語移植作業など',
+      hrefs: [
+        { label: 'sleuthkit-mactime.py', url: 'https://github.com/sumeshi/sleuthkit-mactime.py' },
+      ],
+      summary: [],
     },
   ];
 </script>
 
 <PageMeta
   title={pageTitle('Works')}
-  description="Selected open-source tools and research utilities shaped by DFIR work and day-to-day analysis needs."
+  description="これまでに作成したOSSや活動内容資料など。"
 />
 
 <div class="site-container">
