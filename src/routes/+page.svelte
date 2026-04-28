@@ -1,8 +1,22 @@
 <script lang="ts">
   import Badge from '$lib/components/Badge.svelte';
+  import LoadingPulse from '$lib/components/LoadingPulse.svelte';
   import PageMeta from '$lib/components/PageMeta.svelte';
+  import PostListItem from '$lib/components/PostListItem.svelte';
+  import { createAsyncDataState } from '$lib/load-state.svelte';
   import { pathWithBase } from '$lib/paths';
+  import { fetchPosts } from '$lib/posts';
   import { siteName, siteDescription } from '$lib/site';
+  import type { PostIndex } from '$lib/types';
+
+  const postState = createAsyncDataState<PostIndex[]>([]);
+  const recentPosts = $derived(postState.state.value.slice(0, 5));
+
+  $effect(() => {
+    const controller = new AbortController();
+    void postState.load(fetchPosts, { errorMessage: '' }, controller.signal);
+    return () => controller.abort();
+  });
 
   const socialLinks = [
     { name: 'GitHub', url: 'https://github.com/sumeshi' },
@@ -186,6 +200,22 @@
           {/each}
         </div>
       </div>
+    </div>
+
+    <div class="mt-4 border-t border-gray-800/80 pt-4">
+      <div class="mb-3 flex items-center justify-between">
+        <p class="text-[11px] font-semibold uppercase tracking-[0.18em] text-gray-500">Recent Posts</p>
+        <a href={pathWithBase('/posts')} class="text-[11px] text-gray-600 transition-colors hover:text-gray-400">all posts →</a>
+      </div>
+      {#if postState.state.loading}
+        <LoadingPulse lines={5} compact={true} />
+      {:else if recentPosts.length > 0}
+        <div class="space-y-2">
+          {#each recentPosts as post}
+            <PostListItem {post} />
+          {/each}
+        </div>
+      {/if}
     </div>
   </section>
 </div>
