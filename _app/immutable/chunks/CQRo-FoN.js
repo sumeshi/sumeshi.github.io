@@ -1,0 +1,1 @@
+import{b as s}from"./BYYcmMo-.js";function e(r){if(r==="/")return s||"/";const t=`/${r}`.replace(/\/+/g,"/");return`${s}${t}`}function n(r){const t=r.trim().replace(/^\/+|\/+$/g,""),a=t.startsWith("posts/")?t:`posts/${t}`;return e(a)}export{n as a,e as p};
