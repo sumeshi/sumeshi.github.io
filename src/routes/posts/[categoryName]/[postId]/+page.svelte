@@ -123,7 +123,7 @@
         onclick={() => goto(pathWithBase('/posts'))}
         class="action-button"
       >
-        back
+        All Posts
       </button>
     </div>
   </div>

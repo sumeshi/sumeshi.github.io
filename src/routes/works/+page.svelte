@@ -102,7 +102,7 @@
   <div class="panel-card panel-surface">
     <h1 class="page-title mb-6">$ ps aux</h1>
     <p class="mb-6 max-w-2xl text-sm leading-6 text-gray-400">
-      Selected open-source tools and research utilities that grew out of DFIR work and day-to-day analysis needs.
+      これまでに作成したOSSや活動内容資料など。
     </p>
 
     <div class="space-y-4 text-sm">
@@ -133,17 +133,6 @@
           </ul>
         </article>
       {/each}
-    </div>
-
-    <div class="mt-8 flex justify-center">
-      <a
-        href="https://github.com/sumeshi"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="action-button"
-      >
-        GitHub | @sumeshi
-      </a>
     </div>
   </div>
 </div>

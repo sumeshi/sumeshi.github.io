@@ -124,7 +124,7 @@
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
     </svg>
   </button>
-  <a href={pathWithBase('/')} class="text-white font-bold hover:text-indigo-400 transition-colors">SIPDep</a>
+  <a href={pathWithBase('/')} class="text-white font-bold hover:text-indigo-400 transition-colors">SIPDEP</a>
 </div>
 
 <!-- Mobile backdrop -->
@@ -145,9 +145,9 @@
     transition-transform duration-300 ease-in-out
     {drawerOpen ? 'translate-x-0' : '-translate-x-full'} lg:translate-x-0"
 >
-  <div class="p-6 border-b border-gray-800">
+  <div class="p-6 mt-2 border-b border-gray-800">
     <a href={pathWithBase('/')} class="block hover:text-indigo-400 transition-colors">
-      <span class="block text-lg font-bold tracking-wide text-white">SIPDep</span>
+      <span class="block text-lg font-bold tracking-wide text-white">SIPDEP</span>
       <span class="mt-1 block text-[11px] uppercase tracking-[0.16em] text-gray-500">
         Sumeshi Information Preservation Department
       </span>

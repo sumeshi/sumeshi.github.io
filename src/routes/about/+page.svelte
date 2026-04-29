@@ -123,7 +123,7 @@
       <img
         src={pathWithBase('/img/blurdog.jpg')}
         alt=""
-        class="absolute inset-0 h-full w-full object-cover opacity-20"
+        class="absolute inset-0 h-full w-full object-cover"
       />
       <div class="absolute inset-0 bg-[linear-gradient(135deg,rgba(15,23,42,0.96),rgba(30,27,75,0.88),rgba(12,17,27,0.96))]"></div>
       <div class="relative z-10">
