@@ -1,12 +1,14 @@
 <script lang="ts">
   import Badge from '$lib/components/Badge.svelte';
   import PageMeta from '$lib/components/PageMeta.svelte';
+  import XPostEmbed from '$lib/components/XPostEmbed.svelte';
   import { pageTitle } from '$lib/site';
 
   type Project = {
     title: string;
     hrefs: { label: string; url: string }[];
     summary: string[];
+    xEmbedUrls?: string[];
   };
 
   const projects: Project[] = [
@@ -19,6 +21,11 @@
         'Windows Eventlog を高速にパースし Elasticsearch にインポートするための Python 製ツール。',
         'DFIR 向け Linux ディストリビューション 「Tsurugi Linux [LAB]」「DRIFT Fast XS」 に標準搭載された。',
       ],
+      xEmbedUrls: [
+        'https://x.com/sum3sh1/status/1413718504318984193',
+        'https://x.com/sum3sh1/status/1492030729194438657',
+        'https://x.com/sum3sh1/status/2044793118466425261'
+      ]
     },
     {
       title: 'Windowsアーティファクト解析支援ツールの開発',
@@ -31,6 +38,11 @@
         'Windows Artifacts を高速にパースし Elasticsearch にインポートするための Python 製ツール。',
         'mft2es, mft2json は、DFIR 向け Linux ディストリビューション 「Tsurugi Linux [LAB]」 に標準搭載された。',
       ],
+      xEmbedUrls: [
+        'https://x.com/sum3sh1/status/1936168521014427945',
+        'https://x.com/sum3sh1/status/1936534458930450459',
+        'https://x.com/sum3sh1/status/1424542848368529413'
+      ]
     },
     {
       title: 'Windowsディスク解析支援ツールの開発',
@@ -41,6 +53,9 @@
       summary: [
         'Windows Disk Image File から任意のファイルを検索し、直接ダンプするための Python 製ツール。',
       ],
+      xEmbedUrls: [
+        'https://x.com/sum3sh1/status/1728361116659851688'
+      ]
     },
     {
       title: 'ログ解析支援ツールの開発',
@@ -53,6 +68,10 @@
         '数百GBオーダーを想定した、巨大なCSV形式ファイルを高速かつ複雑な条件のもとフィルタ可能な Python/Rust 製ツール。',
         'フィルタされたCSVファイルに対してIOCによるフラグ付けなどが可能な Rust - Tauri 製ツール。',
       ],
+      xEmbedUrls: [
+        'https://x.com/sum3sh1/status/1980679577941995839',
+        'https://x.com/sum3sh1/status/1854231023787339958'
+      ]
     },
     {
       title: '異言語スキャンツールの開発',
@@ -62,6 +81,21 @@
       summary: [
         'テキスト内に異言語(中露北など)の文字列が存在しないかをスキャンする Rust製 ツール。',
       ],
+      xEmbedUrls: [
+        'https://x.com/sum3sh1/status/2042252079318839683'
+      ]
+    },
+    {
+      title: '日本語特化軽量全文検索エンジンの開発',
+      hrefs: [
+        { label: 'roughsearch', url: 'https://github.com/sumeshi/roughsearch' },
+      ],
+      summary: [
+        '日英文章を形態素解析し、DuckDB と BM25 を基盤とするミニマルな全文検索機能を備えた Python製 ツール。',
+      ],
+      xEmbedUrls: [
+        'https://x.com/sum3sh1/status/2049776493077954865'
+      ]
     },
     {
       title: '統合フォレンジックツールの開発(一部非公開)',
@@ -82,6 +116,9 @@
         'ニュースサイト、アンダーグラウンドフォーラムなどから情報を収集し、ローカルLLMによる要約や',
         '自然言語処理による分析とタグ付け、相関分析などを行う。',
       ],
+      xEmbedUrls: [
+        'https://x.com/sum3sh1/status/2046076084350046514'
+      ]
     },
     {
       title: 'ツールの言語移植作業など',
@@ -89,6 +126,9 @@
         { label: 'sleuthkit-mactime.py', url: 'https://github.com/sumeshi/sleuthkit-mactime.py' },
       ],
       summary: [],
+      xEmbedUrls: [
+        'https://x.com/sum3sh1/status/1908263331745661252'
+      ]
     },
   ];
 </script>
@@ -131,6 +171,14 @@
               </li>
             {/each}
           </ul>
+
+          {#if project.xEmbedUrls?.length}
+            <div class="mt-5 space-y-4">
+              {#each project.xEmbedUrls as xEmbedUrl}
+                <XPostEmbed url={xEmbedUrl} />
+              {/each}
+            </div>
+          {/if}
         </article>
       {/each}
     </div>
