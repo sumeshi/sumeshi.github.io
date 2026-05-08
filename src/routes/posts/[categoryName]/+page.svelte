@@ -4,37 +4,20 @@
   import LoadingPulse from '$lib/components/LoadingPulse.svelte';
   import PageMeta from '$lib/components/PageMeta.svelte';
   import PostListItem from '$lib/components/PostListItem.svelte';
-  import { createAsyncDataState } from '$lib/load-state.svelte';
   import { pathWithBase } from '$lib/paths';
+  import { createPostListState } from '$lib/post-list-state.svelte';
   import { fetchCategoryPosts } from '$lib/posts';
   import { pageTitle } from '$lib/site';
-  import type { PostIndex } from '$lib/types';
-
-  const postState = createAsyncDataState<PostIndex[]>([]);
 
   const categoryName = $derived($page.params.categoryName);
   const categoryLabel = $derived(categoryName ?? 'unknown');
-
-  async function loadCategoryPosts(category: string, signal?: AbortSignal): Promise<void> {
-    await postState.load((loadSignal) => fetchCategoryPosts(category, loadSignal), {
-      errorMessage: 'Failed to load posts for this category.',
-      onError: (error) => {
-        console.error('Failed to fetch category posts:', error);
-      },
-    }, signal);
-  }
-
-  $effect(() => {
-    if (!categoryName) {
-      postState.fail('Category not found.', []);
-      return;
-    }
-
-    const controller = new AbortController();
-
-    void loadCategoryPosts(categoryName, controller.signal);
-
-    return () => controller.abort();
+  const postState = createPostListState({
+    errorMessage: 'Failed to load posts for this category.',
+    notFoundMessage: 'Category not found.',
+    getRequest: () => categoryName ? ((signal?: AbortSignal) => fetchCategoryPosts(categoryName, signal)) : null,
+    onError: (error) => {
+      console.error('Failed to fetch category posts:', error);
+    },
   });
 </script>
 

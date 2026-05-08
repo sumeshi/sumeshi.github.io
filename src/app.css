@@ -148,45 +148,6 @@ html {
   font-weight: 700;
 }
 
-.action-button {
-  border: 1px solid rgb(75 85 99);
-  border-radius: 0.375rem;
-  color: rgb(156 163 175);
-  font-size: 0.875rem;
-  padding: 0.5rem 1.25rem;
-  transition: color 150ms ease, border-color 150ms ease;
-}
-
-.action-button:hover {
-  border-color: rgb(156 163 175);
-  color: rgb(255 255 255);
-}
-
-.icon-button {
-  align-items: center;
-  background: rgb(3 7 18 / 0.7);
-  border: 1px solid rgb(55 65 81);
-  border-radius: 0.75rem;
-  color: rgb(209 213 219);
-  display: inline-flex;
-  height: 2.25rem;
-  justify-content: center;
-  transition: color 150ms ease, border-color 150ms ease;
-  width: 2.25rem;
-}
-
-.icon-button:hover {
-  border-color: rgb(129 140 248);
-  color: rgb(255 255 255);
-}
-
-@media (min-width: 640px) {
-  .icon-button {
-    height: 2.5rem;
-    width: 2.5rem;
-  }
-}
-
 .loading-block {
   border: 1px solid rgb(31 41 55);
   border-radius: 0.75rem;

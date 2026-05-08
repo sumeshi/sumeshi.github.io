@@ -1,22 +1,19 @@
 <script lang="ts">
   import Badge from '$lib/components/Badge.svelte';
+  import IconButton from '$lib/components/IconButton.svelte';
   import LoadingPulse from '$lib/components/LoadingPulse.svelte';
   import PageMeta from '$lib/components/PageMeta.svelte';
   import PostListItem from '$lib/components/PostListItem.svelte';
-  import { createAsyncDataState } from '$lib/load-state.svelte';
   import { pathWithBase } from '$lib/paths';
+  import { createPostListState } from '$lib/post-list-state.svelte';
   import { fetchPosts } from '$lib/posts';
   import { siteName, siteDescription } from '$lib/site';
-  import type { PostIndex } from '$lib/types';
 
-  const postState = createAsyncDataState<PostIndex[]>([]);
-  const recentPosts = $derived(postState.state.value.slice(0, 5));
-
-  $effect(() => {
-    const controller = new AbortController();
-    void postState.load(fetchPosts, { errorMessage: '' }, controller.signal);
-    return () => controller.abort();
+  const postState = createPostListState({
+    errorMessage: '',
+    getRequest: () => fetchPosts,
   });
+  const recentPosts = $derived(postState.state.value.slice(0, 5));
 
   const socialLinks = [
     { name: 'GitHub', url: 'https://github.com/sumeshi' },
@@ -27,42 +24,36 @@
       name: 'Zenn',
       url: 'https://zenn.dev/sum3sh1',
       meta: 'Tech',
-      tone: 'border-cyan-400/20 bg-cyan-400/10 text-cyan-200 hover:border-cyan-300 hover:text-white',
       external: true,
     },
     {
       name: 'Note',
       url: 'https://note.com/sumeshi_kun/',
       meta: 'Ideas',
-      tone: 'border-neutral-400/20 bg-neutral-400/10 text-neutral-200 hover:border-neutral-300 hover:text-white',
       external: true,
     },
     {
       name: 'DEV',
       url: 'https://dev.to/sum3sh1',
       meta: 'English tech',
-      tone: 'border-neutral-400/20 bg-neutral-400/10 text-neutral-200 hover:border-neutral-300 hover:text-white',
       external: true,
     },
     {
       name: 'Qiita',
       url: 'https://qiita.com/sumeshi',
       meta: 'Tech archives',
-      tone: 'border-green-400/20 bg-green-400/10 text-green-200 hover:border-green-300 hover:text-white',
       external: true,
     },
     {
       name: 'Speaker Deck',
       url: 'https://speakerdeck.com/sumeshi',
       meta: 'Slides',
-      tone: 'border-orange-400/20 bg-orange-400/10 text-orange-200 hover:border-orange-300 hover:text-white',
       external: true,
     },
     {
       name: 'Posts',
       url: pathWithBase('/posts'),
       meta: 'Private notes',
-      tone: 'border-indigo-400/20 bg-indigo-400/10 text-indigo-200 hover:border-indigo-300 hover:text-white',
       external: false,
     },
   ];
@@ -160,13 +151,10 @@
 
             <div class="flex items-center gap-2 self-start sm:self-auto">
               {#each socialLinks as link}
-                <a
+                <IconButton
                   href={link.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={link.name}
-                  title={link.name}
-                  class="icon-button"
+                  external={true}
+                  label={link.name}
                 >
                   {#if link.name === 'GitHub'}
                     <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -177,7 +165,7 @@
                       <path d="M18.9 2H22l-6.76 7.73L23.2 22h-6.24l-4.89-7.38L5.62 22H2.5l7.24-8.28L1.6 2h6.4l4.42 6.76L18.9 2Zm-1.1 18h1.73L7.03 3.9H5.18L17.8 20Z" />
                     </svg>
                   {/if}
-                </a>
+                </IconButton>
               {/each}
             </div>
           </div>
@@ -185,18 +173,25 @@
 
         <div class="mt-4 grid grid-cols-2 gap-2 border-t border-gray-800/80 pt-4 sm:grid-cols-3">
           {#each writingPlatforms as platform}
-            <a
+            <Badge
               href={platform.url}
-              target={platform.external ? '_blank' : undefined}
-              rel={platform.external ? 'noopener noreferrer' : undefined}
-              class={`group flex min-h-[64px] flex-col justify-between rounded-xl border px-3 py-3 text-left transition-colors ${platform.tone}`}
+              external={platform.external}
+              variant={platform.name === 'Zenn'
+                ? 'cyan'
+                : platform.name === 'Qiita'
+                  ? 'green'
+                  : platform.name === 'Speaker Deck'
+                    ? 'amber'
+                    : platform.name === 'Posts'
+                      ? 'indigo'
+                      : 'neutral'}
+              layout="card"
+              meta={platform.meta}
+              shape="rounded"
+              className="rounded-xl"
             >
-              <span class="text-[10px] uppercase tracking-[0.14em] opacity-70">{platform.meta}</span>
-              <div class="flex items-end justify-between gap-3">
-                <span class="text-sm font-semibold leading-tight">{platform.name}</span>
-                <span class="text-xs opacity-70 transition-transform group-hover:translate-x-0.5">↗</span>
-              </div>
-            </a>
+              {platform.name}
+            </Badge>
           {/each}
         </div>
       </div>

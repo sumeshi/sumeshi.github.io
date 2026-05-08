@@ -10,6 +10,7 @@ export interface PostIndex {
 
 export interface PostContent {
   title: string;
+  heading?: string;
   path: string;
   html_text: string;
   published_at: string;

@@ -1,6 +1,5 @@
+import { POSTS_API_BASE } from '$lib/config';
 import type { ContentBlock, PostContent } from '$lib/types';
-
-const POSTS_API_BASE = 'https://sumeshi.github.io/api/posts';
 
 const ALLOWED_TAGS = [
   'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
@@ -13,6 +12,17 @@ const ALLOWED_ATTR = ['href', 'src', 'alt', 'title', 'target', 'rel'];
 
 type DOMPurifyModule = typeof import('dompurify').default;
 type HighlightModule = typeof import('highlight.js/lib/common').default;
+
+async function fetchJson<T>(url: string, signal?: AbortSignal): Promise<T> {
+  const response = await fetch(url, { signal });
+
+  if (!response.ok) {
+    throw new Error(`Request failed with status ${response.status}`);
+  }
+
+  // The upstream API publishes JSON at an `index.html` path for GitHub Pages compatibility.
+  return response.json() as Promise<T>;
+}
 
 async function loadRendererDependencies(): Promise<{
   DOMPurify: DOMPurifyModule;
@@ -52,16 +62,10 @@ export async function fetchPostContent(
   postId: string,
   signal?: AbortSignal,
 ): Promise<PostContent> {
-  const response = await fetch(
+  return fetchJson<PostContent>(
     `${POSTS_API_BASE}/${encodeURIComponent(categoryName)}/${encodeURIComponent(postId)}/index.html`,
-    { signal },
+    signal,
   );
-
-  if (!response.ok) {
-    throw new Error(`Request failed with status ${response.status}`);
-  }
-
-  return response.json() as Promise<PostContent>;
 }
 
 export async function parsePostContent(html: string): Promise<ContentBlock[]> {

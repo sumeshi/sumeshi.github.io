@@ -1,6 +1,5 @@
-import type { PostIndex } from '$lib/types';
-
-const POSTS_API_BASE = 'https://sumeshi.github.io/api/posts';
+import { POSTS_API_BASE } from '$lib/config';
+import type { PostContent, PostIndex } from '$lib/types';
 
 async function fetchJson<T>(url: string, signal?: AbortSignal): Promise<T> {
   const response = await fetch(url, { signal });
@@ -14,6 +13,10 @@ async function fetchJson<T>(url: string, signal?: AbortSignal): Promise<T> {
 
 export function getPostListTitle(post: PostIndex): string {
   // Some legacy entries expose a friendlier `heading` than the canonical `title`.
+  return post.heading || post.title || 'Untitled';
+}
+
+export function getPostTitle(post: Pick<PostIndex, 'title' | 'heading'> | Pick<PostContent, 'title' | 'heading'>): string {
   return post.heading || post.title || 'Untitled';
 }
 

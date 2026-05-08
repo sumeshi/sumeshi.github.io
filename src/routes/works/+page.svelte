@@ -150,8 +150,7 @@
         <article class="subtle-card shadow-sm">
           <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
             <div class="min-w-0">
-              <p class="text-xs uppercase tracking-[0.16em] text-gray-500">Project</p>
-              <h2 class="mt-1 text-base font-semibold text-white">{project.title}</h2>
+              <h2 class="section-title text-base">{project.title}</h2>
             </div>
 
             <div class="flex flex-wrap gap-2">
@@ -173,11 +172,17 @@
           </ul>
 
           {#if project.xEmbedUrls?.length}
-            <div class="mt-5 space-y-4">
-              {#each project.xEmbedUrls as xEmbedUrl}
-                <XPostEmbed url={xEmbedUrl} />
-              {/each}
-            </div>
+            <details class="mt-5 rounded-xl border border-gray-700/90 bg-gray-900/40 transition-colors hover:border-gray-600">
+              <summary class="flex cursor-pointer list-none items-center justify-between gap-3 rounded-xl px-4 py-3 text-sm text-gray-100 marker:hidden">
+                <span class="font-medium">See related X posts</span>
+                <span class="rounded-full border border-gray-600/80 bg-gray-950/70 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.16em] text-gray-300 transition-transform details-open:rotate-45">+</span>
+              </summary>
+              <div class="space-y-4 border-t border-gray-800/80 px-4 py-4">
+                {#each project.xEmbedUrls as xEmbedUrl}
+                  <XPostEmbed url={xEmbedUrl} />
+                {/each}
+              </div>
+            </details>
           {/if}
         </article>
       {/each}

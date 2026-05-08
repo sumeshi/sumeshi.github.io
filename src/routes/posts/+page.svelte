@@ -2,28 +2,16 @@
   import LoadingPulse from '$lib/components/LoadingPulse.svelte';
   import PageMeta from '$lib/components/PageMeta.svelte';
   import PostListItem from '$lib/components/PostListItem.svelte';
-  import { createAsyncDataState } from '$lib/load-state.svelte';
+  import { createPostListState } from '$lib/post-list-state.svelte';
   import { fetchPosts } from '$lib/posts';
   import { pageTitle } from '$lib/site';
-  import type { PostIndex } from '$lib/types';
-
-  const postState = createAsyncDataState<PostIndex[]>([]);
-
-  async function loadPosts(signal?: AbortSignal): Promise<void> {
-    await postState.load(fetchPosts, {
-      errorMessage: 'Failed to load posts.',
-      onError: (error) => {
-        console.error('Failed to fetch posts:', error);
-      },
-    }, signal);
-  }
-
-  $effect(() => {
-    const controller = new AbortController();
-
-    void loadPosts(controller.signal);
-
-    return () => controller.abort();
+  
+  const postState = createPostListState({
+    errorMessage: 'Failed to load posts.',
+    getRequest: () => fetchPosts,
+    onError: (error) => {
+      console.error('Failed to fetch posts:', error);
+    },
   });
 </script>
 

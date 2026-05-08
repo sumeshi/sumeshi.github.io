@@ -1,6 +1,6 @@
 <script lang="ts">
   import { page } from '$app/stores';
-  import { siteUrl } from '$lib/site';
+  import { siteUrl, xHandle } from '$lib/site';
 
   interface Props {
     title: string;
@@ -21,6 +21,7 @@
   <meta property="og:description" content={description} />
   <meta property="og:url" content={canonicalUrl} />
   <meta property="og:image" content={ogImage} />
+  <meta name="twitter:site" content={xHandle} />
   <meta name="twitter:title" content={title} />
   <meta name="twitter:description" content={description} />
   <meta name="twitter:image" content={ogImage} />

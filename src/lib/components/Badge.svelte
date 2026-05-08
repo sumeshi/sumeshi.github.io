@@ -2,6 +2,7 @@
   type Variant = 'indigo' | 'gray' | 'amber' | 'cyan' | 'green' | 'neutral';
   type Size = 'xs' | 'sm';
   type Shape = 'rounded' | 'pill';
+  type Layout = 'inline' | 'card';
 
   interface Props {
     href?: string;
@@ -9,6 +10,9 @@
     variant?: Variant;
     size?: Size;
     shape?: Shape;
+    layout?: Layout;
+    meta?: string;
+    trailing?: string;
     className?: string;
     children?: import('svelte').Snippet;
   }
@@ -19,6 +23,9 @@
     variant = 'indigo',
     size = 'xs',
     shape = 'pill',
+    layout = 'inline',
+    meta,
+    trailing,
     className = '',
     children,
   }: Props = $props();
@@ -42,8 +49,13 @@
     pill: 'rounded-full',
   };
 
+  const layoutClasses: Record<Layout, string> = {
+    inline: 'inline-flex items-center',
+    card: 'group flex min-h-[64px] w-full flex-col justify-between rounded-xl px-3 py-3 text-left',
+  };
+
   const baseClass = $derived(
-    `inline-flex items-center border font-medium transition-colors ${variantClasses[variant]} ${sizeClasses[size]} ${shapeClasses[shape]} ${className}`.trim()
+    `${layoutClasses[layout]} border font-medium transition-colors ${variantClasses[variant]} ${layout === 'inline' ? `${sizeClasses[size]} ${shapeClasses[shape]}` : ''} ${className}`.trim()
   );
 </script>
 
@@ -54,10 +66,30 @@
     rel={external ? 'noopener noreferrer' : undefined}
     class={baseClass}
   >
-    {@render children?.()}
+    {#if layout === 'card'}
+      <span class="text-[10px] uppercase tracking-[0.14em] opacity-70">{meta}</span>
+      <span class="flex items-end justify-between gap-3">
+        <span class="text-sm font-semibold leading-tight">
+          {@render children?.()}
+        </span>
+        <span class="text-xs opacity-70 transition-transform group-hover:translate-x-0.5">{trailing ?? '↗'}</span>
+      </span>
+    {:else}
+      {@render children?.()}
+    {/if}
   </a>
 {:else}
   <span class={baseClass}>
-    {@render children?.()}
+    {#if layout === 'card'}
+      <span class="text-[10px] uppercase tracking-[0.14em] opacity-70">{meta}</span>
+      <span class="flex items-end justify-between gap-3">
+        <span class="text-sm font-semibold leading-tight">
+          {@render children?.()}
+        </span>
+        <span class="text-xs opacity-70">{trailing ?? '↗'}</span>
+      </span>
+    {:else}
+      {@render children?.()}
+    {/if}
   </span>
 {/if}
