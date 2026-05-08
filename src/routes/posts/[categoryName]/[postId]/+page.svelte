@@ -35,7 +35,7 @@
 
   const xShareUrl = $derived(
     postTitle
-      ? `https://twitter.com/intent/tweet?text=${encodeURIComponent(postTitle)}&url=${encodeURIComponent($page.url.href)}`
+      ? `https://twitter.com/intent/tweet?text=${encodeURIComponent(postTitle)}%20-%20SIPDEP&url=${encodeURIComponent($page.url.href)}`
       : '',
   );
 

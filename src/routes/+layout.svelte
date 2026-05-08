@@ -93,10 +93,13 @@
 
   function grantAnalyticsConsent(): void {
     analyticsBridge()?.grantConsent();
+    analyticsConsentGranted = true;
+    trackPageView(new URL(window.location.href));
   }
 
   function revokeAnalyticsConsent(): void {
     analyticsBridge()?.revokeConsent();
+    analyticsConsentGranted = false;
   }
 
   function handleGlobalKeydown(event: KeyboardEvent): void {
@@ -238,11 +241,12 @@
     >
       <h2 id="privacy-policy-title" class="text-white text-lg font-semibold mb-4">Privacy Policy</h2>
       <p class="text-gray-400 text-sm leading-relaxed mb-3">
-        This website can load Google Analytics only after you explicitly allow analytics cookies from this dialog.
-        When enabled, Google Analytics uses cookies to collect traffic data anonymously for service improvement.
+        This website includes Google Analytics with Google Consent Mode enabled by default.
+        Until you allow analytics here, analytics storage stays denied and no analytics cookies are used.
       </p>
       <p class="text-gray-400 text-sm leading-relaxed mb-6">
-        No analytics script is loaded by default. You can change your choice at any time here.
+        If you allow analytics, Google Analytics can collect anonymized traffic data for service improvement.
+        You can change your choice at any time here.
       </p>
       <p class="mb-4 text-xs uppercase tracking-[0.16em] text-gray-500">
         Status: {analyticsConsentGranted ? 'Analytics enabled' : 'Analytics disabled'}

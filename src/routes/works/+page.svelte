@@ -150,7 +150,7 @@
         <article class="subtle-card shadow-sm">
           <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
             <div class="min-w-0">
-              <h2 class="section-title text-base">{project.title}</h2>
+              <h2 class="section-title">{project.title}</h2>
             </div>
 
             <div class="flex flex-wrap gap-2">

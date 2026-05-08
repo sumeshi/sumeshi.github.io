@@ -245,18 +245,17 @@ html {
 
 .html-wrapper ul {
   list-style: disc outside;
-  padding-left: 1.5rem;
+  padding-left: 1.25rem;
   margin-bottom: 1rem;
 }
 
 .html-wrapper ol {
   list-style: decimal outside;
-  padding-left: 1.5rem;
+  padding-left: 1.25rem;
   margin-bottom: 1rem;
 }
 
 .html-wrapper li {
-  margin-left: 1em;
   line-height: 1.55;
   margin-bottom: 0.2rem;
   padding-bottom: 0;
@@ -264,7 +263,7 @@ html {
 
 .html-wrapper li > ul,
 .html-wrapper li > ol {
-  margin-top: 0.1rem;
+  margin-top: 0.35rem;
   margin-bottom: 0;
 }
 
@@ -294,9 +293,14 @@ html {
 }
 
 .html-wrapper img {
+  display: block;
   border-radius: 0.75rem;
-  padding: 1rem 0;
   max-width: 100%;
+  max-height: min(70vh, 42rem);
+  width: auto;
+  margin: 1.5rem auto;
+  object-fit: contain;
+  box-shadow: 14px 16px 32px rgb(2 6 23 / 0.38);
 }
 
 .html-wrapper p {
@@ -387,6 +391,16 @@ html {
   .html-wrapper {
     font-size: 0.95rem;
     line-height: 1.7;
+  }
+
+  .html-wrapper ul,
+  .html-wrapper ol {
+    padding-left: 1.05rem;
+  }
+
+  .html-wrapper li > ul,
+  .html-wrapper li > ol {
+    margin-top: 0.25rem;
   }
 
   .html-wrapper h1 {
