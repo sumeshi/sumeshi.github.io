@@ -9,49 +9,12 @@
     <meta name="twitter:card" content="summary_large_image" />
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-DVLS4LMPGV"></script>
     <script>
-      const analyticsConsentKey = 'sipdep.analytics.consent';
-
       window.dataLayer = window.dataLayer || [];
       window.gtag = function gtag(){window.dataLayer.push(arguments);}
       window.gtag('js', new Date());
-      window.gtag('consent', 'default', {
-        analytics_storage: 'denied'
-      });
       window.gtag('config', 'G-DVLS4LMPGV', {
         send_page_view: false
       });
-
-      window.sipdepAnalytics = {
-        hasConsent() {
-          try {
-            return window.localStorage.getItem(analyticsConsentKey) === 'granted';
-          } catch {
-            return false;
-          }
-        },
-        grantConsent() {
-          try {
-            window.localStorage.setItem(analyticsConsentKey, 'granted');
-          } catch {}
-          window.gtag('consent', 'update', {
-            analytics_storage: 'granted'
-          });
-        },
-        revokeConsent() {
-          try {
-            window.localStorage.removeItem(analyticsConsentKey);
-          } catch {}
-          window.gtag('consent', 'update', {
-            analytics_storage: 'denied'
-          });
-        }
-      };
-
-      if (window.sipdepAnalytics.hasConsent()) {
-        window.gtag('consent', 'update', {
-          analytics_storage: 'granted'
-        });
-      }
     </script>
     %sveltekit.head%
   </head>

@@ -15,7 +15,6 @@
   let navToggleButton = $state<HTMLButtonElement | undefined>(undefined);
   let privacyTriggerButton = $state<HTMLButtonElement | undefined>(undefined);
   let privacyCloseButton = $state<HTMLButtonElement | undefined>(undefined);
-  let analyticsConsentGranted = $state(false);
   let previousDrawerOpen = false;
   let previousPrivacyOpen = false;
   let lastTrackedPagePath = '';
@@ -26,27 +25,7 @@
     { label: 'Posts', href: '/posts' },
   ];
 
-  function analyticsBridge(): {
-    hasConsent: () => boolean;
-    grantConsent: () => void;
-    revokeConsent: () => void;
-  } | null {
-    const browserWindow = window as Window & {
-      sipdepAnalytics?: {
-        hasConsent: () => boolean;
-        grantConsent: () => void;
-        revokeConsent: () => void;
-      };
-    };
-
-    return browserWindow.sipdepAnalytics ?? null;
-  }
-
   function trackPageView(url: URL): void {
-    if (!(analyticsBridge()?.hasConsent() ?? false)) {
-      return;
-    }
-
     const pagePath = `${url.pathname}${url.search}`;
 
     if (lastTrackedPagePath === pagePath) {
@@ -83,23 +62,11 @@
 
   function openPrivacyPolicy(): void {
     drawerOpen = false;
-    analyticsConsentGranted = analyticsBridge()?.hasConsent() ?? false;
     privacyOpen = true;
   }
 
   function closePrivacyPolicy(): void {
     privacyOpen = false;
-  }
-
-  function grantAnalyticsConsent(): void {
-    analyticsBridge()?.grantConsent();
-    analyticsConsentGranted = true;
-    trackPageView(new URL(window.location.href));
-  }
-
-  function revokeAnalyticsConsent(): void {
-    analyticsBridge()?.revokeConsent();
-    analyticsConsentGranted = false;
   }
 
   function handleGlobalKeydown(event: KeyboardEvent): void {
@@ -241,34 +208,13 @@
     >
       <h2 id="privacy-policy-title" class="text-white text-lg font-semibold mb-4">Privacy Policy</h2>
       <p class="text-gray-400 text-sm leading-relaxed mb-3">
-        This website includes Google Analytics with Google Consent Mode enabled by default.
-        Until you allow analytics here, analytics storage stays denied and no analytics cookies are used.
+        This website uses Google Analytics to collect traffic information for site improvement.
+        Google Analytics may use cookies or similar technologies to measure page views and usage patterns.
       </p>
       <p class="text-gray-400 text-sm leading-relaxed mb-6">
-        If you allow analytics, Google Analytics can collect anonymized traffic data for service improvement.
-        You can change your choice at any time here.
-      </p>
-      <p class="mb-4 text-xs uppercase tracking-[0.16em] text-gray-500">
-        Status: {analyticsConsentGranted ? 'Analytics enabled' : 'Analytics disabled'}
+        By continuing to use this site, you acknowledge that site usage analytics may be recorded.
       </p>
       <div class="flex flex-wrap items-center gap-3">
-        {#if analyticsConsentGranted}
-          <button
-            type="button"
-            onclick={revokeAnalyticsConsent}
-            class="rounded border border-gray-600 px-3 py-2 text-sm text-gray-300 transition-colors hover:border-gray-400 hover:text-white"
-          >
-            Disable analytics
-          </button>
-        {:else}
-          <button
-            type="button"
-            onclick={grantAnalyticsConsent}
-            class="rounded border border-indigo-500/50 bg-indigo-500/10 px-3 py-2 text-sm text-indigo-200 transition-colors hover:border-indigo-400 hover:text-white"
-          >
-            Allow analytics
-          </button>
-        {/if}
         <button
           bind:this={privacyCloseButton}
           type="button"
