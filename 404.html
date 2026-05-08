@@ -9,79 +9,42 @@
     <meta name="twitter:card" content="summary_large_image" />
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-DVLS4LMPGV"></script>
     <script>
-      const analyticsConsentKey = 'sipdep.analytics.consent';
-
       window.dataLayer = window.dataLayer || [];
       window.gtag = function gtag(){window.dataLayer.push(arguments);}
       window.gtag('js', new Date());
-      window.gtag('consent', 'default', {
-        analytics_storage: 'denied'
-      });
       window.gtag('config', 'G-DVLS4LMPGV', {
         send_page_view: false
       });
-
-      window.sipdepAnalytics = {
-        hasConsent() {
-          try {
-            return window.localStorage.getItem(analyticsConsentKey) === 'granted';
-          } catch {
-            return false;
-          }
-        },
-        grantConsent() {
-          try {
-            window.localStorage.setItem(analyticsConsentKey, 'granted');
-          } catch {}
-          window.gtag('consent', 'update', {
-            analytics_storage: 'granted'
-          });
-        },
-        revokeConsent() {
-          try {
-            window.localStorage.removeItem(analyticsConsentKey);
-          } catch {}
-          window.gtag('consent', 'update', {
-            analytics_storage: 'denied'
-          });
-        }
-      };
-
-      if (window.sipdepAnalytics.hasConsent()) {
-        window.gtag('consent', 'update', {
-          analytics_storage: 'granted'
-        });
-      }
     </script>
-    <link href="/_app/immutable/entry/start._l5Qlqrh.js" rel="modulepreload">
-		<link href="/_app/immutable/chunks/8Hu1wFjD.js" rel="modulepreload">
+    <link href="/_app/immutable/entry/start.CyAeCF3r.js" rel="modulepreload">
+		<link href="/_app/immutable/chunks/DW_nC7ib.js" rel="modulepreload">
 		<link href="/_app/immutable/chunks/BmeQqo5D.js" rel="modulepreload">
-		<link href="/_app/immutable/entry/app.DoGBOkbC.js" rel="modulepreload">
+		<link href="/_app/immutable/entry/app.BMYbcVun.js" rel="modulepreload">
 		<link href="/_app/immutable/chunks/Dp1pzeXC.js" rel="modulepreload">
 		<link href="/_app/immutable/chunks/Bzak7iHL.js" rel="modulepreload">
 		<link href="/_app/immutable/chunks/BIFNohPv.js" rel="modulepreload">
 		<link href="/_app/immutable/chunks/BF0Z0NGM.js" rel="modulepreload">
 		<link href="/_app/immutable/chunks/DAkmM_xD.js" rel="modulepreload">
-		<link href="/_app/immutable/nodes/0.BHdv4HS0.js" rel="modulepreload">
-		<link href="/_app/immutable/chunks/Dl9udm67.js" rel="modulepreload">
+		<link href="/_app/immutable/nodes/0.Dao3XjmG.js" rel="modulepreload">
+		<link href="/_app/immutable/chunks/BHcIIIh_.js" rel="modulepreload">
 		<link href="/_app/immutable/chunks/DSjyLkKW.js" rel="modulepreload">
-		<link href="/_app/immutable/chunks/5BNvulhw.js" rel="modulepreload">
+		<link href="/_app/immutable/chunks/CietSZRd.js" rel="modulepreload">
 		
-		<link href="/_app/immutable/assets/0.CXOPhoAh.css" rel="stylesheet">
+		<link href="/_app/immutable/assets/0.Cf7G_Kln.css" rel="stylesheet">
   </head>
   <body data-sveltekit-preload-data="hover">
     <div style="display: contents">
 			<script>
 				{
-					__sveltekit_7rh2zd = {
+					__sveltekit_7jr3y = {
 						base: ""
 					};
 
 					const element = document.currentScript.parentElement;
 
 					Promise.all([
-						import("/_app/immutable/entry/start._l5Qlqrh.js"),
-						import("/_app/immutable/entry/app.DoGBOkbC.js")
+						import("/_app/immutable/entry/start.CyAeCF3r.js"),
+						import("/_app/immutable/entry/app.BMYbcVun.js")
 					]).then(([kit, app]) => {
 						kit.start(app, element);
 					});
