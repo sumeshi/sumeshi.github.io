@@ -3,7 +3,7 @@
   import { pathWithBase } from '$lib/paths';
   import { page } from '$app/stores';
   import { afterNavigate } from '$app/navigation';
-  import { tick } from 'svelte';
+  import { onMount, tick } from 'svelte';
 
   interface Props {
     children: import('svelte').Snippet;
@@ -18,6 +18,7 @@
   let analyticsConsentGranted = $state(false);
   let previousDrawerOpen = false;
   let previousPrivacyOpen = false;
+  let lastTrackedPagePath = '';
   const navItems = [
     { label: 'Home', href: '/' },
     { label: 'About', href: '/about' },
@@ -46,6 +47,12 @@
       return;
     }
 
+    const pagePath = `${url.pathname}${url.search}`;
+
+    if (lastTrackedPagePath === pagePath) {
+      return;
+    }
+
     const browserWindow = window as Window & {
       gtag?: (...args: unknown[]) => void;
     };
@@ -53,8 +60,9 @@
     browserWindow.gtag?.('event', 'page_view', {
       page_title: document.title,
       page_location: url.href,
-      page_path: `${url.pathname}${url.search}`
+      page_path: pagePath
     });
+    lastTrackedPagePath = pagePath;
   }
 
   function isActive(href: string): boolean {
@@ -66,6 +74,10 @@
   afterNavigate(() => {
     drawerOpen = false;
     privacyOpen = false;
+    trackPageView(new URL(window.location.href));
+  });
+
+  onMount(() => {
     trackPageView(new URL(window.location.href));
   });
 
