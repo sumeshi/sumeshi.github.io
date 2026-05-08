@@ -12,6 +12,8 @@
 
 <a
   href={postHref(post.path)}
+  target="_blank"
+  rel="noopener noreferrer"
   class="block group rounded-lg border border-gray-800 p-4 transition-colors hover:border-gray-600"
 >
   <div class="flex items-start justify-between gap-4">
