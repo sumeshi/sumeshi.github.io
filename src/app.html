@@ -41,7 +41,9 @@
         document.head.appendChild(script);
 
         window.gtag('js', new Date());
-        window.gtag('config', 'G-DVLS4LMPGV');
+        window.gtag('config', 'G-DVLS4LMPGV', {
+          send_page_view: false
+        });
       }
     </script>
     %sveltekit.head%

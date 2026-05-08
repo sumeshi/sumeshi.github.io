@@ -18,7 +18,6 @@
   let analyticsConsentGranted = $state(false);
   let previousDrawerOpen = false;
   let previousPrivacyOpen = false;
-
   const navItems = [
     { label: 'Home', href: '/' },
     { label: 'About', href: '/about' },
@@ -42,6 +41,22 @@
     return browserWindow.sipdepAnalytics ?? null;
   }
 
+  function trackPageView(url: URL): void {
+    if (!(analyticsBridge()?.hasConsent() ?? false)) {
+      return;
+    }
+
+    const browserWindow = window as Window & {
+      gtag?: (...args: unknown[]) => void;
+    };
+
+    browserWindow.gtag?.('event', 'page_view', {
+      page_title: document.title,
+      page_location: url.href,
+      page_path: `${url.pathname}${url.search}`
+    });
+  }
+
   function isActive(href: string): boolean {
     const path = $page.url.pathname;
     const resolvedHref = pathWithBase(href);
@@ -51,6 +66,7 @@
   afterNavigate(() => {
     drawerOpen = false;
     privacyOpen = false;
+    trackPageView(new URL(window.location.href));
   });
 
   function openPrivacyPolicy(): void {
