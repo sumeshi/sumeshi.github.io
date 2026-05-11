@@ -12,11 +12,15 @@
   let { children }: Props = $props();
   let drawerOpen = $state(false);
   let privacyOpen = $state(false);
+  let disclaimerOpen = $state(false);
   let navToggleButton = $state<HTMLButtonElement | undefined>(undefined);
   let privacyTriggerButton = $state<HTMLButtonElement | undefined>(undefined);
   let privacyCloseButton = $state<HTMLButtonElement | undefined>(undefined);
+  let disclaimerTriggerButton = $state<HTMLButtonElement | undefined>(undefined);
+  let disclaimerCloseButton = $state<HTMLButtonElement | undefined>(undefined);
   let previousDrawerOpen = false;
   let previousPrivacyOpen = false;
+  let previousDisclaimerOpen = false;
   let lastTrackedPagePath = '';
   const navItems = [
     { label: 'Home', href: '/' },
@@ -53,6 +57,7 @@
   afterNavigate(() => {
     drawerOpen = false;
     privacyOpen = false;
+    disclaimerOpen = false;
     trackPageView(new URL(window.location.href));
   });
 
@@ -62,11 +67,22 @@
 
   function openPrivacyPolicy(): void {
     drawerOpen = false;
+    disclaimerOpen = false;
     privacyOpen = true;
   }
 
   function closePrivacyPolicy(): void {
     privacyOpen = false;
+  }
+
+  function openDisclaimer(): void {
+    drawerOpen = false;
+    privacyOpen = false;
+    disclaimerOpen = true;
+  }
+
+  function closeDisclaimer(): void {
+    disclaimerOpen = false;
   }
 
   function handleGlobalKeydown(event: KeyboardEvent): void {
@@ -76,6 +92,11 @@
 
     if (privacyOpen) {
       closePrivacyPolicy();
+      return;
+    }
+
+    if (disclaimerOpen) {
+      closeDisclaimer();
       return;
     }
 
@@ -102,6 +123,16 @@
     }
 
     previousPrivacyOpen = privacyOpen;
+  });
+
+  $effect(() => {
+    if (disclaimerOpen && !previousDisclaimerOpen) {
+      tick().then(() => disclaimerCloseButton?.focus());
+    } else if (!disclaimerOpen && previousDisclaimerOpen) {
+      tick().then(() => disclaimerTriggerButton?.focus());
+    }
+
+    previousDisclaimerOpen = disclaimerOpen;
   });
 </script>
 
@@ -169,17 +200,30 @@
   </div>
 
   <div class="p-4 border-t border-gray-800">
-    <button
-      bind:this={privacyTriggerButton}
-      type="button"
-      onclick={openPrivacyPolicy}
-      class="text-xs text-gray-600 hover:text-gray-400 transition-colors"
-      aria-haspopup="dialog"
-      aria-expanded={privacyOpen}
-      aria-controls="privacy-policy-dialog"
-    >
-      Privacy Policy
-    </button>
+    <div class="flex items-center justify-between gap-4 px-6">
+      <button
+        bind:this={privacyTriggerButton}
+        type="button"
+        onclick={openPrivacyPolicy}
+        class="text-xs text-gray-600 hover:text-gray-400 transition-colors"
+        aria-haspopup="dialog"
+        aria-expanded={privacyOpen}
+        aria-controls="privacy-policy-dialog"
+      >
+        Privacy Policy
+      </button>
+      <button
+        bind:this={disclaimerTriggerButton}
+        type="button"
+        onclick={openDisclaimer}
+        class="text-xs text-gray-600 hover:text-gray-400 transition-colors"
+        aria-haspopup="dialog"
+        aria-expanded={disclaimerOpen}
+        aria-controls="disclaimer-dialog"
+      >
+        Disclaimer
+      </button>
+    </div>
   </div>
 </nav>
 
@@ -219,6 +263,53 @@
           bind:this={privacyCloseButton}
           type="button"
           onclick={closePrivacyPolicy}
+          class="text-sm font-medium text-indigo-400 transition-colors hover:text-indigo-300"
+        >
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+{/if}
+
+<!-- Disclaimer dialog -->
+{#if disclaimerOpen}
+  <div class="site-dialog-backdrop fixed inset-0 z-50 flex items-center justify-center p-4">
+    <button
+      type="button"
+      class="absolute inset-0"
+      onclick={closeDisclaimer}
+      aria-label="Close disclaimer dialog"
+    ></button>
+    <div
+      id="disclaimer-dialog"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="disclaimer-title"
+      class="site-dialog relative max-w-xl w-full p-6"
+    >
+      <h2 id="disclaimer-title" class="text-white text-lg font-semibold mb-4">Disclaimer</h2>
+      <p class="text-gray-400 text-sm leading-relaxed mb-3">
+        The content published on this website is based on publicly accessible information available
+        on the Internet and other open sources, and represents the author&apos;s personal views.
+        Paid training materials, non-public materials, or similar sources are not used as
+        information sources.
+      </p>
+      <p class="text-gray-400 text-sm leading-relaxed mb-3">
+        The content of this website does not represent the views, policies, or positions of any
+        organization, group, company, or other third party with which the author is affiliated, and
+        has no relation to them.
+      </p>
+      <p class="text-gray-400 text-sm leading-relaxed mb-6">
+        No warranty is made as to the accuracy, completeness, or usefulness of the information on
+        this website. The author assumes no responsibility for any damages arising from the use of,
+        or inability to use, the content of this website.
+      </p>
+      <div class="flex flex-wrap items-center gap-3">
+        <button
+          bind:this={disclaimerCloseButton}
+          type="button"
+          onclick={closeDisclaimer}
           class="text-sm font-medium text-indigo-400 transition-colors hover:text-indigo-300"
         >
           Close

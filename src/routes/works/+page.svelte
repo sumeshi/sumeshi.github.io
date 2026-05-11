@@ -4,15 +4,34 @@
   import XPostEmbed from '$lib/components/XPostEmbed.svelte';
   import { pageTitle } from '$lib/site';
 
+  type ProjectStatusKey =
+    | 'active'
+    | 'maintained'
+    | 'in-development'
+    | 'experimental'
+    | 'archived'
+    | 'on-hold';
+
   type Project = {
+    status?: ProjectStatusKey;
     title: string;
     hrefs: { label: string; url: string }[];
     summary: string[];
     xEmbedUrls?: string[];
   };
 
+  const statusMeta: Record<ProjectStatusKey, { label: string; className: string }> = {
+    active: { label: 'active', className: 'text-emerald-400' },
+    maintained: { label: 'maintained', className: 'text-lime-400' },
+    'in-development': { label: 'in development', className: 'text-sky-400' },
+    experimental: { label: 'experimental', className: 'text-amber-400' },
+    archived: { label: 'archived', className: 'text-gray-400' },
+    'on-hold': { label: 'on hold', className: 'text-rose-400' }
+  };
+
   const projects: Project[] = [
     {
+      status: 'maintained',
       title: 'Windowsログ解析支援ツールの開発',
       hrefs: [
         { label: 'evtx2es', url: 'https://github.com/sumeshi/evtx2es' },
@@ -28,6 +47,7 @@
       ]
     },
     {
+      status: 'maintained',
       title: 'Windowsアーティファクト解析支援ツールの開発',
       hrefs: [
         { label: 'mft2es', url: 'https://github.com/sumeshi/mft2es' },
@@ -45,6 +65,7 @@
       ]
     },
     {
+      status: 'maintained',
       title: 'Windowsディスク解析支援ツールの開発',
       hrefs: [
         { label: 'ntfsdump', url: 'https://github.com/sumeshi/ntfsdump' },
@@ -58,6 +79,7 @@
       ]
     },
     {
+      status: 'active',
       title: 'ログ解析支援ツールの開発',
       hrefs: [
         { label: 'Trivium', url: 'https://github.com/sumeshi/trivium' },
@@ -74,6 +96,7 @@
       ]
     },
     {
+      status: 'active',
       title: '異言語スキャンツールの開発',
       hrefs: [
         { label: 'langscan', url: 'https://github.com/sumeshi/langscan' },
@@ -86,6 +109,7 @@
       ]
     },
     {
+      status: 'maintained',
       title: '日本語特化軽量全文検索エンジンの開発',
       hrefs: [
         { label: 'roughsearch', url: 'https://github.com/sumeshi/roughsearch' },
@@ -98,16 +122,20 @@
       ]
     },
     {
-      title: '統合フォレンジックツールの開発(一部非公開)',
+      status: 'in-development',
+      title: 'ローカルLLMを活用したファストフォレンジック支援ツール(未公開)',
       hrefs: [
-        { label: 'ez4en6', url: 'https://github.com/sumeshi/' },
-        { label: 'i2t-f3', url: 'https://github.com/sumeshi/i2t-f3' }
+        { label: 'forensia', url: 'https://github.com/sumeshi/' }
       ],
       summary: [
-        'フォレンジックツール群の組み合わせによる一部分析自動化の試み。',
+        '個人PCで動く小規模ローカルLLMによるファストフォレンジック支援ツールの開発。',
       ],
+      xEmbedUrls: [
+        'https://x.com/sum3sh1/status/2053306186003611830'
+      ]
     },
     {
+      status: 'experimental',
       title: 'ローカルLLMを活用したインテリジェンス情報収集・分析ツールの開発(非公開)',
       hrefs: [
         { label: 'Desidia', url: 'https://github.com/sumeshi/' },
@@ -121,6 +149,18 @@
       ]
     },
     {
+      status: 'archived',
+      title: '統合フォレンジックツールの開発(一部非公開)',
+      hrefs: [
+        { label: 'ez4en6', url: 'https://github.com/sumeshi/' },
+        { label: 'i2t-f^3', url: 'https://github.com/sumeshi/i2t-f3' }
+      ],
+      summary: [
+        'フォレンジックツール群の組み合わせによる一部分析自動化の試み。',
+      ],
+    },
+    {
+      status: 'archived',
       title: 'ツールの言語移植作業など',
       hrefs: [
         { label: 'sleuthkit-mactime.py', url: 'https://github.com/sumeshi/sleuthkit-mactime.py' },
@@ -150,7 +190,16 @@
         <article class="subtle-card shadow-sm">
           <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
             <div class="min-w-0">
-              <h2 class="section-title">{project.title}</h2>
+              <h2 class="section-title">
+                {#if project.status}
+                  <span
+                    class={`mr-2 text-sm font-medium lowercase ${statusMeta[project.status].className}`}
+                  >
+                    [{statusMeta[project.status].label}]
+                  </span>
+                {/if}
+                {project.title}
+              </h2>
             </div>
 
             <div class="flex flex-wrap gap-2">
