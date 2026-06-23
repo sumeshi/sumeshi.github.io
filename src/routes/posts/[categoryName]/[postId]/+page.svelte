@@ -133,9 +133,8 @@
 </svelte:head>
 
 <div class="site-container">
-  <div class="panel-shell panel-surface">
-    <!-- Title bar -->
-    <div class="flex flex-col gap-3 border-b border-gray-800 px-6 py-4 sm:flex-row sm:items-start sm:justify-between">
+  <article>
+    <header class="flex flex-col gap-3 border-b border-gray-800/80 pb-5 sm:flex-row sm:items-start sm:justify-between">
       <Breadcrumb
         items={[
           { label: 'POSTS', href: pathWithBase('/posts') },
@@ -173,10 +172,9 @@
           <span class="order-3 hidden text-xs text-gray-500 sm:inline sm:order-1">{formatPostPublishedAt(postState.state.value.published_at)}</span>
         {/if}
       </div>
-    </div>
+    </header>
 
-    <!-- Post content -->
-    <div class="p-6">
+    <div class="py-6">
       {#if postState.state.loading}
         <LoadingPulse lines={6} />
       {:else if postState.state.errorMessage}
@@ -198,8 +196,7 @@
       {/if}
     </div>
 
-    <!-- Footer -->
-    <div class="flex justify-center border-t border-gray-800 px-6 py-5">
+    <footer class="mt-2 flex justify-center border-t border-gray-800/80 pt-5">
       <LinkButton
         href={pathWithBase('/posts')}
         variant="return"
@@ -210,6 +207,6 @@
         </svg>
         <span>All Posts</span>
       </LinkButton>
-    </div>
-  </div>
+    </footer>
+  </article>
 </div>

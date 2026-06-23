@@ -26,11 +26,11 @@
   description={`${categoryLabel} カテゴリの投稿一覧`}
 />
 
-<div class="site-container space-y-4">
+<div class="site-container space-y-5">
   <Breadcrumb items={[{ label: 'POSTS', href: pathWithBase('/posts') }, { label: categoryLabel }]} />
 
-  <div class="panel-card panel-surface">
-    <div class="flex items-baseline justify-between mb-5">
+  <section>
+    <div class="mb-2 flex items-baseline justify-between border-b border-gray-800/80 pb-4">
       <h1 class="page-title">{categoryLabel}</h1>
       {#if !postState.state.loading}
         <span class="text-gray-500 text-sm">{postState.state.value.length} post{postState.state.value.length !== 1 ? 's' : ''}</span>
@@ -44,11 +44,11 @@
     {:else if postState.state.value.length === 0}
       <p class="text-gray-600 text-sm">No posts in this category.</p>
     {:else}
-      <div class="space-y-2">
+      <div>
         {#each postState.state.value as post}
           <PostListItem {post} />
         {/each}
       </div>
     {/if}
-  </div>
+  </section>
 </div>

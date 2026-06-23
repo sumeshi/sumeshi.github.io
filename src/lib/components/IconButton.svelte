@@ -29,7 +29,7 @@
   };
 
   const baseClass = $derived(
-    `inline-flex h-9 w-9 items-center justify-center rounded-xl border transition-colors sm:h-10 sm:w-10 ${variantClasses[variant]} ${className}`.trim(),
+    `inline-flex h-9 w-9 items-center justify-center rounded-lg border transition-colors sm:h-10 sm:w-10 ${variantClasses[variant]} ${className}`.trim(),
   );
 </script>
 

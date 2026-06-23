@@ -178,63 +178,66 @@
   description="これまでに作成したOSSや活動内容資料など。"
 />
 
-<div class="site-container">
-  <div class="panel-card panel-surface">
-    <h1 class="page-title mb-6">$ ps aux</h1>
-    <p class="mb-6 max-w-2xl text-sm leading-6 text-gray-400">
-      これまでに作成したOSSや活動内容資料など。
-    </p>
+<div class="site-container space-y-6">
+  <header class="flex flex-col gap-3 border-b border-gray-800/80 pb-5 sm:flex-row sm:items-end sm:justify-between">
+    <div>
+      <h1 class="page-title">$ ps aux</h1>
+      <p class="mt-3 max-w-2xl text-sm leading-6 text-gray-400">
+        これまでに作成したOSSや活動内容資料など。
+      </p>
+    </div>
+    <p class="font-mono text-xs text-gray-600">{projects.length} entries</p>
+  </header>
 
-    <div class="space-y-4 text-sm">
-      {#each projects as project}
-        <article class="subtle-card shadow-sm">
-          <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
-            <div class="min-w-0">
-              <h2 class="section-title">
-                {#if project.status}
-                  <span
-                    class={`mr-2 text-sm font-medium lowercase ${statusMeta[project.status].className}`}
-                  >
-                    [{statusMeta[project.status].label}]
-                  </span>
-                {/if}
-                {project.title}
-              </h2>
-            </div>
-
-            <div class="flex flex-wrap gap-2">
-              {#each project.hrefs as link}
-                <Badge href={link.url} external={true} variant="indigo" size="sm" shape="pill">
-                  {link.label}
-                </Badge>
-              {/each}
-            </div>
+  <section class="divide-y divide-gray-800/70 text-sm">
+    {#each projects as project}
+      <article class="py-5 first:pt-0">
+        <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+          <div class="min-w-0">
+            {#if project.status}
+              <p class={`mb-1 font-mono text-[11px] lowercase tracking-[0.14em] ${statusMeta[project.status].className}`}>
+                [{statusMeta[project.status].label}]
+              </p>
+            {/if}
+            <h2 class="section-title text-base leading-6">
+              {project.title}
+            </h2>
           </div>
 
+          <div class="flex flex-wrap gap-2 sm:justify-end">
+            {#each project.hrefs as link}
+              <Badge href={link.url} external={true} variant="indigo" size="sm" shape="pill">
+                {link.label}
+              </Badge>
+            {/each}
+          </div>
+        </div>
+
+        {#if project.summary.length > 0}
           <ul class="mt-4 space-y-2 text-gray-300">
             {#each project.summary as line}
               <li class="flex gap-2">
-                <span class="shrink-0 text-gray-600">–</span>
+                <span class="shrink-0 text-gray-600">-</span>
                 <span>{line}</span>
               </li>
             {/each}
           </ul>
+        {/if}
 
-          {#if project.xEmbedUrls?.length}
-            <details class="mt-5 rounded-xl border border-gray-700/90 bg-gray-900/40 transition-colors hover:border-gray-600">
-              <summary class="flex cursor-pointer list-none items-center justify-between gap-3 rounded-xl px-4 py-3 text-sm text-gray-100 marker:hidden">
-                <span class="font-medium">See related X posts</span>
-                <span class="rounded-full border border-gray-600/80 bg-gray-950/70 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.16em] text-gray-300 transition-transform details-open:rotate-45">+</span>
-              </summary>
-              <div class="space-y-4 border-t border-gray-800/80 px-4 py-4">
-                {#each project.xEmbedUrls as xEmbedUrl}
-                  <XPostEmbed url={xEmbedUrl} />
-                {/each}
-              </div>
-            </details>
-          {/if}
-        </article>
-      {/each}
-    </div>
-  </div>
+        {#if project.xEmbedUrls?.length}
+          <details class="mt-5 rounded-lg border border-gray-700/90 bg-gray-950/25 transition-colors hover:border-gray-600">
+            <summary class="flex cursor-pointer list-none items-center justify-between gap-3 rounded-lg px-4 py-3 text-sm text-gray-100 marker:hidden">
+              <span class="font-medium">See related X posts</span>
+              <span class="rounded-full border border-gray-600/80 bg-gray-950/70 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.16em] text-gray-300 transition-transform details-open:rotate-45">+</span>
+            </summary>
+            <div class="space-y-4 border-t border-gray-800/80 px-4 py-4">
+              {#each project.xEmbedUrls as xEmbedUrl}
+                <XPostEmbed url={xEmbedUrl} />
+              {/each}
+            </div>
+          </details>
+        {/if}
+      </article>
+    {/each}
+  </section>
 </div>

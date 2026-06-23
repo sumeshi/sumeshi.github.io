@@ -28,6 +28,7 @@
     { label: 'Works', href: '/works' },
     { label: 'Posts', href: '/posts' },
   ];
+  const headerCaption = 'Evidence first. Conclusions second.';
 
   function trackPageView(url: URL): void {
     const pagePath = `${url.pathname}${url.search}`;
@@ -166,6 +167,13 @@
   ></button>
 {/if}
 
+<!-- Caption bar -->
+<header class="site-captionbar fixed left-0 right-0 top-14 z-30 flex h-8 items-center px-4 lg:left-64 lg:top-0 lg:px-8">
+  <p class="truncate text-[11px] font-medium tracking-[0.16em] text-gray-500">
+    {headerCaption}
+  </p>
+</header>
+
 <!-- Sidebar -->
 <nav
   id="primary-sidebar"
@@ -174,16 +182,7 @@
     transition-transform duration-300 ease-in-out
     {drawerOpen ? 'translate-x-0' : '-translate-x-full'} lg:translate-x-0"
 >
-  <div class="p-6 mt-2 border-b border-gray-800">
-    <a href={pathWithBase('/')} class="block hover:text-indigo-400 transition-colors">
-      <span class="block text-lg font-bold tracking-wide text-white">SIPDEP</span>
-      <span class="mt-1 block text-[11px] uppercase tracking-[0.16em] text-gray-500">
-        Sumeshi Information Preservation Department
-      </span>
-    </a>
-  </div>
-
-  <div class="flex-1 py-4 px-3">
+  <div class="flex-1 px-3 py-8">
     {#each navItems as item, index}
       <a
         id={`primary-nav-link-${index}`}
@@ -228,8 +227,8 @@
 </nav>
 
 <!-- Main content -->
-<main class="site-main lg:ml-64 pt-14 lg:pt-0">
-  <div class="p-6">
+<main class="site-main lg:ml-64 pt-[5.5rem] lg:pt-8">
+  <div class="px-4 py-5 sm:px-6 lg:px-8 lg:py-8">
     {@render children()}
   </div>
 </main>

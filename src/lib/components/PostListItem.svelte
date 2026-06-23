@@ -12,17 +12,17 @@
 
 <a
   href={postHref(post.path)}
-  class="block group rounded-lg border border-gray-800 p-4 transition-colors hover:border-gray-600"
+  class="group grid gap-2 border-b border-gray-800/70 py-4 transition-colors hover:bg-white/[0.015] sm:grid-cols-[1fr_auto] sm:items-start"
 >
-  <div class="flex items-start justify-between gap-4">
-    <h3 class="line-clamp-1 text-sm font-medium text-gray-200 transition-colors group-hover:text-indigo-400">
+  <span class="min-w-0">
+    <span class="block truncate text-sm font-medium text-gray-200 transition-colors group-hover:text-indigo-300">
       {getPostListTitle(post)}
-    </h3>
-    <span class="shrink-0 whitespace-nowrap text-xs text-gray-600">
-      {formatPostListDate(post.published_at)}
     </span>
-  </div>
-  {#if post.description}
-    <p class="mt-1 line-clamp-2 text-xs text-gray-500">{post.description}</p>
-  {/if}
+    {#if post.description}
+      <span class="mt-1 block line-clamp-2 text-xs leading-5 text-gray-500">{post.description}</span>
+    {/if}
+  </span>
+  <span class="font-mono text-xs text-gray-600 sm:pt-0.5">
+    {formatPostListDate(post.published_at)}
+  </span>
 </a>

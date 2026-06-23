@@ -1,12 +1,9 @@
 <script lang="ts">
-  import Badge from '$lib/components/Badge.svelte';
-  import IconButton from '$lib/components/IconButton.svelte';
   import LoadingPulse from '$lib/components/LoadingPulse.svelte';
   import PageMeta from '$lib/components/PageMeta.svelte';
-  import PostListItem from '$lib/components/PostListItem.svelte';
-  import { pathWithBase } from '$lib/paths';
+  import { pathWithBase, postHref } from '$lib/paths';
   import { createPostListState } from '$lib/post-list-state.svelte';
-  import { fetchPosts } from '$lib/posts';
+  import { fetchPosts, formatPostListDate, getPostListTitle } from '$lib/posts';
   import { jsonLd, siteName, siteDescription } from '$lib/site';
 
   const postState = createPostListState({
@@ -14,65 +11,6 @@
     getRequest: () => fetchPosts,
   });
   const recentPosts = $derived(postState.state.value.slice(0, 5));
-
-  const socialLinks = [
-    { name: 'GitHub', url: 'https://github.com/sumeshi' },
-    { name: 'X', url: 'https://x.com/sum3sh1' },
-  ];
-  const writingPlatforms = [
-    {
-      name: 'Zenn',
-      url: 'https://zenn.dev/sum3sh1',
-      meta: 'Tech',
-      external: true,
-    },
-    {
-      name: 'Note',
-      url: 'https://note.com/sumeshi_kun/',
-      meta: 'Ideas',
-      external: true,
-    },
-    {
-      name: 'DEV',
-      url: 'https://dev.to/sum3sh1',
-      meta: 'English tech',
-      external: true,
-    },
-    {
-      name: 'Qiita',
-      url: 'https://qiita.com/sumeshi',
-      meta: 'Tech archives',
-      external: true,
-    },
-    {
-      name: 'Speaker Deck',
-      url: 'https://speakerdeck.com/sumeshi',
-      meta: 'Slides',
-      external: true,
-    },
-    {
-      name: 'Posts',
-      url: pathWithBase('/posts'),
-      meta: 'Private notes',
-      external: false,
-    },
-  ];
-
-  const badges = ['Incident Response', 'Digital Forensics', 'Malware Analysis'];
-  const certifications = [
-    {
-      name: 'GREM',
-      url: 'https://www.giac.org/certifications/reverse-engineering-malware-grem',
-    },
-    {
-      name: 'GCFA',
-      url: 'https://www.giac.org/certifications/certified-forensic-analyst-gcfa',
-    },
-    {
-      name: 'CDFP-B',
-      url: 'https://digitalforensic.jp/home/act/cdfp/',
-    }
-  ];
 </script>
 
 <PageMeta title={siteName} description={siteDescription} />
@@ -96,121 +34,46 @@
   })}</script>`}
 </svelte:head>
 
-<div class="site-container">
-  <section class="panel-card panel-surface">
-    <div class="relative flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-6">
-      <a href={pathWithBase('/about')} class="shrink-0 self-start sm:self-start">
-        <img
-          src={pathWithBase('/img/me.jpg')}
-          alt="Portrait of S.Nakano"
-          class="h-20 w-20 rounded-2xl object-cover border border-gray-700/80 shadow-lg transition-transform duration-300 hover:scale-[1.02] sm:h-28 sm:w-28"
-        />
-      </a>
+<div class="mx-auto flex w-full max-w-6xl flex-col justify-center gap-7 py-2 md:gap-9 lg:h-[calc(100vh-6rem)] lg:overflow-hidden lg:py-0">
+  <section class="flex min-h-0 flex-col items-center justify-center text-center">
+    <img
+      src={pathWithBase('/img/sipdep.svg')}
+      alt="SIPDEP"
+      class="max-h-[32vh] w-full max-w-[960px] object-contain sm:max-h-[38vh] lg:max-h-[42vh]"
+    />
+  </section>
 
-      <div class="min-w-0 flex-1">
-        <h1 class="mt-3 font-sans text-[1.5rem] font-black tracking-[-0.05em] text-white sm:mt-4 sm:text-[2.5rem] md:text-[3rem]">
-          S.Nakano
-        </h1>
-        <p class="mt-1.5 text-[12px] uppercase tracking-[0.18em] text-gray-500 sm:mt-2 sm:text-sm">
-          DFIR Researcher / Software Developer
-        </p>
-
-        <p class="mt-4 max-w-2xl text-sm leading-6 text-gray-300 sm:mt-5 sm:leading-7 md:text-[15px]">
-          サイバーセキュリティ分野における調査研究およびインシデント対応業務に従事。<br>
-          デジタルフォレンジックおよびマルウェア解析を専門とし、調査で得た知見をもとに技術トレーニングの実施やOSS開発を行っている。
-        </p>
-
-        <div class="mt-3 flex flex-wrap gap-2">
-          {#each badges as badge}
-            <Badge variant="indigo" size="xs" shape="pill" className="text-[10px] uppercase tracking-[0.14em]">
-              {badge}
-            </Badge>
-          {/each}
-        </div>
-
-        <div class="border-t border-gray-800/80 pt-4 sm:mt-6">
-          <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-            <div class="min-w-0">
-              <p class="text-[11px] font-semibold uppercase tracking-[0.18em] text-gray-500">Certifications</p>
-              <div class="mt-2 flex flex-wrap gap-2">
-                {#each certifications as cert}
-                  <Badge
-                    href={cert.url}
-                    external={true}
-                    variant="amber"
-                    size="xs"
-                    shape="rounded"
-                    className="rounded-lg"
-                  >
-                    {cert.name}
-                  </Badge>
-                {/each}
-                ...
-              </div>
-            </div>
-
-            <div class="flex items-center gap-2 self-start sm:self-auto">
-              {#each socialLinks as link}
-                <IconButton
-                  href={link.url}
-                  external={true}
-                  label={link.name}
-                >
-                  {#if link.name === 'GitHub'}
-                    <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                      <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.44 9.8 8.2 11.39.6.11.82-.26.82-.57 0-.28-.01-1.22-.01-2.21-3.34.73-4.04-1.42-4.04-1.42-.55-1.39-1.33-1.76-1.33-1.76-1.09-.75.08-.73.08-.73 1.2.08 1.84 1.24 1.84 1.24 1.08 1.84 2.82 1.31 3.5 1 .11-.78.42-1.31.76-1.61-2.67-.31-5.47-1.34-5.47-5.95 0-1.31.47-2.38 1.24-3.22-.12-.3-.54-1.56.12-3.25 0 0 1.01-.32 3.3 1.23A11.4 11.4 0 0 1 12 6.8c1.02 0 2.05.14 3.01.41 2.28-1.55 3.29-1.23 3.29-1.23.66 1.69.24 2.95.12 3.25.77.84 1.24 1.91 1.24 3.22 0 4.62-2.81 5.63-5.49 5.94.43.37.82 1.1.82 2.22 0 1.6-.01 2.88-.01 3.28 0 .31.22.69.83.57C20.57 21.79 24 17.31 24 12 24 5.37 18.63 0 12 0Z" />
-                    </svg>
-                  {:else}
-                    <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                      <path d="M18.9 2H22l-6.76 7.73L23.2 22h-6.24l-4.89-7.38L5.62 22H2.5l7.24-8.28L1.6 2h6.4l4.42 6.76L18.9 2Zm-1.1 18h1.73L7.03 3.9H5.18L17.8 20Z" />
-                    </svg>
-                  {/if}
-                </IconButton>
-              {/each}
-            </div>
-          </div>
-        </div>
-
-        <div class="mt-4 grid grid-cols-2 gap-2 border-t border-gray-800/80 pt-4 sm:grid-cols-3">
-          {#each writingPlatforms as platform}
-            <Badge
-              href={platform.url}
-              external={platform.external}
-              variant={platform.name === 'Zenn'
-                ? 'cyan'
-                : platform.name === 'Qiita'
-                  ? 'green'
-                  : platform.name === 'Speaker Deck'
-                    ? 'amber'
-                    : platform.name === 'Posts'
-                      ? 'indigo'
-                      : 'neutral'}
-              layout="card"
-              meta={platform.meta}
-              shape="rounded"
-              className="rounded-xl"
-            >
-              {platform.name}
-            </Badge>
-          {/each}
-        </div>
-      </div>
+  <section class="mx-auto w-full max-w-4xl">
+    <div class="mb-2 flex items-end justify-between gap-4 border-b border-gray-800/80 pb-3">
+      <h1 class="font-mono text-sm font-semibold uppercase tracking-[0.18em] text-gray-300">Recent Posts</h1>
+      <a href={pathWithBase('/posts')} class="text-xs font-medium uppercase tracking-[0.14em] text-gray-500 transition-colors hover:text-indigo-300">All Posts</a>
     </div>
 
-    <div class="mt-4 border-t border-gray-800/80 pt-4">
-      <div class="mb-3 flex items-center justify-between">
-        <p class="text-[11px] font-semibold uppercase tracking-[0.18em] text-gray-500">Recent Posts</p>
-        <a href={pathWithBase('/posts')} class="text-[11px] text-gray-600 transition-colors hover:text-gray-400">all posts →</a>
+    {#if postState.state.loading}
+      <LoadingPulse lines={5} compact={true} />
+    {:else if recentPosts.length > 0}
+      <div class="divide-y divide-gray-800/70">
+        {#each recentPosts as post}
+          <a
+            href={postHref(post.path)}
+            class="group grid gap-2 py-3 transition-colors hover:bg-white/[0.015] sm:grid-cols-[1fr_auto] sm:items-start"
+          >
+            <span class="min-w-0">
+              <span class="block truncate text-sm font-medium text-gray-200 transition-colors group-hover:text-indigo-300">
+                {getPostListTitle(post)}
+              </span>
+              {#if post.description}
+                <span class="mt-1 block line-clamp-2 text-xs leading-5 text-gray-500">{post.description}</span>
+              {/if}
+            </span>
+            <span class="font-mono text-xs text-gray-600 sm:pt-0.5">
+              {formatPostListDate(post.published_at)}
+            </span>
+          </a>
+        {/each}
       </div>
-      {#if postState.state.loading}
-        <LoadingPulse lines={5} compact={true} />
-      {:else if recentPosts.length > 0}
-        <div class="space-y-2">
-          {#each recentPosts as post}
-            <PostListItem {post} />
-          {/each}
-        </div>
-      {/if}
-    </div>
+    {:else}
+      <p class="py-5 text-sm text-gray-600">No posts found.</p>
+    {/if}
   </section>
 </div>

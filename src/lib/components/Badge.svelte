@@ -51,7 +51,7 @@
 
   const layoutClasses: Record<Layout, string> = {
     inline: 'inline-flex items-center',
-    card: 'group flex min-h-[64px] w-full flex-col justify-between rounded-xl px-3 py-3 text-left',
+    card: 'group flex min-h-[64px] w-full flex-col justify-between rounded-lg px-3 py-3 text-left',
   };
 
   const baseClass = $derived(

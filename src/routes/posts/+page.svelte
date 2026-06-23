@@ -30,15 +30,21 @@
   })}</script>`}
 </svelte:head>
 
-<div class="site-container space-y-4">
-  <!-- Info card -->
-  <div class="panel-card panel-surface">
-    <h1 class="page-title mb-3">All Posts</h1>
-    <p class="text-gray-400 text-sm mb-1">
-      ZennとかNoteに書くほどでもないこととか。ここで得た知識を悪用しないようにね。
-    </p>
+<div class="site-container">
+  <section>
+    <div class="mb-2 flex flex-col gap-3 border-b border-gray-800/80 pb-4 sm:flex-row sm:items-end sm:justify-between">
+      <div>
+        <h1 class="page-title">All Posts</h1>
+        <p class="mt-3 text-sm text-gray-400">
+          ZennとかNoteに書くほどでもないこととか。ここで得た知識を悪用しないようにね。
+        </p>
+      </div>
+      {#if !postState.state.loading}
+        <p class="font-mono text-xs text-gray-600">{postState.state.value.length} entries</p>
+      {/if}
+    </div>
 
-    <div class="mt-5">
+    <div>
       {#if postState.state.loading}
         <LoadingPulse lines={4} />
       {:else if postState.state.errorMessage}
@@ -46,12 +52,12 @@
       {:else if postState.state.value.length === 0}
         <p class="text-gray-600 text-sm">No posts found.</p>
       {:else}
-        <div class="space-y-2">
+        <div>
           {#each postState.state.value as post}
             <PostListItem {post} />
           {/each}
         </div>
       {/if}
     </div>
-  </div>
+  </section>
 </div>

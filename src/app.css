@@ -24,36 +24,22 @@ html {
 
 .site-topbar,
 .site-sidebar,
+.site-captionbar,
 .site-main {
   background: #0c111b;
 }
 
-.site-topbar {
+.site-topbar,
+.site-captionbar {
   border-bottom: 1px solid rgb(31 41 55);
+}
+
+.site-captionbar {
+  backdrop-filter: blur(12px);
 }
 
 .site-sidebar {
   border-right: 1px solid rgb(31 41 55);
-}
-
-.site-sidebar-title {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-}
-
-.site-sidebar-title-mark {
-  font-size: 1.125rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-}
-
-.site-sidebar-title-copy {
-  color: rgb(156 163 175);
-  font-size: 0.6875rem;
-  letter-spacing: 0.12em;
-  line-height: 1.4;
-  text-transform: uppercase;
 }
 
 .site-main {
@@ -74,65 +60,6 @@ html {
   border: 1px solid rgb(55 65 81);
   border-radius: 0.75rem;
   box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.55);
-}
-
-.panel-card {
-  background: rgb(17 24 39 / 0.5);
-  border: 1px solid rgb(31 41 55);
-  border-radius: 0.75rem;
-  padding: 1.25rem;
-}
-
-.panel-shell {
-  background: rgb(17 24 39 / 0.5);
-  border: 1px solid rgb(31 41 55);
-  border-radius: 0.75rem;
-}
-
-.panel-surface {
-  background:
-    radial-gradient(circle at top right, rgb(99 102 241 / 0.16), transparent 34%),
-    radial-gradient(circle at bottom left, rgb(14 165 233 / 0.1), transparent 28%),
-    rgb(17 24 39 / 0.5);
-  isolation: isolate;
-  overflow: hidden;
-  position: relative;
-}
-
-.panel-surface::after {
-  content: '';
-  position: absolute;
-  inset-inline: 0;
-  top: 0;
-  height: 1px;
-  pointer-events: none;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgb(129 140 248 / 0.4),
-    transparent
-  );
-  z-index: 1;
-}
-
-.panel-section {
-  padding: 1.5rem;
-}
-
-.panel-section + .panel-section {
-  border-top: 1px solid rgb(31 41 55);
-}
-
-.subtle-card {
-  border: 1px solid rgb(31 41 55);
-  border-radius: 0.75rem;
-  background: rgb(3 7 18 / 0.3);
-  padding: 1.25rem;
-  transition: border-color 150ms ease;
-}
-
-.subtle-card:hover {
-  border-color: rgb(55 65 81);
 }
 
 .page-title {
@@ -160,16 +87,6 @@ html {
   height: 0.75rem;
   border-radius: 9999px;
   background: rgb(55 65 81 / 0.6);
-}
-
-@media (min-width: 640px) {
-  .panel-card {
-    padding: 1.5rem;
-  }
-
-  .subtle-card {
-    padding: 1.5rem;
-  }
 }
 
 /* ─── Post content renderer ─────────────────────────────────── */
