@@ -4,7 +4,7 @@
   import PostListItem from '$lib/components/PostListItem.svelte';
   import { createPostListState } from '$lib/post-list-state.svelte';
   import { fetchPosts } from '$lib/posts';
-  import { pageTitle } from '$lib/site';
+  import { jsonLd, pageTitle, siteDescription, siteName, siteUrl } from '$lib/site';
   
   const postState = createPostListState({
     errorMessage: 'Failed to load posts.',
@@ -19,6 +19,16 @@
   title={pageTitle('Posts')}
   description="個人メモや備忘録の一覧"
 />
+
+<svelte:head>
+  {@html `<script type="application/ld+json">${jsonLd({
+    "@context": "https://schema.org",
+    "@type": "Blog",
+    "name": `${siteName} Posts`,
+    "description": siteDescription,
+    "url": `${siteUrl}/posts`
+  })}</script>`}
+</svelte:head>
 
 <div class="site-container space-y-4">
   <!-- Info card -->

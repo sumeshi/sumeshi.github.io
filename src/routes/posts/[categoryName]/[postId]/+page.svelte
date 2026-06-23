@@ -8,10 +8,17 @@
   import { createAsyncDataState } from '$lib/load-state.svelte';
   import { pathWithBase } from '$lib/paths';
   import { formatPostPublishedAt, getPostTitle } from '$lib/posts';
-  import { pageTitle, siteDescription } from '$lib/site';
+  import { jsonLd, pageTitle, siteDescription, siteName, siteUrl } from '$lib/site';
   import { fetchPostContent, parsePostContent, postSourceUrl } from '$lib/post-content';
-  import type { PostContent, ContentBlock } from '$lib/types';
+  import type { PostContent, ContentBlock, PostIndex } from '$lib/types';
+  import type { PageData } from './$types';
   import 'highlight.js/styles/tokyo-night-dark.css';
+
+  interface Props {
+    data: PageData;
+  }
+
+  let { data }: Props = $props();
 
   const emptyPost: PostContent = {
     title: '',
@@ -20,23 +27,67 @@
     published_at: '',
   };
 
+  function getPostDescription(post: PostContent | PostIndex): string {
+    if ('description' in post && post.description) {
+      return post.description;
+    }
+
+    if ('html_text' in post && typeof post.html_text === 'string' && post.html_text) {
+      return post.html_text.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 150);
+    }
+
+    return siteDescription;
+  }
+
   const postState = createAsyncDataState<PostContent>({ ...emptyPost });
   let contents: ContentBlock[] = $state([]);
 
   const categoryName = $derived($page.params.categoryName);
   const postId = $derived($page.params.postId);
-  const postTitle = $derived(postState.state.value.title || postState.state.value.heading ? getPostTitle(postState.state.value) : '');
+  const loadedPost = $derived(data.post);
+  const metaPost = $derived(loadedPost ?? postState.state.value);
+  const postTitle = $derived(metaPost.title || metaPost.heading ? getPostTitle(metaPost) : '');
   const breadcrumbTitle = $derived(postTitle || postId || 'Post');
-  const postDescription = $derived(
-    postState.state.value.html_text
-      ? postState.state.value.html_text.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 150)
-      : siteDescription
-  );
+  const postDescription = $derived(getPostDescription(metaPost));
 
+  const postCanonicalUrl = $derived(
+    categoryName && postId
+      ? `${siteUrl}/posts/${encodeURIComponent(categoryName)}/${encodeURIComponent(postId)}`
+      : siteUrl
+  );
   const xShareUrl = $derived(
     postTitle
-      ? `https://twitter.com/intent/tweet?text=${encodeURIComponent(postTitle)}%20-%20SIPDEP&url=${encodeURIComponent($page.url.href)}`
+      ? `https://twitter.com/intent/tweet?text=${encodeURIComponent(postTitle)}%20-%20SIPDEP&url=${encodeURIComponent(postCanonicalUrl)}`
       : '',
+  );
+  const postStructuredData = $derived(
+    postTitle
+      ? {
+          "@context": "https://schema.org",
+          "@type": "BlogPosting",
+          "headline": postTitle,
+          "description": postDescription,
+          "url": postCanonicalUrl,
+          "mainEntityOfPage": postCanonicalUrl,
+          "datePublished": metaPost.published_at || undefined,
+          "dateModified": metaPost.published_at || undefined,
+          "author": {
+            "@type": "Person",
+            "name": "S.Nakano",
+            "url": siteUrl
+          },
+          "publisher": {
+            "@type": "Person",
+            "name": "S.Nakano",
+            "url": siteUrl
+          },
+          "isPartOf": {
+            "@type": "Blog",
+            "name": `${siteName} Posts`,
+            "url": `${siteUrl}/posts`
+          }
+        }
+      : null
   );
 
   async function loadPost(category: string, id: string, signal: AbortSignal | undefined = undefined): Promise<void> {
@@ -70,7 +121,16 @@
 <PageMeta
   title={pageTitle(postTitle || postId || 'Post')}
   description={postDescription}
+  ogType="article"
+  publishedTime={metaPost.published_at}
+  modifiedTime={metaPost.published_at}
 />
+
+<svelte:head>
+  {#if postStructuredData}
+    {@html `<script type="application/ld+json">${jsonLd(postStructuredData)}</script>`}
+  {/if}
+</svelte:head>
 
 <div class="site-container">
   <div class="panel-shell panel-surface">

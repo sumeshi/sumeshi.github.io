@@ -7,7 +7,7 @@
   import { pathWithBase } from '$lib/paths';
   import { createPostListState } from '$lib/post-list-state.svelte';
   import { fetchPosts } from '$lib/posts';
-  import { siteName, siteDescription } from '$lib/site';
+  import { jsonLd, siteName, siteDescription } from '$lib/site';
 
   const postState = createPostListState({
     errorMessage: '',
@@ -78,7 +78,7 @@
 <PageMeta title={siteName} description={siteDescription} />
 
 <svelte:head>
-  {@html `<script type="application/ld+json">${JSON.stringify({
+  {@html `<script type="application/ld+json">${jsonLd({
     "@context": "https://schema.org",
     "@type": "Person",
     "name": "S.Nakano",

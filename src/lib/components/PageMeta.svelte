@@ -1,26 +1,50 @@
 <script lang="ts">
   import { page } from '$app/stores';
-  import { siteUrl, xHandle } from '$lib/site';
+  import { canonicalUrlForPath, siteAuthor, siteName, siteUrl, xHandle } from '$lib/site';
 
   interface Props {
     title: string;
     description: string;
     ogImage?: string;
+    ogType?: 'website' | 'article' | 'profile';
+    publishedTime?: string;
+    modifiedTime?: string;
   }
 
-  let { title, description, ogImage = `${siteUrl}/img/card.png` }: Props = $props();
+  let {
+    title,
+    description,
+    ogImage = `${siteUrl}/img/card.png`,
+    ogType = 'website',
+    publishedTime,
+    modifiedTime,
+  }: Props = $props();
 
-  const canonicalUrl = $derived($page.url.href);
+  const canonicalUrl = $derived(canonicalUrlForPath($page.url.pathname));
 </script>
 
 <svelte:head>
   <title>{title}</title>
   <link rel="canonical" href={canonicalUrl} />
   <meta name="description" content={description} />
+  <meta name="author" content={siteAuthor} />
+  <meta name="robots" content="index, follow" />
+  <meta property="og:site_name" content={siteName} />
+  <meta property="og:type" content={ogType} />
   <meta property="og:title" content={title} />
   <meta property="og:description" content={description} />
   <meta property="og:url" content={canonicalUrl} />
   <meta property="og:image" content={ogImage} />
+  {#if ogType === 'article'}
+    <meta property="article:author" content={siteAuthor} />
+    {#if publishedTime}
+      <meta property="article:published_time" content={publishedTime} />
+    {/if}
+    {#if modifiedTime}
+      <meta property="article:modified_time" content={modifiedTime} />
+    {/if}
+  {/if}
+  <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:site" content={xHandle} />
   <meta name="twitter:title" content={title} />
   <meta name="twitter:description" content={description} />
