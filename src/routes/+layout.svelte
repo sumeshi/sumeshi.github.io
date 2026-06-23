@@ -28,7 +28,16 @@
     { label: 'Works', href: '/works' },
     { label: 'Posts', href: '/posts' },
   ];
-  const headerCaption = 'Evidence first. Conclusions second.';
+  const headerMessages = [
+    'Keep it simple stupid.',
+    'You aren\'t gonna need it.',
+    'Don\'t repeat yourself.',
+    'Do one thing every day that scares you.',
+    'Can you see this?',
+  ];
+
+  let displayText = $state('');
+  let phase = $state<'init' | 'typing' | 'done'>('init');
 
   function trackPageView(url: URL): void {
     const pagePath = `${url.pathname}${url.search}`;
@@ -64,6 +73,28 @@
 
   onMount(() => {
     trackPageView(new URL(window.location.href));
+  });
+
+  onMount(() => {
+    const msg = headerMessages[Math.floor(Math.random() * headerMessages.length)];
+
+    const typeTimer = setTimeout(() => {
+      phase = 'typing';
+      let i = 0;
+      const interval = setInterval(() => {
+        if (i < msg.length) {
+          displayText = msg.slice(0, i + 1);
+          i++;
+        } else {
+          clearInterval(interval);
+          phase = 'done';
+        }
+      }, 50);
+    }, 2000);
+
+    return () => {
+      clearTimeout(typeTimer);
+    };
   });
 
   function openPrivacyPolicy(): void {
@@ -169,10 +200,24 @@
 
 <!-- Caption bar -->
 <header class="site-captionbar fixed left-0 right-0 top-14 z-30 flex h-8 items-center px-4 lg:left-64 lg:top-0 lg:px-8">
-  <p class="truncate text-[11px] font-medium tracking-[0.16em] text-gray-500">
-    {headerCaption}
+  <p class="truncate text-[11px] font-medium text-gray-500 font-mono">
+    <span class="text-indigo-400 whitespace-pre">$ {displayText}</span>
+    {#if phase !== 'done'}
+      <span class="inline-block w-[1ch] h-[1.1em] bg-indigo-400 align-text-bottom blink-cursor"></span>
+    {/if}
   </p>
 </header>
+
+<style>
+  .blink-cursor {
+    animation: blink-cursor 1s step-end infinite;
+  }
+
+  @keyframes blink-cursor {
+    0%, 40% { opacity: 1; }
+    41%, 100% { opacity: 0; }
+  }
+</style>
 
 <!-- Sidebar -->
 <nav
