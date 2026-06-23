@@ -14,7 +14,7 @@
   const postState = createPostListState({
     errorMessage: 'Failed to load posts for this category.',
     notFoundMessage: 'Category not found.',
-    getRequest: () => categoryName ? ((signal?: AbortSignal) => fetchCategoryPosts(categoryName, signal)) : null,
+    getRequest: () => categoryName ? ((signal: AbortSignal | undefined = undefined) => fetchCategoryPosts(categoryName, signal)) : null,
     onError: (error) => {
       console.error('Failed to fetch category posts:', error);
     },

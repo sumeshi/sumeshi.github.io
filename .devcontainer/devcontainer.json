@@ -3,9 +3,6 @@
     "dockerFile": "Dockerfile",
     "postCreateCommand": "/usr/bin/fish ./.devcontainer/postCreateCommands.fish",
     "remoteUser": "dev",
-    "remoteEnv": {
-        "PATH": "${containerEnv:PATH}:~/.npm-global/bin"
-    },
     "customizations": {
         "vscode": {
             "extensions": [

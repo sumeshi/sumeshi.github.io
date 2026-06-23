@@ -39,7 +39,7 @@
       : '',
   );
 
-  async function loadPost(category: string, id: string, signal?: AbortSignal): Promise<void> {
+  async function loadPost(category: string, id: string, signal: AbortSignal | undefined = undefined): Promise<void> {
     await postState.load((loadSignal) => fetchPostContent(category, id, loadSignal), {
       errorMessage: 'Failed to load this post.',
       onSuccess: async (data) => {

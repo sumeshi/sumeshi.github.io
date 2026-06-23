@@ -1,11 +1,8 @@
 #!/usr/bin/fish
 
-# change npm default directory
-mkdir ~/.npm-global
-npm config set prefix '~/.npm-global'
+# enable pinned pnpm from package.json
+corepack enable
+corepack prepare pnpm@11.9.0 --activate
 
-# install dependency checker
-npm install -g npm-check-updates
-
-# prepare project
-npm install
+# install project dependencies
+pnpm install --frozen-lockfile
