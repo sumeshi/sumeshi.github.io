@@ -31,6 +31,21 @@
 
   const projects: Project[] = [
     {
+      status: 'active',
+      title: 'ローカルLLMを活用したファストフォレンジック支援ツール',
+      hrefs: [
+        { label: 'forensia', url: 'https://github.com/sumeshi/forensia' }
+      ],
+      summary: [
+        '個人PCで動く小規模ローカルLLMによるファストフォレンジック支援ツールの開発。',
+      ],
+      xEmbedUrls: [
+        'https://x.com/sum3sh1/status/2069054729058124256',
+        'https://x.com/sum3sh1/status/2069056858770620867',
+        'https://x.com/sum3sh1/status/2053306186003611830'
+      ]
+    },
+    {
       status: 'maintained',
       title: 'Windowsログ解析支援ツールの開発',
       hrefs: [
@@ -38,7 +53,7 @@
       ],
       summary: [
         'Windows Eventlog を高速にパースし Elasticsearch にインポートするための Python 製ツール。',
-        'DFIR 向け Linux ディストリビューション 「Tsurugi Linux [LAB]」「DRIFT Fast XS」 に標準搭載された。',
+        'DFIR 向け Linux ディストリビューション Tsurugi Linux [LAB], DRIFT Linux に標準搭載された。',
       ],
       xEmbedUrls: [
         'https://x.com/sum3sh1/status/1413718504318984193',
@@ -56,7 +71,7 @@
       ],
       summary: [
         'Windows Artifacts を高速にパースし Elasticsearch にインポートするための Python 製ツール。',
-        'mft2es, mft2json は、DFIR 向け Linux ディストリビューション 「Tsurugi Linux [LAB]」 に標準搭載された。',
+        'mft2es, mft2json は、DFIR 向け Linux ディストリビューション Tsurugi Linux [LAB] に標準搭載された。',
       ],
       xEmbedUrls: [
         'https://x.com/sum3sh1/status/1936168521014427945',
@@ -79,7 +94,7 @@
       ]
     },
     {
-      status: 'active',
+      status: 'maintained',
       title: 'ログ解析支援ツールの開発',
       hrefs: [
         { label: 'Trivium', url: 'https://github.com/sumeshi/trivium' },
@@ -96,7 +111,7 @@
       ]
     },
     {
-      status: 'active',
+      status: 'in-development',
       title: '異言語スキャンツールの開発',
       hrefs: [
         { label: 'langscan', url: 'https://github.com/sumeshi/langscan' },
@@ -109,7 +124,7 @@
       ]
     },
     {
-      status: 'maintained',
+      status: 'in-development',
       title: '日本語特化軽量全文検索エンジンの開発',
       hrefs: [
         { label: 'roughsearch', url: 'https://github.com/sumeshi/roughsearch' },
@@ -122,21 +137,8 @@
       ]
     },
     {
-      status: 'in-development',
-      title: 'ローカルLLMを活用したファストフォレンジック支援ツール(未公開)',
-      hrefs: [
-        { label: 'forensia', url: 'https://github.com/sumeshi/' }
-      ],
-      summary: [
-        '個人PCで動く小規模ローカルLLMによるファストフォレンジック支援ツールの開発。',
-      ],
-      xEmbedUrls: [
-        'https://x.com/sum3sh1/status/2053306186003611830'
-      ]
-    },
-    {
       status: 'experimental',
-      title: 'ローカルLLMを活用したインテリジェンス情報収集・分析ツールの開発(非公開)',
+      title: 'ローカルLLMを活用したインテリジェンス情報収集・分析ツールの開発 (非公開)',
       hrefs: [
         { label: 'Desidia', url: 'https://github.com/sumeshi/' },
       ],
@@ -150,17 +152,6 @@
     },
     {
       status: 'archived',
-      title: '統合フォレンジックツールの開発(一部非公開)',
-      hrefs: [
-        { label: 'ez4en6', url: 'https://github.com/sumeshi/' },
-        { label: 'i2t-f^3', url: 'https://github.com/sumeshi/i2t-f3' }
-      ],
-      summary: [
-        'フォレンジックツール群の組み合わせによる一部分析自動化の試み。',
-      ],
-    },
-    {
-      status: 'archived',
       title: 'ツールの言語移植作業など',
       hrefs: [
         { label: 'sleuthkit-mactime.py', url: 'https://github.com/sumeshi/sleuthkit-mactime.py' },
@@ -170,12 +161,24 @@
         'https://x.com/sum3sh1/status/1908263331745661252'
       ]
     },
+    {
+      status: 'archived',
+      title: '統合フォレンジックツールの開発 (非公開)',
+      hrefs: [
+        { label: 'ez4en6', url: 'https://github.com/sumeshi/' },
+        { label: 'i2t-f^3', url: 'https://github.com/sumeshi/i2t-f3' }
+      ],
+      summary: [
+        'フォレンジックツール群の組み合わせによる一部分析自動化の試み。',
+        'FORENSIA へ統合済',
+      ],
+    },
   ];
 </script>
 
 <PageMeta
   title={pageTitle('Works')}
-  description="これまでに作成したOSSや活動内容資料など。"
+  description="これまでに作成してきた OSS や 活動内容資料など。"
 />
 
 <div class="site-container space-y-6">

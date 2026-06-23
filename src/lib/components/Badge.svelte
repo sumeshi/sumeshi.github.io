@@ -15,6 +15,7 @@
     trailing?: string;
     className?: string;
     children?: import('svelte').Snippet;
+    icon?: import('svelte').Snippet;
   }
 
   let {
@@ -28,6 +29,7 @@
     trailing,
     className = '',
     children,
+    icon,
   }: Props = $props();
 
   const variantClasses: Record<Variant, string> = {
@@ -67,13 +69,18 @@
     class={baseClass}
   >
     {#if layout === 'card'}
-      <span class="text-[10px] uppercase tracking-[0.14em] opacity-70">{meta}</span>
       <span class="flex items-end justify-between gap-3">
-        <span class="text-sm font-semibold leading-tight">
-          {@render children?.()}
+        <span class="flex items-center gap-1.5">
+          {#if icon}
+            <span class="shrink-0">{@render icon()}</span>
+          {/if}
+          <span class="text-base font-semibold leading-tight">
+            {@render children?.()}
+          </span>
         </span>
         <span class="text-xs opacity-70 transition-transform group-hover:translate-x-0.5">{trailing ?? '↗'}</span>
       </span>
+      <span class="text-[10px] uppercase tracking-[0.14em] opacity-70">{meta}</span>
     {:else}
       {@render children?.()}
     {/if}
@@ -81,13 +88,18 @@
 {:else}
   <span class={baseClass}>
     {#if layout === 'card'}
-      <span class="text-[10px] uppercase tracking-[0.14em] opacity-70">{meta}</span>
       <span class="flex items-end justify-between gap-3">
-        <span class="text-sm font-semibold leading-tight">
-          {@render children?.()}
+        <span class="flex items-center gap-1.5">
+          {#if icon}
+            <span class="shrink-0">{@render icon()}</span>
+          {/if}
+          <span class="text-base font-semibold leading-tight">
+            {@render children?.()}
+          </span>
         </span>
         <span class="text-xs opacity-70">{trailing ?? '↗'}</span>
       </span>
+      <span class="text-[10px] uppercase tracking-[0.14em] opacity-70">{meta}</span>
     {:else}
       {@render children?.()}
     {/if}

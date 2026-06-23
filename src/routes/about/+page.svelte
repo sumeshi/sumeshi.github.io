@@ -9,7 +9,6 @@
 
   let lang: Lang = $state('en');
 
-  const profileTags = ['Incident Response', 'Digital Forensics', 'Malware Analysis'];
   const socialLinks = [
     { name: 'GitHub', url: 'https://github.com/sumeshi' },
     { name: 'X', url: 'https://x.com/sum3sh1' },
@@ -18,31 +17,31 @@
     {
       name: 'Zenn',
       url: 'https://zenn.dev/sum3sh1',
-      meta: 'Tech',
+      meta: 'Tech articles',
       external: true,
     },
     {
       name: 'Note',
       url: 'https://note.com/sumeshi_kun/',
-      meta: 'Ideas',
+      meta: 'Ideas & essays',
       external: true,
     },
     {
       name: 'DEV',
       url: 'https://dev.to/sum3sh1',
-      meta: 'English tech',
+      meta: 'Dev articles (English)',
       external: true,
     },
     {
       name: 'Qiita',
       url: 'https://qiita.com/sumeshi',
-      meta: 'Tech archives',
+      meta: 'Tech archives (Japanese)',
       external: true,
     },
     {
       name: 'Speaker Deck',
       url: 'https://speakerdeck.com/sumeshi',
-      meta: 'Slides',
+      meta: 'Presentation slides',
       external: true,
     },
     {
@@ -178,6 +177,7 @@
       </div>
     </div>
 
+    <h2 class="section-title mb-4">$ whoami</h2>
     <div class="grid gap-6 md:grid-cols-[8rem_1fr] md:items-start">
       <a href={pathWithBase('/img/me.jpg')} class="shrink-0 self-start">
         <img
@@ -219,53 +219,72 @@
           </div>
         </div>
 
-        <p class="mt-5 max-w-2xl text-sm leading-7 text-gray-300">
-          サイバーセキュリティ分野における調査研究およびインシデント対応業務に従事。
-          デジタルフォレンジックおよびマルウェア解析を専門とし、調査で得た知見をもとに技術トレーニングの実施やOSS開発を行っている。
-        </p>
-
-        <div class="mt-4 flex flex-wrap gap-2">
-          {#each profileTags as tag}
-            <Badge variant="indigo" size="xs" shape="pill" className="text-[10px] uppercase tracking-[0.14em]">
-              {tag}
-            </Badge>
+        <div class="mt-5 space-y-3">
+          {#each aboutme[lang] as paragraph}
+            <p class="text-sm leading-relaxed text-gray-300">{paragraph}</p>
           {/each}
         </div>
 
-        <div class="mt-5 border-t border-gray-800/80 pt-4">
-          <p class="text-[11px] font-semibold uppercase tracking-[0.18em] text-gray-500">Certifications</p>
-          <div class="mt-2 flex flex-wrap gap-2">
-            {#each certifications as cert}
-              <Badge
-                href={cert.url}
-                external={true}
-                variant="amber"
-                size="xs"
-                shape="rounded"
-                className="rounded-lg"
-              >
-                {cert.name}
-              </Badge>
-            {/each}
-          </div>
+        <div class="mt-5 flex flex-wrap gap-2">
+          {#each certifications as cert}
+            <Badge
+              href={cert.url}
+              external={true}
+              variant="amber"
+              size="xs"
+              shape="rounded"
+              className="rounded-lg"
+            >
+              {cert.name}
+            </Badge>
+          {/each}
         </div>
       </div>
     </div>
   </header>
 
-  <section class="grid gap-4 border-b border-gray-800/80 pb-7 md:grid-cols-[11rem_1fr]">
-    <h2 class="section-title">$ whoami</h2>
-    <div class="space-y-3">
-      {#each aboutme[lang] as paragraph}
-        <p class="text-sm leading-relaxed text-gray-300">{paragraph}</p>
-      {/each}
-    </div>
-  </section>
-
-  <section class="grid gap-4 border-b border-gray-800/80 pb-7 md:grid-cols-[11rem_1fr]">
-    <h2 class="section-title">$ open links</h2>
+  <section class="space-y-3 border-b border-gray-800/80 pb-7">
+    <h2 class="section-title">$ curl</h2>
     <div class="grid grid-cols-2 gap-2 sm:grid-cols-3">
       {#each writingPlatforms as platform}
+        {#snippet platformIcon()}
+          {#if platform.name === 'Zenn'}
+            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
+              <rect x="2" y="2" width="20" height="20" rx="4" opacity="0.15"/>
+              <path d="M7 7h10v2.5l-4 2.5 4 2.5V17H7v-2.5l4-2.5-4-2.5V7z" opacity="0.9"/>
+            </svg>
+          {:else if platform.name === 'Note'}
+            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
+              <rect x="2" y="2" width="20" height="20" rx="4" opacity="0.15"/>
+              <path d="M6 4h9l4 4v12a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1z" opacity="0.9"/>
+              <path d="M15 4v4h4" opacity="0.5"/>
+              <rect x="8" y="10" width="7" height="1.5" rx="0.75" opacity="0.9"/>
+              <rect x="8" y="13" width="5" height="1.5" rx="0.75" opacity="0.9"/>
+              <rect x="8" y="16" width="3" height="1.5" rx="0.75" opacity="0.9"/>
+            </svg>
+          {:else if platform.name === 'DEV'}
+            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
+              <rect x="2" y="2" width="20" height="20" rx="4" opacity="0.15"/>
+              <path d="M9 7l9 5-9 5V7z" opacity="0.9"/>
+            </svg>
+          {:else if platform.name === 'Qiita'}
+            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
+              <rect x="2" y="2" width="20" height="20" rx="4" opacity="0.15"/>
+              <path d="M7 4v16l5-3.5L17 20V4H7z" opacity="0.9"/>
+            </svg>
+          {:else if platform.name === 'Speaker Deck'}
+            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
+              <rect x="2" y="2" width="20" height="20" rx="4" opacity="0.15"/>
+              <rect x="5" y="7" width="14" height="4" rx="1" opacity="0.9"/>
+              <rect x="5" y="13" width="10" height="4" rx="1" opacity="0.5"/>
+            </svg>
+          {:else}
+            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
+              <rect x="2" y="2" width="20" height="20" rx="4" opacity="0.15"/>
+              <path d="M7 7h10v2H7V7zm0 4h10v2H7v-2zm0 4h7v2H7v-2z" opacity="0.9"/>
+            </svg>
+          {/if}
+        {/snippet}
         <Badge
           href={platform.url}
           external={platform.external}
@@ -282,6 +301,7 @@
           meta={platform.meta}
           shape="rounded"
           trailing={platform.external ? undefined : '->'}
+          icon={platformIcon}
         >
           {platform.name}
         </Badge>
@@ -289,7 +309,7 @@
     </div>
   </section>
 
-  <section class="grid gap-4 border-b border-gray-800/80 pb-7 md:grid-cols-[11rem_1fr]">
+  <section class="space-y-3 border-b border-gray-800/80 pb-7">
     <h2 class="section-title">$ history</h2>
     <div class="space-y-6">
       {#each Object.entries(history[lang]) as [period, items]}
@@ -308,7 +328,7 @@
     </div>
   </section>
 
-  <section class="grid gap-4 md:grid-cols-[11rem_1fr]">
+  <section class="space-y-3">
     <h2 class="section-title">$ ls /usr/local/bin</h2>
     <div class="overflow-x-auto">
       <table class="w-full text-sm">

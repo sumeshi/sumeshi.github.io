@@ -176,7 +176,7 @@
     bind:this={navToggleButton}
     type="button"
     onclick={() => (drawerOpen = !drawerOpen)}
-    class="text-gray-400 hover:text-white mr-3 p-1"
+    class="text-gray-400 hover:text-white p-1"
     aria-controls="primary-sidebar"
     aria-expanded={drawerOpen}
     aria-label={drawerOpen ? 'Close navigation' : 'Open navigation'}
@@ -185,7 +185,6 @@
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
     </svg>
   </button>
-  <a href={pathWithBase('/')} class="text-white font-bold hover:text-indigo-400 transition-colors">SIPDEP</a>
 </div>
 
 <!-- Mobile backdrop -->
@@ -223,7 +222,7 @@
 <nav
   id="primary-sidebar"
   aria-label="Primary"
-  class="site-sidebar fixed top-0 left-0 h-full w-64 z-40 flex flex-col
+  class="site-sidebar fixed top-14 lg:top-0 left-0 h-full w-64 z-40 flex flex-col
     transition-transform duration-300 ease-in-out
     {drawerOpen ? 'translate-x-0' : '-translate-x-full'} lg:translate-x-0"
 >

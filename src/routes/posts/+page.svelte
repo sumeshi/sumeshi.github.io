@@ -36,7 +36,7 @@
       <div>
         <h1 class="page-title">All Posts</h1>
         <p class="mt-3 text-sm text-gray-400">
-          ZennとかNoteに書くほどでもないこととか。ここで得た知識を悪用しないようにね。
+          記事にするほどでもない備忘録とか、整理中の知識とか。ここで得た知識を悪用しないようにね。
         </p>
       </div>
       {#if !postState.state.loading}
