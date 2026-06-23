@@ -1,0 +1,1 @@
+import{c as e}from"./B944yY2v.js";function t(t){return t===`/`?e||`/`:`${e}${`/${t}`.replace(/\/+/g,`/`)}`}function n(e){let n=e.trim().replace(/^\/+|\/+$/g,``);return t(n.startsWith(`posts/`)?n:`posts/${n}`)}export{n,t};
