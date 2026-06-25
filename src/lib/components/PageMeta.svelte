@@ -28,6 +28,7 @@
 <svelte:head>
   <title>{title}</title>
   <link rel="canonical" href={canonicalUrl} />
+  <link rel="sitemap" type="application/xml" href={`${siteUrl}/sitemap.xml`} />
   <meta name="description" content={description} />
   <meta name="author" content={siteAuthor} />
   <meta name="robots" content="index, follow" />
