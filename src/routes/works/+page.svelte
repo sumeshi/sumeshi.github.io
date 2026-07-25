@@ -40,6 +40,8 @@
         '個人PCで動く小規模ローカルLLMによるファストフォレンジック支援ツールの開発。',
       ],
       xEmbedUrls: [
+        'https://x.com/sum3sh1/status/2078930110611378291',
+        'https://x.com/sum3sh1/status/2078930325603078152',
         'https://x.com/sum3sh1/status/2069054729058124256',
         'https://x.com/sum3sh1/status/2069056858770620867',
         'https://x.com/sum3sh1/status/2053306186003611830'
@@ -76,7 +78,7 @@
       xEmbedUrls: [
         'https://x.com/sum3sh1/status/1936168521014427945',
         'https://x.com/sum3sh1/status/1936534458930450459',
-        'https://x.com/sum3sh1/status/1424542848368529413'
+        'https://x.com/sum3sh1/status/2080014729297416538'
       ]
     },
     {
@@ -111,7 +113,7 @@
       ]
     },
     {
-      status: 'in-development',
+      status: 'maintained',
       title: '異言語スキャンツールの開発',
       hrefs: [
         { label: 'langscan', url: 'https://github.com/sumeshi/langscan' },
@@ -124,7 +126,7 @@
       ]
     },
     {
-      status: 'in-development',
+      status: 'maintained',
       title: '日本語特化軽量全文検索エンジンの開発',
       hrefs: [
         { label: 'roughsearch', url: 'https://github.com/sumeshi/roughsearch' },
@@ -134,6 +136,32 @@
       ],
       xEmbedUrls: [
         'https://x.com/sum3sh1/status/2049776493077954865'
+      ]
+    },
+    {
+      status: 'maintained',
+      title: 'アニメキャラクター風 Human-memorable-hash',
+      hrefs: [
+        { label: 'anihash', url: 'https://github.com/sumeshi/anihash' },
+      ],
+      summary: [
+        'white-hair-sora-kasugano のように、アニメキャラクター風の名前と特徴によってhumanhashと同等の出力空間を確保したハッシュツール。',
+      ],
+      xEmbedUrls: [
+        'https://x.com/sum3sh1/status/2079286117678125535'
+      ]
+    },
+    {
+      status: 'in-development',
+      title: '日本語PIIフィルター用ファインチューニングモデル',
+      hrefs: [
+        { label: 'privacy-filter-jp.cpp', url: 'https://github.com/sumeshi/privacy-filter-jp.cpp' },
+      ],
+      summary: [
+        'OpenAI Privacy Filterをベースに、日本語固有の個人識別情報をフィルターできるようチューニングしたモデル。',
+      ],
+      xEmbedUrls: [
+        'https://x.com/sum3sh1/status/2073038952597266498'
       ]
     },
     {
