@@ -95,13 +95,13 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sumeshi.github.io/posts/knowledges/ubuntu-add-swap</loc>
+    <loc>https://sumeshi.github.io/posts/knowledges/proxmox-disk-extend</loc>
     <lastmod>2023-12-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sumeshi.github.io/posts/knowledges/proxmox-disk-extend</loc>
+    <loc>https://sumeshi.github.io/posts/knowledges/ubuntu-add-swap</loc>
     <lastmod>2023-12-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -161,13 +161,13 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sumeshi.github.io/posts/works/do-localllms-dream-of-forensic-investigator</loc>
+    <loc>https://sumeshi.github.io/posts/works/do-localllms-dream-of-forensic-investigator-en</loc>
     <lastmod>2026-07-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sumeshi.github.io/posts/works/do-localllms-dream-of-forensic-investigator-en</loc>
+    <loc>https://sumeshi.github.io/posts/works/do-localllms-dream-of-forensic-investigator</loc>
     <lastmod>2026-07-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -175,6 +175,12 @@
   <url>
     <loc>https://sumeshi.github.io/posts/knowledges/wsl2-reduction</loc>
     <lastmod>2026-07-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://sumeshi.github.io/posts/tools/binaryninja</loc>
+    <lastmod>2026-07-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
