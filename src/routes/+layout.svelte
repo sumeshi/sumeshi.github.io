@@ -232,7 +232,7 @@
         id={`primary-nav-link-${index}`}
         href={pathWithBase(item.href)}
         onclick={() => (drawerOpen = false)}
-        class="flex items-center px-4 py-2.5 rounded-lg mb-1 text-sm font-medium transition-colors
+        class="flex items-center px-4 py-2 rounded-lg mb-0.5 text-xs font-semibold uppercase tracking-[0.12em] transition-colors
           {isActive(item.href)
             ? 'bg-indigo-600/20 text-indigo-400'
             : 'text-gray-400 hover:text-white hover:bg-white/5'}"

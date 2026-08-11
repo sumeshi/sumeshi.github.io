@@ -35,7 +35,7 @@
 </svelte:head>
 
 <div class="mx-auto flex w-full max-w-6xl flex-col justify-center gap-7 py-2 md:gap-9 lg:h-[calc(100vh-6rem)] lg:overflow-hidden lg:py-0">
-  <section class="flex min-h-0 flex-col items-center justify-center text-center">
+  <section class="flex min-h-0 py-8 flex-col items-center justify-center text-center">
     <img
       src={pathWithBase('/img/sipdep.svg')}
       alt="SIPDEP"
