@@ -5,7 +5,7 @@
   import { createPostListState } from '$lib/post-list-state.svelte';
   import { fetchPosts } from '$lib/posts';
   import { jsonLd, pageTitle, siteDescription, siteName, siteUrl } from '$lib/site';
-  
+
   const postState = createPostListState({
     errorMessage: 'Failed to load posts.',
     getRequest: () => fetchPosts,
@@ -30,34 +30,32 @@
   })}</script>`}
 </svelte:head>
 
-<div class="site-container">
-  <section>
-    <div class="mb-2 flex flex-col gap-3 border-b border-gray-800/80 pb-4 sm:flex-row sm:items-end sm:justify-between">
-      <div>
-        <h1 class="page-title">All Posts</h1>
-        <p class="mt-3 text-sm text-gray-400">
-          記事にするほどでもない備忘録とか、整理中の知識とか。ここで得た知識を悪用しないようにね。
-        </p>
-      </div>
-      {#if !postState.state.loading}
-        <p class="font-mono text-xs text-gray-600">{postState.state.value.length} entries</p>
-      {/if}
-    </div>
-
+<div class="site-container space-y-6">
+  <header class="flex flex-col gap-3 border-b border-gray-800/80 pb-5 sm:flex-row sm:items-end sm:justify-between">
     <div>
-      {#if postState.state.loading}
-        <LoadingPulse lines={4} />
-      {:else if postState.state.errorMessage}
-        <p class="text-red-300 text-sm">{postState.state.errorMessage}</p>
-      {:else if postState.state.value.length === 0}
-        <p class="text-gray-600 text-sm">No posts found.</p>
-      {:else}
-        <div>
-          {#each postState.state.value as post}
-            <PostListItem {post} />
-          {/each}
-        </div>
-      {/if}
+      <h1 class="page-title">$ ls /var/log</h1>
+      <p class="mt-3 max-w-2xl text-sm leading-6 text-gray-400">
+        記事にするほどでもない備忘録とか、整理中の知識とか。ここで得た知識を悪用しないようにね。
+      </p>
     </div>
+    {#if !postState.state.loading}
+      <p class="font-mono text-xs text-gray-600">{postState.state.value.length} entries</p>
+    {/if}
+  </header>
+
+  <section>
+    {#if postState.state.loading}
+      <LoadingPulse lines={4} />
+    {:else if postState.state.errorMessage}
+      <p class="text-sm text-red-300">{postState.state.errorMessage}</p>
+    {:else if postState.state.value.length === 0}
+      <p class="text-sm text-gray-600">No posts found.</p>
+    {:else}
+      <div class="divide-y divide-gray-800/60">
+        {#each postState.state.value as post}
+          <PostListItem {post} />
+        {/each}
+      </div>
+    {/if}
   </section>
 </div>

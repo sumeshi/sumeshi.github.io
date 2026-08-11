@@ -21,12 +21,30 @@
   };
 
   const statusMeta: Record<ProjectStatusKey, { label: string; className: string }> = {
-    active: { label: 'active', className: 'text-emerald-400' },
-    maintained: { label: 'maintained', className: 'text-lime-400' },
-    'in-development': { label: 'in development', className: 'text-sky-400' },
-    experimental: { label: 'experimental', className: 'text-amber-400' },
-    archived: { label: 'archived', className: 'text-gray-400' },
-    'on-hold': { label: 'on hold', className: 'text-rose-400' }
+    active: {
+      label: 'active',
+      className: 'border-emerald-400/25 bg-emerald-400/10 text-emerald-300',
+    },
+    maintained: {
+      label: 'maintained',
+      className: 'border-lime-400/25 bg-lime-400/10 text-lime-300',
+    },
+    'in-development': {
+      label: 'in development',
+      className: 'border-sky-400/25 bg-sky-400/10 text-sky-300',
+    },
+    experimental: {
+      label: 'experimental',
+      className: 'border-amber-400/25 bg-amber-400/10 text-amber-300',
+    },
+    archived: {
+      label: 'archived',
+      className: 'border-gray-600/60 bg-gray-800/60 text-gray-400',
+    },
+    'on-hold': {
+      label: 'on hold',
+      className: 'border-rose-400/25 bg-rose-400/10 text-rose-300',
+    },
   };
 
   const projects: Project[] = [
@@ -234,48 +252,51 @@
     <p class="font-mono text-xs text-gray-600">{projects.length} entries</p>
   </header>
 
-  <section class="divide-y divide-gray-800/70 text-sm">
+  <section class="divide-y divide-gray-800/60">
     {#each projects as project}
-      <article class="py-5 first:pt-0">
-        <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
-          <div class="min-w-0">
-            {#if project.status}
-              <p class={`mb-1 font-mono text-[11px] lowercase tracking-[0.14em] ${statusMeta[project.status].className}`}>
-                [{statusMeta[project.status].label}]
-              </p>
-            {/if}
-            <h2 class="section-title text-base leading-6">
-              {project.title}
-            </h2>
-          </div>
+      <article class="py-6 first:pt-1 sm:py-7">
+        {#if project.status}
+          <span
+            class={`inline-flex items-center rounded-full border px-2 py-0.5 font-mono text-[10px] font-medium uppercase tracking-[0.14em] ${statusMeta[project.status].className}`}
+          >
+            {statusMeta[project.status].label}
+          </span>
+        {/if}
 
-          <div class="flex flex-wrap gap-2 sm:justify-end">
-            {#each project.hrefs as link}
-              <Badge href={link.url} external={true} variant="indigo" size="sm" shape="pill">
-                {link.label}
-              </Badge>
-            {/each}
-          </div>
+        <div class="mt-2.5 flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between sm:gap-6">
+          <h2 class="min-w-0 font-sans text-base font-semibold leading-snug tracking-tight text-white sm:text-[1.05rem]">
+            {project.title}
+          </h2>
+
+          {#if project.hrefs.length > 0}
+            <div class="flex shrink-0 flex-wrap gap-1.5 sm:max-w-[42%] sm:justify-end">
+              {#each project.hrefs as link}
+                <Badge href={link.url} external={true} variant="gray" size="xs" shape="rounded" className="font-mono">
+                  {link.label}
+                </Badge>
+              {/each}
+            </div>
+          {/if}
         </div>
 
         {#if project.summary.length > 0}
-          <ul class="mt-4 space-y-2 text-gray-300">
+          <div class="mt-3 max-w-3xl space-y-1.5 text-sm leading-relaxed text-gray-400">
             {#each project.summary as line}
-              <li class="flex gap-2">
-                <span class="shrink-0 text-gray-600">-</span>
-                <span>{line}</span>
-              </li>
+              <p>{line}</p>
             {/each}
-          </ul>
+          </div>
         {/if}
 
         {#if project.xEmbedUrls?.length}
-          <details class="mt-5 rounded-lg border border-gray-700/90 bg-gray-950/25 transition-colors hover:border-gray-600">
-            <summary class="flex cursor-pointer list-none items-center justify-between gap-3 rounded-lg px-4 py-3 text-sm text-gray-100 marker:hidden">
-              <span class="font-medium">See related X posts</span>
-              <span class="rounded-full border border-gray-600/80 bg-gray-950/70 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.16em] text-gray-300 transition-transform details-open:rotate-45">+</span>
+          <details class="mt-4 rounded-lg border border-gray-800 bg-gray-950/20 transition-colors open:border-gray-700 hover:border-gray-700">
+            <summary class="flex cursor-pointer list-none items-center justify-between gap-3 rounded-lg px-3.5 py-2.5 text-xs text-gray-300 marker:hidden">
+              <span class="font-medium tracking-wide">
+                Related X posts
+                <span class="ml-1.5 font-mono text-[10px] text-gray-600">{project.xEmbedUrls.length}</span>
+              </span>
+              <span class="rounded-full border border-gray-700 bg-gray-950/70 px-1.5 py-0.5 font-mono text-[10px] text-gray-400 transition-transform details-open:rotate-45">+</span>
             </summary>
-            <div class="space-y-4 border-t border-gray-800/80 px-4 py-4">
+            <div class="space-y-4 border-t border-gray-800/80 px-3.5 py-4">
               {#each project.xEmbedUrls as xEmbedUrl}
                 <XPostEmbed url={xEmbedUrl} />
               {/each}

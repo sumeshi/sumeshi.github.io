@@ -231,9 +231,9 @@
           </div>
         </div>
 
-        <div class="mt-5 space-y-3">
+        <div class="mt-5 max-w-3xl space-y-3">
           {#each aboutme[lang] as paragraph}
-            <p class="text-sm leading-relaxed text-gray-300">
+            <p class="text-sm leading-relaxed text-gray-400">
               {#if Array.isArray(paragraph)}
                 {#each paragraph as line, i}
                   {#if i > 0}<br />{/if}{line}
@@ -326,10 +326,10 @@
     <div class="space-y-6">
       {#each Object.entries(history[lang]) as [period, items]}
         <div>
-          <h3 class="mb-2 text-sm font-semibold text-indigo-400">{period}</h3>
-          <ul class="space-y-1.5">
+          <h3 class="mb-2 text-sm font-semibold tracking-tight text-indigo-400">{period}</h3>
+          <ul class="max-w-3xl space-y-1.5">
             {#each items as item}
-              <li class="flex gap-2 text-sm text-gray-300">
+              <li class="flex gap-2 text-sm leading-relaxed text-gray-400">
                 <span class="shrink-0 text-gray-600">-</span>
                 <span>{item}</span>
               </li>

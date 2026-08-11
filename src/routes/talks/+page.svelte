@@ -91,37 +91,38 @@
     <p class="font-mono text-xs text-gray-600">{talks.length} entries</p>
   </header>
 
-  <section class="divide-y divide-gray-800/70 text-sm">
+  <section class="divide-y divide-gray-800/60">
     {#each talks as talk}
       {@const primary = primarySlide(talk)}
       {@const extras = extraSlides(talk)}
-      <article class="py-5 first:pt-0">
-        <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
-          <div class="min-w-0">
-            <div class="mb-1 flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-[11px] tracking-[0.14em] text-gray-500">
-              <time datetime={talk.date}>{talk.date}</time>
-              {#if talk.event}
-                <span class="text-gray-600">{talk.event}</span>
-              {/if}
-            </div>
-            <h2 class="section-title text-base leading-4">
-              {talk.title}
-            </h2>
-          </div>
+      <article class="py-6 first:pt-1 sm:py-7">
+        <div class="mb-1 flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-[10px] uppercase tracking-[0.14em] text-gray-500">
+          <time datetime={talk.date}>{talk.date}</time>
+          {#if talk.event}
+            <span class="normal-case tracking-normal text-gray-600">{talk.event}</span>
+          {/if}
+        </div>
 
-          <div class="flex flex-wrap gap-2 sm:justify-end">
-            {#each talk.hrefs as link}
-              <Badge href={link.url} external={true} variant="indigo" size="sm" shape="pill">
-                {link.label}
-              </Badge>
-            {/each}
-          </div>
+        <div class="mt-2.5 flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between sm:gap-6">
+          <h2 class="min-w-0 font-sans text-base font-semibold leading-snug tracking-tight text-white sm:text-[1.05rem]">
+            {talk.title}
+          </h2>
+
+          {#if talk.hrefs.length > 0}
+            <div class="flex shrink-0 flex-wrap gap-1.5 sm:max-w-[42%] sm:justify-end">
+              {#each talk.hrefs as link}
+                <Badge href={link.url} external={true} variant="gray" size="xs" shape="rounded" className="font-mono">
+                  {link.label}
+                </Badge>
+              {/each}
+            </div>
+          {/if}
         </div>
 
         {#if talk.summary.length > 0}
-          <div class="mt-4 text-gray-300">
+          <div class="mt-3 max-w-3xl space-y-1.5 text-sm leading-relaxed text-gray-400">
             {#each talk.summary as line}
-              <p class="flex">{line}</p>
+              <p>{line}</p>
             {/each}
           </div>
         {/if}
@@ -133,15 +134,15 @@
         {/if}
 
         {#if extras.length > 0}
-          <details class="mt-4 rounded-lg border border-gray-700/90 bg-gray-950/25 transition-colors hover:border-gray-600">
-            <summary class="flex cursor-pointer list-none items-center justify-between gap-3 rounded-lg px-4 py-3 text-sm text-gray-100 marker:hidden">
-              <span class="font-medium">English Version</span>
-              <span class="rounded-full border border-gray-600/80 bg-gray-950/70 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.16em] text-gray-300 transition-transform details-open:rotate-45">+</span>
+          <details class="mt-4 rounded-lg border border-gray-800 bg-gray-950/20 transition-colors open:border-gray-700 hover:border-gray-700">
+            <summary class="flex cursor-pointer list-none items-center justify-between gap-3 rounded-lg px-3.5 py-2.5 text-xs text-gray-300 marker:hidden">
+              <span class="font-medium tracking-wide">English Version</span>
+              <span class="rounded-full border border-gray-700 bg-gray-950/70 px-1.5 py-0.5 font-mono text-[10px] text-gray-400 transition-transform details-open:rotate-45">+</span>
             </summary>
-            <div class="space-y-6 border-t border-gray-800/80 px-4 py-4">
+            <div class="space-y-6 border-t border-gray-800/80 px-3.5 py-4">
               {#each extras as slide}
                 <div class="space-y-2">
-                  <p class="font-mono text-[11px] tracking-[0.12em] text-gray-500">{slide.title}</p>
+                  <p class="font-mono text-[10px] tracking-[0.12em] text-gray-500">{slide.title}</p>
                   {@render slideBlock(slide)}
                 </div>
               {/each}

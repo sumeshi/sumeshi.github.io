@@ -44,7 +44,7 @@
     {:else if postState.state.value.length === 0}
       <p class="text-gray-600 text-sm">No posts in this category.</p>
     {:else}
-      <div>
+      <div class="divide-y divide-gray-800/60">
         {#each postState.state.value as post}
           <PostListItem {post} />
         {/each}

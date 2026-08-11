@@ -12,17 +12,24 @@
 
 <a
   href={postHref(post.path)}
-  class="group grid gap-2 border-b border-gray-800/70 py-4 transition-colors hover:bg-white/[0.015] sm:grid-cols-[1fr_auto] sm:items-start"
+  class="group block py-3.5 transition-colors hover:bg-white/[0.015]"
 >
-  <span class="min-w-0">
-    <span class="block truncate text-sm font-medium text-gray-200 transition-colors group-hover:text-indigo-300">
-      {getPostListTitle(post)}
-    </span>
-    {#if post.description}
-      <span class="mt-1 block line-clamp-2 text-xs leading-5 text-gray-500">{post.description}</span>
-    {/if}
-  </span>
-  <span class="font-mono text-xs text-gray-600 sm:pt-0.5">
-    {formatPostListDate(post.published_at)}
-  </span>
+  <div class="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between sm:gap-6">
+    <div class="min-w-0">
+      <time
+        class="font-mono text-[10px] font-medium uppercase tracking-[0.14em] text-gray-500"
+        datetime={post.published_at}
+      >
+        {formatPostListDate(post.published_at)}
+      </time>
+      <span class="mt-1.5 block font-sans text-base font-semibold leading-snug tracking-tight text-white transition-colors group-hover:text-indigo-300 sm:text-[1.05rem]">
+        {getPostListTitle(post)}
+      </span>
+      {#if post.description}
+        <span class="mt-1.5 block line-clamp-2 text-sm leading-relaxed text-gray-500">
+          {post.description}
+        </span>
+      {/if}
+    </div>
+  </div>
 </a>

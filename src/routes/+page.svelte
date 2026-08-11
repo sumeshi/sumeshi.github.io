@@ -35,7 +35,7 @@
 </svelte:head>
 
 <div class="mx-auto flex w-full max-w-6xl flex-col justify-center gap-7 py-2 md:gap-9 lg:h-[calc(100vh-6rem)] lg:overflow-hidden lg:py-0">
-  <section class="flex min-h-0 py-8 flex-col items-center justify-center text-center">
+  <section class="flex min-h-0 py-12 flex-col items-center justify-center text-center">
     <img
       src={pathWithBase('/img/sipdep.svg')}
       alt="SIPDEP"
@@ -53,21 +53,21 @@
     {#if postState.state.loading}
       <LoadingPulse lines={5} compact={true} />
     {:else if recentPosts.length > 0}
-      <div class="divide-y divide-gray-800/70">
+      <div class="divide-y divide-gray-800/60">
         {#each recentPosts as post}
           <a
             href={postHref(post.path)}
             class="group grid gap-2 py-3 transition-colors hover:bg-white/[0.015] sm:grid-cols-[1fr_auto] sm:items-start"
           >
             <span class="min-w-0">
-              <span class="block truncate text-sm font-medium text-gray-200 transition-colors group-hover:text-indigo-300">
+              <span class="block truncate font-sans text-base font-semibold leading-snug tracking-tight text-white transition-colors group-hover:text-indigo-300 sm:text-[1.05rem]">
                 {getPostListTitle(post)}
               </span>
               {#if post.description}
-                <span class="mt-1 block line-clamp-2 text-xs leading-5 text-gray-500">{post.description}</span>
+                <span class="mt-1.5 block line-clamp-2 text-sm leading-relaxed text-gray-400">{post.description}</span>
               {/if}
             </span>
-            <span class="font-mono text-xs text-gray-600 sm:pt-0.5">
+            <span class="font-mono text-xs text-gray-600 sm:pt-1">
               {formatPostListDate(post.published_at)}
             </span>
           </a>

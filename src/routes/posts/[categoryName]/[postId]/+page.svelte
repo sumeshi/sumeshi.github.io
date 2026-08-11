@@ -134,7 +134,7 @@
 
 <div class="site-container">
   <article>
-    <header class="flex flex-col gap-3 border-b border-gray-800/80 pb-5 sm:flex-row sm:items-start sm:justify-between">
+    <header class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
       <Breadcrumb
         items={[
           { label: 'POSTS', href: pathWithBase('/posts') },

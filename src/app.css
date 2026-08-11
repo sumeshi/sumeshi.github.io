@@ -72,7 +72,9 @@ html {
 .section-title {
   color: rgb(255 255 255);
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New, monospace;
+  font-size: 1.125rem;
   font-weight: 700;
+  line-height: 1.4;
 }
 
 .loading-block {
