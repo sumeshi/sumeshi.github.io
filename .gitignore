@@ -5,5 +5,7 @@ node_modules
 build
 .claude
 .codex
+.tokensave
+.serena
 TASKS.md
 AGENTS.md
