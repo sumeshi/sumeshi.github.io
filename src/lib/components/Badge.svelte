@@ -1,5 +1,15 @@
 <script lang="ts">
-  type Variant = 'indigo' | 'gray' | 'amber' | 'cyan' | 'green' | 'neutral';
+  type Variant =
+    | 'indigo'
+    | 'gray'
+    | 'amber'
+    | 'cyan'
+    | 'green'
+    | 'neutral'
+    | 'sky'
+    | 'teal'
+    | 'lime'
+    | 'emerald';
   type Size = 'xs' | 'sm';
   type Shape = 'rounded' | 'pill';
   type Layout = 'inline' | 'card';
@@ -39,6 +49,11 @@
     cyan: 'border-cyan-400/20 bg-cyan-400/10 text-cyan-200 hover:border-cyan-300 hover:text-white',
     green: 'border-green-400/20 bg-green-400/10 text-green-200 hover:border-green-300 hover:text-white',
     neutral: 'border-neutral-400/20 bg-neutral-400/10 text-neutral-200 hover:border-neutral-300 hover:text-white',
+    // service-ish tones (Zenn / Note / Qiita / Speaker Deck)
+    sky: 'border-sky-400/25 bg-sky-400/10 text-sky-200 hover:border-sky-300 hover:text-white',
+    teal: 'border-teal-400/25 bg-teal-400/10 text-teal-200 hover:border-teal-300 hover:text-white',
+    lime: 'border-lime-400/25 bg-lime-400/10 text-lime-200 hover:border-lime-300 hover:text-white',
+    emerald: 'border-emerald-400/25 bg-emerald-400/10 text-emerald-200 hover:border-emerald-300 hover:text-white',
   };
 
   const sizeClasses: Record<Size, string> = {
@@ -53,13 +68,38 @@
 
   const layoutClasses: Record<Layout, string> = {
     inline: 'inline-flex items-center',
-    card: 'group flex min-h-[64px] w-full flex-col justify-between rounded-lg px-3 py-3 text-left',
+    card: 'group flex w-full rounded-lg px-3 py-2.5 text-left',
   };
 
   const baseClass = $derived(
     `${layoutClasses[layout]} border font-medium transition-colors ${variantClasses[variant]} ${layout === 'inline' ? `${sizeClasses[size]} ${shapeClasses[shape]}` : ''} ${className}`.trim()
   );
 </script>
+
+{#snippet cardBody()}
+  <span class="flex w-full items-start gap-2.5">
+    {#if icon}
+      <span class="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-black/20 text-current">
+        {@render icon()}
+      </span>
+    {/if}
+    <span class="min-w-0 flex-1">
+      <span class="flex items-baseline justify-between gap-2">
+        <span class="truncate font-sans text-[0.9375rem] font-semibold leading-snug tracking-tight">
+          {@render children?.()}
+        </span>
+        <span class="shrink-0 font-mono text-[10px] leading-none opacity-45 transition-transform group-hover:translate-x-0.5 group-hover:opacity-70">
+          {trailing ?? '↗'}
+        </span>
+      </span>
+      {#if meta}
+        <span class="mt-1 block font-mono text-[10px] uppercase leading-none tracking-[0.16em] opacity-55">
+          {meta}
+        </span>
+      {/if}
+    </span>
+  </span>
+{/snippet}
 
 {#if href}
   <a
@@ -69,18 +109,7 @@
     class={baseClass}
   >
     {#if layout === 'card'}
-      <span class="flex items-end justify-between gap-3">
-        <span class="flex items-center gap-1.5">
-          {#if icon}
-            <span class="shrink-0">{@render icon()}</span>
-          {/if}
-          <span class="text-base font-semibold leading-tight">
-            {@render children?.()}
-          </span>
-        </span>
-        <span class="text-xs opacity-70 transition-transform group-hover:translate-x-0.5">{trailing ?? '↗'}</span>
-      </span>
-      <span class="text-[10px] uppercase tracking-[0.14em] opacity-70">{meta}</span>
+      {@render cardBody()}
     {:else}
       {@render children?.()}
     {/if}
@@ -88,18 +117,7 @@
 {:else}
   <span class={baseClass}>
     {#if layout === 'card'}
-      <span class="flex items-end justify-between gap-3">
-        <span class="flex items-center gap-1.5">
-          {#if icon}
-            <span class="shrink-0">{@render icon()}</span>
-          {/if}
-          <span class="text-base font-semibold leading-tight">
-            {@render children?.()}
-          </span>
-        </span>
-        <span class="text-xs opacity-70">{trailing ?? '↗'}</span>
-      </span>
-      <span class="text-[10px] uppercase tracking-[0.14em] opacity-70">{meta}</span>
+      {@render cardBody()}
     {:else}
       {@render children?.()}
     {/if}

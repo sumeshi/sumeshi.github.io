@@ -17,37 +17,43 @@
     {
       name: 'Zenn',
       url: 'https://zenn.dev/sum3sh1',
-      meta: 'Tech articles',
+      meta: 'tech articles',
+      variant: 'sky' as const,
       external: true,
     },
     {
       name: 'Note',
       url: 'https://note.com/sumeshi_kun/',
-      meta: 'Ideas & essays',
+      meta: 'ideas / essays',
+      variant: 'emerald' as const,
       external: true,
     },
     {
       name: 'DEV',
       url: 'https://dev.to/sum3sh1',
-      meta: 'Dev articles (English)',
+      meta: 'tech articles(en)',
+      variant: 'neutral' as const,
       external: true,
     },
     {
       name: 'Qiita',
       url: 'https://qiita.com/sumeshi',
-      meta: 'Tech archives (Japanese)',
+      meta: 'tech articles(archived)',
+      variant: 'lime' as const,
       external: true,
     },
     {
       name: 'Speaker Deck',
       url: 'https://speakerdeck.com/sumeshi',
-      meta: 'Presentation slides',
+      meta: 'talks',
+      variant: 'teal' as const,
       external: true,
     },
     {
       name: 'Posts',
       url: pathWithBase('/posts'),
-      meta: 'Private notes',
+      meta: 'private logs',
+      variant: 'indigo' as const,
       external: false,
     },
   ];
@@ -253,64 +259,56 @@
             </Badge>
           {/each}
         </div>
+
       </div>
     </div>
   </header>
 
   <section class="space-y-3 border-b border-gray-800/80 pb-7">
-    <h2 class="section-title">$ curl</h2>
+    <h2 class="section-title">$ ln</h2>
     <div class="grid grid-cols-2 gap-2 sm:grid-cols-3">
       {#each writingPlatforms as platform}
         {#snippet platformIcon()}
           {#if platform.name === 'Zenn'}
-            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
-              <rect x="2" y="2" width="20" height="20" rx="4" opacity="0.15"/>
-              <path d="M7 7h10v2.5l-4 2.5 4 2.5V17H7v-2.5l4-2.5-4-2.5V7z" opacity="0.9"/>
+            <!-- Zenn-ish mark -->
+            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M4.5 4.5h6.2L7.4 12l3.3 7.5H4.5L1.2 12 4.5 4.5Zm8.8 0H21l-5.2 7.5L21 19.5h-7.7L8.1 12l5.2-7.5Z" />
             </svg>
           {:else if platform.name === 'Note'}
-            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
-              <rect x="2" y="2" width="20" height="20" rx="4" opacity="0.15"/>
-              <path d="M6 4h9l4 4v12a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1z" opacity="0.9"/>
-              <path d="M15 4v4h4" opacity="0.5"/>
-              <rect x="8" y="10" width="7" height="1.5" rx="0.75" opacity="0.9"/>
-              <rect x="8" y="13" width="5" height="1.5" rx="0.75" opacity="0.9"/>
-              <rect x="8" y="16" width="3" height="1.5" rx="0.75" opacity="0.9"/>
+            <!-- folded page, no text lines -->
+            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M14 3.5H7A1.5 1.5 0 0 0 5.5 5v14A1.5 1.5 0 0 0 7 20.5h10a1.5 1.5 0 0 0 1.5-1.5V9L14 3.5Z" />
+              <path d="M14 3.5V9h5.5" />
             </svg>
           {:else if platform.name === 'DEV'}
-            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
-              <rect x="2" y="2" width="20" height="20" rx="4" opacity="0.15"/>
-              <path d="M9 7l9 5-9 5V7z" opacity="0.9"/>
+            <!-- code brackets -->
+            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M8.5 7.5 4.5 12l4 4.5" />
+              <path d="M15.5 7.5 19.5 12l-4 4.5" />
             </svg>
           {:else if platform.name === 'Qiita'}
-            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
-              <rect x="2" y="2" width="20" height="20" rx="4" opacity="0.15"/>
-              <path d="M7 4v16l5-3.5L17 20V4H7z" opacity="0.9"/>
+            <!-- bookmark, no text lines -->
+            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M7 3.5h10a1.2 1.2 0 0 1 1.2 1.2V20l-6.2-3.6L5.8 20V4.7A1.2 1.2 0 0 1 7 3.5Z" />
             </svg>
           {:else if platform.name === 'Speaker Deck'}
-            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
-              <rect x="2" y="2" width="20" height="20" rx="4" opacity="0.15"/>
-              <rect x="5" y="7" width="14" height="4" rx="1" opacity="0.9"/>
-              <rect x="5" y="13" width="10" height="4" rx="1" opacity="0.5"/>
+            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <rect x="3.5" y="5.5" width="17" height="5" rx="1.2" />
+              <rect x="3.5" y="13.5" width="12" height="5" rx="1.2" opacity="0.45" />
             </svg>
           {:else}
-            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
-              <rect x="2" y="2" width="20" height="20" rx="4" opacity="0.15"/>
-              <path d="M7 7h10v2H7V7zm0 4h10v2H7v-2zm0 4h7v2H7v-2z" opacity="0.9"/>
+            <!-- three lines -->
+            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <rect x="5" y="6.5" width="14" height="1.8" rx="0.9" />
+              <rect x="5" y="11.1" width="14" height="1.8" rx="0.9" />
+              <rect x="5" y="15.7" width="14" height="1.8" rx="0.9" />
             </svg>
           {/if}
         {/snippet}
         <Badge
           href={platform.url}
           external={platform.external}
-          variant={platform.name === 'Zenn'
-            ? 'cyan'
-            : platform.name === 'Qiita'
-              ? 'green'
-              : platform.name === 'Speaker Deck'
-                ? 'amber'
-                : platform.name === 'Posts'
-                  ? 'indigo'
-                  : 'neutral'}
+          variant={platform.variant}
           layout="card"
           meta={platform.meta}
           shape="rounded"
