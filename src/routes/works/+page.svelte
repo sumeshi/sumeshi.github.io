@@ -40,6 +40,7 @@
         '個人PCで動く小規模ローカルLLMによるファストフォレンジック支援ツールの開発。',
       ],
       xEmbedUrls: [
+        'https://x.com/sum3sh1/status/2085747700495216855',
         'https://x.com/sum3sh1/status/2078930110611378291',
         'https://x.com/sum3sh1/status/2078930325603078152',
         'https://x.com/sum3sh1/status/2069054729058124256',
@@ -110,6 +111,19 @@
       xEmbedUrls: [
         'https://x.com/sum3sh1/status/1980679577941995839',
         'https://x.com/sum3sh1/status/1854231023787339958'
+      ]
+    },
+    {
+      status: 'maintained',
+      title: 'AIエージェントログ解析支援ライブラリの開発',
+      hrefs: [
+        { label: 'agentlogparser-rs', url: 'https://github.com/sumeshi/agentlogparser-rs' },
+      ],
+      summary: [
+        'Codex CLI, Claude Codeなどのアーティファクトをパースするライブラリ。',
+      ],
+      xEmbedUrls: [
+        'https://x.com/sum3sh1/status/2082840308321268100'
       ]
     },
     {

@@ -26,6 +26,7 @@
     { label: 'Home', href: '/' },
     { label: 'About', href: '/about' },
     { label: 'Works', href: '/works' },
+    { label: 'Talks', href: '/talks' },
     { label: 'Posts', href: '/posts' },
   ];
   const headerMessages = [
