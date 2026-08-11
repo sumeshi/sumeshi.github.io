@@ -66,14 +66,21 @@
     },
   ];
 
-  const aboutme = {
+  // string = 1段落 / string[] = 同一段落内の複数行（行間はline-heightのみ）
+  const aboutme: Record<Lang, Array<string | string[]>> = {
     en: [
       'I specialize in cybersecurity, particularly incident response.',
-      'With a background in software engineering, I enjoy applying that experience in my work. I also build tools I find useful and release them as open source on GitHub.',
+      [
+        'With a background in software engineering, I enjoy applying that experience in my work.',
+        'I also build tools I find useful and release them as open source on GitHub.',
+      ],
     ],
     ja: [
       'サイバーセキュリティ、とりわけインシデントレスポンスを専門にしています。',
-      'システム開発畑から来ているので、そっち方面の知見を活かして楽しく過ごしています。また、自分がほしいなと思ったツールをOSSとして開発、GitHubで公開しています。',
+      [
+        'システム開発畑から来ているので、そっち方面の知見を活かして楽しく過ごしています。',
+        'また、自分がほしいなと思ったツールをOSSとして開発、GitHubで公開しています。',
+      ],
     ],
   };
 
@@ -178,14 +185,13 @@
     </div>
 
     <h2 class="section-title mb-4">$ whoami</h2>
-    <div class="grid gap-6 md:grid-cols-[8rem_1fr] md:items-start">
-      <a href={pathWithBase('/img/me.jpg')} class="shrink-0 self-start">
-        <img
-          src={pathWithBase('/img/me.jpg')}
-          alt="Portrait of S.Nakano"
-          class="h-24 w-24 rounded-lg border border-gray-700/80 object-cover shadow-lg md:h-32 md:w-32"
-        />
-      </a>
+    <div class="grid gap-6 md:grid-cols-[8rem_1fr] md:items-start md:gap-10">
+      <img
+        src={pathWithBase('/img/me.jpg')}
+        alt="Portrait of S.Nakano"
+        draggable="false"
+        class="h-24 w-24 shrink-0 self-start rounded-lg border border-gray-700/80 object-cover shadow-lg select-none md:h-32 md:w-32"
+      />
 
       <div class="min-w-0">
         <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
@@ -221,7 +227,15 @@
 
         <div class="mt-5 space-y-3">
           {#each aboutme[lang] as paragraph}
-            <p class="text-sm leading-relaxed text-gray-300">{paragraph}</p>
+            <p class="text-sm leading-relaxed text-gray-300">
+              {#if Array.isArray(paragraph)}
+                {#each paragraph as line, i}
+                  {#if i > 0}<br />{/if}{line}
+                {/each}
+              {:else}
+                {paragraph}
+              {/if}
+            </p>
           {/each}
         </div>
 

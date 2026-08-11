@@ -39,6 +39,7 @@
     <img
       src={pathWithBase('/img/sipdep.svg')}
       alt="SIPDEP"
+      draggable="false"
       class="max-h-[32vh] w-full max-w-[960px] object-contain sm:max-h-[38vh] lg:max-h-[42vh]"
     />
   </section>
