@@ -1,1 +1,0 @@
-import{N as e}from"./BZ_va5ZZ.js";import{c as t}from"./BnkMDmzh.js";function n(n){let r=t([]);return e(()=>{let e=n.getRequest();if(!e){r.fail(n.notFoundMessage??n.errorMessage,[]);return}let t=new AbortController;return r.load(e,{errorMessage:n.errorMessage,onError:n.onError},t.signal),()=>t.abort()}),r}export{n as t};
