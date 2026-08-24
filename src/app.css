@@ -260,6 +260,7 @@ html {
   margin-top: 0.75rem;
   margin-bottom: 0.75rem;
   overflow: hidden;
+  max-width: 100%;
 }
 
 .code-block pre {
@@ -267,7 +268,7 @@ html {
   padding: 1rem;
   font-size: 0.875rem;
   line-height: 1.625;
-  white-space: pre-wrap;
+  white-space: pre;
 }
 
 .html-wrapper code:not(pre code) {
