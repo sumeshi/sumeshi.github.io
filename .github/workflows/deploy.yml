@@ -2,8 +2,8 @@ name: Deploy
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron: '0 20 * * *'
+  repository_dispatch:
+    types: [api-published]
   push:
     branches:
       - master
@@ -32,7 +32,7 @@ jobs:
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v4
-        if: ${{ github.ref == 'refs/heads/master' }}
+        if: ${{ github.event_name == 'repository_dispatch' || github.ref == 'refs/heads/master' }}
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./build

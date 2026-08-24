@@ -5,6 +5,7 @@
   import LinkButton from '$lib/components/LinkButton.svelte';
   import PageMeta from '$lib/components/PageMeta.svelte';
   import { page } from '$app/stores';
+  import { untrack } from 'svelte';
   import { createAsyncDataState } from '$lib/load-state.svelte';
   import { pathWithBase } from '$lib/paths';
   import { formatPostPublishedAt, getPostTitle } from '$lib/posts';
@@ -39,8 +40,15 @@
     return siteDescription;
   }
 
-  const postState = createAsyncDataState<PostContent>({ ...emptyPost });
-  let contents: ContentBlock[] = $state([]);
+  const initialPostContent = untrack(() => data.postContent);
+  const initialContents = untrack(() => data.initialContents);
+  const postState = createAsyncDataState<PostContent>(initialPostContent ?? { ...emptyPost });
+  let contents: ContentBlock[] = $state(initialContents);
+  let loadedRouteKey: string | null = $state(null);
+
+  if (initialContents.length > 0) {
+    postState.state.loading = false;
+  }
 
   const categoryName = $derived($page.params.categoryName);
   const postId = $derived($page.params.postId);
@@ -97,7 +105,6 @@
         contents = await parsePostContent(data.html_text);
       },
       onError: (error) => {
-        contents = [];
         console.error('Failed to fetch post:', error);
       },
     }, signal);
@@ -110,6 +117,19 @@
       return;
     }
 
+    const routeKey = `${categoryName}/${postId}`;
+    const previousRouteKey = untrack(() => loadedRouteKey);
+
+    if (previousRouteKey && previousRouteKey !== routeKey) {
+      contents = data.initialContents;
+      postState.reset(data.postContent ?? { ...emptyPost });
+
+      if (contents.length > 0) {
+        postState.state.loading = false;
+      }
+    }
+
+    loadedRouteKey = routeKey;
     const controller = new AbortController();
 
     void loadPost(categoryName, postId, controller.signal);
@@ -168,20 +188,14 @@
             <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z" />
           </svg>
         </IconButton>
-        {#if postState.state.value.published_at}
-          <span class="order-3 hidden text-xs text-gray-500 sm:inline sm:order-1">{formatPostPublishedAt(postState.state.value.published_at)}</span>
+        {#if metaPost.published_at}
+          <span class="order-3 hidden text-xs text-gray-500 sm:inline sm:order-1">{formatPostPublishedAt(metaPost.published_at)}</span>
         {/if}
       </div>
     </header>
 
     <div class="py-6">
-      {#if postState.state.loading}
-        <LoadingPulse lines={6} />
-      {:else if postState.state.errorMessage}
-        <p class="text-red-300 text-sm">{postState.state.errorMessage}</p>
-      {:else if contents.length === 0}
-        <p class="text-gray-600 text-sm">No content available.</p>
-      {:else}
+      {#if contents.length > 0}
         {#each contents as block, index (`${block.type}-${index}`)}
           {#if block.type === 'text'}
             <div class="html-wrapper text-gray-300 text-sm leading-relaxed">
@@ -193,6 +207,12 @@
             </div>
           {/if}
         {/each}
+      {:else if postState.state.loading}
+        <LoadingPulse lines={6} />
+      {:else if postState.state.errorMessage}
+        <p class="text-red-300 text-sm">{postState.state.errorMessage}</p>
+      {:else}
+        <p class="text-gray-600 text-sm">No content available.</p>
       {/if}
     </div>
 
