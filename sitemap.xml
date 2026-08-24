@@ -148,12 +148,6 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sumeshi.github.io/posts/knowledges/ai-memorandum</loc>
-    <lastmod>2026-07-04</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
     <loc>https://sumeshi.github.io/posts/works/do-localllms-dream-of-forensic-investigator-en</loc>
     <lastmod>2026-08-11</lastmod>
     <changefreq>monthly</changefreq>
@@ -197,6 +191,12 @@
   </url>
   <url>
     <loc>https://sumeshi.github.io/posts/works/quilt</loc>
+    <lastmod>2026-08-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://sumeshi.github.io/posts/knowledges/ai-memorandum</loc>
     <lastmod>2026-08-24</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
