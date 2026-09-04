@@ -1,0 +1,329 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="../../img/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0C111B" />
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-DVLS4LMPGV"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-DVLS4LMPGV');
+    </script>
+    <link href="../../_app/immutable/entry/start.BCFbcSSG.js" rel="modulepreload">
+		<link href="../../_app/immutable/chunks/CWXPM-hs.js" rel="modulepreload">
+		<link href="../../_app/immutable/chunks/CyU4G86o.js" rel="modulepreload">
+		<link href="../../_app/immutable/entry/app.1Lng3zxw.js" rel="modulepreload">
+		<link href="../../_app/immutable/chunks/HclGiUj8.js" rel="modulepreload">
+		<link href="../../_app/immutable/chunks/xihTtKlq.js" rel="modulepreload">
+		<link href="../../_app/immutable/nodes/0.cavbe9cz.js" rel="modulepreload">
+		<link href="../../_app/immutable/chunks/e1pbLIzX.js" rel="modulepreload">
+		<link href="../../_app/immutable/chunks/CQG9f1E7.js" rel="modulepreload">
+		<link href="../../_app/immutable/nodes/6.CJBoxpOT.js" rel="modulepreload">
+		<link href="../../_app/immutable/chunks/f1Ea10ET.js" rel="modulepreload">
+		<link href="../../_app/immutable/chunks/DFn7si3-.js" rel="modulepreload">
+		<link href="../../_app/immutable/chunks/i4hBObmy.js" rel="modulepreload">
+		<link href="../../_app/immutable/chunks/CktOxlOe.js" rel="modulepreload">
+		<!--1qspgas--><!--[0--><!----><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"AIにフォレンジックさせるのをやめよう","description":"AI-assisted Forensic Scribing という考え方と、その実装について。","url":"https://sumeshi.github.io/posts/works/dont-make-ai-your-forensic-analyst","mainEntityOfPage":"https://sumeshi.github.io/posts/works/dont-make-ai-your-forensic-analyst","datePublished":"2026-09-04","dateModified":"2026-09-04","author":{"@type":"Person","name":"S.Nakano","url":"https://sumeshi.github.io"},"publisher":{"@type":"Person","name":"S.Nakano","url":"https://sumeshi.github.io"},"isPartOf":{"@type":"Blog","name":"SIPDEP Posts","url":"https://sumeshi.github.io/posts"}}</script><!----><!--]--><!----><!--k3tbry--><link rel="canonical" href="https://sumeshi.github.io/posts/works/dont-make-ai-your-forensic-analyst"/> <link rel="sitemap" type="application/xml" href="https://sumeshi.github.io/sitemap.xml"/> <meta name="description" content="AI-assisted Forensic Scribing という考え方と、その実装について。"/> <meta name="author" content="S.Nakano"/> <meta name="robots" content="index, follow"/> <meta property="og:site_name" content="SIPDEP"/> <meta property="og:type" content="article"/> <meta property="og:title" content="AIにフォレンジックさせるのをやめよう | SIPDEP"/> <meta property="og:description" content="AI-assisted Forensic Scribing という考え方と、その実装について。"/> <meta property="og:url" content="https://sumeshi.github.io/posts/works/dont-make-ai-your-forensic-analyst"/> <meta property="og:image" content="https://sumeshi.github.io/img/og-card.png"/> <meta property="og:image:width" content="1200"/> <meta property="og:image:height" content="630"/> <meta property="og:image:alt" content="SIPDEP social preview image"/> <!--[0--><meta property="article:author" content="S.Nakano"/> <!--[0--><meta property="article:published_time" content="2026-09-04"/><!--]--> <!--[0--><meta property="article:modified_time" content="2026-09-04"/><!--]--><!--]--> <meta name="twitter:card" content="summary_large_image"/> <meta name="twitter:site" content="@sum3sh1"/> <meta name="twitter:creator" content="@sum3sh1"/> <meta name="twitter:title" content="AIにフォレンジックさせるのをやめよう | SIPDEP"/> <meta name="twitter:description" content="AI-assisted Forensic Scribing という考え方と、その実装について。"/> <meta name="twitter:image" content="https://sumeshi.github.io/img/og-card.png"/> <meta name="twitter:image:alt" content="SIPDEP social preview image"/><!----><title>AIにフォレンジックさせるのをやめよう | SIPDEP</title>
+		<link href="../../_app/immutable/assets/0.D3c8Np5A.css" rel="stylesheet">
+		<link href="../../_app/immutable/assets/6.BKaa1rY2.css" rel="stylesheet">
+  </head>
+  <body data-sveltekit-preload-data="hover">
+    <div style="display: contents"><!--[--><!--[0--><!--[--><div class="site-topbar lg:hidden fixed top-0 left-0 right-0 z-50 h-14 flex items-center px-4 svelte-12qhfyh"><button type="button" class="text-gray-400 hover:text-white p-1 svelte-12qhfyh" aria-controls="primary-sidebar" aria-expanded="false" aria-label="Open navigation"><svg class="w-6 h-6 svelte-12qhfyh" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" class="svelte-12qhfyh"></path></svg></button></div> <!--[-1--><!--]--> <header class="site-captionbar fixed left-0 right-0 top-14 z-30 flex h-8 items-center px-4 lg:left-64 lg:top-0 lg:px-8 svelte-12qhfyh"><p class="truncate text-[11px] font-medium text-gray-500 font-mono svelte-12qhfyh"><span class="text-indigo-400 whitespace-pre svelte-12qhfyh">$ </span> <!--[0--><span class="inline-block w-[1ch] h-[1.1em] bg-indigo-400 align-text-bottom blink-cursor svelte-12qhfyh"></span><!--]--></p></header>  <nav id="primary-sidebar" aria-label="Primary" class="site-sidebar fixed top-14 lg:top-0 left-0 h-full w-64 z-40 flex flex-col transition-transform duration-300 ease-in-out -translate-x-full lg:translate-x-0 svelte-12qhfyh"><div class="flex-1 px-3 py-8 svelte-12qhfyh"><!--[--><a id="primary-nav-link-0" href="../.." class="flex items-center px-4 py-2 rounded-lg mb-0.5 text-xs font-semibold uppercase tracking-[0.12em] transition-colors text-gray-400 hover:text-white hover:bg-white/5 svelte-12qhfyh">Home</a><a id="primary-nav-link-1" href="../../about" class="flex items-center px-4 py-2 rounded-lg mb-0.5 text-xs font-semibold uppercase tracking-[0.12em] transition-colors text-gray-400 hover:text-white hover:bg-white/5 svelte-12qhfyh">About</a><a id="primary-nav-link-2" href="../../works" class="flex items-center px-4 py-2 rounded-lg mb-0.5 text-xs font-semibold uppercase tracking-[0.12em] transition-colors text-gray-400 hover:text-white hover:bg-white/5 svelte-12qhfyh">Works</a><a id="primary-nav-link-3" href="../../talks" class="flex items-center px-4 py-2 rounded-lg mb-0.5 text-xs font-semibold uppercase tracking-[0.12em] transition-colors text-gray-400 hover:text-white hover:bg-white/5 svelte-12qhfyh">Talks</a><a id="primary-nav-link-4" href="../../posts" class="flex items-center px-4 py-2 rounded-lg mb-0.5 text-xs font-semibold uppercase tracking-[0.12em] transition-colors text-gray-400 hover:text-white hover:bg-white/5 svelte-12qhfyh">Posts</a><!--]--></div> <div class="p-4 border-t border-gray-800 svelte-12qhfyh"><div class="flex items-center justify-between gap-4 px-6 svelte-12qhfyh"><button type="button" class="text-xs text-gray-600 hover:text-gray-400 transition-colors svelte-12qhfyh" aria-haspopup="dialog" aria-expanded="false" aria-controls="privacy-policy-dialog">Privacy Policy</button> <button type="button" class="text-xs text-gray-600 hover:text-gray-400 transition-colors svelte-12qhfyh" aria-haspopup="dialog" aria-expanded="false" aria-controls="disclaimer-dialog">Disclaimer</button></div></div></nav> <main class="site-main lg:ml-64 pt-[5.5rem] lg:pt-8 svelte-12qhfyh"><div class="px-4 py-5 sm:px-6 lg:px-8 lg:py-8 svelte-12qhfyh"><!--[--><!----> <div class="site-container"><article><header class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between"><nav class="font-mono text-xs text-gray-500" aria-label="Breadcrumb"><div class="flex min-w-0 items-center gap-y-1 flex-wrap"><!--[--><!--[-1--><!--]--> <!--[0--><a href="../../posts" class="truncate transition-colors hover:text-gray-300">POSTS</a><!--]--><!--[0--><span class="mx-1">/</span><!--]--> <!--[0--><a href="../../posts/works" class="truncate transition-colors hover:text-gray-300">works</a><!--]--><!--[0--><span class="mx-1">/</span><!--]--> <!--[-1--><span class="truncate text-gray-400">AIにフォレンジックさせるのをやめよう</span><!--]--><!--]--></div></nav><!----> <div class="flex items-center gap-2 self-start sm:shrink-0"><!--[0--><a href="https://twitter.com/intent/tweet?text=AI%E3%81%AB%E3%83%95%E3%82%A9%E3%83%AC%E3%83%B3%E3%82%B8%E3%83%83%E3%82%AF%E3%81%95%E3%81%9B%E3%82%8B%E3%81%AE%E3%82%92%E3%82%84%E3%82%81%E3%82%88%E3%81%86%20-%20SIPDEP&amp;url=https%3A%2F%2Fsumeshi.github.io%2Fposts%2Fworks%2Fdont-make-ai-your-forensic-analyst" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center rounded-md px-5 py-2 text-sm transition-colors border border-white/10 bg-black text-white hover:border-white/25 hover:bg-neutral-950 order-1 gap-1.5 px-3 py-1.5 text-xs font-medium sm:order-3"><svg class="h-3.5 w-3.5 shrink-0" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.258 5.63zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg> <span>Share</span><!----></a><!--]--> <a href="https://github.com/sumeshi/api/blob/master/works/dont-make-ai-your-forensic-analyst.md" target="_blank" rel="noopener noreferrer" aria-label="View source on GitHub" title="View source on GitHub" class="inline-flex h-9 w-9 items-center justify-center rounded-lg border transition-colors sm:h-10 sm:w-10 bg-transparent border-transparent text-gray-500 hover:text-white order-2 sm:order-2"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"></path></svg><!----></a><!----> <!--[0--><span class="order-3 hidden text-xs text-gray-500 sm:inline sm:order-1">2026-09-04</span><!--]--></div></header> <div class="py-6"><!--[0--><!--[--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><h1>AIにフォレンジックさせるのをやめよう</h1>
+<p>AI-assisted Forensic Scribing という考え方と、その実装について。</p>
+<h2>はじめに</h2>
+<p>以前、「<a href="https://sumeshi.github.io/posts/works/do-localllms-dream-of-forensic-investigator">ローカルLLMはフォレンジック調査官の夢を見るか？</a>」という記事を書きました。これは、<strong>AIが自律的にフォレンジック調査を進めるために作ったプロジェクト「<a href="https://github.com/sumeshi/forensia">FORENSIA</a>」</strong> に関するものでした。</p>
+<p>これは、さまざまなアーティファクトを統一フォーマットとして取り込み、ルールで調査起点を作り、仮説を立て、実際の証拠と突き合わせ、その結果を次の仮説生成やレポート生成に回す...という<strong>ループを構成するハーネス</strong>でした。LLMにすべてを任せず、小さな単位に分解した仕事だけをLLMに任せる。LLMがやらなくてもいい仕事は機械的にやる。そういうアーキテクチャです。</p>
+<p>なぜこんなことをしたかというと、当時（2026年4月ごろ）、ローカルで動くLLMというとあまり強いものはなく、せいぜい Gemma 4（2026年3月31日リリース）がギリギリ使い物になるかな、といった状況でした。そのため、潤沢なリソースが使えない <strong>貧者のLLM戦略</strong> （実際、約2万円の中古GPUで動かしています）をコンセプトに、できることがないかを模索した結果でした。</p>
+<p>このプロジェクトの発想自体は今でも面白いと思っているのですが、どちらかというと実用よりは夢を追いかけたPoC的なイメージで作っていました。
+ところが、ここ最近になって明確にローカルLLMのステージが変わったと感じています。</p>
+<p>個人的に衝撃を受けたのは、<a href="https://ornith.ai/ornith_1_5.html">Ornith-1.5</a>です。9B版でも軽快に動き、長時間走らせても思考が循環したり、考えが無限に発散したりすることなく、ひたすら働き続けてくれます。そういった意味で、エージェント性能が非常に高いと感じています。</p>
+<p>Ornith-1.5 は Qwen3.5 をベースに追加学習されたモデルなので、言語性能や知識についてはピュアな Gemma 4 ほど優秀ではないのですが、そういった点についてはそもそもローカルLLMに期待していません。というか期待してはいけません。</p>
+<p>必要なのは、必要な情報と指示を与えればちゃんとそのとおり動いてくれること。これだけ。</p>
+<h2>AIにフォレンジックをさせることの課題</h2>
+<p>私と同じようなことを考える人は山ほどいるわけで、AIにアーティファクトを食わせてレポート生成まで一気通貫！というのをちょこちょこ見かけます。どちらかといえば、マネージドの 卍最強モデル卍 をガンガン使って、精度の高い結果を得ようとするほうが多いかな。</p>
+<p>もちろんそれもすごく面白いのですが、やっぱり機密性やデータの取り扱いを考えるとローカルに魅力を感じてしまいます。</p>
+<blockquote>
+<p><a href="https://speakerdeck.com/sumeshi/forensia-rokarullmhuorenzitukuhanesu?slide=3">FORENSIA: ローカルLLMフォレンジックハーネス</a></p>
+</blockquote>
+<p>かといって、固定資産扱いにならない価格帯の機器では、ローカルLLMに調査そのものを任せられない。
+どうしようかなぁと考えていてふと思いました。<strong>別にフォレンジックやらせなくてもいいな</strong>と。</p>
+<p>フォレンジックで本当に大変なのは、調査そのものではないんですよね。<strong>全体像を把握できる形</strong>で<strong>一貫性を保ちながら整理し続ける</strong>ことです。</p>
+<p>フォレンジックでは、とにかくいろんなアーティファクトやログを見ます。もちろんパースするためのツールも無数にあり、ものによって見る部分も粒度も全く違う。</p>
+<p>もちろん、EDRとセット販売されている分析ツールや、統合フォレンジックツールのようなものもありますよ。それでも、<strong>後から出てきたネットワーク図のような謎の壁画</strong> や <strong>現場SEによる証言</strong>、<strong>調査本部が行った対応</strong> など諸々をタイムラインに整理し続けるのはつらい。</p>
+<p>まとめるツールが Excel とか PowerPoint だとより辛い。マジに気が狂います。</p>
+<h2>AIにフォレンジックをさせないという選択</h2>
+<p>というかフォレンジックで一番楽しいのって <strong>ヤバそうな痕跡を見つけること</strong> なのに、それをAIに任せてどうするんだ。さらに、任せた結果がいまいちだと悲しくなってしまいます。<strong>「これぼくがやったほうが早いのでは？」</strong>と思ってしまうことも。</p>
+<p>なので、ぼくがやることにします。</p>
+<blockquote>
+<p>「イベントログによると、1月12日の4時56分にこのIPからログオンしている」<br />
+「その直後にPowerShellが動いている」<br />
+「ファイアウォールログを見るとその付近で外部通信が発生している」  </p>
+</blockquote>
+<p>こんなふうに、人間様は見つけた事実をAIにポンポンなげるだけ。<br />
+AIは関連する証拠を探し、証拠への参照付きでまとめる形の分業がいいんじゃないかなって。</p>
+<p>完全にHuman-in-the-Loopを前提としたローカルLLMの運用をするということですね。<br />
+これを、<strong>AI-assisted Forensic Scribing</strong> (AI支援型フォレンジック書記) と呼ぼうと思います。</p>
+<h2>Pi: Coding Agent で始めるフォレンジック生活</h2>
+<p>前述の <a href="https://github.com/sumeshi/forensia">FORENSIA</a>では、LLMを調査ループの中でまともに走らせるために、かなり過剰な制御機構を組みました。~~取り込んだ証拠の正規化、検知ルールによる調査起点列挙、仮説の生成、調査カバレッジの管理、コンテキスト管理、出力を鵜呑みにしないための検証...~~ 自律的な調査をそれなりの精度でやろうとすると、最低でもこのくらいは必要になります。</p>
+<p>でも、今回のアイデアならもっと雑に始められます。<br />
+既存のハーネスに組み込まれているループの仕組みに乗っかり、ウワモノを乗せてあげれば十分です。</p>
+<p>ベースは <a href="https://pi.dev/">Pi Coding Agent</a> にしました。<br />
+これはミニマルな Harness で、デフォルトでは <code>read</code> <code>write</code> <code>edit</code> <code>bash</code> の機能しかありません。でも、そのミニマルさがイイ！となってオレオレハーネスを作っている層が一定いるとか。カレーをスパイスから作るタイプかもね。ぼくはそう。</p>
+<h2>実際に作ってみる</h2>
+<p>せっかくなのでちょいと作ってみて威力を確かめようかなと。</p>
+<p>このプロジェクトは仮に <strong><a href="https://github.com/sumeshi/lepisma">Lepisma</a></strong> と名付けました。<br />
+由来は紙魚の学名から。</p>
+<h3>Pi の準備</h3>
+<p><a href="https://pi.dev/">Pi</a> のインストールは公式Webサイトを見てください。npmやらなんやらで入れればOK。</p>
+<p>あとは使うモデルも設定してあげましょう。
+<strong>baseUrl</strong> にAPIサーバのURLを指定して、あとはVRAM容量を見ながら <strong>contextWindow</strong>, <strong>maxTokens</strong> をいい感じに調整する。</p>
+<p>下記の設定は私の使っているものとほぼ同じですが、<strong>寄せ集めパーツのデスクトップPC</strong> + 2万円くらいで買った <strong>RTX 2070 SUPER</strong> + <strong><a href="https://github.com/ggml-org/llama.cpp/tree/master/tools/server">llama-server</a></strong> で十分に動きます。</p>
+<p><code>~/.pi/agent/models.json</code></p><!----></div><!--]--><!--[-1--><div class="code-block"><pre><code><!----><span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;providers&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+        <span class="hljs-attr">&quot;ornith&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+            <span class="hljs-attr">&quot;baseUrl&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;http://192.168.1.123:8080/v1&quot;</span><span class="hljs-punctuation">,</span>
+            <span class="hljs-attr">&quot;api&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;openai-completions&quot;</span><span class="hljs-punctuation">,</span>
+            <span class="hljs-attr">&quot;apiKey&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;none&quot;</span><span class="hljs-punctuation">,</span>
+            <span class="hljs-attr">&quot;compat&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+                <span class="hljs-attr">&quot;supportsDeveloperRole&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">false</span></span><span class="hljs-punctuation">,</span>
+                <span class="hljs-attr">&quot;supportsReasoningEffort&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">false</span></span>
+            <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+            <span class="hljs-attr">&quot;models&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span>
+                <span class="hljs-punctuation">{</span>
+                    <span class="hljs-attr">&quot;id&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Ornith-1.5-9B&quot;</span><span class="hljs-punctuation">,</span>
+                    <span class="hljs-attr">&quot;name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Ornith-1.5-9B&quot;</span><span class="hljs-punctuation">,</span>
+                    <span class="hljs-attr">&quot;reasoning&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">true</span></span><span class="hljs-punctuation">,</span>
+                    <span class="hljs-attr">&quot;contextWindow&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">131072</span><span class="hljs-punctuation">,</span>
+                    <span class="hljs-attr">&quot;maxTokens&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">16384</span>
+                <span class="hljs-punctuation">}</span>
+            <span class="hljs-punctuation">]</span>
+        <span class="hljs-punctuation">}</span>
+    <span class="hljs-punctuation">}</span>
+<span class="hljs-punctuation">}</span><!----></code></pre></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><h3>構成</h3>
+<p>Pi Coding Agent の動きは以下の2つの要素で制御します。</p>
+<ul>
+<li><code>AGENTS.md</code></li>
+<li><code>.pi/skills/&lt;skill_name&gt;/SKILL.md</code></li>
+</ul>
+<p>フォルダ構成にするとこんなかんじ。</p><!----></div><!--]--><!--[-1--><div class="code-block"><pre><code><!---->lepisma/
+ ├── AGENTS.md
+ ├── timeline.csv
+ ├── sources/
+ └── .pi/
+    └── skills/
+        ├── lepisma-search/
+        │   └── <span class="hljs-built_in">SKILL</span>.md
+        ├── lepisma-summarize/
+        │   └── <span class="hljs-built_in">SKILL</span>.md
+        ├── lepisma-tag/
+        │   └── <span class="hljs-built_in">SKILL</span>.md
+        └── lepisma-timeline/
+            └── <span class="hljs-built_in">SKILL</span>.md<!----></code></pre></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p>ひとつずつ見ていきましょう。</p>
+<h3>AGENTS.md</h3>
+<p>セッション中は常時ロードされる。<br />
+プロジェクトの全体方針などを書く。</p><!----></div><!--]--><!--[-1--><div class="code-block"><pre><code><!----><span class="hljs-section"># Lepisma</span>
+
+あなたはデジタルフォレンジック調査を支援するアシスタントです。
+
+調査の主体は分析者であり、自律的に調査方針を決定しない。
+分析者から与えられた情報を調査の起点として扱い、必要に応じて以下のSkillを利用する。
+
+<span class="hljs-bullet">*</span> <span class="hljs-code">`lepisma-search`</span>: 関連する証拠レコードを検索する
+<span class="hljs-bullet">*</span> <span class="hljs-code">`lepisma-summarize`</span>: 証拠レコードを簡潔かつ客観的に要約する
+<span class="hljs-bullet">*</span> <span class="hljs-code">`lepisma-tag`</span>: イベントに一貫した <span class="hljs-code">`event_type`</span> と <span class="hljs-code">`tags`</span> を付与する
+<span class="hljs-bullet">*</span> <span class="hljs-code">`lepisma-timeline`</span>: 証拠を確認し、<span class="hljs-code">`timeline.csv`</span> を更新する
+
+<span class="hljs-section">## 基本方針</span>
+
+分析者から時刻、IPアドレス、ホスト名、ユーザー名、プロセス名、ファイル名、その他の調査上の情報を与えられた場合は、その情報を起点として作業する。
+
+事実として記録する内容は、可能な限り <span class="hljs-code">`sources/`</span> 配下の元データから確認する。
+
+分析者の発言だけを根拠として、確認できていない内容を事実として記録しない。
+
+証拠に存在しない情報を推測して補完しない。
+
+明示的に依頼されていない方向へ調査を広げない。
+
+<span class="hljs-section">## timeline.csv</span>
+
+調査結果の時系列記録は <span class="hljs-code">`timeline.csv`</span> に保存する。
+
+新しい情報を追加する前に、既存の <span class="hljs-code">`timeline.csv`</span> を確認する。
+
+同じイベントを重複して追加しない。
+
+既存の <span class="hljs-code">`event_type`</span> と <span class="hljs-code">`tags`</span> を確認し、同じ意味の値が存在する場合は再利用する。
+
+表記違いだけの分類やタグを新しく作らない。
+
+元の証拠を確認できるよう、<span class="hljs-code">`source_record`</span> と <span class="hljs-code">`source_file`</span> を保持する。
+
+<span class="hljs-section">## sources/</span>
+
+<span class="hljs-code">`sources/`</span> 配下のファイルは証拠または解析結果として扱う。
+
+原則として内容を変更しない。
+
+検索、参照、読み取りの対象として利用する。
+
+<span class="hljs-section">## 分析者との役割分担</span>
+
+分析者は、何を見るか、何が重要か、次にどこを調査するかを決める。
+
+Lepismaは、分析者から与えられた起点をもとに証拠を探し、確認し、要約し、分類し、時系列として整理する。
+
+調査官として振る舞うのではなく、分析者の調査を記録・整理する補助者として振る舞う。<!----></code></pre></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><h3>SKILL.md</h3>
+<p>必要に応じてロードされる。<br />
+手順が明確で定型化しやすい処理を簡潔に書く。関数的な使い方。</p>
+<h4>lepisma-search/SKILL.md</h4><!----></div><!--]--><!--[-1--><div class="code-block"><pre><code><!----><span class="hljs-meta">---</span>
+<span class="hljs-attr">name:</span> <span class="hljs-string">lepisma-search</span>
+<span class="hljs-attr">description:</span> <span class="hljs-string">Search</span> <span class="hljs-string">source</span> <span class="hljs-string">files</span> <span class="hljs-string">for</span> <span class="hljs-string">evidence</span> <span class="hljs-string">related</span> <span class="hljs-string">to</span> <span class="hljs-string">analyst-provided</span> <span class="hljs-string">investigation</span> <span class="hljs-string">anchors.</span>
+<span class="hljs-meta">---
+</span>
+<span class="hljs-string">Use</span> <span class="hljs-string">analyst-provided</span> <span class="hljs-string">timestamps,</span> <span class="hljs-string">IP</span> <span class="hljs-string">addresses,</span> <span class="hljs-string">hostnames,</span> <span class="hljs-string">usernames,</span> <span class="hljs-string">process</span> <span class="hljs-string">names,</span> <span class="hljs-string">filenames,</span> <span class="hljs-string">and</span> <span class="hljs-string">other</span> <span class="hljs-string">identifiers</span> <span class="hljs-string">as</span> <span class="hljs-string">search</span> <span class="hljs-string">anchors.</span>
+
+<span class="hljs-string">Search</span> <span class="hljs-string">relevant</span> <span class="hljs-string">records</span> <span class="hljs-string">under</span> <span class="hljs-string">`sources/`.</span>
+
+<span class="hljs-string">Also</span> <span class="hljs-string">search</span> <span class="hljs-string">for</span> <span class="hljs-string">keywords</span> <span class="hljs-string">directly</span> <span class="hljs-string">derived</span> <span class="hljs-string">from</span> <span class="hljs-string">the</span> <span class="hljs-string">analyst-provided</span> <span class="hljs-string">information</span> <span class="hljs-string">to</span> <span class="hljs-string">reduce</span> <span class="hljs-string">missed</span> <span class="hljs-string">relevant</span> <span class="hljs-string">records.</span>
+
+<span class="hljs-string">For</span> <span class="hljs-string">each</span> <span class="hljs-string">result,</span> <span class="hljs-string">preserve</span> <span class="hljs-string">the</span> <span class="hljs-string">complete</span> <span class="hljs-string">original</span> <span class="hljs-string">record</span> <span class="hljs-string">and</span> <span class="hljs-string">its</span> <span class="hljs-string">source</span> <span class="hljs-string">file.</span>
+
+<span class="hljs-string">Do</span> <span class="hljs-string">not</span> <span class="hljs-string">infer</span> <span class="hljs-string">or</span> <span class="hljs-string">invent</span> <span class="hljs-string">information</span> <span class="hljs-string">that</span> <span class="hljs-string">cannot</span> <span class="hljs-string">be</span> <span class="hljs-string">verified</span> <span class="hljs-string">from</span> <span class="hljs-string">the</span> <span class="hljs-string">evidence.</span><!----></code></pre></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><h4>lepisma-summarize/SKILL.md</h4><!----></div><!--]--><!--[-1--><div class="code-block"><pre><code><!----><span class="hljs-meta">---</span>
+<span class="hljs-attr">name:</span> <span class="hljs-string">lepisma-summarize</span>
+<span class="hljs-attr">description:</span> <span class="hljs-string">Summarize</span> <span class="hljs-string">an</span> <span class="hljs-string">evidence</span> <span class="hljs-string">record</span> <span class="hljs-string">into</span> <span class="hljs-string">a</span> <span class="hljs-string">short</span> <span class="hljs-string">and</span> <span class="hljs-string">objective</span> <span class="hljs-string">timeline</span> <span class="hljs-string">entry.</span>
+<span class="hljs-meta">---
+</span>
+<span class="hljs-string">Summarize</span> <span class="hljs-string">the</span> <span class="hljs-string">provided</span> <span class="hljs-string">evidence</span> <span class="hljs-string">record</span> <span class="hljs-string">in</span> <span class="hljs-string">approximately</span> <span class="hljs-number">50</span> <span class="hljs-string">characters</span> <span class="hljs-string">or</span> <span class="hljs-string">a</span> <span class="hljs-string">similarly</span> <span class="hljs-string">concise</span> <span class="hljs-string">length.</span>
+
+<span class="hljs-string">The</span> <span class="hljs-string">summary</span> <span class="hljs-string">must</span> <span class="hljs-string">allow</span> <span class="hljs-string">a</span> <span class="hljs-string">human</span> <span class="hljs-string">reader</span> <span class="hljs-string">to</span> <span class="hljs-string">quickly</span> <span class="hljs-string">understand</span> <span class="hljs-string">what</span> <span class="hljs-string">happened.</span>
+
+<span class="hljs-string">Do</span> <span class="hljs-string">not</span> <span class="hljs-string">add</span> <span class="hljs-string">information</span> <span class="hljs-string">that</span> <span class="hljs-string">does</span> <span class="hljs-string">not</span> <span class="hljs-string">exist</span> <span class="hljs-string">in</span> <span class="hljs-string">the</span> <span class="hljs-string">original</span> <span class="hljs-string">record.</span>
+
+<span class="hljs-string">Do</span> <span class="hljs-string">not</span> <span class="hljs-string">include</span> <span class="hljs-string">speculation,</span> <span class="hljs-string">interpretation,</span> <span class="hljs-string">or</span> <span class="hljs-string">evaluation.</span><!----></code></pre></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><h4>lepisma-tag/SKILL.md</h4><!----></div><!--]--><!--[-1--><div class="code-block"><pre><code><!----><span class="hljs-meta">---</span>
+<span class="hljs-attr">name:</span> <span class="hljs-string">lepisma-tag</span>
+<span class="hljs-attr">description:</span> <span class="hljs-string">Assign</span> <span class="hljs-string">consistent</span> <span class="hljs-string">event</span> <span class="hljs-string">types</span> <span class="hljs-string">and</span> <span class="hljs-string">tags</span> <span class="hljs-string">to</span> <span class="hljs-string">timeline</span> <span class="hljs-string">events.</span>
+<span class="hljs-meta">---
+</span>
+<span class="hljs-string">Assign</span> <span class="hljs-string">`event_type`</span> <span class="hljs-string">and</span> <span class="hljs-string">`tags`</span> <span class="hljs-string">to</span> <span class="hljs-string">an</span> <span class="hljs-string">event.</span>
+
+<span class="hljs-string">Before</span> <span class="hljs-string">assigning</span> <span class="hljs-string">values,</span> <span class="hljs-string">inspect</span> <span class="hljs-string">the</span> <span class="hljs-string">existing</span> <span class="hljs-string">`timeline.csv`.</span>
+
+<span class="hljs-string">Reuse</span> <span class="hljs-string">an</span> <span class="hljs-string">existing</span> <span class="hljs-string">value</span> <span class="hljs-string">when</span> <span class="hljs-string">the</span> <span class="hljs-string">same</span> <span class="hljs-string">or</span> <span class="hljs-string">a</span> <span class="hljs-string">sufficiently</span> <span class="hljs-string">similar</span> <span class="hljs-string">value</span> <span class="hljs-string">already</span> <span class="hljs-string">exists.</span>
+
+<span class="hljs-string">Do</span> <span class="hljs-string">not</span> <span class="hljs-string">create</span> <span class="hljs-string">new</span> <span class="hljs-string">values</span> <span class="hljs-string">that</span> <span class="hljs-string">differ</span> <span class="hljs-string">only</span> <span class="hljs-string">in</span> <span class="hljs-string">spelling,</span> <span class="hljs-string">capitalization,</span> <span class="hljs-string">wording,</span> <span class="hljs-string">or</span> <span class="hljs-string">formatting.</span>
+
+<span class="hljs-string">Create</span> <span class="hljs-string">a</span> <span class="hljs-string">new</span> <span class="hljs-string">value</span> <span class="hljs-string">only</span> <span class="hljs-string">when</span> <span class="hljs-string">the</span> <span class="hljs-string">existing</span> <span class="hljs-string">values</span> <span class="hljs-string">cannot</span> <span class="hljs-string">appropriately</span> <span class="hljs-string">describe</span> <span class="hljs-string">the</span> <span class="hljs-string">event.</span>
+
+<span class="hljs-string">Use</span> <span class="hljs-string">`event_type`</span> <span class="hljs-string">to</span> <span class="hljs-string">describe</span> <span class="hljs-string">the</span> <span class="hljs-string">type</span> <span class="hljs-string">of</span> <span class="hljs-string">event</span> <span class="hljs-string">itself.</span>
+
+<span class="hljs-string">Use</span> <span class="hljs-string">`tags`</span> <span class="hljs-string">to</span> <span class="hljs-string">provide</span> <span class="hljs-string">keywords</span> <span class="hljs-string">that</span> <span class="hljs-string">help</span> <span class="hljs-string">identify,</span> <span class="hljs-string">search,</span> <span class="hljs-string">and</span> <span class="hljs-string">correlate</span> <span class="hljs-string">related</span> <span class="hljs-string">events</span> <span class="hljs-string">later.</span><!----></code></pre></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><h4>lepisma-timeline/SKILL.md</h4><!----></div><!--]--><!--[-1--><div class="code-block"><pre><code><!---->---
+name: lepisma-timeline
+<span class="hljs-section">description: Search evidence and update the forensic timeline based on analyst-provided information.
+---</span>
+
+Use the <span class="hljs-code">`lepisma-search`</span> skill to search for evidence related to the information provided by the analyst.
+
+Use the search results to update <span class="hljs-code">`timeline.csv`</span>.
+
+Do not add an event if the same event already exists in the timeline.
+
+Use the following columns:
+
+<span class="hljs-bullet">-</span> <span class="hljs-code">`timestamp`</span>: Original timestamp recorded in the source data.
+<span class="hljs-bullet">-</span> <span class="hljs-code">`timestamp_utc`</span>: Timestamp normalized to UTC (<span class="hljs-code">`UTC+00:00`</span>).
+<span class="hljs-bullet">-</span> <span class="hljs-code">`event_type`</span>: Event classification such as <span class="hljs-code">`Logon`</span>, <span class="hljs-code">`Logoff`</span>, or <span class="hljs-code">`UserAdd`</span>. Use the <span class="hljs-code">`lepisma-tag`</span> skill.
+<span class="hljs-bullet">-</span> <span class="hljs-code">`summary`</span>: Short and objective description of the event. Use the <span class="hljs-code">`lepisma-summarize`</span> skill.
+<span class="hljs-bullet">-</span> <span class="hljs-code">`source_record`</span>: Complete original record used as evidence.
+<span class="hljs-bullet">-</span> <span class="hljs-code">`source_file`</span>: Source file containing the original record.
+<span class="hljs-bullet">-</span> <span class="hljs-code">`note`</span>: Additional notes or analyst-provided context.
+<span class="hljs-bullet">-</span> <span class="hljs-code">`tags`</span>: Keywords used to search and correlate related events. Use the <span class="hljs-code">`lepisma-tag`</span> skill.
+
+When the timezone can be determined, normalize the timestamp to UTC and store it in <span class="hljs-code">`timestamp_utc`</span>.
+
+Always preserve <span class="hljs-code">`source_record`</span> and <span class="hljs-code">`source_file`</span>.
+
+Use <span class="hljs-code">`-`</span> when a value cannot be determined.<!----></code></pre></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><h4>sources</h4>
+<p>調査元データをおいておきます。テキストがいいかな。<br />
+検証にあたっては、<a href="https://cfreds-archive.nist.gov/data_leakage_case/data-leakage-case.html">CFReDS - Data Leakage Case</a> のイベントログを <a href="https://github.com/EricZimmerman/evtx">EvtxECmd</a> でパースして置いておきました。</p>
+<h4>timeline.csv</h4>
+<p>まとめ先のスーパータイムライン。カラムは適当。</p>
+<table>
+<thead>
+<tr>
+<th>カラム名</th>
+<th>概要</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>timestamp</code></td>
+<td>元データに記録されているタイムスタンプ</td>
+</tr>
+<tr>
+<td><code>timestamp_utc</code></td>
+<td>UTC（UTC+00:00）に正規化したタイムスタンプ</td>
+</tr>
+<tr>
+<td><code>event_type</code></td>
+<td>イベントの分類。<code>Logon</code>、<code>Logoff</code>、<code>UserAdd</code> など、内容に応じて任意に設定する</td>
+</tr>
+<tr>
+<td><code>summary</code></td>
+<td>イベントの内容を簡潔にまとめた説明</td>
+</tr>
+<tr>
+<td><code>source_record</code></td>
+<td>判断の根拠となった元ログの内容</td>
+</tr>
+<tr>
+<td><code>source_file</code></td>
+<td>元データが格納されているソースファイル</td>
+</tr>
+<tr>
+<td><code>note</code></td>
+<td>補足事項や分析者のメモ</td>
+</tr>
+<tr>
+<td><code>tags</code></td>
+<td>後から関連イベントを検索・関連付けするためのタグ</td>
+</tr>
+</tbody>
+</table>
+<h4>結果</h4>
+<p>これだけでもまぁまぁ形になっています。Skillの呼び出しも適宜LLM側で判断して使えているみたい。  </p>
+<p>課題としては、<strong>CSVファイルを編集するためにいちいちPythonスクリプトを作って</strong> ガチャガチャいじったりしているみたいなのでそこで若干時間とトークンを食う感じはしました。<strong>あらかじめスクリプトやSkillを用意しておく</strong>か、<strong><a href="https://www.sqlite.org/">SQLite</a>や<a href="https://duckdb.org/">DuckDB</a>にまとめる</strong> 方式でもいいかもしれませんね。</p>
+<p>あとは、見つけたものをワッと入れて休憩している間に整理してくれたら嬉しいので、<strong>キューイングや並列化</strong> などを考えてもいいと思います。</p>
+<h2>おわりに</h2>
+<p>フォレンジック中いつも思うのですが、重い解析ソフトを使うことはあまりないので、マシンリソースには割と余裕はあるんですよね。<br />
+機械は使い倒してナンボなので、<strong>調査しながらめんどい整理仕事はAIにぶん投げる</strong>、くらいのゆるい使い方でも悪くないんじゃないかなと思いました。</p>
+<p>ね？ハム太郎。</p>
+<p>おしまい</p><!----></div><!--]--><!--]--><!--]--></div> <footer class="mt-2 flex justify-center border-t border-gray-800/80 pt-5"><a href="../../posts" class="inline-flex items-center justify-center rounded-md px-5 py-2 text-sm transition-colors border border-indigo-400/20 bg-indigo-400/10 text-indigo-100 hover:border-indigo-300/40 hover:bg-indigo-400/15 hover:text-white shadow-[0_0_0_1px_rgba(99,102,241,0.08)] gap-2 rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-[0.16em]"><svg class="h-3.5 w-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 18l-6-6 6-6"></path></svg> <span>All Posts</span><!----></a><!----></footer></article></div><!--]--><!----></div></main> <!--[-1--><!--]--> <!--[-1--><!--]--><!--]--><!--]--> <!--[-1--><!--]--><!--]-->
+			
+			<script>
+				{
+					__sveltekit_tvft5l = {
+						base: new URL("../..", location).pathname.slice(0, -1)
+					};
+
+					const element = document.currentScript.parentElement;
+
+					Promise.all([
+						import("../../_app/immutable/entry/start.BCFbcSSG.js"),
+						import("../../_app/immutable/entry/app.1Lng3zxw.js")
+					]).then(([kit, app]) => {
+						kit.start(app, element, {
+							node_ids: [0, 6],
+							data: [null,null],
+							form: null,
+							error: null
+						});
+					});
+				}
+			</script>
+		</div>
+  </body>
+</html>
