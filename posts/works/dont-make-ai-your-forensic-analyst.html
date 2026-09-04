@@ -12,18 +12,18 @@
       gtag('js', new Date());
       gtag('config', 'G-DVLS4LMPGV');
     </script>
-    <link href="../../_app/immutable/entry/start.CPKsQzMl.js" rel="modulepreload">
-		<link href="../../_app/immutable/chunks/CtGFAhep.js" rel="modulepreload">
+    <link href="../../_app/immutable/entry/start.BbxccGem.js" rel="modulepreload">
+		<link href="../../_app/immutable/chunks/0XpcRPXE.js" rel="modulepreload">
 		<link href="../../_app/immutable/chunks/CyU4G86o.js" rel="modulepreload">
-		<link href="../../_app/immutable/entry/app.BElgY2cu.js" rel="modulepreload">
+		<link href="../../_app/immutable/entry/app.BVx-IoiZ.js" rel="modulepreload">
 		<link href="../../_app/immutable/chunks/HclGiUj8.js" rel="modulepreload">
 		<link href="../../_app/immutable/chunks/xihTtKlq.js" rel="modulepreload">
-		<link href="../../_app/immutable/nodes/0.CaOWc8Nt.js" rel="modulepreload">
-		<link href="../../_app/immutable/chunks/xAljAgnx.js" rel="modulepreload">
-		<link href="../../_app/immutable/chunks/BPpWEaPC.js" rel="modulepreload">
-		<link href="../../_app/immutable/nodes/6.BQuJVdxK.js" rel="modulepreload">
+		<link href="../../_app/immutable/nodes/0.D52lpPbf.js" rel="modulepreload">
+		<link href="../../_app/immutable/chunks/Cp83Ao3E.js" rel="modulepreload">
+		<link href="../../_app/immutable/chunks/CPij2AWm.js" rel="modulepreload">
+		<link href="../../_app/immutable/nodes/6.BF3aePEM.js" rel="modulepreload">
 		<link href="../../_app/immutable/chunks/f1Ea10ET.js" rel="modulepreload">
-		<link href="../../_app/immutable/chunks/BWOLhcwe.js" rel="modulepreload">
+		<link href="../../_app/immutable/chunks/-6Cp_zBC.js" rel="modulepreload">
 		<link href="../../_app/immutable/chunks/i4hBObmy.js" rel="modulepreload">
 		<link href="../../_app/immutable/chunks/CktOxlOe.js" rel="modulepreload">
 		<!--1qspgas--><!--[0--><!----><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"AIにフォレンジックさせるのをやめよう","description":"AI-assisted Forensic Scribing という考え方と、その実装について。","url":"https://sumeshi.github.io/posts/works/dont-make-ai-your-forensic-analyst","mainEntityOfPage":"https://sumeshi.github.io/posts/works/dont-make-ai-your-forensic-analyst","datePublished":"2026-09-04","dateModified":"2026-09-04","author":{"@type":"Person","name":"S.Nakano","url":"https://sumeshi.github.io"},"publisher":{"@type":"Person","name":"S.Nakano","url":"https://sumeshi.github.io"},"isPartOf":{"@type":"Blog","name":"SIPDEP Posts","url":"https://sumeshi.github.io/posts"}}</script><!----><!--]--><!----><!--k3tbry--><link rel="canonical" href="https://sumeshi.github.io/posts/works/dont-make-ai-your-forensic-analyst"/> <link rel="sitemap" type="application/xml" href="https://sumeshi.github.io/sitemap.xml"/> <meta name="description" content="AI-assisted Forensic Scribing という考え方と、その実装について。"/> <meta name="author" content="S.Nakano"/> <meta name="robots" content="index, follow"/> <meta property="og:site_name" content="SIPDEP"/> <meta property="og:type" content="article"/> <meta property="og:title" content="AIにフォレンジックさせるのをやめよう | SIPDEP"/> <meta property="og:description" content="AI-assisted Forensic Scribing という考え方と、その実装について。"/> <meta property="og:url" content="https://sumeshi.github.io/posts/works/dont-make-ai-your-forensic-analyst"/> <meta property="og:image" content="https://sumeshi.github.io/img/og-card.png"/> <meta property="og:image:width" content="1200"/> <meta property="og:image:height" content="630"/> <meta property="og:image:alt" content="SIPDEP social preview image"/> <!--[0--><meta property="article:author" content="S.Nakano"/> <!--[0--><meta property="article:published_time" content="2026-09-04"/><!--]--> <!--[0--><meta property="article:modified_time" content="2026-09-04"/><!--]--><!--]--> <meta name="twitter:card" content="summary_large_image"/> <meta name="twitter:site" content="@sum3sh1"/> <meta name="twitter:creator" content="@sum3sh1"/> <meta name="twitter:title" content="AIにフォレンジックさせるのをやめよう | SIPDEP"/> <meta name="twitter:description" content="AI-assisted Forensic Scribing という考え方と、その実装について。"/> <meta name="twitter:image" content="https://sumeshi.github.io/img/og-card.png"/> <meta name="twitter:image:alt" content="SIPDEP social preview image"/><!----><title>AIにフォレンジックさせるのをやめよう | SIPDEP</title>
@@ -40,7 +40,7 @@
 <p>このプロジェクトの発想自体は今でも面白いと思っているのですが、どちらかというと実用よりは夢を追いかけたPoC的なイメージで作っていました。
 ところが、ここ最近になって明確にローカルLLMのステージが変わったと感じています。</p>
 <p>個人的に衝撃を受けたのは、<a href="https://ornith.ai/ornith_1_5.html">Ornith-1.5</a>です。9B版でも軽快に動き、長時間走らせても思考が循環したり、考えが無限に発散したりすることなく、ひたすら働き続けてくれます。そういった意味で、エージェント性能が非常に高いと感じています。</p>
-<p>Ornith-1.5 は Qwen3.5 をベースに追加学習されたモデルなので、言語性能や知識についてはピュアな Gemma 4 ほど優秀ではないのですが、そういった点についてはそもそもローカルLLMに期待していません。というか期待してはいけません。</p>
+<p>Ornith-1.5 9B は Qwen3.5 系をベースに追加学習されたモデルなので、言語性能や知識についてはピュアな Gemma 4 ほど優秀ではないのですが、そういった点についてはそもそもローカルLLMに期待していません。というか期待してはいけません。</p>
 <p>必要なのは、必要な情報と指示を与えればちゃんとそのとおり動いてくれること。これだけ。</p>
 <h2>AIにフォレンジックをさせることの課題</h2>
 <p>私と同じようなことを考える人は山ほどいるわけで、AIにアーティファクトを食わせてレポート生成まで一気通貫！というのをちょこちょこ見かけます。どちらかといえば、マネージドの 卍最強モデル卍 をガンガン使って、精度の高い結果を得ようとするほうが多いかな。</p>
@@ -64,7 +64,7 @@
 「ファイアウォールログを見るとその付近で外部通信が発生している」  </p>
 </blockquote>
 <p>こんなふうに、人間様は見つけた事実をAIにポンポンなげるだけ。<br />
-AIは関連する証拠を探し、証拠への参照付きでまとめる形の分業がいいんじゃないかなって。</p>
+AIは関連するソースレコードを探し、その参照付きでまとめる形の分業がいいんじゃないかなって。</p>
 <p>完全にHuman-in-the-Loopを前提としたローカルLLMの運用をするということですね。<br />
 これを、<strong>AI-assisted Forensic Scribing</strong> (AI支援型フォレンジック書記) と呼ぼうと思います。</p>
 <h2>Pi: Coding Agent で始めるフォレンジック生活</h2>
@@ -72,7 +72,7 @@ AIは関連する証拠を探し、証拠への参照付きでまとめる形の
 <p>でも、今回のアイデアならもっと雑に始められます。<br />
 既存のハーネスに組み込まれているループの仕組みに乗っかり、ウワモノを乗せてあげれば十分です。</p>
 <p>ベースは <a href="https://pi.dev/">Pi Coding Agent</a> にしました。<br />
-これはミニマルな Harness で、デフォルトでは <code>read</code> <code>write</code> <code>edit</code> <code>bash</code> の機能しかありません。でも、そのミニマルさがイイ！となってオレオレハーネスを作っている層が一定いるとか。カレーをスパイスから作るタイプかもね。ぼくはそう。</p>
+これはミニマルなハーネスで、デフォルトでは <code>read</code> <code>write</code> <code>edit</code> <code>bash</code> の機能しかありません。でも、そのミニマルさがイイ！となってオレオレハーネスを作っている層が一定いるとか。カレーをスパイスから作るタイプかもね。ぼくはそう。</p>
 <h2>実際に作ってみる</h2>
 <p>せっかくなのでちょいと作ってみて威力を確かめようかなと。</p>
 <p>このプロジェクトは仮に <strong><a href="https://github.com/sumeshi/lepisma">Lepisma</a></strong> と名付けました。<br />
@@ -132,10 +132,10 @@ AIは関連する証拠を探し、証拠への参照付きでまとめる形の
 調査の主体は分析者であり、自律的に調査方針を決定しない。
 分析者から与えられた情報を調査の起点として扱い、必要に応じて以下のSkillを利用する。
 
-<span class="hljs-bullet">*</span> <span class="hljs-code">`lepisma-search`</span>: 関連する証拠レコードを検索する
-<span class="hljs-bullet">*</span> <span class="hljs-code">`lepisma-summarize`</span>: 証拠レコードを簡潔かつ客観的に要約する
+<span class="hljs-bullet">*</span> <span class="hljs-code">`lepisma-search`</span>: 関連するソースレコードを検索する
+<span class="hljs-bullet">*</span> <span class="hljs-code">`lepisma-summarize`</span>: ソースレコードを簡潔かつ客観的に要約する
 <span class="hljs-bullet">*</span> <span class="hljs-code">`lepisma-tag`</span>: イベントに一貫した <span class="hljs-code">`event_type`</span> と <span class="hljs-code">`tags`</span> を付与する
-<span class="hljs-bullet">*</span> <span class="hljs-code">`lepisma-timeline`</span>: 証拠を確認し、<span class="hljs-code">`timeline.csv`</span> を更新する
+<span class="hljs-bullet">*</span> <span class="hljs-code">`lepisma-timeline`</span>: ソースレコードを確認し、<span class="hljs-code">`timeline.csv`</span> を更新する
 
 <span class="hljs-section">## 基本方針</span>
 
@@ -145,7 +145,7 @@ AIは関連する証拠を探し、証拠への参照付きでまとめる形の
 
 分析者の発言だけを根拠として、確認できていない内容を事実として記録しない。
 
-証拠に存在しない情報を推測して補完しない。
+ソースレコードに存在しない情報を推測して補完しない。
 
 明示的に依頼されていない方向へ調査を広げない。
 
@@ -161,11 +161,11 @@ AIは関連する証拠を探し、証拠への参照付きでまとめる形の
 
 表記違いだけの分類やタグを新しく作らない。
 
-元の証拠を確認できるよう、<span class="hljs-code">`source_record`</span> と <span class="hljs-code">`source_file`</span> を保持する。
+判断の根拠を確認できるよう、<span class="hljs-code">`source_record`</span> と <span class="hljs-code">`source_file`</span> を保持する。
 
 <span class="hljs-section">## sources/</span>
 
-<span class="hljs-code">`sources/`</span> 配下のファイルは証拠または解析結果として扱う。
+<span class="hljs-code">`sources/`</span> 配下のファイルは、原証拠から抽出またはパースした解析用のソースデータとして扱う。原証拠そのものと同一視しない。
 
 原則として内容を変更しない。
 
@@ -175,14 +175,14 @@ AIは関連する証拠を探し、証拠への参照付きでまとめる形の
 
 分析者は、何を見るか、何が重要か、次にどこを調査するかを決める。
 
-Lepismaは、分析者から与えられた起点をもとに証拠を探し、確認し、要約し、分類し、時系列として整理する。
+Lepismaは、分析者から与えられた起点をもとにソースレコードを探し、確認し、要約し、分類し、時系列として整理する。
 
-調査官として振る舞うのではなく、分析者の調査を記録・整理する補助者として振る舞う。<!----></code></pre></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><h3>SKILL.md</h3>
+自律的に調査する主体ではなく、人間の分析者による調査を記録・整理する補助者として振る舞う。<!----></code></pre></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><h3>SKILL.md</h3>
 <p>必要に応じてロードされる。<br />
 手順が明確で定型化しやすい処理を簡潔に書く。関数的な使い方。</p>
 <h4>lepisma-search/SKILL.md</h4><!----></div><!--]--><!--[-1--><div class="code-block"><pre><code><!----><span class="hljs-meta">---</span>
 <span class="hljs-attr">name:</span> <span class="hljs-string">lepisma-search</span>
-<span class="hljs-attr">description:</span> <span class="hljs-string">Search</span> <span class="hljs-string">source</span> <span class="hljs-string">files</span> <span class="hljs-string">for</span> <span class="hljs-string">evidence</span> <span class="hljs-string">related</span> <span class="hljs-string">to</span> <span class="hljs-string">analyst-provided</span> <span class="hljs-string">investigation</span> <span class="hljs-string">anchors.</span>
+<span class="hljs-attr">description:</span> <span class="hljs-string">Search</span> <span class="hljs-string">source</span> <span class="hljs-string">files</span> <span class="hljs-string">for</span> <span class="hljs-string">records</span> <span class="hljs-string">related</span> <span class="hljs-string">to</span> <span class="hljs-string">analyst-provided</span> <span class="hljs-string">investigation</span> <span class="hljs-string">anchors.</span>
 <span class="hljs-meta">---
 </span>
 <span class="hljs-string">Use</span> <span class="hljs-string">analyst-provided</span> <span class="hljs-string">timestamps,</span> <span class="hljs-string">IP</span> <span class="hljs-string">addresses,</span> <span class="hljs-string">hostnames,</span> <span class="hljs-string">usernames,</span> <span class="hljs-string">process</span> <span class="hljs-string">names,</span> <span class="hljs-string">filenames,</span> <span class="hljs-string">and</span> <span class="hljs-string">other</span> <span class="hljs-string">identifiers</span> <span class="hljs-string">as</span> <span class="hljs-string">search</span> <span class="hljs-string">anchors.</span>
@@ -191,18 +191,18 @@ Lepismaは、分析者から与えられた起点をもとに証拠を探し、�
 
 <span class="hljs-string">Also</span> <span class="hljs-string">search</span> <span class="hljs-string">for</span> <span class="hljs-string">keywords</span> <span class="hljs-string">directly</span> <span class="hljs-string">derived</span> <span class="hljs-string">from</span> <span class="hljs-string">the</span> <span class="hljs-string">analyst-provided</span> <span class="hljs-string">information</span> <span class="hljs-string">to</span> <span class="hljs-string">reduce</span> <span class="hljs-string">missed</span> <span class="hljs-string">relevant</span> <span class="hljs-string">records.</span>
 
-<span class="hljs-string">For</span> <span class="hljs-string">each</span> <span class="hljs-string">result,</span> <span class="hljs-string">preserve</span> <span class="hljs-string">the</span> <span class="hljs-string">complete</span> <span class="hljs-string">original</span> <span class="hljs-string">record</span> <span class="hljs-string">and</span> <span class="hljs-string">its</span> <span class="hljs-string">source</span> <span class="hljs-string">file.</span>
+<span class="hljs-string">For</span> <span class="hljs-string">each</span> <span class="hljs-string">result,</span> <span class="hljs-string">preserve</span> <span class="hljs-string">the</span> <span class="hljs-string">complete</span> <span class="hljs-string">source</span> <span class="hljs-string">record</span> <span class="hljs-string">and</span> <span class="hljs-string">its</span> <span class="hljs-string">source</span> <span class="hljs-string">file.</span>
 
-<span class="hljs-string">Do</span> <span class="hljs-string">not</span> <span class="hljs-string">infer</span> <span class="hljs-string">or</span> <span class="hljs-string">invent</span> <span class="hljs-string">information</span> <span class="hljs-string">that</span> <span class="hljs-string">cannot</span> <span class="hljs-string">be</span> <span class="hljs-string">verified</span> <span class="hljs-string">from</span> <span class="hljs-string">the</span> <span class="hljs-string">evidence.</span><!----></code></pre></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><h4>lepisma-summarize/SKILL.md</h4><!----></div><!--]--><!--[-1--><div class="code-block"><pre><code><!----><span class="hljs-meta">---</span>
+<span class="hljs-string">Do</span> <span class="hljs-string">not</span> <span class="hljs-string">infer</span> <span class="hljs-string">or</span> <span class="hljs-string">invent</span> <span class="hljs-string">information</span> <span class="hljs-string">that</span> <span class="hljs-string">cannot</span> <span class="hljs-string">be</span> <span class="hljs-string">verified</span> <span class="hljs-string">from</span> <span class="hljs-string">the</span> <span class="hljs-string">source</span> <span class="hljs-string">data.</span><!----></code></pre></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><h4>lepisma-summarize/SKILL.md</h4><!----></div><!--]--><!--[-1--><div class="code-block"><pre><code><!----><span class="hljs-meta">---</span>
 <span class="hljs-attr">name:</span> <span class="hljs-string">lepisma-summarize</span>
-<span class="hljs-attr">description:</span> <span class="hljs-string">Summarize</span> <span class="hljs-string">an</span> <span class="hljs-string">evidence</span> <span class="hljs-string">record</span> <span class="hljs-string">into</span> <span class="hljs-string">a</span> <span class="hljs-string">short</span> <span class="hljs-string">and</span> <span class="hljs-string">objective</span> <span class="hljs-string">timeline</span> <span class="hljs-string">entry.</span>
+<span class="hljs-attr">description:</span> <span class="hljs-string">Summarize</span> <span class="hljs-string">a</span> <span class="hljs-string">source</span> <span class="hljs-string">record</span> <span class="hljs-string">into</span> <span class="hljs-string">a</span> <span class="hljs-string">short</span> <span class="hljs-string">and</span> <span class="hljs-string">objective</span> <span class="hljs-string">timeline</span> <span class="hljs-string">entry.</span>
 <span class="hljs-meta">---
 </span>
-<span class="hljs-string">Summarize</span> <span class="hljs-string">the</span> <span class="hljs-string">provided</span> <span class="hljs-string">evidence</span> <span class="hljs-string">record</span> <span class="hljs-string">in</span> <span class="hljs-string">approximately</span> <span class="hljs-number">50</span> <span class="hljs-string">characters</span> <span class="hljs-string">or</span> <span class="hljs-string">a</span> <span class="hljs-string">similarly</span> <span class="hljs-string">concise</span> <span class="hljs-string">length.</span>
+<span class="hljs-string">Summarize</span> <span class="hljs-string">the</span> <span class="hljs-string">provided</span> <span class="hljs-string">source</span> <span class="hljs-string">record</span> <span class="hljs-string">in</span> <span class="hljs-string">approximately</span> <span class="hljs-number">50</span> <span class="hljs-string">characters</span> <span class="hljs-string">or</span> <span class="hljs-string">a</span> <span class="hljs-string">similarly</span> <span class="hljs-string">concise</span> <span class="hljs-string">length.</span>
 
 <span class="hljs-string">The</span> <span class="hljs-string">summary</span> <span class="hljs-string">must</span> <span class="hljs-string">allow</span> <span class="hljs-string">a</span> <span class="hljs-string">human</span> <span class="hljs-string">reader</span> <span class="hljs-string">to</span> <span class="hljs-string">quickly</span> <span class="hljs-string">understand</span> <span class="hljs-string">what</span> <span class="hljs-string">happened.</span>
 
-<span class="hljs-string">Do</span> <span class="hljs-string">not</span> <span class="hljs-string">add</span> <span class="hljs-string">information</span> <span class="hljs-string">that</span> <span class="hljs-string">does</span> <span class="hljs-string">not</span> <span class="hljs-string">exist</span> <span class="hljs-string">in</span> <span class="hljs-string">the</span> <span class="hljs-string">original</span> <span class="hljs-string">record.</span>
+<span class="hljs-string">Do</span> <span class="hljs-string">not</span> <span class="hljs-string">add</span> <span class="hljs-string">information</span> <span class="hljs-string">that</span> <span class="hljs-string">does</span> <span class="hljs-string">not</span> <span class="hljs-string">exist</span> <span class="hljs-string">in</span> <span class="hljs-string">the</span> <span class="hljs-string">source</span> <span class="hljs-string">record.</span>
 
 <span class="hljs-string">Do</span> <span class="hljs-string">not</span> <span class="hljs-string">include</span> <span class="hljs-string">speculation,</span> <span class="hljs-string">interpretation,</span> <span class="hljs-string">or</span> <span class="hljs-string">evaluation.</span><!----></code></pre></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><h4>lepisma-tag/SKILL.md</h4><!----></div><!--]--><!--[-1--><div class="code-block"><pre><code><!----><span class="hljs-meta">---</span>
 <span class="hljs-attr">name:</span> <span class="hljs-string">lepisma-tag</span>
@@ -223,10 +223,10 @@ Lepismaは、分析者から与えられた起点をもとに証拠を探し、�
 
 <span class="hljs-string">Use</span> <span class="hljs-string">`tags`</span> <span class="hljs-string">to</span> <span class="hljs-string">provide</span> <span class="hljs-string">keywords</span> <span class="hljs-string">that</span> <span class="hljs-string">help</span> <span class="hljs-string">identify,</span> <span class="hljs-string">search,</span> <span class="hljs-string">and</span> <span class="hljs-string">correlate</span> <span class="hljs-string">related</span> <span class="hljs-string">events</span> <span class="hljs-string">later.</span><!----></code></pre></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><h4>lepisma-timeline/SKILL.md</h4><!----></div><!--]--><!--[-1--><div class="code-block"><pre><code><!----><span class="hljs-meta">---</span>
 <span class="hljs-attr">name:</span> <span class="hljs-string">lepisma-timeline</span>
-<span class="hljs-attr">description:</span> <span class="hljs-string">Search</span> <span class="hljs-string">evidence</span> <span class="hljs-string">and</span> <span class="hljs-string">update</span> <span class="hljs-string">the</span> <span class="hljs-string">forensic</span> <span class="hljs-string">timeline</span> <span class="hljs-string">based</span> <span class="hljs-string">on</span> <span class="hljs-string">analyst-provided</span> <span class="hljs-string">information.</span>
+<span class="hljs-attr">description:</span> <span class="hljs-string">Search</span> <span class="hljs-string">source</span> <span class="hljs-string">records</span> <span class="hljs-string">and</span> <span class="hljs-string">update</span> <span class="hljs-string">the</span> <span class="hljs-string">investigation</span> <span class="hljs-string">timeline</span> <span class="hljs-string">based</span> <span class="hljs-string">on</span> <span class="hljs-string">analyst-provided</span> <span class="hljs-string">information.</span>
 <span class="hljs-meta">---
 </span>
-<span class="hljs-string">Use</span> <span class="hljs-string">the</span> <span class="hljs-string">`lepisma-search`</span> <span class="hljs-string">skill</span> <span class="hljs-string">to</span> <span class="hljs-string">search</span> <span class="hljs-string">for</span> <span class="hljs-string">evidence</span> <span class="hljs-string">related</span> <span class="hljs-string">to</span> <span class="hljs-string">the</span> <span class="hljs-string">information</span> <span class="hljs-string">provided</span> <span class="hljs-string">by</span> <span class="hljs-string">the</span> <span class="hljs-string">analyst.</span>
+<span class="hljs-string">Use</span> <span class="hljs-string">the</span> <span class="hljs-string">`lepisma-search`</span> <span class="hljs-string">skill</span> <span class="hljs-string">to</span> <span class="hljs-string">search</span> <span class="hljs-string">for</span> <span class="hljs-string">source</span> <span class="hljs-string">records</span> <span class="hljs-string">related</span> <span class="hljs-string">to</span> <span class="hljs-string">the</span> <span class="hljs-string">information</span> <span class="hljs-string">provided</span> <span class="hljs-string">by</span> <span class="hljs-string">the</span> <span class="hljs-string">analyst.</span>
 
 <span class="hljs-string">Use</span> <span class="hljs-string">the</span> <span class="hljs-string">search</span> <span class="hljs-string">results</span> <span class="hljs-string">to</span> <span class="hljs-string">update</span> <span class="hljs-string">`timeline.csv`.</span>
 
@@ -238,8 +238,8 @@ Lepismaは、分析者から与えられた起点をもとに証拠を探し、�
 <span class="hljs-bullet">-</span> <span class="hljs-string">`timestamp_utc`:</span> <span class="hljs-string">Timestamp</span> <span class="hljs-string">normalized</span> <span class="hljs-string">to</span> <span class="hljs-string">UTC</span> <span class="hljs-string">(`UTC+00:00`).</span>
 <span class="hljs-bullet">-</span> <span class="hljs-string">`event_type`:</span> <span class="hljs-string">Event</span> <span class="hljs-string">classification</span> <span class="hljs-string">such</span> <span class="hljs-string">as</span> <span class="hljs-string">`Logon`,</span> <span class="hljs-string">`Logoff`,</span> <span class="hljs-string">or</span> <span class="hljs-string">`UserAdd`.</span> <span class="hljs-string">Use</span> <span class="hljs-string">the</span> <span class="hljs-string">`lepisma-tag`</span> <span class="hljs-string">skill.</span>
 <span class="hljs-bullet">-</span> <span class="hljs-string">`summary`:</span> <span class="hljs-string">Short</span> <span class="hljs-string">and</span> <span class="hljs-string">objective</span> <span class="hljs-string">description</span> <span class="hljs-string">of</span> <span class="hljs-string">the</span> <span class="hljs-string">event.</span> <span class="hljs-string">Use</span> <span class="hljs-string">the</span> <span class="hljs-string">`lepisma-summarize`</span> <span class="hljs-string">skill.</span>
-<span class="hljs-bullet">-</span> <span class="hljs-string">`source_record`:</span> <span class="hljs-string">Complete</span> <span class="hljs-string">original</span> <span class="hljs-string">record</span> <span class="hljs-string">used</span> <span class="hljs-string">as</span> <span class="hljs-string">evidence.</span>
-<span class="hljs-bullet">-</span> <span class="hljs-string">`source_file`:</span> <span class="hljs-string">Source</span> <span class="hljs-string">file</span> <span class="hljs-string">containing</span> <span class="hljs-string">the</span> <span class="hljs-string">original</span> <span class="hljs-string">record.</span>
+<span class="hljs-bullet">-</span> <span class="hljs-string">`source_record`:</span> <span class="hljs-string">Complete</span> <span class="hljs-string">source</span> <span class="hljs-string">record</span> <span class="hljs-string">used</span> <span class="hljs-string">to</span> <span class="hljs-string">support</span> <span class="hljs-string">this</span> <span class="hljs-string">timeline</span> <span class="hljs-string">entry.</span>
+<span class="hljs-bullet">-</span> <span class="hljs-string">`source_file`:</span> <span class="hljs-string">Source</span> <span class="hljs-string">file</span> <span class="hljs-string">containing</span> <span class="hljs-string">the</span> <span class="hljs-string">source</span> <span class="hljs-string">record.</span>
 <span class="hljs-bullet">-</span> <span class="hljs-string">`note`:</span> <span class="hljs-string">Additional</span> <span class="hljs-string">notes</span> <span class="hljs-string">or</span> <span class="hljs-string">analyst-provided</span> <span class="hljs-string">context.</span>
 <span class="hljs-bullet">-</span> <span class="hljs-string">`tags`:</span> <span class="hljs-string">Keywords</span> <span class="hljs-string">used</span> <span class="hljs-string">to</span> <span class="hljs-string">search</span> <span class="hljs-string">and</span> <span class="hljs-string">correlate</span> <span class="hljs-string">related</span> <span class="hljs-string">events.</span> <span class="hljs-string">Use</span> <span class="hljs-string">the</span> <span class="hljs-string">`lepisma-tag`</span> <span class="hljs-string">skill.</span>
 
@@ -248,10 +248,10 @@ Lepismaは、分析者から与えられた起点をもとに証拠を探し、�
 <span class="hljs-string">Always</span> <span class="hljs-string">preserve</span> <span class="hljs-string">`source_record`</span> <span class="hljs-string">and</span> <span class="hljs-string">`source_file`.</span>
 
 <span class="hljs-string">Use</span> <span class="hljs-string">`-`</span> <span class="hljs-string">when</span> <span class="hljs-string">a</span> <span class="hljs-string">value</span> <span class="hljs-string">cannot</span> <span class="hljs-string">be</span> <span class="hljs-string">determined.</span><!----></code></pre></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><h4>sources</h4>
-<p>調査元データをおいておきます。テキストがいいかな。<br />
-検証にあたっては、<a href="https://cfreds-archive.nist.gov/data_leakage_case/data-leakage-case.html">CFReDS - Data Leakage Case</a> のイベントログを <a href="https://github.com/EricZimmerman/evtx">EvtxECmd</a> でパースして置いておきました。</p>
+<p>調査用のソースデータをおいておきます。テキストがいいかな。</p>
+<p>検証にあたっては、<a href="https://cfreds-archive.nist.gov/data_leakage_case/data-leakage-case.html">CFReDS - Data Leakage Case</a> のイベントログを <a href="https://github.com/EricZimmerman/evtx">EvtxECmd</a> でパースして置いておきました。</p>
 <h4>timeline.csv</h4>
-<p>まとめ先のスーパータイムライン。カラムは適当。</p>
+<p>まとめ先の調査タイムライン。カラムは適当。</p>
 <table>
 <thead>
 <tr>
@@ -278,11 +278,11 @@ Lepismaは、分析者から与えられた起点をもとに証拠を探し、�
 </tr>
 <tr>
 <td><code>source_record</code></td>
-<td>判断の根拠となった元ログの内容</td>
+<td>判断の根拠となった完全なソースレコード</td>
 </tr>
 <tr>
 <td><code>source_file</code></td>
-<td>元データが格納されているソースファイル</td>
+<td>ソースレコードが格納されているファイル</td>
 </tr>
 <tr>
 <td><code>note</code></td>
@@ -307,15 +307,15 @@ Lepismaは、分析者から与えられた起点をもとに証拠を探し、�
 			
 			<script>
 				{
-					__sveltekit_sdu91v = {
+					__sveltekit_rrfvtj = {
 						base: new URL("../..", location).pathname.slice(0, -1)
 					};
 
 					const element = document.currentScript.parentElement;
 
 					Promise.all([
-						import("../../_app/immutable/entry/start.CPKsQzMl.js"),
-						import("../../_app/immutable/entry/app.BElgY2cu.js")
+						import("../../_app/immutable/entry/start.BbxccGem.js"),
+						import("../../_app/immutable/entry/app.BVx-IoiZ.js")
 					]).then(([kit, app]) => {
 						kit.start(app, element, {
 							node_ids: [0, 6],
