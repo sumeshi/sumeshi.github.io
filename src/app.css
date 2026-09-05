@@ -244,6 +244,10 @@ html {
   padding: 0.9rem 1rem;
 }
 
+.html-wrapper blockquote > :last-child {
+  margin-bottom: 0;
+}
+
 .html-wrapper hr {
   margin: 2rem 0;
   border: 0;

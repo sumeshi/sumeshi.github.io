@@ -4,7 +4,7 @@ import type { ContentBlock, PostContent } from '$lib/types';
 const ALLOWED_TAGS = [
   'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
   'p', 'ul', 'ol', 'li', 'blockquote',
-  'strong', 'em', 'code', 'pre', 'br',
+  'strong', 'em', 'del', 'code', 'pre', 'br',
   'a', 'img', 'table', 'thead', 'tbody', 'tr', 'th', 'td',
 ];
 
