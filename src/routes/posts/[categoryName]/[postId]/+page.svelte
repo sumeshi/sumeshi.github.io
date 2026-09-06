@@ -29,6 +29,12 @@
     data: PageData;
   }
 
+  interface TableOfContentsItem {
+    id: string;
+    label: string;
+    level: 2 | 3;
+  }
+
   let { data }: Props = $props();
 
   const emptyPost: PostContent = {
@@ -92,7 +98,91 @@
     }).filter((block) => block.content);
   }
 
-  const articleContents = $derived(withoutMarkdownTitle(contents));
+  function slugifyHeading(label: string): string {
+    return label
+      .normalize('NFKC')
+      .toLocaleLowerCase()
+      .replace(/[^\p{Letter}\p{Number}]+/gu, '-')
+      .replace(/^-+|-+$/g, '');
+  }
+
+  function headingLabel(html: string): string {
+    const namedEntities: Record<string, string> = {
+      amp: '&',
+      apos: "'",
+      gt: '>',
+      lt: '<',
+      nbsp: ' ',
+      quot: '"',
+    };
+
+    return html
+      .replace(/<[^>]+>/g, '')
+      .replace(/&(#(?:x[\da-f]+|\d+)|[a-z]+);/gi, (entity, name: string) => {
+        if (name.startsWith('#x') || name.startsWith('#X')) {
+          return String.fromCodePoint(Number.parseInt(name.slice(2), 16));
+        }
+
+        if (name.startsWith('#')) {
+          return String.fromCodePoint(Number.parseInt(name.slice(1), 10));
+        }
+
+        return namedEntities[name.toLowerCase()] ?? entity;
+      })
+      .trim()
+      .replace(/\s+/g, ' ');
+  }
+
+  function buildArticle(blocks: ContentBlock[]): {
+    contents: ContentBlock[];
+    tableOfContents: TableOfContentsItem[];
+  } {
+    const tableOfContents: TableOfContentsItem[] = [];
+    const usedIds = new Set<string>();
+    let fallbackIndex = 0;
+
+    const anchoredContents = withoutMarkdownTitle(blocks).map((block) => {
+      if (block.type !== 'text') {
+        return block;
+      }
+
+      const content = block.content.replace(
+        /<h([23])(\s[^>]*)?>([\s\S]*?)<\/h\1>/gi,
+        (_match, levelText: string, attributes: string | undefined, innerHtml: string) => {
+          const label = headingLabel(innerHtml);
+          if (!label) {
+            return _match;
+          }
+
+          const baseId = slugifyHeading(label) || `section-${++fallbackIndex}`;
+          let id = baseId;
+          let duplicateIndex = 2;
+
+          while (usedIds.has(id)) {
+            id = `${baseId}-${duplicateIndex++}`;
+          }
+
+          usedIds.add(id);
+          const level = Number(levelText) as 2 | 3;
+          tableOfContents.push({
+            id,
+            label,
+            level,
+          });
+
+          return `<h${levelText}${attributes ?? ''} id="${id}">${innerHtml}</h${levelText}>`;
+        },
+      );
+
+      return { ...block, content };
+    });
+
+    return { contents: anchoredContents, tableOfContents };
+  }
+
+  const article = $derived(buildArticle(contents));
+  const articleContents = $derived(article.contents);
+  const tableOfContents = $derived(article.tableOfContents);
 
   const postCanonicalUrl = $derived(
     categoryName && postId
@@ -231,7 +321,7 @@
   {/if}
 </svelte:head>
 
-<div class="site-container">
+<div class="site-container post-layout">
   <article>
     <header class="flex flex-col gap-3">
       <Breadcrumb
@@ -331,4 +421,29 @@
       </LinkButton>
     </footer>
   </article>
+
+  {#if articleContents.length > 0 && tableOfContents.length >= 2}
+    <aside class="hidden min-w-0 pt-28 2xl:block">
+      <nav
+        class="sticky top-12 max-h-[calc(100vh-4rem)] overflow-y-auto border-l border-gray-800 pl-4"
+        aria-label="Table of Contents"
+      >
+        <p class="mb-2 font-mono text-[10px] font-semibold uppercase tracking-[0.12em] text-gray-500">
+          Table of Contents
+        </p>
+        <ol class="space-y-1">
+          {#each tableOfContents as item}
+            <li class:pl-3={item.level === 3}>
+              <a
+                href={`#${item.id}`}
+                class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300"
+              >
+                {item.label}
+              </a>
+            </li>
+          {/each}
+        </ol>
+      </nav>
+    </aside>
+  {/if}
 </div>
