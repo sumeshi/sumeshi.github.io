@@ -67,6 +67,20 @@
       ]
     },
     {
+      status: 'experimental',
+      title: 'AI支援型フォレンジック書記ツールの開発',
+      hrefs: [
+        { label: 'Lepisma', url: 'https://github.com/sumeshi/lepisma' },
+      ],
+      summary: [
+        '人間主導の調査で得られた情報をもとに、ローカルLLMが関連レコードの検索・検証・要約とタイムライン整理を支援するツール。',
+      ],
+      xEmbedUrls: [
+        'https://x.com/sum3sh1/status/2095977837853610462',
+        'https://x.com/sum3sh1/status/2096093968492793973'
+      ]
+    },
+    {
       status: 'maintained',
       title: 'Windowsログ解析支援ツールの開発',
       hrefs: [
@@ -120,13 +134,14 @@
       hrefs: [
         { label: 'Trivium', url: 'https://github.com/sumeshi/trivium' },
         { label: 'Quilter-CSV', url: 'https://github.com/sumeshi/quilter-csv' },
-        { label: 'qsv-rs', url: 'https://github.com/sumeshi/qsv-rs' }
+        { label: 'Quilt', url: 'https://github.com/sumeshi/quilt' }
       ],
       summary: [
         '数百GBオーダーを想定した、巨大なCSV形式ファイルを高速かつ複雑な条件のもとフィルタ可能な Python/Rust 製ツール。',
         'フィルタされたCSVファイルに対してIOCによるフラグ付けなどが可能な Rust - Tauri 製ツール。',
       ],
       xEmbedUrls: [
+        'https://x.com/sum3sh1/status/2091904742444442101',
         'https://x.com/sum3sh1/status/1980679577941995839',
         'https://x.com/sum3sh1/status/1854231023787339958'
       ]
@@ -184,19 +199,6 @@
       ]
     },
     {
-      status: 'in-development',
-      title: '日本語PIIフィルター用ファインチューニングモデル',
-      hrefs: [
-        { label: 'privacy-filter-jp.cpp', url: 'https://github.com/sumeshi/privacy-filter-jp.cpp' },
-      ],
-      summary: [
-        'OpenAI Privacy Filterをベースに、日本語固有の個人識別情報をフィルターできるようチューニングしたモデル。',
-      ],
-      xEmbedUrls: [
-        'https://x.com/sum3sh1/status/2073038952597266498'
-      ]
-    },
-    {
       status: 'experimental',
       title: 'ローカルLLMを活用したインテリジェンス情報収集・分析ツールの開発 (非公開)',
       hrefs: [
@@ -208,6 +210,19 @@
       ],
       xEmbedUrls: [
         'https://x.com/sum3sh1/status/2046076084350046514'
+      ]
+    },
+    {
+      status: 'archived',
+      title: '日本語PIIフィルター用ファインチューニングモデル',
+      hrefs: [
+        { label: 'privacy-filter-jp.cpp', url: 'https://github.com/sumeshi/privacy-filter-jp.cpp' },
+      ],
+      summary: [
+        'OpenAI Privacy Filterをベースに、日本語固有の個人識別情報をフィルターできるようチューニングしたモデル。',
+      ],
+      xEmbedUrls: [
+        'https://x.com/sum3sh1/status/2073038952597266498'
       ]
     },
     {
