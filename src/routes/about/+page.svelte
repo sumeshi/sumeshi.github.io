@@ -3,11 +3,25 @@
   import IconButton from '$lib/components/IconButton.svelte';
   import PageMeta from '$lib/components/PageMeta.svelte';
   import { pathWithBase } from '$lib/paths';
-  import { pageTitle } from '$lib/site';
+  import {
+    jsonLd,
+    pageTitle,
+    siteAuthor,
+    sitePersonId,
+    siteProfileImageUrl,
+    siteSameAs,
+    siteUrl,
+    siteWebsiteId,
+  } from '$lib/site';
 
   type Lang = 'en' | 'ja';
 
   let lang: Lang = $state('en');
+
+  function setLanguage(language: Lang): void {
+    lang = language;
+    document.documentElement.lang = language;
+  }
 
   const socialLinks = [
     { name: 'GitHub', url: 'https://github.com/sumeshi' },
@@ -169,8 +183,35 @@
 
 <PageMeta
   title={pageTitle('About')}
-  description="プロフィールと背景、テックスタックなど。"
+  description="S.Nakano is a cybersecurity professional specializing in incident response, digital forensics, malware analysis, and open-source software development."
+  language="en"
 />
+
+<svelte:head>
+  {@html `<script type="application/ld+json">${jsonLd({
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "ProfilePage",
+        "@id": `${siteUrl}/about#profile`,
+        "url": `${siteUrl}/about`,
+        "name": "About | SIPDEP",
+        "inLanguage": "en",
+        "isPartOf": { "@id": siteWebsiteId },
+        "mainEntity": { "@id": sitePersonId }
+      },
+      {
+        "@type": "Person",
+        "@id": sitePersonId,
+        "name": siteAuthor,
+        "url": siteUrl,
+        "image": siteProfileImageUrl,
+        "jobTitle": "DFIR Researcher / Software Developer",
+        "sameAs": siteSameAs
+      }
+    ]
+  })}</script>`}
+</svelte:head>
 
 <div class="site-container space-y-8">
   <header class="border-b border-gray-800/80 pb-7">
@@ -179,7 +220,7 @@
         {#each ['en', 'ja'] as option (option)}
           <button
             type="button"
-            onclick={() => (lang = option as Lang)}
+            onclick={() => setLanguage(option as Lang)}
             class="px-4 py-1.5 text-xs font-semibold uppercase tracking-wider transition-colors
               {lang === option ? 'bg-indigo-600 text-white' : 'text-gray-400 hover:text-white'}"
             aria-pressed={lang === option}
@@ -195,6 +236,8 @@
       <img
         src={pathWithBase('/img/me.jpg')}
         alt="Portrait of S.Nakano"
+        width="400"
+        height="400"
         draggable="false"
         class="h-24 w-24 shrink-0 self-start rounded-lg border border-gray-700/80 object-cover shadow-lg select-none md:h-32 md:w-32"
       />

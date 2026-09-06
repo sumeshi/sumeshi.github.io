@@ -4,10 +4,28 @@
   import PostListItem from '$lib/components/PostListItem.svelte';
   import { createPostListState } from '$lib/post-list-state.svelte';
   import { fetchPosts } from '$lib/posts';
-  import { jsonLd, pageTitle, siteDescription, siteName, siteUrl } from '$lib/site';
+  import { untrack } from 'svelte';
+  import {
+    jsonLd,
+    pageTitle,
+    siteBlogId,
+    siteDescription,
+    siteName,
+    sitePersonId,
+    siteUrl,
+    siteWebsiteId,
+  } from '$lib/site';
+  import type { PageData } from './$types';
+
+  interface Props {
+    data: PageData;
+  }
+
+  let { data }: Props = $props();
 
   const postState = createPostListState({
     errorMessage: 'Failed to load posts.',
+    initialValue: untrack(() => data.posts),
     getRequest: () => fetchPosts,
     onError: (error) => {
       console.error('Failed to fetch posts:', error);
@@ -23,10 +41,37 @@
 <svelte:head>
   {@html `<script type="application/ld+json">${jsonLd({
     "@context": "https://schema.org",
-    "@type": "Blog",
-    "name": `${siteName} Posts`,
-    "description": siteDescription,
-    "url": `${siteUrl}/posts`
+    "@graph": [
+      {
+        "@type": "Blog",
+        "@id": siteBlogId,
+        "name": `${siteName} Posts`,
+        "description": siteDescription,
+        "url": `${siteUrl}/posts`,
+        "inLanguage": "ja",
+        "author": { "@id": sitePersonId },
+        "publisher": { "@id": sitePersonId },
+        "isPartOf": { "@id": siteWebsiteId }
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": `${siteUrl}/posts#breadcrumb`,
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": `${siteUrl}/`
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Posts",
+            "item": `${siteUrl}/posts`
+          }
+        ]
+      }
+    ]
   })}</script>`}
 </svelte:head>
 

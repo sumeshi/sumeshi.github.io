@@ -8,7 +8,10 @@ const ALLOWED_TAGS = [
   'a', 'img', 'table', 'thead', 'tbody', 'tr', 'th', 'td',
 ];
 
-const ALLOWED_ATTR = ['href', 'src', 'alt', 'title', 'target', 'rel'];
+const ALLOWED_ATTR = [
+  'href', 'src', 'alt', 'title', 'target', 'rel',
+  'width', 'height', 'loading', 'decoding',
+];
 
 type DOMPurifyModule = typeof import('dompurify').default;
 type HighlightModule = typeof import('highlight.js/lib/common').default;
@@ -81,6 +84,16 @@ export async function parsePostContent(html: string): Promise<ContentBlock[]> {
       ALLOWED_ATTR,
       ALLOW_DATA_ATTR: false,
     });
+  }
+
+  for (const image of Array.from(documentFragment.body.querySelectorAll('img'))) {
+    if (!image.hasAttribute('loading')) {
+      image.setAttribute('loading', 'lazy');
+    }
+
+    if (!image.hasAttribute('decoding')) {
+      image.setAttribute('decoding', 'async');
+    }
   }
 
   function flushProse(): void {

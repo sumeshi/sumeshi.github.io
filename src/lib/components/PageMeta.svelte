@@ -1,6 +1,14 @@
 <script lang="ts">
   import { page } from '$app/stores';
-  import { canonicalUrlForPath, siteAuthor, siteName, siteUrl, xHandle } from '$lib/site';
+  import {
+    canonicalUrlForPath,
+    siteAuthor,
+    siteFeedUrl,
+    siteName,
+    siteOgImageUrl,
+    siteUrl,
+    xHandle,
+  } from '$lib/site';
 
   interface Props {
     title: string;
@@ -10,16 +18,20 @@
     ogType?: 'website' | 'article' | 'profile';
     publishedTime?: string;
     modifiedTime?: string;
+    language?: 'en' | 'ja';
+    languageAlternates?: Array<{ hreflang: string; href: string }>;
   }
 
   let {
     title,
     description,
-    ogImage = `${siteUrl}/img/og-card.png`,
+    ogImage = siteOgImageUrl,
     imageAlt = `${siteName} social preview image`,
     ogType = 'website',
     publishedTime,
     modifiedTime,
+    language = 'ja',
+    languageAlternates = [],
   }: Props = $props();
 
   const canonicalUrl = $derived(canonicalUrlForPath($page.url.pathname));
@@ -29,17 +41,23 @@
   <title>{title}</title>
   <link rel="canonical" href={canonicalUrl} />
   <link rel="sitemap" type="application/xml" href={`${siteUrl}/sitemap.xml`} />
+  <link rel="alternate" type="application/rss+xml" title={`${siteName} Posts`} href={siteFeedUrl} />
+  {#each languageAlternates as alternate (`${alternate.hreflang}-${alternate.href}`)}
+    <link rel="alternate" hreflang={alternate.hreflang} href={alternate.href} />
+  {/each}
   <meta name="description" content={description} />
   <meta name="author" content={siteAuthor} />
   <meta name="robots" content="index, follow" />
   <meta property="og:site_name" content={siteName} />
   <meta property="og:type" content={ogType} />
+  <meta property="og:locale" content={language === 'en' ? 'en_US' : 'ja_JP'} />
   <meta property="og:title" content={title} />
   <meta property="og:description" content={description} />
   <meta property="og:url" content={canonicalUrl} />
   <meta property="og:image" content={ogImage} />
-  <meta property="og:image:width" content="1200" />
-  <meta property="og:image:height" content="630" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1920" />
+  <meta property="og:image:height" content="1080" />
   <meta property="og:image:alt" content={imageAlt} />
   {#if ogType === 'article'}
     <meta property="article:author" content={siteAuthor} />

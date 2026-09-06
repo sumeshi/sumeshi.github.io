@@ -119,16 +119,16 @@ html {
 }
 
 .html-wrapper h2 {
-  margin-top: 2rem;
-  margin-bottom: 0.8rem;
+  margin-top: 2.5rem;
+  margin-bottom: 0.95rem;
   border-bottom: 1px solid rgb(31 41 55);
   font-size: 1.5rem;
   padding-bottom: 0.65rem;
 }
 
 .html-wrapper h3 {
-  margin-top: 1.5rem;
-  margin-bottom: 0.65rem;
+  margin-top: 1.75rem;
+  margin-bottom: 0.75rem;
   font-size: 1.25rem;
 }
 

@@ -9,7 +9,17 @@
   import { createAsyncDataState } from '$lib/load-state.svelte';
   import { pathWithBase } from '$lib/paths';
   import { formatPostPublishedAt, getPostTitle } from '$lib/posts';
-  import { jsonLd, pageTitle, siteDescription, siteName, siteUrl } from '$lib/site';
+  import {
+    jsonLd,
+    pageTitle,
+    siteAuthor,
+    siteBlogId,
+    siteDescription,
+    siteName,
+    siteOgImageUrl,
+    sitePersonId,
+    siteUrl,
+  } from '$lib/site';
   import { fetchPostContent, parsePostContent, postSourceUrl } from '$lib/post-content';
   import type { PostContent, ContentBlock, PostIndex } from '$lib/types';
   import type { PageData } from './$types';
@@ -55,8 +65,34 @@
   const loadedPost = $derived(data.post);
   const metaPost = $derived(loadedPost ?? postState.state.value);
   const postTitle = $derived(metaPost.title || metaPost.heading ? getPostTitle(metaPost) : '');
-  const breadcrumbTitle = $derived(postTitle || postId || 'Post');
+  const breadcrumbTitle = $derived(postId || postTitle || 'Post');
   const postDescription = $derived(getPostDescription(metaPost));
+  const postLanguage = $derived(postId?.endsWith('-en') ? 'en' : 'ja');
+  const alternateLanguage = $derived(postLanguage === 'en' ? 'ja' : 'en');
+  const alternateVersion = $derived(
+    data.languageAlternates.find((alternate) => alternate.hreflang === alternateLanguage),
+  );
+  const alternateVersionLabel = $derived(
+    alternateLanguage === 'en' ? 'Read in English' : 'Read in Japanese',
+  );
+
+  function withoutMarkdownTitle(blocks: ContentBlock[]): ContentBlock[] {
+    let titleRemoved = false;
+
+    return blocks.map((block) => {
+      if (titleRemoved || block.type !== 'text' || !/<h1\b/i.test(block.content)) {
+        return block;
+      }
+
+      titleRemoved = true;
+      return {
+        ...block,
+        content: block.content.replace(/<h1\b[^>]*>[\s\S]*?<\/h1>/i, '').trim(),
+      };
+    }).filter((block) => block.content);
+  }
+
+  const articleContents = $derived(withoutMarkdownTitle(contents));
 
   const postCanonicalUrl = $derived(
     categoryName && postId
@@ -72,28 +108,70 @@
     postTitle
       ? {
           "@context": "https://schema.org",
-          "@type": "BlogPosting",
-          "headline": postTitle,
-          "description": postDescription,
-          "url": postCanonicalUrl,
-          "mainEntityOfPage": postCanonicalUrl,
-          "datePublished": metaPost.published_at || undefined,
-          "dateModified": metaPost.published_at || undefined,
-          "author": {
-            "@type": "Person",
-            "name": "S.Nakano",
-            "url": siteUrl
-          },
-          "publisher": {
-            "@type": "Person",
-            "name": "S.Nakano",
-            "url": siteUrl
-          },
-          "isPartOf": {
-            "@type": "Blog",
-            "name": `${siteName} Posts`,
-            "url": `${siteUrl}/posts`
-          }
+          "@graph": [
+            {
+              "@type": "BlogPosting",
+              "@id": `${postCanonicalUrl}#article`,
+              "headline": postTitle,
+              "description": postDescription,
+              "url": postCanonicalUrl,
+              "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": postCanonicalUrl
+              },
+              "image": siteOgImageUrl,
+              "inLanguage": postLanguage,
+              "datePublished": metaPost.published_at || undefined,
+              "author": {
+                "@type": "Person",
+                "@id": sitePersonId,
+                "name": siteAuthor,
+                "url": siteUrl
+              },
+              "publisher": {
+                "@type": "Person",
+                "@id": sitePersonId,
+                "name": siteAuthor,
+                "url": siteUrl
+              },
+              "isPartOf": {
+                "@type": "Blog",
+                "@id": siteBlogId,
+                "name": `${siteName} Posts`,
+                "url": `${siteUrl}/posts`
+              }
+            },
+            {
+              "@type": "BreadcrumbList",
+              "@id": `${postCanonicalUrl}#breadcrumb`,
+              "itemListElement": [
+                {
+                  "@type": "ListItem",
+                  "position": 1,
+                  "name": "Home",
+                  "item": `${siteUrl}/`
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 2,
+                  "name": "Posts",
+                  "item": `${siteUrl}/posts`
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 3,
+                  "name": categoryName,
+                  "item": `${siteUrl}/posts/${encodeURIComponent(categoryName ?? '')}`
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 4,
+                  "name": postTitle,
+                  "item": postCanonicalUrl
+                }
+              ]
+            }
+          ]
         }
       : null
   );
@@ -143,7 +221,8 @@
   description={postDescription}
   ogType="article"
   publishedTime={metaPost.published_at}
-  modifiedTime={metaPost.published_at}
+  language={postLanguage}
+  languageAlternates={data.languageAlternates}
 />
 
 <svelte:head>
@@ -154,7 +233,7 @@
 
 <div class="site-container">
   <article>
-    <header class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+    <header class="flex flex-col gap-3">
       <Breadcrumb
         items={[
           { label: 'POSTS', href: pathWithBase('/posts') },
@@ -163,13 +242,13 @@
         ]}
         wrap={true}
       />
-      <div class="flex items-center gap-2 self-start sm:shrink-0">
+      <div class="flex flex-wrap items-center justify-end gap-2">
         {#if postTitle}
           <LinkButton
             href={xShareUrl}
             external={true}
             variant="x"
-            className="order-1 gap-1.5 px-3 py-1.5 text-xs font-medium sm:order-3"
+            className="order-2 gap-1.5 px-3 py-1.5 text-xs font-medium"
           >
             <svg class="h-3.5 w-3.5 shrink-0" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
               <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.258 5.63zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
@@ -182,21 +261,44 @@
           external={true}
           label="View source on GitHub"
           variant="brand"
-          className="order-2 sm:order-2"
+          className="order-1"
         >
           <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
             <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z" />
           </svg>
         </IconButton>
-        {#if metaPost.published_at}
-          <span class="order-3 hidden text-xs text-gray-500 sm:inline sm:order-1">{formatPostPublishedAt(metaPost.published_at)}</span>
+        {#if alternateVersion}
+          <a
+            href={alternateVersion.href}
+            hreflang={alternateLanguage}
+            rel="alternate"
+            class="order-4 rounded-md border border-gray-800 bg-gray-950/30 px-2 py-1 font-mono text-[10px] uppercase tracking-[0.1em] text-gray-500 transition-colors hover:border-gray-600 hover:bg-gray-900/60 hover:text-indigo-300"
+          >
+            {alternateVersionLabel}
+          </a>
         {/if}
       </div>
     </header>
 
     <div class="py-6">
-      {#if contents.length > 0}
-        {#each contents as block, index (`${block.type}-${index}`)}
+      {#if postTitle}
+        <div class="mb-7 flex flex-col gap-2 border-b border-gray-700 pb-4 sm:flex-row sm:items-start sm:justify-between sm:gap-6">
+          <h1 class="min-w-0 font-sans text-2xl font-bold leading-tight tracking-tight text-white sm:text-[2rem]">
+            {postTitle}
+          </h1>
+          {#if metaPost.published_at}
+            <time
+              class="shrink-0 font-mono text-[10px] text-gray-500 sm:pt-2"
+              datetime={metaPost.published_at}
+            >
+              {formatPostPublishedAt(metaPost.published_at)}
+            </time>
+          {/if}
+        </div>
+      {/if}
+
+      {#if articleContents.length > 0}
+        {#each articleContents as block, index (`${block.type}-${index}`)}
           {#if block.type === 'text'}
             <div class="html-wrapper text-gray-300 text-sm leading-relaxed">
               {@html block.content}

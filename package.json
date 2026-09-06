@@ -18,8 +18,11 @@
   "scripts": {
     "dev": "vite dev",
     "build": "vite build",
-    "postbuild": "pnpm verify:sitemap",
+    "postbuild": "pnpm finalize:404 && pnpm verify:sitemap && pnpm verify:feed && pnpm verify:seo",
+    "finalize:404": "node scripts/finalize-404.mjs",
     "verify:sitemap": "node scripts/verify-sitemap.mjs",
+    "verify:feed": "node scripts/verify-feed.mjs",
+    "verify:seo": "node scripts/verify-seo.mjs",
     "preview": "vite preview",
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json"
   },

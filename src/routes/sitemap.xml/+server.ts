@@ -13,12 +13,20 @@ type SitemapUrl = {
 };
 
 const staticUrls: SitemapUrl[] = [
-  { loc: `${siteUrl}/`, changefreq: 'monthly', priority: '1.0' },
+  { loc: `${siteUrl}/`, changefreq: 'weekly', priority: '1.0' },
   { loc: `${siteUrl}/about`, changefreq: 'monthly', priority: '0.8' },
   { loc: `${siteUrl}/works`, changefreq: 'monthly', priority: '0.8' },
   { loc: `${siteUrl}/talks`, changefreq: 'monthly', priority: '0.8' },
   { loc: `${siteUrl}/posts`, changefreq: 'weekly', priority: '0.9' },
 ];
+
+function latestPublishedDate(posts: PostIndex[]): string | undefined {
+  return posts
+    .map((post) => post.published_at?.slice(0, 10))
+    .filter((date): date is string => /^\d{4}-\d{2}-\d{2}$/.test(date ?? ''))
+    .sort()
+    .at(-1);
+}
 
 function escapeXml(value: string): string {
   return value
@@ -71,12 +79,28 @@ function renderUrl(url: SitemapUrl): string {
 
 export const GET: RequestHandler = async () => {
   const posts = await fetchPostIndexForBuild();
-  const categoryUrls = uniqueCategoryEntries(posts).map((entry): SitemapUrl => ({
-    loc: `${siteUrl}/posts/${encodeURIComponent(entry.categoryName)}`,
-    changefreq: 'weekly',
-    priority: '0.8',
-  }));
-  const urls = [...staticUrls, ...categoryUrls, ...postSitemapUrls(posts)];
+  const latestPostDate = latestPublishedDate(posts);
+  const categoryUrls = uniqueCategoryEntries(posts).map((entry): SitemapUrl => {
+    const categoryPosts = posts.filter(
+      (post) => postRouteEntry(post)?.categoryName === entry.categoryName,
+    );
+
+    return {
+      loc: `${siteUrl}/posts/${encodeURIComponent(entry.categoryName)}`,
+      lastmod: latestPublishedDate(categoryPosts),
+      changefreq: 'weekly',
+      priority: '0.8',
+    };
+  });
+  const urls = [
+    ...staticUrls.map((url) =>
+      url.loc === `${siteUrl}/` || url.loc === `${siteUrl}/posts`
+        ? { ...url, lastmod: latestPostDate }
+        : url,
+    ),
+    ...categoryUrls,
+    ...postSitemapUrls(posts),
+  ];
   const xml = [
     '<?xml version="1.0" encoding="UTF-8"?>',
     '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',

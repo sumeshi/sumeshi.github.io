@@ -11,7 +11,7 @@ const ALLOWED_TAGS = [
 
 const ALLOWED_ATTRIBUTES = {
   a: ['href', 'title', 'target', 'rel'],
-  img: ['src', 'alt', 'title'],
+  img: ['src', 'alt', 'title', 'width', 'height', 'loading', 'decoding'],
   code: ['class'],
 };
 
@@ -54,6 +54,16 @@ function sanitizeProse(fragment: string): string {
     allowedAttributes: ALLOWED_ATTRIBUTES,
     allowedSchemes: ['http', 'https', 'mailto'],
     allowProtocolRelative: false,
+    transformTags: {
+      img: (_tagName, attributes) => ({
+        tagName: 'img',
+        attribs: {
+          ...attributes,
+          loading: attributes.loading ?? 'lazy',
+          decoding: attributes.decoding ?? 'async',
+        },
+      }),
+    },
   }).trim();
 }
 

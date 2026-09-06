@@ -20,6 +20,18 @@ export function getPostTitle(post: Pick<PostIndex, 'title' | 'heading'> | Pick<P
   return post.heading || post.title || 'Untitled';
 }
 
+export function getPostCategory(path: string): string {
+  const segments = path.trim().replace(/^\/+|\/+$/g, '').split('/').filter(Boolean);
+  const categoryIndex = segments[0] === 'posts' ? 1 : 0;
+  const category = segments[categoryIndex] ?? 'uncategorized';
+
+  try {
+    return decodeURIComponent(category);
+  } catch {
+    return category;
+  }
+}
+
 export function formatPostListDate(value?: string): string {
   return value?.slice(0, 10) ?? '';
 }

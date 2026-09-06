@@ -3,6 +3,7 @@
   import { pathWithBase } from '$lib/paths';
   import { page } from '$app/stores';
   import { afterNavigate } from '$app/navigation';
+  import { languageForPathname } from '$lib/site-language';
   import { onMount, tick } from 'svelte';
 
   interface Props {
@@ -69,6 +70,7 @@
     drawerOpen = false;
     privacyOpen = false;
     disclaimerOpen = false;
+    document.documentElement.lang = languageForPathname(window.location.pathname);
     trackPageView(new URL(window.location.href));
   });
 
