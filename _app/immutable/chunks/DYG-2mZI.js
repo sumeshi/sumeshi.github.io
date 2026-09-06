@@ -1,1 +1,0 @@
-import{o as e}from"./CX906_-R.js";function t(t){if(t===`/`)return e||`/`;let n=`/${t}`.replace(/\/+/g,`/`);return`${e}${n}`}function n(e){let n=e.trim().replace(/^\/+|\/+$/g,``);return t(n.startsWith(`posts/`)?n:`posts/${n}`)}export{n,t};
