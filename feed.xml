@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>SIPDEP Posts</title>
+    <link>https://sumeshi.github.io/posts</link>
+    <description>デジタルフォレンジック(DFIR), マルウェア解析, OSS開発などに関する活動をまとめた個人ブログ。</description>
+    <language>ja</language>
+    <atom:link href="https://sumeshi.github.io/feed.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 05 Sep 2026 00:00:00 GMT</lastBuildDate>
+    <item>
+      <title>AIにフォレンジックさせるのをやめよう</title>
+      <link>https://sumeshi.github.io/posts/works/dont-make-ai-your-forensic-analyst</link>
+      <guid isPermaLink="true">https://sumeshi.github.io/posts/works/dont-make-ai-your-forensic-analyst</guid>
+      <description>AI-assisted Forensic Scribing という考え方と、その実装について。</description>
+      <pubDate>Sat, 05 Sep 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>Don&apos;t Make AI Your Forensic Analyst</title>
+      <link>https://sumeshi.github.io/posts/works/dont-make-ai-your-forensic-analyst-en</link>
+      <guid isPermaLink="true">https://sumeshi.github.io/posts/works/dont-make-ai-your-forensic-analyst-en</guid>
+      <description>On the idea of AI-assisted Forensic Scribing, and one way to implement it.</description>
+      <pubDate>Sat, 05 Sep 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>ログ解析パッチワーク</title>
+      <link>https://sumeshi.github.io/posts/works/quilt</link>
+      <guid isPermaLink="true">https://sumeshi.github.io/posts/works/quilt</guid>
+      <description>ログ解析向けデータ処理ツール「Quilt」の設計思想について</description>
+      <pubDate>Tue, 25 Aug 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>生成AI使い方おメモ (2026.08.25 更新)</title>
+      <link>https://sumeshi.github.io/posts/knowledges/ai-memorandum</link>
+      <guid isPermaLink="true">https://sumeshi.github.io/posts/knowledges/ai-memorandum</guid>
+      <description>備忘。</description>
+      <pubDate>Mon, 24 Aug 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>君たちはどうWindowsイベントログを調査するか</title>
+      <link>https://sumeshi.github.io/posts/knowledges/windows-eventlog-analysis-101</link>
+      <guid isPermaLink="true">https://sumeshi.github.io/posts/knowledges/windows-eventlog-analysis-101</guid>
+      <description>Windowsイベントログ調査のぼんやりメモ。思い出したら追記。</description>
+      <pubDate>Sat, 22 Aug 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>How Do You Investigate Windows Event Logs?</title>
+      <link>https://sumeshi.github.io/posts/knowledges/windows-eventlog-analysis-101-en</link>
+      <guid isPermaLink="true">https://sumeshi.github.io/posts/knowledges/windows-eventlog-analysis-101-en</guid>
+      <description>Vague notes on Windows event log investigation. I&apos;ll add more as I remember.</description>
+      <pubDate>Sat, 22 Aug 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>Vim足りてウガンダを知る</title>
+      <link>https://sumeshi.github.io/posts/tools/vim</link>
+      <guid isPermaLink="true">https://sumeshi.github.io/posts/tools/vim</guid>
+      <description>:help uganda</description>
+      <pubDate>Sun, 16 Aug 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>博士の愛したHDD</title>
+      <link>https://sumeshi.github.io/posts/knowledges/the-hdd-and-the-professor</link>
+      <guid isPermaLink="true">https://sumeshi.github.io/posts/knowledges/the-hdd-and-the-professor</guid>
+      <description>データ消去に関する私見。</description>
+      <pubDate>Fri, 14 Aug 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>Do Local LLMs Dream of Forensic Investigators?</title>
+      <link>https://sumeshi.github.io/posts/works/do-localllms-dream-of-forensic-investigator-en</link>
+      <guid isPermaLink="true">https://sumeshi.github.io/posts/works/do-localllms-dream-of-forensic-investigator-en</guid>
+      <description>On the design philosophy behind FORENSIA, an AI digital forensics harness.</description>
+      <pubDate>Tue, 11 Aug 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>ローカルLLMはフォレンジック調査官の夢を見るか？</title>
+      <link>https://sumeshi.github.io/posts/works/do-localllms-dream-of-forensic-investigator</link>
+      <guid isPermaLink="true">https://sumeshi.github.io/posts/works/do-localllms-dream-of-forensic-investigator</guid>
+      <description>AIデジタルフォレンジックハーネス「FORENSIA」の設計思想について。</description>
+      <pubDate>Tue, 11 Aug 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>DockerのせいでバカデカになったWSL2ディスクを小さくする</title>
+      <link>https://sumeshi.github.io/posts/knowledges/wsl2-reduction</link>
+      <guid isPermaLink="true">https://sumeshi.github.io/posts/knowledges/wsl2-reduction</guid>
+      <description>備忘。</description>
+      <pubDate>Tue, 11 Aug 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>今後の方針</title>
+      <link>https://sumeshi.github.io/posts/ideas/future-plans</link>
+      <guid isPermaLink="true">https://sumeshi.github.io/posts/ideas/future-plans</guid>
+      <description>今後やりたいこととか。随時更新</description>
+      <pubDate>Mon, 04 May 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>Tiny C Compiler (tcc)</title>
+      <link>https://sumeshi.github.io/posts/tools/tcc</link>
+      <guid isPermaLink="true">https://sumeshi.github.io/posts/tools/tcc</guid>
+      <description>ちょっとしたプログラムのコンパイルに。</description>
+      <pubDate>Thu, 12 Dec 2024 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>radare2</title>
+      <link>https://sumeshi.github.io/posts/tools/radare2</link>
+      <guid isPermaLink="true">https://sumeshi.github.io/posts/tools/radare2</guid>
+      <description>起動するたびに使い方を忘れる。</description>
+      <pubDate>Thu, 12 Dec 2024 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>セキュリティのおツール達</title>
+      <link>https://sumeshi.github.io/posts/knowledges/cybersecurity-tools</link>
+      <guid isPermaLink="true">https://sumeshi.github.io/posts/knowledges/cybersecurity-tools</guid>
+      <description>思い出したら追記。</description>
+      <pubDate>Mon, 20 May 2024 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>セキュリティ研究者向けLinuxディストリビューションまとめ</title>
+      <link>https://sumeshi.github.io/posts/knowledges/linux-for-security</link>
+      <guid isPermaLink="true">https://sumeshi.github.io/posts/knowledges/linux-for-security</guid>
+      <description>個人的にいい感じだなと思ったやつ。偏見あり。使ってないやつも一応メモ的に。</description>
+      <pubDate>Wed, 08 May 2024 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>PE(exe)ファイルのビルドオプションを確認する</title>
+      <link>https://sumeshi.github.io/posts/knowledges/pefile-build-options</link>
+      <guid isPermaLink="true">https://sumeshi.github.io/posts/knowledges/pefile-build-options</guid>
+      <description>脆弱性回避機構のオンオフとか</description>
+      <pubDate>Thu, 21 Dec 2023 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>Ubuntu22.04にSwapfileを追加する</title>
+      <link>https://sumeshi.github.io/posts/knowledges/ubuntu-add-swap</link>
+      <guid isPermaLink="true">https://sumeshi.github.io/posts/knowledges/ubuntu-add-swap</guid>
+      <description>これも毎回忘れる。クソボケ。</description>
+      <pubDate>Sat, 16 Dec 2023 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>Proxmoxのディスクサイズ拡張</title>
+      <link>https://sumeshi.github.io/posts/knowledges/proxmox-disk-extend</link>
+      <guid isPermaLink="true">https://sumeshi.github.io/posts/knowledges/proxmox-disk-extend</guid>
+      <description>毎回忘れるので備忘</description>
+      <pubDate>Sat, 16 Dec 2023 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>セキュリティのおサイト達</title>
+      <link>https://sumeshi.github.io/posts/knowledges/cybersecurity-sites</link>
+      <guid isPermaLink="true">https://sumeshi.github.io/posts/knowledges/cybersecurity-sites</guid>
+      <description>なんとかなれーーッ！</description>
+      <pubDate>Tue, 12 Dec 2023 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>DFIR検証用イメージファイル</title>
+      <link>https://sumeshi.github.io/posts/knowledges/dfir-images</link>
+      <guid isPermaLink="true">https://sumeshi.github.io/posts/knowledges/dfir-images</guid>
+      <description>作ったツールの検証やフォレンジックの練習ができるやつ。</description>
+      <pubDate>Sat, 09 Dec 2023 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>有用なWebサイト</title>
+      <link>https://sumeshi.github.io/posts/knowledges/helpful-websites</link>
+      <guid isPermaLink="true">https://sumeshi.github.io/posts/knowledges/helpful-websites</guid>
+      <description>よく使うやつのメモ, 安全性を保証するものではないです.</description>
+      <pubDate>Sat, 11 Mar 2023 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>Linuxの初期設定</title>
+      <link>https://sumeshi.github.io/posts/knowledges/linux-settings</link>
+      <guid isPermaLink="true">https://sumeshi.github.io/posts/knowledges/linux-settings</guid>
+      <description>インストール後忘れがちな設定のメモとか。</description>
+      <pubDate>Mon, 20 Feb 2023 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>匿名性の担保</title>
+      <link>https://sumeshi.github.io/posts/knowledges/anonymity-assurance</link>
+      <guid isPermaLink="true">https://sumeshi.github.io/posts/knowledges/anonymity-assurance</guid>
+      <description>web上で自身の匿名性を担保するためにすべきこと、Torとか。</description>
+      <pubDate>Tue, 31 Jan 2023 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>データの抹消について</title>
+      <link>https://sumeshi.github.io/posts/knowledges/data-deletion</link>
+      <guid isPermaLink="true">https://sumeshi.github.io/posts/knowledges/data-deletion</guid>
+      <description>機密情報等のデータを含むHDD等の廃棄に関するメモ</description>
+      <pubDate>Wed, 09 Nov 2022 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>ARKサーバのログイン人数を監視するDiscordBotを作る</title>
+      <link>https://sumeshi.github.io/posts/knowledges/discord-bot-ark-server</link>
+      <guid isPermaLink="true">https://sumeshi.github.io/posts/knowledges/discord-bot-ark-server</guid>
+      <description>Python3でサクッと仕上げました。</description>
+      <pubDate>Tue, 09 Aug 2022 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>マルウェア解析</title>
+      <link>https://sumeshi.github.io/posts/knowledges/malware-analysis</link>
+      <guid isPermaLink="true">https://sumeshi.github.io/posts/knowledges/malware-analysis</guid>
+      <description>備忘録。基本的にWindows環境を対象としたマルウェアの解析について。</description>
+      <pubDate>Thu, 19 May 2022 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>md2apiについて</title>
+      <link>https://sumeshi.github.io/posts/works/md2api</link>
+      <guid isPermaLink="true">https://sumeshi.github.io/posts/works/md2api</guid>
+      <description>Markdownからjsonを生成して, REST APIっぽくGitHub Pagesで公開した備忘録</description>
+      <pubDate>Sun, 01 May 2022 00:00:00 GMT</pubDate>
+    </item>
+  </channel>
+</rss>
