@@ -4,13 +4,19 @@ on:
   workflow_dispatch:
   repository_dispatch:
     types: [api-published]
+  schedule:
+    - cron: '17 3 * * *'
   push:
     branches:
       - master
 
 jobs:
   deploy:
+    if: ${{ github.event_name != 'schedule' || (vars.GA4_PROPERTY_ID != '' && vars.GCP_WORKLOAD_IDENTITY_PROVIDER != '' && vars.GA4_SERVICE_ACCOUNT != '') }}
     runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+      id-token: write
     concurrency:
       group: ${{ github.workflow }}-${{ github.ref }}
     steps:
@@ -28,11 +34,28 @@ jobs:
           cache: pnpm
 
       - run: pnpm install --frozen-lockfile
+
+      - name: Authenticate to Google Cloud
+        id: google-auth
+        if: ${{ vars.GCP_WORKLOAD_IDENTITY_PROVIDER != '' && vars.GA4_SERVICE_ACCOUNT != '' && vars.GA4_PROPERTY_ID != '' }}
+        uses: google-github-actions/auth@v3
+        with:
+          workload_identity_provider: ${{ vars.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ vars.GA4_SERVICE_ACCOUNT }}
+          token_format: access_token
+          access_token_scopes: https://www.googleapis.com/auth/analytics.readonly
+
+      - name: Generate popular posts
+        env:
+          GA4_PROPERTY_ID: ${{ vars.GA4_PROPERTY_ID }}
+          GA4_ACCESS_TOKEN: ${{ steps.google-auth.outputs.access_token }}
+        run: pnpm generate:popular-posts
+
       - run: pnpm build
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v4
-        if: ${{ github.event_name == 'repository_dispatch' || github.ref == 'refs/heads/master' }}
+        if: ${{ github.event_name == 'repository_dispatch' || github.event_name == 'schedule' || github.ref == 'refs/heads/master' }}
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./build

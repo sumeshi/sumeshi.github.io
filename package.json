@@ -18,10 +18,12 @@
   "scripts": {
     "dev": "vite dev",
     "build": "vite build",
-    "postbuild": "pnpm finalize:404 && pnpm verify:sitemap && pnpm verify:feed && pnpm verify:seo",
+    "postbuild": "pnpm finalize:404 && pnpm verify:sitemap && pnpm verify:feed && pnpm verify:popular-posts && pnpm verify:seo",
+    "generate:popular-posts": "node scripts/generate-popular-posts.mjs",
     "finalize:404": "node scripts/finalize-404.mjs",
     "verify:sitemap": "node scripts/verify-sitemap.mjs",
     "verify:feed": "node scripts/verify-feed.mjs",
+    "verify:popular-posts": "node scripts/verify-popular-posts.mjs",
     "verify:seo": "node scripts/verify-seo.mjs",
     "preview": "vite preview",
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json"

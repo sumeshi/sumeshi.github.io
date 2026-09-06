@@ -32,6 +32,19 @@ export function getPostCategory(path: string): string {
   }
 }
 
+export function getPostPath(path: string): string {
+  const segments = path.trim().replace(/^\/+|\/+$/g, '').split('/').filter(Boolean);
+  const routeSegments = segments[0] === 'posts' ? segments : ['posts', ...segments];
+
+  return `/${routeSegments.map((segment) => {
+    try {
+      return encodeURIComponent(decodeURIComponent(segment));
+    } catch {
+      return encodeURIComponent(segment);
+    }
+  }).join('/')}`;
+}
+
 export function formatPostListDate(value?: string): string {
   return value?.slice(0, 10) ?? '';
 }
