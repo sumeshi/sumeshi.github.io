@@ -1,1 +1,0 @@
-import{o as e}from"./CgNAC-7A.js";function t(t){if(t===`/`)return e||`/`;let n=`/${t}`.replace(/\/+/g,`/`);return`${e}${n}`}function n(e){let n=e.trim().replace(/^\/+|\/+$/g,``);return t(n.startsWith(`posts/`)?n:`posts/${n}`)}export{n,t};
