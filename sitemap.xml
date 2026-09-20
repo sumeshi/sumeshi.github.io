@@ -40,14 +40,14 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://sumeshi.github.io/posts/tools</loc>
-    <lastmod>2026-08-16</lastmod>
+    <loc>https://sumeshi.github.io/posts/ideas</loc>
+    <lastmod>2026-05-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://sumeshi.github.io/posts/ideas</loc>
-    <lastmod>2026-05-04</lastmod>
+    <loc>https://sumeshi.github.io/posts/tools</loc>
+    <lastmod>2026-08-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -58,32 +58,14 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sumeshi.github.io/posts/knowledges/malware-analysis</loc>
-    <lastmod>2022-05-19</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
     <loc>https://sumeshi.github.io/posts/knowledges/discord-bot-ark-server</loc>
     <lastmod>2022-08-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sumeshi.github.io/posts/knowledges/data-deletion</loc>
-    <lastmod>2022-11-09</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
     <loc>https://sumeshi.github.io/posts/knowledges/anonymity-assurance</loc>
     <lastmod>2023-01-31</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://sumeshi.github.io/posts/knowledges/linux-settings</loc>
-    <lastmod>2023-02-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -100,12 +82,6 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sumeshi.github.io/posts/knowledges/cybersecurity-sites</loc>
-    <lastmod>2023-12-12</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
     <loc>https://sumeshi.github.io/posts/knowledges/ubuntu-add-swap</loc>
     <lastmod>2023-12-16</lastmod>
     <changefreq>monthly</changefreq>
@@ -118,32 +94,8 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sumeshi.github.io/posts/knowledges/pefile-build-options</loc>
-    <lastmod>2023-12-21</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
     <loc>https://sumeshi.github.io/posts/knowledges/linux-for-security</loc>
     <lastmod>2024-05-08</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://sumeshi.github.io/posts/knowledges/cybersecurity-tools</loc>
-    <lastmod>2024-05-20</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://sumeshi.github.io/posts/tools/tcc</loc>
-    <lastmod>2024-12-12</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://sumeshi.github.io/posts/tools/radare2</loc>
-    <lastmod>2024-12-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
