@@ -134,13 +134,6 @@
       <pubDate>Tue, 31 Jan 2023 00:00:00 GMT</pubDate>
     </item>
     <item>
-      <title>ARKサーバのログイン人数を監視するDiscordBotを作る</title>
-      <link>https://sumeshi.github.io/posts/knowledges/discord-bot-ark-server</link>
-      <guid isPermaLink="true">https://sumeshi.github.io/posts/knowledges/discord-bot-ark-server</guid>
-      <description>Python3でサクッと仕上げました。</description>
-      <pubDate>Tue, 09 Aug 2022 00:00:00 GMT</pubDate>
-    </item>
-    <item>
       <title>md2apiについて</title>
       <link>https://sumeshi.github.io/posts/works/md2api</link>
       <guid isPermaLink="true">https://sumeshi.github.io/posts/works/md2api</guid>
