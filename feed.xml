@@ -15,6 +15,13 @@
       <pubDate>Sun, 20 Sep 2026 00:00:00 GMT</pubDate>
     </item>
     <item>
+      <title>How Do You Investigate Windows Event Logs?</title>
+      <link>https://sumeshi.github.io/posts/knowledges/windows-eventlog-analysis-101-en</link>
+      <guid isPermaLink="true">https://sumeshi.github.io/posts/knowledges/windows-eventlog-analysis-101-en</guid>
+      <description>Vague notes on Windows event log investigation. I&apos;ll add more as I remember.</description>
+      <pubDate>Sun, 20 Sep 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
       <title>AIにフォレンジックさせるのをやめよう</title>
       <link>https://sumeshi.github.io/posts/works/dont-make-ai-your-forensic-analyst</link>
       <guid isPermaLink="true">https://sumeshi.github.io/posts/works/dont-make-ai-your-forensic-analyst</guid>
@@ -41,13 +48,6 @@
       <guid isPermaLink="true">https://sumeshi.github.io/posts/knowledges/ai-memorandum</guid>
       <description>備忘。</description>
       <pubDate>Mon, 24 Aug 2026 00:00:00 GMT</pubDate>
-    </item>
-    <item>
-      <title>How Do You Investigate Windows Event Logs?</title>
-      <link>https://sumeshi.github.io/posts/knowledges/windows-eventlog-analysis-101-en</link>
-      <guid isPermaLink="true">https://sumeshi.github.io/posts/knowledges/windows-eventlog-analysis-101-en</guid>
-      <description>Vague notes on Windows event log investigation. I&apos;ll add more as I remember.</description>
-      <pubDate>Sat, 22 Aug 2026 00:00:00 GMT</pubDate>
     </item>
     <item>
       <title>Vim足りてウガンダを知る</title>
