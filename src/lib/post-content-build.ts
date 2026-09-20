@@ -1,6 +1,6 @@
 import sanitizeHtml from 'sanitize-html';
 import hljs from 'highlight.js/lib/common';
-import { extractInternalPostLinkCard } from '$lib/post-content';
+import { extractInternalPostLinkCard, extractGitHubRepoLinkCard } from '$lib/post-content';
 import type { ContentBlock } from '$lib/types';
 
 const ALLOWED_TAGS = [
@@ -95,8 +95,9 @@ export function parsePostContentForBuild(html: string): ContentBlock[] {
     }
 
     const linkCard = extractInternalPostLinkCard(match[0]);
+    const repoUrl = extractGitHubRepoLinkCard(match[0]);
 
-    if (linkCard) {
+    if (linkCard || repoUrl) {
       boundaries.push({ start: matchIndex, end, preCode: false });
     }
   }
@@ -130,8 +131,14 @@ export function parsePostContentForBuild(html: string): ContentBlock[] {
     } else {
       const segment = html.slice(boundary.start, boundary.end);
       const linkCard = extractInternalPostLinkCard(segment);
+      const repoUrl = extractGitHubRepoLinkCard(segment);
 
-      if (linkCard) {
+      if (repoUrl) {
+        blocks.push({
+          type: 'github-repo',
+          content: repoUrl,
+        });
+      } else if (linkCard) {
         blocks.push({
           type: 'link-card',
           content: linkCard.path,

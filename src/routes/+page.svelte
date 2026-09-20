@@ -69,8 +69,8 @@
       src={pathWithBase('/img/sipdep.svg')}
       alt=""
       aria-hidden="true"
-      width="1460"
-      height="392"
+      width="1351"
+      height="207"
       draggable="false"
       class="max-h-[32vh] w-full max-w-[960px] object-contain sm:max-h-[38vh] lg:max-h-[42vh]"
     />

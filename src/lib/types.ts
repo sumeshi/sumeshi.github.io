@@ -17,7 +17,7 @@ export interface PostContent {
 }
 
 export interface ContentBlock {
-  type: 'text' | 'code' | 'link-card';
+  type: 'text' | 'code' | 'link-card' | 'github-repo';
   content: string;
   label?: string;
 }

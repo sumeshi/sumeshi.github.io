@@ -71,6 +71,8 @@ function decodePathSegment(segment: string): string {
 
 /**
  * Matches a paragraph consisting solely of a link to a post on this site.
+ * Accepts both an anchor element and a bare-text URL that the upstream
+ * markdown renderer did not linkify.
  * Produces a Zenn-style link card instead of inline prose.
  */
 export function extractInternalPostLinkCard(paragraphHtml: string): {
@@ -79,28 +81,57 @@ export function extractInternalPostLinkCard(paragraphHtml: string): {
 } | null {
   const trimmed = paragraphHtml.trim();
 
-  if (!/^<p\b[^>]*>\s*<a\b[^>]*href="[^"]*"[^>]*>[\s\S]*?<\/a>\s*<\/p>$/i.test(trimmed)) {
+  const paragraphMatch = trimmed.match(/^<p\b[^>]*>([\s\S]*)<\/p>$/i);
+
+  if (!paragraphMatch) {
     return null;
   }
 
-  const anchorMatch = trimmed.match(/<a\b([^>]*)>([\s\S]*?)<\/a>/i);
+  const inner = paragraphMatch[1].trim();
 
-  if (!anchorMatch) {
-    return null;
-  }
-
-  const hrefMatch = anchorMatch[1].match(/\bhref\s*=\s*"([^"]*)"/i);
-
-  if (!hrefMatch) {
-    return null;
-  }
+  const anchorMatch = inner.match(/^<a\b[^>]*href="([^"]*)"[^>]*>([\s\S]*?)<\/a>$/i);
 
   let url: URL;
+  let label: string | undefined;
 
-  try {
-    url = new URL(hrefMatch[1], siteUrl);
-  } catch {
-    return null;
+  if (anchorMatch) {
+    try {
+      url = new URL(anchorMatch[1], siteUrl);
+    } catch {
+      return null;
+    }
+
+    label = anchorMatch[2]
+      .replace(/<[^>]+>/g, '')
+      .replace(/&(#(?:x[\da-f]+|\d+)|[a-z]+);/gi, (entity, name: string) => {
+        if (name.startsWith('#x') || name.startsWith('#X')) {
+          return String.fromCodePoint(Number.parseInt(name.slice(2), 16));
+        }
+
+        if (name.startsWith('#')) {
+          return String.fromCodePoint(Number.parseInt(name.slice(1), 10));
+        }
+
+        return ({ amp: '&', apos: "'", gt: '>', lt: '<', nbsp: ' ', quot: '"' })[name.toLowerCase()] ?? entity;
+      })
+      .trim() || undefined;
+  } else {
+    const text = inner
+      .replace(/<[^>]+>/g, '')
+      .replace(/&amp;/g, '&')
+      .replace(/&lt;/g, '<')
+      .replace(/&gt;/g, '>')
+      .trim();
+
+    if (!/^https?:\/\/\S+$/i.test(text)) {
+      return null;
+    }
+
+    try {
+      url = new URL(text);
+    } catch {
+      return null;
+    }
   }
 
   if (url.origin !== siteUrl || !url.pathname.startsWith('/posts/')) {
@@ -114,25 +145,69 @@ export function extractInternalPostLinkCard(paragraphHtml: string): {
     return null;
   }
 
-  const label = anchorMatch[2]
-    .replace(/<[^>]+>/g, '')
-    .replace(/&(#(?:x[\da-f]+|\d+)|[a-z]+);/gi, (entity, name: string) => {
-      if (name.startsWith('#x') || name.startsWith('#X')) {
-        return String.fromCodePoint(Number.parseInt(name.slice(2), 16));
-      }
-
-      if (name.startsWith('#')) {
-        return String.fromCodePoint(Number.parseInt(name.slice(1), 10));
-      }
-
-      return ({ amp: '&', apos: "'", gt: '>', lt: '<', nbsp: ' ', quot: '"' })[name.toLowerCase()] ?? entity;
-    })
-    .trim();
-
   return {
     path: `/${segments.map(decodePathSegment).join('/')}`,
-    label: label || undefined,
+    label,
   };
+}
+
+function parseGitHubRepoUrl(value: string): string | null {
+  let url: URL;
+
+  try {
+    url = new URL(value);
+  } catch {
+    return null;
+  }
+
+  if (url.protocol !== 'https:' && url.protocol !== 'http:') {
+    return null;
+  }
+
+  const match = url.pathname.match(/^\/([A-Za-z0-9](?:[A-Za-z0-9]|-(?=[A-Za-z0-9])){0,38})\/([A-Za-z0-9._-]+?)\/?$/);
+
+  if (url.hostname !== 'github.com' || !match) {
+    return null;
+  }
+
+  return `https://github.com/${match[1]}/${match[2]}`;
+}
+
+/**
+ * Matches a paragraph consisting solely of a link to a GitHub repository.
+ * Accepts both an anchor element and a bare-text URL that the upstream
+ * markdown renderer did not linkify.
+ * Produces a GitHub repo card instead of inline prose.
+ */
+export function extractGitHubRepoLinkCard(paragraphHtml: string): string | null {
+  const trimmed = paragraphHtml.trim();
+
+  const paragraphMatch = trimmed.match(/^<p\b[^>]*>([\s\S]*)<\/p>$/i);
+
+  if (!paragraphMatch) {
+    return null;
+  }
+
+  const inner = paragraphMatch[1].trim();
+
+  const anchorMatch = inner.match(/^<a\b[^>]*href="([^"]*)"[^>]*>[\s\S]*?<\/a>$/i);
+
+  if (anchorMatch) {
+    return parseGitHubRepoUrl(anchorMatch[1]);
+  }
+
+  const text = inner
+    .replace(/<[^>]+>/g, '')
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .trim();
+
+  if (!/^https?:\/\/\S+$/i.test(text)) {
+    return null;
+  }
+
+  return parseGitHubRepoUrl(text);
 }
 
 export async function fetchPostContent(
@@ -210,6 +285,17 @@ export async function parsePostContent(html: string): Promise<ContentBlock[]> {
     }
 
     if (node instanceof HTMLParagraphElement) {
+      const repoUrl = extractGitHubRepoLinkCard(node.outerHTML);
+
+      if (repoUrl) {
+        flushProse();
+        blocks.push({
+          type: 'github-repo',
+          content: repoUrl,
+        });
+        continue;
+      }
+
       const linkCard = extractInternalPostLinkCard(node.outerHTML);
 
       if (linkCard) {
