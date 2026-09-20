@@ -1,5 +1,6 @@
 import sanitizeHtml from 'sanitize-html';
 import hljs from 'highlight.js/lib/common';
+import { extractInternalPostLinkCard } from '$lib/post-content';
 import type { ContentBlock } from '$lib/types';
 
 const ALLOWED_TAGS = [
@@ -16,6 +17,7 @@ const ALLOWED_ATTRIBUTES = {
 };
 
 const PRE_CODE_PATTERN = /<pre\b[^>]*>\s*<code\b([^>]*)>([\s\S]*?)<\/code>\s*<\/pre>/gi;
+const TOP_LEVEL_ELEMENT_PATTERN = /<(\w+)\b[^>]*>[\s\S]*?<\/\1>|<hr\s*\/?>/gi;
 
 function decodeCodeEntities(value: string): string {
   const namedEntities: Record<string, string> = {
@@ -72,26 +74,73 @@ export function parsePostContentForBuild(html: string): ContentBlock[] {
   const blocks: ContentBlock[] = [];
   let cursor = 0;
 
+  const boundaries: Array<{ start: number; end: number; preCode: boolean }> = [];
+
   for (const match of html.matchAll(PRE_CODE_PATTERN)) {
     const matchIndex = match.index ?? 0;
-    const prose = sanitizeProse(html.slice(cursor, matchIndex));
+    boundaries.push({ start: matchIndex, end: matchIndex + match[0].length, preCode: true });
+  }
+
+  // Detect standalone internal-link paragraphs outside of code blocks.
+  for (const match of html.matchAll(TOP_LEVEL_ELEMENT_PATTERN)) {
+    const matchIndex = match.index ?? 0;
+    const end = matchIndex + match[0].length;
+
+    if (boundaries.some((boundary) => matchIndex >= boundary.start && matchIndex < boundary.end)) {
+      continue;
+    }
+
+    if (!/^p$/i.test(match[1]) || match[0].includes('<pre')) {
+      continue;
+    }
+
+    const linkCard = extractInternalPostLinkCard(match[0]);
+
+    if (linkCard) {
+      boundaries.push({ start: matchIndex, end, preCode: false });
+    }
+  }
+
+  boundaries.sort((first, second) => first.start - second.start);
+
+  for (const boundary of boundaries) {
+    const prose = sanitizeProse(html.slice(cursor, boundary.start));
 
     if (prose) {
       blocks.push({ type: 'text', content: prose });
     }
 
-    const rawCode = decodeCodeEntities(match[2]).trimEnd();
+    if (boundary.preCode) {
+      const segment = html.slice(boundary.start, boundary.end);
+      const preCodeMatch = segment.match(PRE_CODE_PATTERN);
+      const codeContent = preCodeMatch?.[2];
 
-    if (rawCode.trim()) {
-      const language = extractLanguage(match[1]);
-      const highlighted = language && hljs.getLanguage(language)
-        ? hljs.highlight(rawCode, { language }).value
-        : hljs.highlightAuto(rawCode).value;
+      if (codeContent) {
+        const rawCode = decodeCodeEntities(codeContent).trimEnd();
 
-      blocks.push({ type: 'code', content: highlighted });
+        if (rawCode.trim()) {
+          const language = extractLanguage(preCodeMatch[1]);
+          const highlighted = language && hljs.getLanguage(language)
+            ? hljs.highlight(rawCode, { language }).value
+            : hljs.highlightAuto(rawCode).value;
+
+          blocks.push({ type: 'code', content: highlighted });
+        }
+      }
+    } else {
+      const segment = html.slice(boundary.start, boundary.end);
+      const linkCard = extractInternalPostLinkCard(segment);
+
+      if (linkCard) {
+        blocks.push({
+          type: 'link-card',
+          content: linkCard.path,
+          label: linkCard.label,
+        });
+      }
     }
 
-    cursor = matchIndex + match[0].length;
+    cursor = boundary.end;
   }
 
   const trailingProse = sanitizeProse(html.slice(cursor));

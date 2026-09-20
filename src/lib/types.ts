@@ -17,6 +17,7 @@ export interface PostContent {
 }
 
 export interface ContentBlock {
-  type: 'text' | 'code';
+  type: 'text' | 'code' | 'link-card';
   content: string;
+  label?: string;
 }

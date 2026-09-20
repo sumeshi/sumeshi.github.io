@@ -1,4 +1,5 @@
 import { POSTS_API_BASE } from '$lib/config';
+import { siteUrl } from '$lib/site';
 import type { ContentBlock, PostContent } from '$lib/types';
 
 const ALLOWED_TAGS = [
@@ -58,6 +59,80 @@ function serializeNode(node: ChildNode): string {
   }
 
   return (node as Element).outerHTML;
+}
+
+function decodePathSegment(segment: string): string {
+  try {
+    return decodeURIComponent(segment);
+  } catch {
+    return segment;
+  }
+}
+
+/**
+ * Matches a paragraph consisting solely of a link to a post on this site.
+ * Produces a Zenn-style link card instead of inline prose.
+ */
+export function extractInternalPostLinkCard(paragraphHtml: string): {
+  path: string;
+  label?: string;
+} | null {
+  const trimmed = paragraphHtml.trim();
+
+  if (!/^<p\b[^>]*>\s*<a\b[^>]*href="[^"]*"[^>]*>[\s\S]*?<\/a>\s*<\/p>$/i.test(trimmed)) {
+    return null;
+  }
+
+  const anchorMatch = trimmed.match(/<a\b([^>]*)>([\s\S]*?)<\/a>/i);
+
+  if (!anchorMatch) {
+    return null;
+  }
+
+  const hrefMatch = anchorMatch[1].match(/\bhref\s*=\s*"([^"]*)"/i);
+
+  if (!hrefMatch) {
+    return null;
+  }
+
+  let url: URL;
+
+  try {
+    url = new URL(hrefMatch[1], siteUrl);
+  } catch {
+    return null;
+  }
+
+  if (url.origin !== siteUrl || !url.pathname.startsWith('/posts/')) {
+    return null;
+  }
+
+  const segments = url.pathname.replace(/\/+$/, '').split('/').filter(Boolean);
+
+  // ['posts', category, postId]
+  if (segments.length !== 3) {
+    return null;
+  }
+
+  const label = anchorMatch[2]
+    .replace(/<[^>]+>/g, '')
+    .replace(/&(#(?:x[\da-f]+|\d+)|[a-z]+);/gi, (entity, name: string) => {
+      if (name.startsWith('#x') || name.startsWith('#X')) {
+        return String.fromCodePoint(Number.parseInt(name.slice(2), 16));
+      }
+
+      if (name.startsWith('#')) {
+        return String.fromCodePoint(Number.parseInt(name.slice(1), 10));
+      }
+
+      return ({ amp: '&', apos: "'", gt: '>', lt: '<', nbsp: ' ', quot: '"' })[name.toLowerCase()] ?? entity;
+    })
+    .trim();
+
+  return {
+    path: `/${segments.map(decodePathSegment).join('/')}`,
+    label: label || undefined,
+  };
 }
 
 export async function fetchPostContent(
@@ -132,6 +207,20 @@ export async function parsePostContent(html: string): Promise<ContentBlock[]> {
         content: highlighted,
       });
       continue;
+    }
+
+    if (node instanceof HTMLParagraphElement) {
+      const linkCard = extractInternalPostLinkCard(node.outerHTML);
+
+      if (linkCard) {
+        flushProse();
+        blocks.push({
+          type: 'link-card',
+          content: linkCard.path,
+          label: linkCard.label,
+        });
+        continue;
+      }
     }
 
     proseFragments.push(serializeNode(node));

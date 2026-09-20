@@ -3,6 +3,7 @@
   import Breadcrumb from '$lib/components/Breadcrumb.svelte';
   import IconButton from '$lib/components/IconButton.svelte';
   import LinkButton from '$lib/components/LinkButton.svelte';
+  import PostLinkCard from '$lib/components/PostLinkCard.svelte';
   import PageMeta from '$lib/components/PageMeta.svelte';
   import { page } from '$app/stores';
   import { untrack } from 'svelte';
@@ -393,6 +394,8 @@
             <div class="html-wrapper text-gray-300 text-sm leading-relaxed">
               {@html block.content}
             </div>
+          {:else if block.type === 'link-card'}
+            <PostLinkCard path={block.content} label={block.label} />
           {:else}
             <div class="code-block">
               <pre><code>{@html block.content}</code></pre>
