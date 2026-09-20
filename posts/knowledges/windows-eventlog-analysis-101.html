@@ -12,19 +12,19 @@
       gtag('js', new Date());
       gtag('config', 'G-DVLS4LMPGV');
     </script>
-    <link href="../../_app/immutable/entry/start.BzijoZuE.js" rel="modulepreload">
-		<link href="../../_app/immutable/chunks/C-dpAnCY.js" rel="modulepreload">
+    <link href="../../_app/immutable/entry/start.DaCQoACq.js" rel="modulepreload">
+		<link href="../../_app/immutable/chunks/D1sWM9Ke.js" rel="modulepreload">
 		<link href="../../_app/immutable/chunks/CyU4G86o.js" rel="modulepreload">
-		<link href="../../_app/immutable/entry/app.CaQCi9_C.js" rel="modulepreload">
+		<link href="../../_app/immutable/entry/app.BaezjxMt.js" rel="modulepreload">
 		<link href="../../_app/immutable/chunks/HclGiUj8.js" rel="modulepreload">
 		<link href="../../_app/immutable/chunks/xihTtKlq.js" rel="modulepreload">
-		<link href="../../_app/immutable/nodes/0.F9sRmQUN.js" rel="modulepreload">
-		<link href="../../_app/immutable/chunks/dBC5ruea.js" rel="modulepreload">
-		<link href="../../_app/immutable/chunks/ngSIr---.js" rel="modulepreload">
-		<link href="../../_app/immutable/nodes/6.DfpH12eY.js" rel="modulepreload">
+		<link href="../../_app/immutable/nodes/0.CEhZwO4A.js" rel="modulepreload">
+		<link href="../../_app/immutable/chunks/PyrwOuId.js" rel="modulepreload">
+		<link href="../../_app/immutable/chunks/BCHvErAr.js" rel="modulepreload">
+		<link href="../../_app/immutable/nodes/6.CyZSF4Jy.js" rel="modulepreload">
 		<link href="../../_app/immutable/chunks/ClbI50hp.js" rel="modulepreload">
 		<link href="../../_app/immutable/chunks/tGA9RONR.js" rel="modulepreload">
-		<link href="../../_app/immutable/chunks/Bt_44jsO.js" rel="modulepreload">
+		<link href="../../_app/immutable/chunks/BeoPlYfu.js" rel="modulepreload">
 		<link href="../../_app/immutable/chunks/i4hBObmy.js" rel="modulepreload">
 		<link href="../../_app/immutable/chunks/D8XUHjZF.js" rel="modulepreload">
 		<link href="../../_app/immutable/chunks/CPlHEan_.js" rel="modulepreload">
@@ -716,17 +716,17 @@ GUIで検索やフィルタができるので、初期の確認には十分使�
 <p>調査部署とか外部に依頼するからエクスポートしろと言われた場合でも、イベントビューアーから保存できる。
 右サイドバーの <code>Save All Events As...</code> をクリックすればよい。</p>
 <p>ただし、<strong>CSVでエクスポートしたものをCSIRTやアナリストに渡すな。マジでやめろ。</strong><br />
-調査する側からすると、ゴミみたいなCSVを使いやすいように整形するところから始める必要があり、余計な手間になる。あとかなり情報量が落ちる。調査担当に渡すなら、<code>.csv</code> ではなく <code>.evtx</code> 形式で保全したものにすること。</p>
+調査する側からすると、ゴミみたいなCSVを使えるように整形するところから始める必要があり、余計な手間になる。そもそもかなり情報量が落ちている。調査担当に渡すなら、<code>.csv</code> ではなく <code>.evtx</code> 形式で保全したものにすること。</p>
 <p>以下はイベントビューアーからエクスポートしたわけのわからないCSVファイルの例。1カラムに多数の改行が含まれている。張り倒すぞ。</p>
 <p><img alt="yabasugi-csv" src="https://github.com/user-attachments/assets/1575ba11-560f-4f4f-b90e-f3a578c68d19" loading="lazy" decoding="async" /></p>
-<p>ファストフォレンジックを見越してデータ取得するなら、<a href="https://github.com/CyberDefenseInstitute/CDIR">CDIR-Collector</a> あたりをつかっておけばよい。<code>exe</code> ポチポチで主要なデータはゴソッと取れる。  </p>
-<p>ただし、このツールの知名度は国内限定なので、海外のセキュリティベンダ相手に渡すとなにそれ？ってなると思う。どのツールで取得したらよいかは相手方に聞いておこう。<a href="https://github.com/orlikoski/CyLR">CyLR</a>, <a href="https://www.kroll.com/en/services/cyber/incident-response-recovery/kroll-artifact-parser-and-extractor-kape">KAPE</a>, <a href="https://github.com/Velocidex/velociraptor">Velociraptor</a> あたりを指定されるかな。。</p>
-<p>保全対象ファイルの実体は <code>C:\Windows\System32\winevt\Logs\</code> 以下にあるが、直接ファイルコピーするとロックの兼ね合いで失敗することもある。可能なら正規のエクスポート手順で取得したほうが安全。</p>
+<p>ファストフォレンジックを依頼することを見越してデータ取得するなら、<a href="https://github.com/CyberDefenseInstitute/CDIR">CDIR-Collector</a> あたりをつかっておけばよい。<code>exe</code> ポチポチで主要なデータがゴソッと取れる。  </p>
+<p>ただし、このツールの知名度は国内に限った話なので、海外のセキュリティベンダ相手に渡すとなにそれ？ってなると思う。どのツールで取得したらよいかは相手方に聞いておこう。<a href="https://github.com/orlikoski/CyLR">CyLR</a>, <a href="https://www.kroll.com/en/services/cyber/incident-response-recovery/kroll-artifact-parser-and-extractor-kape">KAPE</a>, <a href="https://github.com/Velocidex/velociraptor">Velociraptor</a> あたりを指定されるかな。。</p>
+<p>イベントログの実体は <code>C:\Windows\System32\winevt\Logs\</code> 以下にあるが、直接ファイルコピーするとロックの兼ね合いで失敗することもある。可能なら正規のエクスポート手順で取得したほうが安全。</p>
 <p>標準コマンドでやりたいならこう。外部からツールを持ち込むのが難しい場合はこれで。</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><h3 id="アナリスト">アナリスト</h3>
 <p>あなたが CSIRT とかフォレンジック調査員なら、やり方は好みのものを選択すればよい。
 ただし、チーム内で何を使うのかはあらかじめ合意しておくとよい。</p>
 <p><strong>たとえあなたが逆張りオタクで人と違うツールを使うのが好きだとしても、そのツールによって証拠性が担保できるということは、あなたが説明しなければならないことを忘れてはいけない。</strong></p>
-<p>使ったツールが何をどうパースして、どんな形式で出力し、元ログとどう対応しているのかを説明できる必要がある。</p>
+<p>使ったツールが何をどうパースして、どんな形式で出力し、元ログとどう対応しているのかは把握しておきましょう。</p>
 <p>以下は個人的おすすめ順。</p>
 <table>
 <thead>
@@ -810,7 +810,7 @@ GUIで検索やフィルタができるので、初期の確認には十分使�
 <tr>
 <td><a href="https://github.com/google/timesketch">TimeSketch</a></td>
 <td>Google製ログ分析補助ツール。GUIで怪しいやつをフラグ付けとかできる。</td>
-<td>plasoと親和性が高い。<a href="https://github.com/google/timesketch">使ってみた</a> が、マジで遅い。複数人で同時作業するとかなら良さがあるのかもしれない。</td>
+<td>plasoと親和性が高い。<a href="https://github.com/google/timesketch">使ってみた</a> が、Webアプリケーションだからかマジで遅い。複数人で同時作業するとかなら良さがあるのかもしれない。</td>
 </tr>
 <tr>
 <td><a href="https://learn.microsoft.com/ja-jp/exchange/iis-logs-and-log-parser-studio-reports-exchange-2013-help">Log Parser Studio</a></td>
@@ -828,9 +828,9 @@ GUIで検索やフィルタができるので、初期の確認には十分使�
 <td>嫌い。</td>
 </tr>
 </tbody>
-</table><!----></div><!--]--><!--[2--><a href="https://github.com/sumeshi/quilt" target="_blank" rel="noreferrer" class="group my-5 flex gap-3.5 rounded-lg border border-gray-800 bg-gray-900/50 px-4 py-3.5 transition-colors hover:border-indigo-400/40 hover:bg-indigo-950/20"><span class="flex shrink-0 items-center border-r border-gray-800 pr-3.5"><svg class="h-8 w-8 text-gray-300 transition-colors group-hover:text-white" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"></path></svg></span> <span class="flex min-w-0 flex-col gap-1"><span class="font-mono text-[10px] font-medium uppercase tracking-[0.14em] text-indigo-400">GitHub</span> <span class="truncate font-mono text-base font-semibold leading-snug tracking-tight text-white transition-colors group-hover:text-indigo-300">sumeshi/quilt</span> <!--[-1--><!--]--> <span class="mt-0.5 flex flex-wrap items-center gap-x-4 gap-y-1 font-mono text-[11px] text-gray-500"><!--[1--><span class="animate-pulse">loading…</span><!--]--> <span class="flex items-center gap-1.5"><svg class="h-3 w-3 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"></path></svg> <span class="truncate">github.com/sumeshi/quilt</span></span></span></span></a><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p>あと上記とはちょっと毛色が違うけど <strong>ハンティングツール？</strong> の紹介。事前に作っておいた検知ルールでログをスキャンして怪しいイベントを引っ掛けたりすることができる。</p>
+</table><!----></div><!--]--><!--[2--><a href="https://github.com/sumeshi/quilt" target="_blank" rel="noreferrer" class="group my-5 flex gap-3.5 rounded-lg border border-gray-800 bg-gray-900/50 px-4 py-3.5 transition-colors hover:border-indigo-400/40 hover:bg-indigo-950/20"><span class="flex shrink-0 items-center border-r border-gray-800 pr-3.5"><svg class="h-8 w-8 text-gray-300 transition-colors group-hover:text-white" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"></path></svg></span> <span class="flex min-w-0 flex-col gap-1"><span class="font-mono text-[10px] font-medium uppercase tracking-[0.14em] text-indigo-400">GitHub</span> <span class="truncate font-mono text-base font-semibold leading-snug tracking-tight text-white transition-colors group-hover:text-indigo-300">sumeshi/quilt</span> <!--[-1--><!--]--> <span class="mt-0.5 flex flex-wrap items-center gap-x-4 gap-y-1 font-mono text-[11px] text-gray-500"><!--[1--><span class="animate-pulse">loading…</span><!--]--> <span class="flex items-center gap-1.5"><svg class="h-3 w-3 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"></path></svg> <span class="truncate">github.com/sumeshi/quilt</span></span></span></span></a><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p>あと上記とはちょっと毛色が違うけど <strong>ハンティングツール</strong> の紹介。事前に作っておいた検知ルールでログをスキャンして怪しいイベントを引っ掛けたりすることができる。</p>
 <p>単純な抽出だけではなく加工や正規化もしているので、この結果を直接報告に使うのは難しいが、ざっとスキャンして全体像を掴み、その後で詳細分析をすると素早く怪しいポイントを見つけやすい。</p>
-<p>とはいえ FalsePositive は防げないので、結果を鵜呑みにせず、バイアスには注意すること。</p>
+<p>とはいえ原理的に FalsePositive は防げないので、結果を鵜呑みにしないこと。</p>
 <table>
 <thead>
 <tr>
@@ -858,36 +858,37 @@ GUIで検索やフィルタができるので、初期の確認には十分使�
 </tbody>
 </table>
 <h4>CSV で扱う</h4>
-<p>人間が見るなら、フォーマットはcsvが一番取り回しやすい。grepもできるし。</p>
+<p>evtxファイルをバイナリのまま見るのは現実的ではない。<br />
+人間が見るなら、フォーマットはCSVが一番取り回しやすい。grepもできるしね。</p>
 <p>EvtxECmdがおすすめ。ファイル指定 <code>-f</code> もしくはフォルダ指定 <code>-d</code> で変換する。
 フォルダ指定すると配下の <code>.evtx</code> が1つの <code>.csv</code> に統合される。  </p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p><img alt="evtxecmd" src="https://github.com/user-attachments/assets/7b9bb6c4-e731-4c82-bb08-ad737ebee891" loading="lazy" decoding="async" /></p>
-<p>データのフィルタリングは Timeline Explorer がおすすめ。  </p>
+<p>フィルタリングは Timeline Explorer がおすすめ。  </p>
 <p><img alt="timelineexplorer" src="https://github.com/user-attachments/assets/03952f18-8d18-4cde-bb75-cf68ca3b0239" loading="lazy" decoding="async" /></p>
 <p><code>Event Id = 4624</code> のように条件式でフィルタをかけたり、カラムをクリックしてソートしたり、グルーピングしたり、思いつくほとんどのことはできる。<br />
-ただし、各種フィルタなどが保存できない（バグ？）ので注意。自動化も難しいが、とりあえずざっくり見てみるべ～のときはこれでいい。</p>
+ただし、フィルタや条件式などが保存できない（バグ？）ので注意。
+それゆえ自動化も難しいが、とりあえずざっくり見てみるべ～のときはこれでいい。</p>
 <p>調査手法をある程度確立できたら、自動化を検討したってよい。<br />
 詳しくは <a href="https://sumeshi.github.io/posts/works/quilt">ログ解析パッチワーク</a> を参照。</p><!----></div><!--]--><!--[1--><a href="../../posts/works/quilt" target="_blank" rel="noopener noreferrer" class="group my-5 flex gap-3.5 rounded-lg border border-gray-800 bg-gray-900/50 px-4 py-3.5 transition-colors hover:border-indigo-400/40 hover:bg-indigo-950/20"><span class="flex shrink-0 items-center border-r border-gray-800 pr-3.5"><img src="../../img/sipdep.svg" alt="" aria-hidden="true" width="1351" height="207" draggable="false" loading="lazy" class="h-3.5 w-auto opacity-70 transition-opacity group-hover:opacity-100"/></span> <span class="flex min-w-0 flex-col gap-1"><span class="font-mono text-[10px] font-medium uppercase tracking-[0.14em] text-indigo-400">works</span> <span class="font-sans text-base font-semibold leading-snug tracking-tight text-white transition-colors group-hover:text-indigo-300">/posts/works/quilt</span> <!--[-1--><!--]--> <span class="mt-0.5 flex items-center gap-1.5 font-mono text-[11px] text-gray-500"><svg class="h-3 w-3 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"></path></svg> <span class="truncate">sumeshi.github.io</span></span></span></a><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><h4>JSON で扱う</h4>
 <p>システム化するとか、AIにわたす場合はこっちのほうがよい。<br />
 ヘッダーをいちいち気にしなくてよいし、意味を構造で管理しやすい。</p>
 <p><a href="https://github.com/sumeshi/evtx2es/releases">evtx2es</a> をダウンロードする。<br />
-exe版はDefenderで検知される場合があるので、気になる人はpipでインストールしたりリポジトリをクローンして使っても良い。</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p>Elasticsearchに入れて分析してもよいのだが、<br />
-検索など単純なタスクに対してシステム側が過剰に複雑になりすぎると思うなら、DuckDBを使うと良い。
-Web UIもついててお得。</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p>JSONLファイルを直接指定して扱える。</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p><img alt="duckdb" src="https://github.com/user-attachments/assets/5e0a6e40-388e-4a11-bff6-ffcacece9b2b" loading="lazy" decoding="async" /></p>
-<p>あるいはそれをテーブルにしたってよい。</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><h2 id="おわりに">おわりに</h2>
+exe版はDefenderで検知される場合があるので、気になる人はpipでインストールしたりリポジトリをクローンして使っても良い。</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p>素直にElasticsearchに入れて分析してもよいのだが、<br />
+検索など単純なタスクに対してシステム側が過剰に複雑になりすぎると思うなら、DuckDBを使うと良い。Web UIもついててお得。</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p>JSONLファイルを直接指定して扱える。</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p><img alt="duckdb" src="https://github.com/user-attachments/assets/5e0a6e40-388e-4a11-bff6-ffcacece9b2b" loading="lazy" decoding="async" /></p>
+<p>あるいはテーブルにしたってよい。</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><h2 id="おわりに">おわりに</h2>
 <p>もうイベントログ調査なんてこりごりだ～！</p>
 <p>おしまい</p><!----></div><!--]--><!--]--><!--]--></div> <footer class="mt-2 flex justify-center border-t border-gray-800/80 pt-5"><a href="../../posts" class="inline-flex items-center justify-center rounded-md px-5 py-2 text-sm transition-colors border border-indigo-400/20 bg-indigo-400/10 text-indigo-100 hover:border-indigo-300/40 hover:bg-indigo-400/15 hover:text-white shadow-[0_0_0_1px_rgba(99,102,241,0.08)] gap-2 rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-[0.16em]"><svg class="h-3.5 w-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 18l-6-6 6-6"></path></svg> <span>All Posts</span><!----></a><!----></footer></article> <!--[0--><aside class="hidden min-w-0 pt-28 2xl:block"><nav class="sticky top-12 max-h-[calc(100vh-4rem)] overflow-y-auto border-l border-gray-800 pl-4" aria-label="Table of Contents"><p class="mb-2 font-mono text-[10px] font-semibold uppercase tracking-[0.12em] text-gray-500">Table of Contents</p> <ol class="space-y-1"><!--[--><li><a href="#はじめに" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">はじめに</a></li><li><a href="#1-イベントログ調査とは" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">1. イベントログ調査とは</a></li><li class="pl-3"><a href="#イベントログは完全な記録ではない" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">イベントログは完全な記録ではない</a></li><li class="pl-3"><a href="#ログは失われる前に保全する" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">ログは失われる前に保全する</a></li><li class="pl-3"><a href="#大量のログからノイズを減らす" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">大量のログからノイズを減らす</a></li><li><a href="#2-目的" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">2. 目的</a></li><li><a href="#3-範囲を区切る" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">3. 範囲を区切る</a></li><li><a href="#4-調査の勘所" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">4. 調査の勘所</a></li><li class="pl-3"><a href="#event-idから探す" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">Event IDから探す</a></li><li class="pl-3"><a href="#行動から逆引きする" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">行動から逆引きする</a></li><li><a href="#5-生成aiの利用" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">5. 生成AIの利用</a></li><li><a href="#6-報告" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">6. 報告</a></li><li><a href="#appendix-1-主要なevent-id" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">Appendix-1: 主要なEvent ID</a></li><li class="pl-3"><a href="#ログオン-認証" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">ログオン・認証</a></li><li class="pl-3"><a href="#kerberos-ntlm" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">Kerberos / NTLM</a></li><li class="pl-3"><a href="#rdp-terminalservices" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">RDP / TerminalServices</a></li><li class="pl-3"><a href="#プロセス実行" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">プロセス実行</a></li><li class="pl-3"><a href="#powershell-scripting" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">PowerShell / Scripting</a></li><li class="pl-3"><a href="#wmi" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">WMI</a></li><li class="pl-3"><a href="#横展開-リモート操作" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">横展開・リモート操作</a></li><li class="pl-3"><a href="#サービス変更" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">サービス変更</a></li><li class="pl-3"><a href="#スケジュールタスク" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">スケジュールタスク</a></li><li class="pl-3"><a href="#アカウント-グループ管理" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">アカウント・グループ管理</a></li><li class="pl-3"><a href="#ポリシー変更" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">ポリシー変更</a></li><li class="pl-3"><a href="#active-directoryオブジェクト変更" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">Active Directoryオブジェクト変更</a></li><li class="pl-3"><a href="#windows-firewall" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">Windows Firewall</a></li><li class="pl-3"><a href="#microsoft-defender-旧-windows-defender" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">Microsoft Defender (旧 Windows Defender)</a></li><li class="pl-3"><a href="#ログ改ざん-痕跡削除" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">ログ改ざん・痕跡削除</a></li><li class="pl-3"><a href="#ログローテート" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">ログローテート</a></li><li class="pl-3"><a href="#時刻-電源-再起動-シャットダウン" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">時刻・電源・再起動・シャットダウン</a></li><li class="pl-3"><a href="#アプリケーション異常" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">アプリケーション異常</a></li><li class="pl-3"><a href="#sysmon" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">Sysmon</a></li><li><a href="#appendix-2-主要なログchannel" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">Appendix-2: 主要なログChannel</a></li><li><a href="#appendix-3-解析ツールの使い方" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">Appendix-3: 解析ツールの使い方</a></li><li class="pl-3"><a href="#非アナリスト向け" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">非アナリスト向け</a></li><li class="pl-3"><a href="#アナリスト" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">アナリスト</a></li><li><a href="#おわりに" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">おわりに</a></li><!--]--></ol></nav></aside><!--]--></div><!--]--><!----></div></main> <!--[-1--><!--]--> <!--[-1--><!--]--><!--]--><!--]--> <!--[-1--><!--]--><!--]-->
 			
 			<script>
 				{
-					__sveltekit_1kohu7z = {
+					__sveltekit_vv57yu = {
 						base: new URL("../..", location).pathname.slice(0, -1)
 					};
 
 					const element = document.currentScript.parentElement;
 
 					Promise.all([
-						import("../../_app/immutable/entry/start.BzijoZuE.js"),
-						import("../../_app/immutable/entry/app.CaQCi9_C.js")
+						import("../../_app/immutable/entry/start.DaCQoACq.js"),
+						import("../../_app/immutable/entry/app.BaezjxMt.js")
 					]).then(([kit, app]) => {
 						kit.start(app, element, {
 							node_ids: [0, 6],
