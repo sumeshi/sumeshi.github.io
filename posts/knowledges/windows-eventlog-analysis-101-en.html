@@ -12,19 +12,19 @@
       gtag('js', new Date());
       gtag('config', 'G-DVLS4LMPGV');
     </script>
-    <link href="../../_app/immutable/entry/start.BwZ_9WNl.js" rel="modulepreload">
-		<link href="../../_app/immutable/chunks/4KXCVyF6.js" rel="modulepreload">
+    <link href="../../_app/immutable/entry/start.B6YDwuZI.js" rel="modulepreload">
+		<link href="../../_app/immutable/chunks/Coh8lKjK.js" rel="modulepreload">
 		<link href="../../_app/immutable/chunks/CyU4G86o.js" rel="modulepreload">
-		<link href="../../_app/immutable/entry/app.fHj0GHFZ.js" rel="modulepreload">
+		<link href="../../_app/immutable/entry/app.ySPjXVdb.js" rel="modulepreload">
 		<link href="../../_app/immutable/chunks/HclGiUj8.js" rel="modulepreload">
 		<link href="../../_app/immutable/chunks/xihTtKlq.js" rel="modulepreload">
-		<link href="../../_app/immutable/nodes/0.BsRFtZgz.js" rel="modulepreload">
-		<link href="../../_app/immutable/chunks/BzRtarJI.js" rel="modulepreload">
-		<link href="../../_app/immutable/chunks/l7kDdG9t.js" rel="modulepreload">
-		<link href="../../_app/immutable/nodes/6.BQXdU-AW.js" rel="modulepreload">
+		<link href="../../_app/immutable/nodes/0.BEmQ05Zt.js" rel="modulepreload">
+		<link href="../../_app/immutable/chunks/BXk_g0G9.js" rel="modulepreload">
+		<link href="../../_app/immutable/chunks/ISaDwlJ4.js" rel="modulepreload">
+		<link href="../../_app/immutable/nodes/6.BSWWmu1d.js" rel="modulepreload">
 		<link href="../../_app/immutable/chunks/ClbI50hp.js" rel="modulepreload">
 		<link href="../../_app/immutable/chunks/tGA9RONR.js" rel="modulepreload">
-		<link href="../../_app/immutable/chunks/cJBscouU.js" rel="modulepreload">
+		<link href="../../_app/immutable/chunks/Dw2Zh2k0.js" rel="modulepreload">
 		<link href="../../_app/immutable/chunks/i4hBObmy.js" rel="modulepreload">
 		<link href="../../_app/immutable/chunks/D8XUHjZF.js" rel="modulepreload">
 		<link href="../../_app/immutable/chunks/BX5cBY5g.js" rel="modulepreload">
@@ -774,6 +774,7 @@ However, it's good to agree within the team on what to use.</p>
 </tr>
 </tbody>
 </table>
+<p>https://github.com/sumeshi/evtx2es</p>
 <table>
 <thead>
 <tr>
@@ -835,6 +836,7 @@ However, it's good to agree within the team on what to use.</p>
 </tr>
 </tbody>
 </table>
+<p>https://github.com/sumeshi/quilt</p>
 <p>Also, slightly different in flavor from the above, an intro to <strong>hunting tools?</strong>. You can scan logs with pre-made detection rules and catch suspicious events.</p>
 <p>They don't just extract simply but also process and normalize, so it's hard to use the results directly for reporting, but a quick scan to grasp the overall picture and then detailed analysis makes it easy to find suspicious points fast.</p>
 <p>That said, false positives can't be prevented, so don't swallow the results whole and watch out for bias.</p>
@@ -873,7 +875,9 @@ With a folder spec, the <code>.evtx</code> files underneath are merged into a si
 <p>You can filter with conditions like <code>Event Id = 4624</code>, click columns to sort, group, and do almost anything you can think of.
 However, note that the various filters can't be saved (bug?). Automation is also difficult, but for a "let's just roughly look at it" moment, this is fine.</p>
 <p>Once you've established your investigation methodology to some extent, consider automating it.
-See <a href="https://sumeshi.github.io/posts/works/quilt">Log Analysis Patchwork</a> for details.</p><!----></div><!--]--><!--[1--><a href="../../posts/works/quilt" class="group my-5 flex gap-3.5 rounded-lg border border-gray-800 bg-gray-900/50 px-4 py-3.5 transition-colors hover:border-indigo-400/40 hover:bg-indigo-950/20"><span class="flex shrink-0 items-center border-r border-gray-800 pr-3.5"><img src="../../img/sipdep.svg" alt="" aria-hidden="true" width="1460" height="392" draggable="false" loading="lazy" class="h-3.5 w-auto opacity-70 transition-opacity group-hover:opacity-100"/></span> <span class="flex min-w-0 flex-col gap-1"><span class="font-mono text-[10px] font-medium uppercase tracking-[0.14em] text-indigo-400">works</span> <span class="font-sans text-base font-semibold leading-snug tracking-tight text-white transition-colors group-hover:text-indigo-300">Log Analysis Patchwork</span> <span class="mt-0.5 flex items-center gap-1.5 font-mono text-[11px] text-gray-500"><svg class="h-3 w-3 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"></path></svg> <span class="truncate">sumeshi.github.io</span></span></span></a><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><h4>Working with JSON</h4>
+See <a href="https://sumeshi.github.io/posts/works/quilt">Log Analysis Patchwork</a> for details.</p>
+<p>https://sumeshi.github.io/posts/works/quilt</p>
+<h4>Working with JSON</h4>
 <p>If you're systematizing, or handing data to AI, this way is better.
 You don't have to worry about headers, and it's easier to manage meaning through structure.</p>
 <p>Download <a href="https://github.com/sumeshi/evtx2es/releases">evtx2es</a>.
@@ -886,15 +890,15 @@ It comes with a Web UI too, which is a nice bonus.</p><!----></div><!--]--><!--[
 			
 			<script>
 				{
-					__sveltekit_nu3zhb = {
+					__sveltekit_1702rlh = {
 						base: new URL("../..", location).pathname.slice(0, -1)
 					};
 
 					const element = document.currentScript.parentElement;
 
 					Promise.all([
-						import("../../_app/immutable/entry/start.BwZ_9WNl.js"),
-						import("../../_app/immutable/entry/app.fHj0GHFZ.js")
+						import("../../_app/immutable/entry/start.B6YDwuZI.js"),
+						import("../../_app/immutable/entry/app.ySPjXVdb.js")
 					]).then(([kit, app]) => {
 						kit.start(app, element, {
 							node_ids: [0, 6],
