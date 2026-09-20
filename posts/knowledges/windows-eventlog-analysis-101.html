@@ -12,19 +12,19 @@
       gtag('js', new Date());
       gtag('config', 'G-DVLS4LMPGV');
     </script>
-    <link href="../../_app/immutable/entry/start.B89d4Rp_.js" rel="modulepreload">
-		<link href="../../_app/immutable/chunks/C0xzqke1.js" rel="modulepreload">
+    <link href="../../_app/immutable/entry/start.5BM7Ntp_.js" rel="modulepreload">
+		<link href="../../_app/immutable/chunks/B089WUzk.js" rel="modulepreload">
 		<link href="../../_app/immutable/chunks/CyU4G86o.js" rel="modulepreload">
-		<link href="../../_app/immutable/entry/app.B9uqGSiM.js" rel="modulepreload">
+		<link href="../../_app/immutable/entry/app.Ctck0w5A.js" rel="modulepreload">
 		<link href="../../_app/immutable/chunks/HclGiUj8.js" rel="modulepreload">
 		<link href="../../_app/immutable/chunks/xihTtKlq.js" rel="modulepreload">
-		<link href="../../_app/immutable/nodes/0.DfMCAcNJ.js" rel="modulepreload">
-		<link href="../../_app/immutable/chunks/BsNQO0t_.js" rel="modulepreload">
-		<link href="../../_app/immutable/chunks/imniIWn0.js" rel="modulepreload">
-		<link href="../../_app/immutable/nodes/6.DDnCy-dx.js" rel="modulepreload">
+		<link href="../../_app/immutable/nodes/0.hAnlVYbH.js" rel="modulepreload">
+		<link href="../../_app/immutable/chunks/ClSwh165.js" rel="modulepreload">
+		<link href="../../_app/immutable/chunks/CLRGZ8a9.js" rel="modulepreload">
+		<link href="../../_app/immutable/nodes/6.HnnXSB7Y.js" rel="modulepreload">
 		<link href="../../_app/immutable/chunks/ClbI50hp.js" rel="modulepreload">
 		<link href="../../_app/immutable/chunks/tGA9RONR.js" rel="modulepreload">
-		<link href="../../_app/immutable/chunks/BbbwSS0e.js" rel="modulepreload">
+		<link href="../../_app/immutable/chunks/DNGi9BdH.js" rel="modulepreload">
 		<link href="../../_app/immutable/chunks/i4hBObmy.js" rel="modulepreload">
 		<link href="../../_app/immutable/chunks/D8XUHjZF.js" rel="modulepreload">
 		<link href="../../_app/immutable/chunks/BX5cBY5g.js" rel="modulepreload">
@@ -37,7 +37,7 @@
 <h2 id="はじめに">はじめに</h2>
 <p>主に <strong>インシデント対応目線</strong> でのお話。<br />
 この手の情報はいろんなサイトに散らばっていていちいち探すのが面倒なので。</p>
-<h2 id="イベントログ調査とは">イベントログ調査とは</h2>
+<h2 id="1-イベントログ調査とは">1. イベントログ調査とは</h2>
 <p>イベントログ調査の目的は、<strong>怪しいイベントを網羅的に拾い集めることではなく、対象環境で何が起きたのかを把握し、初動対応や追加調査につなげること</strong> である。  </p>
 <p>そのため、最終的には<strong>イベントログだけで結論を出すのではなく</strong>、他の証拠と突合しながら <strong>侵害者の行動について仮説を立て、検証していく</strong> 視点が重要である。</p>
 <p>その前提のもと、以下のことは最低限頭に入れておくこと。</p>
@@ -56,7 +56,7 @@
 <p>イベントログ調査では、クライアント1台あたり数GB, サーバなら数十～数百GBのログを見る覚悟がいる。そんなのとてもやってられない。そのため<strong>大量のイベントからどうノイズを減らすかが非常に重要</strong>。  </p>
 <p>端末の役割や利用状況で記録されるイベントは大きく異なるので、一様にこう、という指針はないが、普段その機器がどのように利用されているかを把握しておくことは、異常なイベントを見つける上で大きな助けになる。</p>
 <p><del>いいからとりあえず全部見ろって？ 殴りますよ。</del></p>
-<h2 id="目的">目的</h2>
+<h2 id="2-目的">2. 目的</h2>
 <p><strong>何を調査したいのかわからないまま、ログ調査をすることはできない。</strong><br />
 大きな目的からブレイクダウンして、調査の目的を明確にすることが重要。</p>
 <p><a href="https://ja.wikipedia.org/wiki/5W1H">5W1H</a> のような観点でもいいし、<a href="https://www.lockheedmartin.com/en-us/capabilities/cyber/cyber-kill-chain.html">Cyber Kill Chain</a> のようなフレームワークでもいい。<br />
@@ -74,7 +74,7 @@
 ログに記録されているのはあくまで個々の具体的なイベントなので、それらの連なりから<strong>何が起きたか？それが起きたなら他にどんな痕跡が残るはずか？という仮説を立てて検証していく</strong>。</p>
 <p>たとえば <strong>「情報漏洩があったか」を知りたいとして、イベントログに「情報漏洩しました」とは書かれるはずもない。</strong> 見るべきは、不審なログオン、ファイルアクセス、外部通信、リムーバブルメディア接続、管理共有へのアクセス、不審ツールの実行など、<strong>情報漏洩に至るまでに発生しうる行動の痕跡</strong> である。</p>
 <p>SANS Instituteが公開している、<a href="https://www.sans.org/posters/windows-forensic-analysis">Windows Forensic Analysis POSTER</a> がある程度網羅的なので見るとよい。このポスター自体は他のアーティファクトについてもまとめてあるのだが、「こういう痕跡が記録されるかもなんだなぁ」という観点で参考になる。</p>
-<h2 id="範囲を区切る">範囲を区切る</h2>
+<h2 id="3-範囲を区切る">3. 範囲を区切る</h2>
 <p>ログ調査なんて際限がない（マジに）。<br />
 <strong>リソースは突っ込んだら突っ込んだだけ消える</strong> ので、最初に何をどこまで調査するか範囲を区切ることが重要。<br />
 調査結果を見て範囲が足りなかったら、その時考えれば良いのだ。</p>
@@ -86,7 +86,7 @@
 <li>どのような行動を調べるのか？（ログオン？プロセス実行？横展開？永続化？）</li>
 </ul>
 <p>最近起きた侵害について調べていたら、何年も前に起きていたであろう別の怪しい痕跡を見つける、なんてよくあること。もちろんそれ自体は注視すべきポイントだが、今起きている侵害をどうにかするほうが優先。</p>
-<h2 id="調査の勘所">調査の勘所</h2>
+<h2 id="4-調査の勘所">4. 調査の勘所</h2>
 <p>ここまでで調査したいことと範囲を決めたら、実際にログを見ていく。
 主要なEvent IDを調査の起点にしつつ、仮説に応じて見るべきログやイベントを広げていく。</p>
 <h3 id="event-idから探す">Event IDから探す</h3>
@@ -99,12 +99,12 @@
 <p>使われたツールや技術がわかっているなら、JPCERT/CCが公開する、<a href="https://jpcertcc.github.io/ToolAnalysisResultSheet_jp/">個別ツール別分析結果</a> などを参照しながら痕跡を探すとよい。</p>
 <p>大和セキュリティによる、<a href="https://github.com/Yamato-Security/EnableWindowsLogSettings/blob/main/README-Japanese.md">DFIRと脅威ハンティングのためのWindowsイベントログ設定のガイド</a> などを見ても良い。<a href="https://github.com/sigmahq/sigma">Sigma</a> をもとに、デフォルトのイベントログ設定がどうなっているかなどに言及がある。<br />
 可能なら元の <a href="https://github.com/sigmahq/sigma">Sigma</a> ルール定義を見てもよいが、大量にありすぎてとても覚えられるものではない。</p>
-<h2 id="生成aiの利用">生成AIの利用</h2>
+<h2 id="5-生成aiの利用">5. 生成AIの利用</h2>
 <p>契約上許されるなら、生成AIを使ってもよい。<br />
 気になるEvent IDやフィールドを調べるときの取っ掛かりにしたり、考えられる攻撃手法を洗い出したり、検索クエリを書かせたり、調査結果を整理したり。使いどころはいろいろ。</p>
 <p>ただし、<strong>AIの回答をそのまま調査結果にしてはいけない</strong>。ニッチなEvent IDやWindowsの仕様について尋ねると、もっともらしい誤った説明を生成してしまうことがしばしばある。必ず裏をとる。</p>
 <p>また、インシデント対応で扱うログには、ユーザー名、IPアドレス、ホスト名、ファイルパス、メールアドレスなどの機微な情報が大量に含まれている。AIへログや証拠データを入力してよいかは、慎重に判断すること。</p>
-<h2 id="報告">報告</h2>
+<h2 id="6-報告">6. 報告</h2>
 <p>調査の結果、何が起きた可能性があるのか、これからどうすべきかを報告する。<br />
 あるいは、それがアナリストの仕事ではないなら、どこから先が別の担当領域なのかを明確にしておくとよい。<strong>インシデント対応ではヤバい仕事の押し付け合いになる</strong> こともままあるので、あらかじめネゴっておくとスムーズ。</p>
 <p>また、報告先へ渡す資料については、何を聞かれてもすべて説明できるくらい脳に叩き込んでおかなければならない。
@@ -112,7 +112,7 @@
 <p>セカンドオピニオンがついている場合や、お客様がセキュリティに知見がある場合、「◯◯ は確認しましたか？」などと聞かれる場合もある。リソースには限りがあるので全てに備える必要はないが、<strong>なぜその項目を確認していないのかは説明できるようにしておくこと。</strong> これこれこういう理由で調査対象からは外しました。契約範囲外です。とかね。</p>
 <p>また、報告する内容は絞ってよい。というか、<strong>調査結果から考えられる仮説すべてを報告する必要はまったくない。</strong><br />
 根拠のない仮説で相手を不必要に不安にさせたり、混乱させないためにも、最も確度の高い仮説と、それを検証するために行った調査の内容を中心に報告すれば十分。</p>
-<h2 id="appendix-主要なevent-id">Appendix: 主要なEvent ID</h2>
+<h2 id="appendix-1-主要なevent-id">Appendix-1: 主要なEvent ID</h2>
 <p><strong>とっかかりを見つける</strong> という観点で、以下の主要なEvent IDから気になるポイントを見ていくと良い。<br />
 起点となる怪しいイベントが分かれば、その前後の時系列を一生懸命追っていけば未知のイベントでも役立つものがあるはず。</p>
 <h3 id="ログオン-認証">ログオン・認証</h3>
@@ -668,7 +668,7 @@ PsExec系、永続化、EDR/AV停止、バックアップ製品停止などの�
 </ul>
 </li>
 </ul>
-<h2 id="主要なログchannel">主要なログChannel</h2>
+<h2 id="appendix-2-主要なログchannel">Appendix-2: 主要なログChannel</h2>
 <p>保全自体はとりあえず何でもかんでもやっておけばよいのだが、いざ見るぞ！というときになんにもわからんなら気合の目grepだ。<br />
 とりま Provider/Channel で件数絞ってパラ読みしたいときには以下を中心にみればよい。</p>
 <ul>
@@ -707,7 +707,7 @@ PsExec系、永続化、EDR/AV停止、バックアップ製品停止などの�
 <li>Windows PowerShell.evtx</li>
 </ul>
 <p>参考: <a href="https://www.handa-hospital.jp/topics/2022/0616/index.html">徳島県つるぎ町立半田病院 コンピュータウイルス感染事案 有識者会議調査報告書 ― 技術編 ―</a></p>
-<h2 id="appendix-解析ツールの使い方">Appendix: 解析ツールの使い方</h2>
+<h2 id="appendix-3-解析ツールの使い方">Appendix-3: 解析ツールの使い方</h2>
 <h3 id="非アナリスト向け">非アナリスト向け</h3>
 <p><img alt="eventviewer" src="https://github.com/user-attachments/assets/78ccffb2-ad2d-4c9b-938f-80677004d9e8" loading="lazy" decoding="async" /></p>
 <p><a href="https://learn.microsoft.com/ja-jp/shows/inside/event-viewer">イベントビューアー</a></p>
@@ -877,19 +877,19 @@ exe版はDefenderで検知される場合があるので、気になる人はpip
 Web UIもついててお得。</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p>JSONLファイルを直接指定して扱える。</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p><img alt="duckdb" src="https://github.com/user-attachments/assets/5e0a6e40-388e-4a11-bff6-ffcacece9b2b" loading="lazy" decoding="async" /></p>
 <p>あるいはそれをテーブルにしたってよい。</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><h2 id="おわりに">おわりに</h2>
 <p>もうイベントログ調査なんてこりごりだ～！</p>
-<p>おしまい</p><!----></div><!--]--><!--]--><!--]--></div> <footer class="mt-2 flex justify-center border-t border-gray-800/80 pt-5"><a href="../../posts" class="inline-flex items-center justify-center rounded-md px-5 py-2 text-sm transition-colors border border-indigo-400/20 bg-indigo-400/10 text-indigo-100 hover:border-indigo-300/40 hover:bg-indigo-400/15 hover:text-white shadow-[0_0_0_1px_rgba(99,102,241,0.08)] gap-2 rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-[0.16em]"><svg class="h-3.5 w-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 18l-6-6 6-6"></path></svg> <span>All Posts</span><!----></a><!----></footer></article> <!--[0--><aside class="hidden min-w-0 pt-28 2xl:block"><nav class="sticky top-12 max-h-[calc(100vh-4rem)] overflow-y-auto border-l border-gray-800 pl-4" aria-label="Table of Contents"><p class="mb-2 font-mono text-[10px] font-semibold uppercase tracking-[0.12em] text-gray-500">Table of Contents</p> <ol class="space-y-1"><!--[--><li><a href="#はじめに" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">はじめに</a></li><li><a href="#イベントログ調査とは" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">イベントログ調査とは</a></li><li class="pl-3"><a href="#イベントログは完全な記録ではない" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">イベントログは完全な記録ではない</a></li><li class="pl-3"><a href="#ログは失われる前に保全する" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">ログは失われる前に保全する</a></li><li class="pl-3"><a href="#大量のログからノイズを減らす" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">大量のログからノイズを減らす</a></li><li><a href="#目的" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">目的</a></li><li><a href="#範囲を区切る" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">範囲を区切る</a></li><li><a href="#調査の勘所" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">調査の勘所</a></li><li class="pl-3"><a href="#event-idから探す" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">Event IDから探す</a></li><li class="pl-3"><a href="#行動から逆引きする" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">行動から逆引きする</a></li><li><a href="#生成aiの利用" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">生成AIの利用</a></li><li><a href="#報告" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">報告</a></li><li><a href="#appendix-主要なevent-id" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">Appendix: 主要なEvent ID</a></li><li class="pl-3"><a href="#ログオン-認証" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">ログオン・認証</a></li><li class="pl-3"><a href="#kerberos-ntlm" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">Kerberos / NTLM</a></li><li class="pl-3"><a href="#rdp-terminalservices" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">RDP / TerminalServices</a></li><li class="pl-3"><a href="#プロセス実行" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">プロセス実行</a></li><li class="pl-3"><a href="#powershell-scripting" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">PowerShell / Scripting</a></li><li class="pl-3"><a href="#wmi" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">WMI</a></li><li class="pl-3"><a href="#横展開-リモート操作" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">横展開・リモート操作</a></li><li class="pl-3"><a href="#サービス変更" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">サービス変更</a></li><li class="pl-3"><a href="#スケジュールタスク" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">スケジュールタスク</a></li><li class="pl-3"><a href="#アカウント-グループ管理" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">アカウント・グループ管理</a></li><li class="pl-3"><a href="#ポリシー変更" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">ポリシー変更</a></li><li class="pl-3"><a href="#active-directoryオブジェクト変更" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">Active Directoryオブジェクト変更</a></li><li class="pl-3"><a href="#windows-firewall" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">Windows Firewall</a></li><li class="pl-3"><a href="#microsoft-defender-旧-windows-defender" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">Microsoft Defender (旧 Windows Defender)</a></li><li class="pl-3"><a href="#ログ改ざん-痕跡削除" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">ログ改ざん・痕跡削除</a></li><li class="pl-3"><a href="#ログローテート" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">ログローテート</a></li><li class="pl-3"><a href="#時刻-電源-再起動-シャットダウン" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">時刻・電源・再起動・シャットダウン</a></li><li class="pl-3"><a href="#アプリケーション異常" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">アプリケーション異常</a></li><li class="pl-3"><a href="#sysmon" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">Sysmon</a></li><li><a href="#主要なログchannel" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">主要なログChannel</a></li><li><a href="#appendix-解析ツールの使い方" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">Appendix: 解析ツールの使い方</a></li><li class="pl-3"><a href="#非アナリスト向け" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">非アナリスト向け</a></li><li class="pl-3"><a href="#アナリスト" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">アナリスト</a></li><li><a href="#おわりに" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">おわりに</a></li><!--]--></ol></nav></aside><!--]--></div><!--]--><!----></div></main> <!--[-1--><!--]--> <!--[-1--><!--]--><!--]--><!--]--> <!--[-1--><!--]--><!--]-->
+<p>おしまい</p><!----></div><!--]--><!--]--><!--]--></div> <footer class="mt-2 flex justify-center border-t border-gray-800/80 pt-5"><a href="../../posts" class="inline-flex items-center justify-center rounded-md px-5 py-2 text-sm transition-colors border border-indigo-400/20 bg-indigo-400/10 text-indigo-100 hover:border-indigo-300/40 hover:bg-indigo-400/15 hover:text-white shadow-[0_0_0_1px_rgba(99,102,241,0.08)] gap-2 rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-[0.16em]"><svg class="h-3.5 w-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 18l-6-6 6-6"></path></svg> <span>All Posts</span><!----></a><!----></footer></article> <!--[0--><aside class="hidden min-w-0 pt-28 2xl:block"><nav class="sticky top-12 max-h-[calc(100vh-4rem)] overflow-y-auto border-l border-gray-800 pl-4" aria-label="Table of Contents"><p class="mb-2 font-mono text-[10px] font-semibold uppercase tracking-[0.12em] text-gray-500">Table of Contents</p> <ol class="space-y-1"><!--[--><li><a href="#はじめに" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">はじめに</a></li><li><a href="#1-イベントログ調査とは" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">1. イベントログ調査とは</a></li><li class="pl-3"><a href="#イベントログは完全な記録ではない" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">イベントログは完全な記録ではない</a></li><li class="pl-3"><a href="#ログは失われる前に保全する" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">ログは失われる前に保全する</a></li><li class="pl-3"><a href="#大量のログからノイズを減らす" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">大量のログからノイズを減らす</a></li><li><a href="#2-目的" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">2. 目的</a></li><li><a href="#3-範囲を区切る" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">3. 範囲を区切る</a></li><li><a href="#4-調査の勘所" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">4. 調査の勘所</a></li><li class="pl-3"><a href="#event-idから探す" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">Event IDから探す</a></li><li class="pl-3"><a href="#行動から逆引きする" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">行動から逆引きする</a></li><li><a href="#5-生成aiの利用" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">5. 生成AIの利用</a></li><li><a href="#6-報告" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">6. 報告</a></li><li><a href="#appendix-1-主要なevent-id" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">Appendix-1: 主要なEvent ID</a></li><li class="pl-3"><a href="#ログオン-認証" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">ログオン・認証</a></li><li class="pl-3"><a href="#kerberos-ntlm" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">Kerberos / NTLM</a></li><li class="pl-3"><a href="#rdp-terminalservices" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">RDP / TerminalServices</a></li><li class="pl-3"><a href="#プロセス実行" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">プロセス実行</a></li><li class="pl-3"><a href="#powershell-scripting" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">PowerShell / Scripting</a></li><li class="pl-3"><a href="#wmi" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">WMI</a></li><li class="pl-3"><a href="#横展開-リモート操作" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">横展開・リモート操作</a></li><li class="pl-3"><a href="#サービス変更" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">サービス変更</a></li><li class="pl-3"><a href="#スケジュールタスク" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">スケジュールタスク</a></li><li class="pl-3"><a href="#アカウント-グループ管理" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">アカウント・グループ管理</a></li><li class="pl-3"><a href="#ポリシー変更" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">ポリシー変更</a></li><li class="pl-3"><a href="#active-directoryオブジェクト変更" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">Active Directoryオブジェクト変更</a></li><li class="pl-3"><a href="#windows-firewall" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">Windows Firewall</a></li><li class="pl-3"><a href="#microsoft-defender-旧-windows-defender" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">Microsoft Defender (旧 Windows Defender)</a></li><li class="pl-3"><a href="#ログ改ざん-痕跡削除" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">ログ改ざん・痕跡削除</a></li><li class="pl-3"><a href="#ログローテート" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">ログローテート</a></li><li class="pl-3"><a href="#時刻-電源-再起動-シャットダウン" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">時刻・電源・再起動・シャットダウン</a></li><li class="pl-3"><a href="#アプリケーション異常" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">アプリケーション異常</a></li><li class="pl-3"><a href="#sysmon" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">Sysmon</a></li><li><a href="#appendix-2-主要なログchannel" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">Appendix-2: 主要なログChannel</a></li><li><a href="#appendix-3-解析ツールの使い方" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">Appendix-3: 解析ツールの使い方</a></li><li class="pl-3"><a href="#非アナリスト向け" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">非アナリスト向け</a></li><li class="pl-3"><a href="#アナリスト" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">アナリスト</a></li><li><a href="#おわりに" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">おわりに</a></li><!--]--></ol></nav></aside><!--]--></div><!--]--><!----></div></main> <!--[-1--><!--]--> <!--[-1--><!--]--><!--]--><!--]--> <!--[-1--><!--]--><!--]-->
 			
 			<script>
 				{
-					__sveltekit_18t1e9p = {
+					__sveltekit_1tekncn = {
 						base: new URL("../..", location).pathname.slice(0, -1)
 					};
 
 					const element = document.currentScript.parentElement;
 
 					Promise.all([
-						import("../../_app/immutable/entry/start.B89d4Rp_.js"),
-						import("../../_app/immutable/entry/app.B9uqGSiM.js")
+						import("../../_app/immutable/entry/start.5BM7Ntp_.js"),
+						import("../../_app/immutable/entry/app.Ctck0w5A.js")
 					]).then(([kit, app]) => {
 						kit.start(app, element, {
 							node_ids: [0, 6],
