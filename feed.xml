@@ -8,6 +8,13 @@
     <atom:link href="https://sumeshi.github.io/feed.xml" rel="self" type="application/rss+xml" />
     <lastBuildDate>Mon, 21 Sep 2026 00:00:00 GMT</lastBuildDate>
     <item>
+      <title>NTFS脊髄剣</title>
+      <link>https://sumeshi.github.io/posts/works/ntfsfind-dump</link>
+      <guid isPermaLink="true">https://sumeshi.github.io/posts/works/ntfsfind-dump</guid>
+      <description>Windowsイメージファイルから直接ファイルをぶっこ抜く方法。ボボボボボボボボボボボ</description>
+      <pubDate>Mon, 21 Sep 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
       <title>君たちはどうWindowsイベントログを調査するか</title>
       <link>https://sumeshi.github.io/posts/knowledges/windows-eventlog-analysis-101</link>
       <guid isPermaLink="true">https://sumeshi.github.io/posts/knowledges/windows-eventlog-analysis-101</guid>
