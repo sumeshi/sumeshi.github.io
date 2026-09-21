@@ -83,11 +83,11 @@
 >
   <span class="flex shrink-0 items-center border-r border-gray-800 pr-3.5">
     <img
-      src={`${base}/img/sipdep.svg`}
+      src={`${base}/img/sipdep-wordmark.svg`}
       alt=""
       aria-hidden="true"
-      width="1351"
-      height="207"
+      width="1460"
+      height="235"
       draggable="false"
       loading="lazy"
       class="h-3.5 w-auto opacity-70 transition-opacity group-hover:opacity-100"
