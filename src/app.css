@@ -96,6 +96,7 @@ html {
   color: rgb(209 213 219);
   font-size: 0.975rem;
   line-height: 1.75;
+  overflow-wrap: anywhere;
 }
 
 .html-wrapper h1,
