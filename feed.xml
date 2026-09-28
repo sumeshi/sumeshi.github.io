@@ -6,7 +6,14 @@
     <description>デジタルフォレンジック(DFIR), マルウェア解析, OSS開発などに関する活動をまとめた個人ブログ。</description>
     <language>ja</language>
     <atom:link href="https://sumeshi.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <lastBuildDate>Mon, 21 Sep 2026 00:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Mon, 28 Sep 2026 00:00:00 GMT</lastBuildDate>
+    <item>
+      <title>How Do You Investigate Windows Event Logs?</title>
+      <link>https://sumeshi.github.io/posts/knowledges/windows-eventlog-analysis-101-en</link>
+      <guid isPermaLink="true">https://sumeshi.github.io/posts/knowledges/windows-eventlog-analysis-101-en</guid>
+      <description>Vague notes on Windows event log investigation. I&apos;ll add more as I remember.</description>
+      <pubDate>Mon, 28 Sep 2026 00:00:00 GMT</pubDate>
+    </item>
     <item>
       <title>NTFS脊髄剣</title>
       <link>https://sumeshi.github.io/posts/works/ntfsfind-dump</link>
@@ -19,13 +26,6 @@
       <link>https://sumeshi.github.io/posts/knowledges/windows-eventlog-analysis-101</link>
       <guid isPermaLink="true">https://sumeshi.github.io/posts/knowledges/windows-eventlog-analysis-101</guid>
       <description>イベントログ調査のぼんやりメモ。思い出したら追記。</description>
-      <pubDate>Mon, 21 Sep 2026 00:00:00 GMT</pubDate>
-    </item>
-    <item>
-      <title>How Do You Investigate Windows Event Logs?</title>
-      <link>https://sumeshi.github.io/posts/knowledges/windows-eventlog-analysis-101-en</link>
-      <guid isPermaLink="true">https://sumeshi.github.io/posts/knowledges/windows-eventlog-analysis-101-en</guid>
-      <description>Vague notes on Windows event log investigation. I&apos;ll add more as I remember.</description>
       <pubDate>Mon, 21 Sep 2026 00:00:00 GMT</pubDate>
     </item>
     <item>
