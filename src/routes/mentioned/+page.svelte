@@ -44,7 +44,7 @@
       mentions: [
         {
           date: '2026-08-15',
-          media: 'National Cyber Security Centre / CTO at NCSC Summary: week ending August 16th',
+          media: 'CTO at NCSC - Cyber Defence Analysis / Summary: week ending August 16th',
           url: 'https://ctoatncsc.substack.com/p/cto-at-ncsc-summary-week-ending-august-10c',
         },
       ],
