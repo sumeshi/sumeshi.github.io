@@ -1,5 +1,4 @@
 <script lang="ts">
-  import Badge from '$lib/components/Badge.svelte';
   import PageMeta from '$lib/components/PageMeta.svelte';
   import XPostEmbed from '$lib/components/XPostEmbed.svelte';
   import { pageTitle } from '$lib/site';
@@ -88,7 +87,7 @@
       ],
       summary: [
         'Windows Eventlog を高速にパースし Elasticsearch にインポートするための Python 製ツール。',
-        'DFIR 向け Linux ディストリビューション Tsurugi Linux [LAB], DRIFT Linux に標準搭載された。',
+        'evtx2es は Tsurugi Linux [LAB] に、evtx2json は DRIFT Linux に収録された。',
       ],
       xEmbedUrls: [
         'https://x.com/sum3sh1/status/1413718504318984193',
@@ -278,24 +277,29 @@
           </span>
         {/if}
 
-        <div class="mt-2.5 flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between sm:gap-6">
+        <div class="mt-2.5 flex flex-wrap items-baseline gap-x-4 gap-y-1.5">
           <h2 class="min-w-0 font-sans text-base font-semibold leading-snug tracking-tight text-white sm:text-[1.05rem]">
             {project.title}
           </h2>
 
           {#if project.hrefs.length > 0}
-            <div class="flex shrink-0 flex-wrap gap-1.5 sm:max-w-[42%] sm:justify-end">
+            <div class="ml-auto flex flex-wrap items-baseline justify-end gap-x-3 gap-y-1 text-right">
               {#each project.hrefs as link}
-                <Badge href={link.url} external={true} variant="gray" size="xs" shape="rounded" className="font-mono">
-                  {link.label}
-                </Badge>
+                <a
+                  href={link.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="text-xs text-indigo-300 underline decoration-indigo-400/30 underline-offset-4 transition-colors hover:text-indigo-200 hover:decoration-indigo-300"
+                >
+                  {link.label} <span aria-hidden="true">↗</span>
+                </a>
               {/each}
             </div>
           {/if}
         </div>
 
         {#if project.summary.length > 0}
-          <div class="mt-3 max-w-3xl space-y-1.5 text-sm leading-relaxed text-gray-400">
+          <div class="mt-3 space-y-1.5 text-sm leading-relaxed text-gray-400">
             {#each project.summary as line}
               <p>{line}</p>
             {/each}
@@ -303,17 +307,16 @@
         {/if}
 
         {#if project.xEmbedUrls?.length}
-          <details class="mt-4 rounded-lg border border-gray-800 bg-gray-950/20 transition-colors open:border-gray-700 hover:border-gray-700">
-            <summary class="flex cursor-pointer list-none items-center justify-between gap-3 rounded-lg px-3.5 py-2.5 text-xs text-gray-300 marker:hidden">
-              <span class="font-medium tracking-wide">
-                Related X posts
-                <span class="ml-1.5 font-mono text-[10px] text-gray-600">{project.xEmbedUrls.length}</span>
-              </span>
-              <span class="rounded-full border border-gray-700 bg-gray-950/70 px-1.5 py-0.5 font-mono text-[10px] text-gray-400 transition-transform details-open:rotate-45">+</span>
+          <details class="group mt-4">
+            <summary class="inline-flex cursor-pointer list-none items-center gap-1.5 text-xs text-gray-500 transition-colors hover:text-indigo-300 [&::-webkit-details-marker]:hidden">
+              <span aria-hidden="true" class="inline-block transition-transform group-open:rotate-90">▸</span>
+              <span>Related X posts ({project.xEmbedUrls.length})</span>
             </summary>
-            <div class="space-y-4 border-t border-gray-800/80 px-3.5 py-4">
+            <div class="mt-4 grid items-start gap-4 md:grid-cols-2 xl:grid-cols-3">
               {#each project.xEmbedUrls as xEmbedUrl}
-                <XPostEmbed url={xEmbedUrl} />
+                <div class="min-w-0">
+                  <XPostEmbed url={xEmbedUrl} />
+                </div>
               {/each}
             </div>
           </details>

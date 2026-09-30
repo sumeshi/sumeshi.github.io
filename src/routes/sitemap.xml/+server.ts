@@ -17,6 +17,7 @@ const staticUrls: SitemapUrl[] = [
   { loc: `${siteUrl}/about`, changefreq: 'monthly', priority: '0.8' },
   { loc: `${siteUrl}/works`, changefreq: 'monthly', priority: '0.8' },
   { loc: `${siteUrl}/talks`, changefreq: 'monthly', priority: '0.8' },
+  { loc: `${siteUrl}/mentioned`, changefreq: 'monthly', priority: '0.7' },
   { loc: `${siteUrl}/posts`, changefreq: 'weekly', priority: '0.9' },
 ];
 

@@ -362,6 +362,13 @@
         </Badge>
       {/each}
     </div>
+    <p class="pt-1 text-xs text-gray-500">
+      {lang === 'en' ? 'External mentions and project inclusions:' : '外部での言及・ツール収録:'}
+      <a
+        href={pathWithBase('/mentioned')}
+        class="ml-1 text-indigo-300 underline decoration-indigo-400/30 underline-offset-4 transition-colors hover:text-indigo-200 hover:decoration-indigo-300"
+      >Mentioned →</a>
+    </p>
   </section>
 
   <section class="space-y-3 border-b border-gray-800/80 pb-7">
