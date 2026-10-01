@@ -16,7 +16,7 @@
 
   type Lang = 'en' | 'ja';
 
-  let lang: Lang = $state('en');
+  let lang: Lang = $state('ja');
 
   function setLanguage(language: Lang): void {
     lang = language;
@@ -31,46 +31,47 @@
     {
       name: 'Zenn',
       url: 'https://zenn.dev/sum3sh1',
-      meta: 'tech articles',
       variant: 'sky' as const,
       external: true,
+      caption: 'tech articles',
     },
     {
       name: 'Note',
       url: 'https://note.com/sumeshi_kun/',
-      meta: 'ideas / essays',
       variant: 'emerald' as const,
       external: true,
+      caption: 'essays',
     },
     {
       name: 'DEV',
       url: 'https://dev.to/sum3sh1',
-      meta: 'tech articles(en)',
       variant: 'neutral' as const,
       external: true,
+      caption: 'english articles',
     },
     {
       name: 'Qiita',
       url: 'https://qiita.com/sumeshi',
-      meta: 'tech articles(archived)',
       variant: 'lime' as const,
       external: true,
+      caption: 'archived articles',
     },
     {
       name: 'Speaker Deck',
       url: 'https://speakerdeck.com/sumeshi',
-      meta: 'talks',
       variant: 'teal' as const,
       external: true,
-    },
-    {
-      name: 'Posts',
-      url: pathWithBase('/posts'),
-      meta: 'private logs',
-      variant: 'indigo' as const,
-      external: false,
+      caption: 'talks',
     },
   ];
+  const linksCopy = {
+    ja: 'Postsよりちょびっと一般化した記事の置き場。',
+    en: 'Places for articles and talk slides.',
+  };
+  const mentionedCopy = {
+    ja: '外部からの記事紹介、ツール採用事例など。',
+    en: 'External article mentions, tool adoption cases, and the like.',
+  };
   const certifications = [
     {
       name: 'GREM',
@@ -96,59 +97,62 @@
       ],
     ],
     ja: [
-      'サイバーセキュリティ、とりわけインシデントレスポンスを専門にしています。',
-      [
-        'システム開発畑から来ているので、そっち方面の知見を活かして楽しく過ごしています。',
-        'また、自分がほしいなと思ったツールをOSSとして開発、GitHubで公開しています。',
-      ],
+      ['サイバーセキュリティを専門とし、セキュリティ企業にてインシデント対応、デジタルフォレンジック、マルウェア解析、脅威情報分析などに従事する。累計数百台の機器調査を経験し、その知見を生かしてセキュリティ人材の育成や技術訓練講師としても活動する。'],
+      ['フォレンジック関連のOSS開発にも取り組み、開発したソフトウェアは「Tsurugi Linux」「DRIFT Linux」などのOSに標準搭載されている。']
     ],
   };
 
   const history = {
     en: {
-      "From Bachelor's Year 4 to Master's Year 2": [
-        'Worked as a Web Engineer at an IT venture company for 3 years',
-        'Front-end development using Angular and Vue',
-        'Back-end development using Django REST framework',
-        'Developed full-text search features utilizing Elasticsearch and machine learning',
-        'Improved PostgreSQL performance and tuned high-efficiency data structures and queries',
-        'Introduced and optimized GitLab and GitLab CI',
-        'Developed a log analysis system',
-        'Developed forensic tools',
+      "Bachelor's Year 4 to Master's Year 2": [
+        'Research on log data analysis and visualization',
+        'Research on natural language processing',
+        'Research on sentiment analysis using machine learning',
+        'Worked as a web engineer at an IT venture company for about three years',
+        'Front-end development with Angular and Vue',
+        'Back-end development with Django REST framework',
+        'Full-text search development using Elasticsearch',
+        'PostgreSQL performance improvements, and optimization of data structures and queries',
+        'Introduction of GitLab and GitLab CI, and performance improvements',
+        'Open-source development for digital forensics',
       ],
-      "After Completing Master's Degree to Present": [
-        'Incident Handler',
-        'Digital Forensics Researcher',
-        'Malware Analyst',
-        'Analysis and dissemination of threat intelligence',
-        'Lecturer for university courses on incident response',
-        'Participation and high-ranking placements in security competitions',
-        'Cybersecurity instructor for government and private organizations',
-        'Trained over 1,000 individuals in cybersecurity and incident response',
-        'Conducted incident investigations in large-scale environments involving hundreds of systems',
+      "After the Master's Degree to the Present": [
+        'Incident investigation and response',
+        'Digital forensics investigations and malware analysis',
+        'Company-wide security governance',
+        'Collection, analysis, and dissemination of threat intelligence',
+        'Industry, academia, and government collaboration',
+        'Cybersecurity technical instructor',
+        'University lectures on incident response',
+        'Cybersecurity talent development',
+        'Participation and awards in security competitions',
+        'Open-source development for digital forensics',
       ],
     },
     ja: {
-      '学部4年生から修士2年生まで': [
-        'ITベンチャー企業で3年間Webエンジニアとして勤務',
-        'Angular, Vueを使ったフロントエンド開発',
-        'Django REST frameworkを使ったバックエンド開発',
-        'Elasticsearchと機械学習を活用した全文検索機能の開発',
-        'PostgreSQLのパフォーマンス改善, 高効率なデータ構造・クエリのチューニング',
-        'GitLab, GitLab CIの導入とパフォーマンス改善',
-        'ログ分析システムの開発',
-        'フォレンジックツールの開発',
+      '学部4年生〜修士2年生': [
+        'ログデータの分析・可視化に関する研究',
+        '自然言語処理に関する研究',
+        '機械学習を用いた感情極性分析に関する研究',
+        'ITベンチャー企業にて約3年間、Webエンジニアとして勤務',
+        'Angular / Vueを用いたフロントエンド開発',
+        'Django REST frameworkを用いたバックエンド開発',
+        'Elasticsearchを活用した全文検索機能の開発',
+        'PostgreSQLのパフォーマンス改善、データ構造・クエリの最適化',
+        'GitLab / GitLab CIの導入およびパフォーマンス改善',
+        'デジタルフォレンジックに関するOSS開発',
       ],
-      '修士課程から現在まで': [
-        'インシデントハンドラー',
-        'デジタルフォレンジック研究者',
-        'マルウェアアナリスト',
-        '脅威インテリジェンス情報の分析・発信',
-        'インシデントレスポンスの大学講師',
-        'セキュリティコンテストへの参加・上位入賞',
-        '官公庁・民間組織向けサイバーセキュリティ講師',
-        'サイバーセキュリティ人材育成 (述べ1,000人超)',
-        'インシデント調査対応 (累計数百台規模)',
+      '修士号取得後〜現在': [
+        'インシデント調査対応',
+        'デジタルフォレンジック調査・マルウェア解析',
+        '全社セキュリティガバナンスに関する業務',
+        '脅威インテリジェンスの収集・分析・情報発信',
+        '産学官連携に関する活動',
+        'サイバーセキュリティ技術講師',
+        '大学におけるインシデントレスポンス講義',
+        'サイバーセキュリティ人材育成',
+        'セキュリティコンテストへの参加・入賞',
+        'デジタルフォレンジックに関するOSS開発',
       ],
     },
   } satisfies Record<Lang, Record<string, string[]>>;
@@ -184,7 +188,7 @@
 <PageMeta
   title={pageTitle('About')}
   description="S.Nakano is a cybersecurity professional specializing in incident response, digital forensics, malware analysis, and open-source software development."
-  language="en"
+  language={lang}
 />
 
 <svelte:head>
@@ -196,7 +200,7 @@
         "@id": `${siteUrl}/about#profile`,
         "url": `${siteUrl}/about`,
         "name": "About | SIPDEP",
-        "inLanguage": "en",
+        "inLanguage": lang,
         "isPartOf": { "@id": siteWebsiteId },
         "mainEntity": { "@id": sitePersonId }
       },
@@ -309,66 +313,27 @@
 
   <section class="space-y-3 border-b border-gray-800/80 pb-7">
     <h2 class="section-title">$ ln</h2>
-    <div class="grid grid-cols-2 gap-2 sm:grid-cols-3">
+    <p class="text-sm leading-relaxed text-gray-400">{linksCopy[lang]}</p>
+    <div class="grid grid-cols-5 gap-1.5 sm:gap-2">
       {#each writingPlatforms as platform}
-        {#snippet platformIcon()}
-          {#if platform.name === 'Zenn'}
-            <!-- Zenn-ish mark -->
-            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-              <path d="M4.5 4.5h6.2L7.4 12l3.3 7.5H4.5L1.2 12 4.5 4.5Zm8.8 0H21l-5.2 7.5L21 19.5h-7.7L8.1 12l5.2-7.5Z" />
-            </svg>
-          {:else if platform.name === 'Note'}
-            <!-- folded page, no text lines -->
-            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M14 3.5H7A1.5 1.5 0 0 0 5.5 5v14A1.5 1.5 0 0 0 7 20.5h10a1.5 1.5 0 0 0 1.5-1.5V9L14 3.5Z" />
-              <path d="M14 3.5V9h5.5" />
-            </svg>
-          {:else if platform.name === 'DEV'}
-            <!-- code brackets -->
-            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M8.5 7.5 4.5 12l4 4.5" />
-              <path d="M15.5 7.5 19.5 12l-4 4.5" />
-            </svg>
-          {:else if platform.name === 'Qiita'}
-            <!-- bookmark, no text lines -->
-            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-              <path d="M7 3.5h10a1.2 1.2 0 0 1 1.2 1.2V20l-6.2-3.6L5.8 20V4.7A1.2 1.2 0 0 1 7 3.5Z" />
-            </svg>
-          {:else if platform.name === 'Speaker Deck'}
-            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-              <rect x="3.5" y="5.5" width="17" height="5" rx="1.2" />
-              <rect x="3.5" y="13.5" width="12" height="5" rx="1.2" opacity="0.45" />
-            </svg>
-          {:else}
-            <!-- three lines -->
-            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-              <rect x="5" y="6.5" width="14" height="1.8" rx="0.9" />
-              <rect x="5" y="11.1" width="14" height="1.8" rx="0.9" />
-              <rect x="5" y="15.7" width="14" height="1.8" rx="0.9" />
-            </svg>
-          {/if}
-        {/snippet}
         <Badge
           href={platform.url}
           external={platform.external}
           variant={platform.variant}
           layout="card"
-          meta={platform.meta}
-          shape="rounded"
-          trailing={platform.external ? undefined : '->'}
-          icon={platformIcon}
+          caption={platform.caption}
         >
           {platform.name}
         </Badge>
       {/each}
     </div>
-    <p class="pt-1 text-xs text-gray-500">
-      {lang === 'en' ? 'External mentions and project inclusions:' : '外部での言及・ツール収録:'}
+    <div class="space-y-2 border-t border-gray-800/80 pt-4">
+      <p class="text-sm leading-relaxed text-gray-400">{mentionedCopy[lang]}</p>
       <a
         href={pathWithBase('/mentioned')}
-        class="ml-1 text-indigo-300 underline decoration-indigo-400/30 underline-offset-4 transition-colors hover:text-indigo-200 hover:decoration-indigo-300"
-      >Mentioned →</a>
-    </p>
+        class="inline-block font-mono text-sm text-gray-300 underline decoration-gray-700 underline-offset-4 transition-colors hover:text-white hover:decoration-gray-400"
+      >/mentioned</a>
+    </div>
   </section>
 
   <section class="space-y-3 border-b border-gray-800/80 pb-7">

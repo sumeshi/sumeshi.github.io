@@ -22,8 +22,21 @@
 
   const talks: Talk[] = [
     {
+      title: '【実施予定】ローカルLLMによるデジタルフォレンジック支援ハーネスの設計と実装',
+      event: 'IDF 「AI」分科会（第23期第3回）',
+      date: '2026-11-25',
+      hrefs: [
+        { label: 'IDF', url: 'https://digitalforensic.jp/2026/09/15/ai23-3/' },
+      ],
+      summary: [
+        'ローカルLLMの特徴と制約、自律的なAIエージェントを支える概念の紹介。',
+        'これをデジタルフォレンジックに適用するために求められる要件、設計思想、実装についての解説。',
+      ],
+      slides: [],
+    },
+    {
       title: 'FORENSIA: ローカルLLMフォレンジックハーネス',
-      event: '若手活動WG 技術交流会LT',
+      event: 'IDF 若手活動WG 技術交流会LT',
       date: '2026-08-07',
       hrefs: [
         { label: 'IDF', url: 'https://digitalforensic.jp/2026/06/16/nextgen-wg-23-1/' },
@@ -85,7 +98,7 @@
     <div>
       <h1 class="page-title">$ wall</h1>
       <p class="mt-3 max-w-2xl text-sm leading-6 text-gray-400">
-        登壇・LT などで使用したスライド。
+        登壇・LT など。
       </p>
     </div>
     <p class="font-mono text-xs text-gray-600">{talks.length} entries</p>

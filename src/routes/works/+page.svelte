@@ -185,19 +185,6 @@
       ]
     },
     {
-      status: 'maintained',
-      title: 'アニメキャラクター風 Human-memorable-hash',
-      hrefs: [
-        { label: 'anihash', url: 'https://github.com/sumeshi/anihash' },
-      ],
-      summary: [
-        'white-hair-sora-kasugano のように、アニメキャラクター風の名前と特徴によってhumanhashと同等の出力空間を確保したハッシュツール。',
-      ],
-      xEmbedUrls: [
-        'https://x.com/sum3sh1/status/2079286117678125535'
-      ]
-    },
-    {
       status: 'experimental',
       title: 'ローカルLLMを活用したインテリジェンス情報収集・分析ツールの開発 (非公開)',
       hrefs: [
@@ -209,6 +196,19 @@
       ],
       xEmbedUrls: [
         'https://x.com/sum3sh1/status/2046076084350046514'
+      ]
+    },
+    {
+      status: 'archived',
+      title: 'アニメキャラクター風 Human-memorable-hash',
+      hrefs: [
+        { label: 'anihash', url: 'https://github.com/sumeshi/anihash' },
+      ],
+      summary: [
+        'white-hair-sora-kasugano のように、アニメキャラクター風の名前と特徴によってhumanhashと同等の出力空間を確保したハッシュツール。',
+      ],
+      xEmbedUrls: [
+        'https://x.com/sum3sh1/status/2079286117678125535'
       ]
     },
     {
@@ -252,7 +252,7 @@
 
 <PageMeta
   title={pageTitle('Works')}
-  description="これまでに作成してきた OSS や 活動内容資料など。"
+  description="これまでに作成してきた OSS など。"
 />
 
 <div class="site-container space-y-6">

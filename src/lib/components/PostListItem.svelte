@@ -6,14 +6,15 @@
   interface Props {
     post: PostIndex;
     showCategory?: boolean;
+    compact?: boolean;
   }
 
-  let { post, showCategory = true }: Props = $props();
+  let { post, showCategory = true, compact = false }: Props = $props();
 </script>
 
 <a
   href={postHref(post.path)}
-  class="group block py-3.5 transition-colors hover:bg-white/[0.015]"
+  class={`group block transition-colors hover:bg-white/[0.015] ${compact ? 'py-2.5' : 'py-3.5'}`}
 >
   <div class="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between sm:gap-6">
     <div class="min-w-0">
@@ -30,7 +31,7 @@
         {getPostListTitle(post)}
       </span>
       {#if post.description}
-        <span class="mt-1.5 block line-clamp-2 text-sm leading-relaxed text-gray-500">
+        <span class={`mt-1.5 block text-sm leading-relaxed text-gray-500 ${compact ? 'line-clamp-1' : 'line-clamp-2'}`}>
           {post.description}
         </span>
       {/if}

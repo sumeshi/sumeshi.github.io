@@ -30,7 +30,7 @@
 
     <div class="divide-y divide-gray-800/60">
       {#each popularPosts as post (post.path)}
-        <PostListItem {post} />
+        <PostListItem {post} compact />
       {/each}
     </div>
   </section>

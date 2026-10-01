@@ -80,6 +80,9 @@
   const alternateVersion = $derived(
     data.languageAlternates.find((alternate) => alternate.hreflang === alternateLanguage),
   );
+  const alternateVersionHref = $derived(
+    alternateVersion ? pathWithBase(new URL(alternateVersion.href).pathname) : undefined,
+  );
   const alternateVersionLabel = $derived(
     alternateLanguage === 'en' ? 'Read in English' : 'Read in Japanese',
   );
@@ -361,7 +364,7 @@
         </IconButton>
         {#if alternateVersion}
           <a
-            href={alternateVersion.href}
+            href={alternateVersionHref}
             hreflang={alternateLanguage}
             rel="alternate"
             class="order-4 rounded-md border border-gray-800 bg-gray-950/30 px-2 py-1 font-mono text-[10px] uppercase tracking-[0.1em] text-gray-500 transition-colors hover:border-gray-600 hover:bg-gray-900/60 hover:text-indigo-300"

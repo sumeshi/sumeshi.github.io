@@ -21,11 +21,9 @@
     size?: Size;
     shape?: Shape;
     layout?: Layout;
-    meta?: string;
-    trailing?: string;
+    caption?: string;
     className?: string;
     children?: import('svelte').Snippet;
-    icon?: import('svelte').Snippet;
   }
 
   let {
@@ -35,11 +33,9 @@
     size = 'xs',
     shape = 'pill',
     layout = 'inline',
-    meta,
-    trailing,
+    caption,
     className = '',
     children,
-    icon,
   }: Props = $props();
 
   const variantClasses: Record<Variant, string> = {
@@ -49,7 +45,6 @@
     cyan: 'border-cyan-400/20 bg-cyan-400/10 text-cyan-200 hover:border-cyan-300 hover:text-white',
     green: 'border-green-400/20 bg-green-400/10 text-green-200 hover:border-green-300 hover:text-white',
     neutral: 'border-neutral-400/20 bg-neutral-400/10 text-neutral-200 hover:border-neutral-300 hover:text-white',
-    // service-ish tones (Zenn / Note / Qiita / Speaker Deck)
     sky: 'border-sky-400/25 bg-sky-400/10 text-sky-200 hover:border-sky-300 hover:text-white',
     teal: 'border-teal-400/25 bg-teal-400/10 text-teal-200 hover:border-teal-300 hover:text-white',
     lime: 'border-lime-400/25 bg-lime-400/10 text-lime-200 hover:border-lime-300 hover:text-white',
@@ -68,7 +63,7 @@
 
   const layoutClasses: Record<Layout, string> = {
     inline: 'inline-flex items-center',
-    card: 'group flex w-full rounded-lg px-3 py-2.5 text-left',
+    card: 'flex w-full flex-col items-stretch rounded-lg px-1.5 py-2 text-center',
   };
 
   const baseClass = $derived(
@@ -76,29 +71,18 @@
   );
 </script>
 
-{#snippet cardBody()}
-  <span class="flex w-full items-start gap-2.5">
-    {#if icon}
-      <span class="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-black/20 text-current">
-        {@render icon()}
-      </span>
-    {/if}
-    <span class="min-w-0 flex-1">
-      <span class="flex items-baseline justify-between gap-2">
-        <span class="truncate font-sans text-[0.9375rem] font-semibold leading-snug tracking-tight">
-          {@render children?.()}
-        </span>
-        <span class="shrink-0 font-mono text-[10px] leading-none opacity-45 transition-transform group-hover:translate-x-0.5 group-hover:opacity-70">
-          {trailing ?? '↗'}
-        </span>
-      </span>
-      {#if meta}
-        <span class="mt-1 block font-mono text-[10px] uppercase leading-none tracking-[0.16em] opacity-55">
-          {meta}
-        </span>
-      {/if}
+{#snippet body()}
+  {#if layout === 'card'}
+    <span class="font-sans text-[11px] font-semibold leading-tight sm:text-sm">
+      {@render children?.()}
     </span>
-  </span>
+    {#if caption}
+      <span class="my-1 block h-px origin-center scale-y-50 bg-current opacity-40" aria-hidden="true"></span>
+      <span class="text-[10px] font-normal uppercase leading-tight tracking-[0.12em] opacity-75">{caption}</span>
+    {/if}
+  {:else}
+    {@render children?.()}
+  {/if}
 {/snippet}
 
 {#if href}
@@ -108,18 +92,10 @@
     rel={external ? 'noopener noreferrer' : undefined}
     class={baseClass}
   >
-    {#if layout === 'card'}
-      {@render cardBody()}
-    {:else}
-      {@render children?.()}
-    {/if}
+    {@render body()}
   </a>
 {:else}
   <span class={baseClass}>
-    {#if layout === 'card'}
-      {@render cardBody()}
-    {:else}
-      {@render children?.()}
-    {/if}
+    {@render body()}
   </span>
 {/if}
