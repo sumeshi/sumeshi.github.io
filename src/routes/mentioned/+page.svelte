@@ -25,14 +25,14 @@
       sourceJa: '/posts/works/dont-make-ai-your-forensic-analyst',
       mentions: [
         {
-          date: '2026-09-06',
-          media: 'This Week in 4n6 / WEEK 36 - 2026',
-          url: 'https://thisweekin4n6.com/2026/09/06/week-36-2026/',
-        },
-        {
           date: '2026-09-17',
           media: 'CCE Intelligence Hub / CCE Technical Intelligence Briefing - Volume 15',
           url: 'https://intelligence.isfce.com/',
+        },
+        {
+          date: '2026-09-06',
+          media: 'This Week in 4n6 / WEEK 36 - 2026',
+          url: 'https://thisweekin4n6.com/2026/09/06/week-36-2026/',
         },
       ],
     },
