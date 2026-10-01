@@ -27,7 +27,7 @@
         {
           date: '2026-09-17',
           media: 'CCE Intelligence Hub / CCE Technical Intelligence Briefing - Volume 15',
-          url: 'https://intelligence.isfce.com/',
+          url: 'https://intelligence.isfce.com/edition/volume-15-2026-09-17',
         },
         {
           date: '2026-09-06',
