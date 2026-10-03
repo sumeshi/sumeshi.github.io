@@ -12,19 +12,19 @@
       gtag('js', new Date());
       gtag('config', 'G-DVLS4LMPGV');
     </script>
-    <link href="../../_app/immutable/entry/start.6gieesZr.js" rel="modulepreload">
-		<link href="../../_app/immutable/chunks/njIey2V2.js" rel="modulepreload">
+    <link href="../../_app/immutable/entry/start.BYGuGXPV.js" rel="modulepreload">
+		<link href="../../_app/immutable/chunks/BoacvKlt.js" rel="modulepreload">
 		<link href="../../_app/immutable/chunks/CyU4G86o.js" rel="modulepreload">
-		<link href="../../_app/immutable/entry/app.DNCXLWAC.js" rel="modulepreload">
+		<link href="../../_app/immutable/entry/app.CHgXNhUJ.js" rel="modulepreload">
 		<link href="../../_app/immutable/chunks/HclGiUj8.js" rel="modulepreload">
 		<link href="../../_app/immutable/chunks/xihTtKlq.js" rel="modulepreload">
-		<link href="../../_app/immutable/nodes/0.CpjN4MBR.js" rel="modulepreload">
-		<link href="../../_app/immutable/chunks/9EdHWWXd.js" rel="modulepreload">
-		<link href="../../_app/immutable/chunks/DZoD8Se7.js" rel="modulepreload">
-		<link href="../../_app/immutable/nodes/7.IrqZjvp6.js" rel="modulepreload">
+		<link href="../../_app/immutable/nodes/0.cmW_rlCA.js" rel="modulepreload">
+		<link href="../../_app/immutable/chunks/CxDSfIQh.js" rel="modulepreload">
+		<link href="../../_app/immutable/chunks/CQgOFPU5.js" rel="modulepreload">
+		<link href="../../_app/immutable/nodes/7.ROwitKJk.js" rel="modulepreload">
 		<link href="../../_app/immutable/chunks/ClbI50hp.js" rel="modulepreload">
 		<link href="../../_app/immutable/chunks/tGA9RONR.js" rel="modulepreload">
-		<link href="../../_app/immutable/chunks/CE0UBOrW.js" rel="modulepreload">
+		<link href="../../_app/immutable/chunks/D8AF_sZR.js" rel="modulepreload">
 		<link href="../../_app/immutable/chunks/i4hBObmy.js" rel="modulepreload">
 		<link href="../../_app/immutable/chunks/D8XUHjZF.js" rel="modulepreload">
 		<link href="../../_app/immutable/chunks/CPlHEan_.js" rel="modulepreload">
@@ -94,7 +94,7 @@ RAM上の物理メモリを指す場合もあれば、プロセスから見え�
 <p>メモリを取得するツールは様々あるが、インシデント対応であれば <a href="https://www.magnetforensics.com/resources/magnet-response/">Magnet RESPONSE</a> のような収集ツールを使うとよい。メモリだけでなく、pagefile.sysや揮発性の高いデータ、主要なアーティファクトもまとめて保全してくれる。</p>
 <p><img alt="capture" src="https://github.com/user-attachments/assets/ccabbab6-4c10-4d28-a03f-7dffdb4b1ad5" loading="lazy" decoding="async" /></p>
 <p><img alt="capture-completed" src="https://github.com/user-attachments/assets/223bc154-a91f-4621-84c3-c7ea2a4a98dd" loading="lazy" decoding="async" /></p>
-<p>以前は <a href="https://www.exterro.com/digital-forensics-software/ftk-imager">FTK Imager</a> も有用な選択肢だったのだが、一時期うまくメモリが取得できないなどの不具合があり（現在は解消）評判が落ちてしまった。悲しいね。<br />
+<p>以前は <a href="https://www.exterro.com/digital-forensics-software/ftk-imager">FTK Imager</a> も有用な選択肢だったのだが、一時期うまくメモリが取得できないなどの不具合があり（現在は解消？）評判が落ちてしまった。悲しいね。<br />
 業界的にもMagnetのほうが最近は人気がある気がする。</p>
 <p><img alt="ftkimager" src="https://github.com/user-attachments/assets/b20b304c-4d8d-4ef4-a375-93b17f018c9e" loading="lazy" decoding="async" /></p>
 <p>日本国内においては、<a href="https://github.com/CyberDefenseInstitute/CDIR">CDIR-Collector</a> もよく使われている。メモリと主要なアーティファクトをまとめて保全できる。pagefile.sysは収集対象外だが、あまり気にしないというならばこっちで。</p>
@@ -517,7 +517,7 @@ NTFSでは、サイズの小さいファイルの内容がMFTレコード内に�
 <p>メモリ調査といえばこれ！のイメージだが、プラグインによってはマジで血管がブチ切れるぐらい時間がかかる。ざっと眺めるならMemProcFSのが早い。</p>
 <p>とはいえ、こちらのほうがプラグインが充実しているので、処理かけてからご飯食べに行くとかそういう気持ちで。</p>
 <p><a href="https://github.com/daffainfo/vol-rs">vol-rs</a> という高速なRust実装版もある。CTFとかならこういうの使ってもいいかもね。まだ成熟したプロダクトではないので、実務で使う場合は評価検証が必要だと思う。</p>
-<p>Volatility 2と3がよく使われるが、最近のOSなら3でいい。たまに古代の発掘品とかが来たときは2じゃないと動かないときもある。どちらも用意しておくとよい。</p>
+<p>Volatility 2と3がよく使われるが、最近のOSなら3でいい。たまに古代の発掘品とかが来たときは2じゃないと動かないときもある？どちらも用意しておくとよい。</p>
 <p>また、Volatilityは慣れないと使いづらい。<a href="https://www.osforensics.com/tools/volatility-workbench.html">Volatility Workbench</a> や<a href="https://github.com/4n6ist/KaniVola">KaniVola</a> などのラッパーを使うとかなり楽。コマンドをカチャカチャ打つほうが気持ちいいのはわかるのだが、実際インシデント対応してるときにそんな暇はないことがほとんど。</p>
 <p>3系ならVolatility Workbenchがすごく使いやすい。</p>
 <p><img alt="vwork" src="https://github.com/user-attachments/assets/1ccd3179-596f-47e0-ba29-07303ab4128b" loading="lazy" decoding="async" /></p>
@@ -566,7 +566,7 @@ NTFSでは、サイズの小さいファイルの内容がMFTレコード内に�
 <h2 id="調査結果の整理">調査結果の整理</h2>
 <p>メモリフォレンジックをしていると、ファイルがグチャグチャになりがち。ホストや取得プロセスごとにフォルダを分け、いい感じに整理しておくとよい。
 MemProcFSであれば、タイムラインやCSVも出力してくれるので、アンマウントする前にそのあたりも一通りコピーしておく。</p>
-<p>整理は本当に大変なので、面倒なら<a href="https://sumeshi.github.io/posts/works/dont-make-ai-your-forensic-analyst">AIにぶん投げても良い</a>と思う。</p>
+<p>整理は本当に大変なので、面倒なら<a href="https://sumeshi.github.io/posts/works/dont-make-ai-your-forensic-analyst">AIにぶん投げても良い</a>と思う。ただし情報の取り扱いには最新の注意を払うこと。</p>
 <p>ツールによって結果の食い違いが発生することもままある。<br />
 どちらかが間違っていると決めつける前に、各ツールが何をたどって列挙しているかを確認する。参照する管理構造や、終了済みオブジェクト・欠損ページの扱いが違えば、結果も変わる。</p>
 <h2 id="おわりに">おわりに</h2>
@@ -575,15 +575,15 @@ MemProcFSであれば、タイムラインやCSVも出力してくれるので�
 			
 			<script>
 				{
-					__sveltekit_111l4mq = {
+					__sveltekit_14wd5xv = {
 						base: new URL("../..", location).pathname.slice(0, -1)
 					};
 
 					const element = document.currentScript.parentElement;
 
 					Promise.all([
-						import("../../_app/immutable/entry/start.6gieesZr.js"),
-						import("../../_app/immutable/entry/app.DNCXLWAC.js")
+						import("../../_app/immutable/entry/start.BYGuGXPV.js"),
+						import("../../_app/immutable/entry/app.CHgXNhUJ.js")
 					]).then(([kit, app]) => {
 						kit.start(app, element, {
 							node_ids: [0, 7],
