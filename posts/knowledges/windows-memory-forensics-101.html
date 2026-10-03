@@ -12,19 +12,19 @@
       gtag('js', new Date());
       gtag('config', 'G-DVLS4LMPGV');
     </script>
-    <link href="../../_app/immutable/entry/start.C28O31-I.js" rel="modulepreload">
-		<link href="../../_app/immutable/chunks/VPtEhO2D.js" rel="modulepreload">
+    <link href="../../_app/immutable/entry/start.6gieesZr.js" rel="modulepreload">
+		<link href="../../_app/immutable/chunks/njIey2V2.js" rel="modulepreload">
 		<link href="../../_app/immutable/chunks/CyU4G86o.js" rel="modulepreload">
-		<link href="../../_app/immutable/entry/app.DFjIkbL_.js" rel="modulepreload">
+		<link href="../../_app/immutable/entry/app.DNCXLWAC.js" rel="modulepreload">
 		<link href="../../_app/immutable/chunks/HclGiUj8.js" rel="modulepreload">
 		<link href="../../_app/immutable/chunks/xihTtKlq.js" rel="modulepreload">
-		<link href="../../_app/immutable/nodes/0.BK29nWN-.js" rel="modulepreload">
-		<link href="../../_app/immutable/chunks/CU03Vx_V.js" rel="modulepreload">
-		<link href="../../_app/immutable/chunks/DjBO5QrI.js" rel="modulepreload">
-		<link href="../../_app/immutable/nodes/7.BuJEJkAH.js" rel="modulepreload">
+		<link href="../../_app/immutable/nodes/0.CpjN4MBR.js" rel="modulepreload">
+		<link href="../../_app/immutable/chunks/9EdHWWXd.js" rel="modulepreload">
+		<link href="../../_app/immutable/chunks/DZoD8Se7.js" rel="modulepreload">
+		<link href="../../_app/immutable/nodes/7.IrqZjvp6.js" rel="modulepreload">
 		<link href="../../_app/immutable/chunks/ClbI50hp.js" rel="modulepreload">
 		<link href="../../_app/immutable/chunks/tGA9RONR.js" rel="modulepreload">
-		<link href="../../_app/immutable/chunks/B1bXB4rE.js" rel="modulepreload">
+		<link href="../../_app/immutable/chunks/CE0UBOrW.js" rel="modulepreload">
 		<link href="../../_app/immutable/chunks/i4hBObmy.js" rel="modulepreload">
 		<link href="../../_app/immutable/chunks/D8XUHjZF.js" rel="modulepreload">
 		<link href="../../_app/immutable/chunks/CPlHEan_.js" rel="modulepreload">
@@ -49,7 +49,7 @@ RAM上の物理メモリを指す場合もあれば、プロセスから見え�
 <p>メモリ効率のため、一部のデータをOSがディスクに書き出す場合がある（pagefile.sysなど）。それも補助的な調査対象になる。</p>
 <h3 id="メモリに残る情報">メモリに残る情報</h3>
 <p>メモリには、プログラムのコード、スタックやヒープ、ロードされたDLL、プロセスやソケットの管理構造などが置かれる。これらを解析すると、取得時点でどのようなプロセスが動き、どのコマンドラインで起動され、どこへの接続があったのかを調べられる。</p>
-<p>また、プロセスが掴んでいたファイルやレジストリのキャッシュが残っていることもある。例えば、ログを消去する前のレコードやEVTXの一部がメモリに残っていれば、ディスク側から追えなくなったイベントログを回収できる場合がある。</p>
+<p>また、プロセスが掴んでいたファイルやレジストリのキャッシュが残っていることもある。例えば、ログを消去する前のレコードやEVTXの一部がメモリに残っていれば、ディスク側から追えなくなったイベントログを復元できる場合がある。</p>
 <p>不要になったメモリ領域も、解放された瞬間に必ずゼロクリアされるわけではない。上書きされるまでの間、終了済みプロセスのデータ（URLやパスなど）が一部残存することもある。</p>
 <h3 id="物理メモリと仮想メモリ">物理メモリと仮想メモリ</h3>
 <p>プロセスから見える仮想メモリと、RAM上の物理的な配置は異なる。Windowsはページと呼ばれる単位でメモリを管理し、ページテーブルを使って仮想アドレスと物理アドレスを対応付けている。そのため、プロセスから連続して見える領域でも、物理メモリでは離れた場所に配置されていることがある。</p>
@@ -388,7 +388,7 @@ grepでもいいが、<a href="https://github.com/burntsushi/ripgrep">ripgrep</a
 <p>TestDiskに同梱されているので、ダウンロードして<code>qphotorec_win.exe</code>を起動するとGUI版が使える。</p>
 <p><img alt="photorec" src="https://github.com/user-attachments/assets/d7fc351b-6f87-4643-b7fb-dae700a616e5" loading="lazy" decoding="async" /></p>
 <h4>bulk_extractor-rec</h4>
-<p><a href="https://www.kazamiya.net/bulk_extractor-rec">Bulk Extractor with Record Carving</a>は、bulk_extractorにレコード回収用のスキャナを追加したもの。EVTXのファイルやチャンク、MFTレコード、USNジャーナルなどを対象にできる。ファイル全体が残っていなくても、レコード単位なら回収できるかもしれない。</p>
+<p><a href="https://www.kazamiya.net/bulk_extractor-rec">Bulk Extractor with Record Carving</a>は、bulk_extractorにレコード復元用のスキャナを追加したもの。EVTXのファイルやチャンク、MFTレコード、USNジャーナルなどを対象にできる。ファイル全体が残っていなくても、レコード単位なら復元できるかもしれない。</p>
 <p>BE Viewerを開いて、Toolsからrun Bulk Extractorをクリックするとファイル選択ができる。<br />
 PhotoRecなどで抽出できなかったイベントログなどもかなり引っかかる。</p>
 <p><img alt="bulkextractor" src="https://github.com/user-attachments/assets/99041bfd-5aee-47a8-9e90-76ba239afc60" loading="lazy" decoding="async" /></p>
@@ -398,7 +398,7 @@ PhotoRecなどで抽出できなかったイベントログなどもかなり引
 <p><a href="https://github.com/ufrisk/memprocfs">MemProcFS</a>とVolatilityが有名。</p>
 <p>SANSの <a href="https://www.sans.org/posters/memory-forensics">Memory Forensics Cheat Sheet</a> も手元にあると便利。</p>
 <h3 id="memprocfs">MemProcFS</h3>
-<p>メモリから回収できるファイルやアーティファクトを横断的に見たい場合は、MemProcFSのforensic modeが便利。</p>
+<p>メモリから復元できるファイルやアーティファクトを横断的に見たい場合は、MemProcFSのforensic modeが便利。</p>
 <h4>マウント</h4>
 <p>Windowsでは <a href="https://github.com/ufrisk/MemProcFS/wiki">Wiki</a> に従ってDokanyなどを準備し、空いているドライブ(一般的には <code>M:</code>)へマウントする。</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p><img alt="mount" src="https://github.com/user-attachments/assets/a81eeb9f-84a6-4941-88a7-d30c1c79be6d" loading="lazy" decoding="async" /></p>
 <p>起動時に<code>-forensic</code>をつけてフォレンジックモードを有効にすることで、同じ入力イメージ・設定・MemProcFSバージョンでの解析結果を再現しやすくなる。マウント後に有効化すると、キャッシュや処理順序の違いから差異が出る可能性がある。</p>
@@ -503,7 +503,7 @@ NTFSでは、サイズの小さいファイルの内容がMFTレコード内に�
 <p><code>name-long</code>がプロセス名、<code>pid</code>がプロセスID、<code>ppid</code>が親のプロセスID、<code>time-create</code>が作成時刻、<code>win-cmdline</code>がコマンドライン、<code>win-environment</code>が環境変数。名前の通り。</p>
 <p>まず見たいのは<code>files/handles</code>あたり。プロセスが開いているファイルハンドルを手掛かりに再構築されたファイルがある。
 <code>files/modules</code> はメモリ上のモジュールから再構築されたexeやdllなど。<code>files/vads</code> はVAD（Virtual Address Descriptor）を手掛かりに再構築されたファイル。VADは、プロセスの仮想メモリ領域と、その保護属性や対応するファイルなどを管理する構造である。</p>
-<p>どの場所から回収した場合でも、ファイル全体がメモリに残っているとは限らない。そのまま読めれば嬉しい。</p>
+<p>どの場所から復元した場合でも、ファイル全体がメモリに残っているとは限らない。そのまま読めれば嬉しい。</p>
 <p>.evtxで検索するとイベントログが見つかったりする。ディスク側で削除されていても一部イベントの復元ができるかも。見つけたら<a href="https://sumeshi.github.io/posts/knowledges/windows-eventlog-analysis-101">調査してみるとよい</a> 。</p>
 <p><img alt="evtx" src="https://github.com/user-attachments/assets/6a43c9d8-1567-4f5d-8e92-259d42a39592" loading="lazy" decoding="async" /></p>
 <p><img alt="others" src="https://github.com/user-attachments/assets/8e40de73-f7f4-4efd-9d2c-9f88660b8b2a" loading="lazy" decoding="async" /></p>
@@ -538,7 +538,7 @@ NTFSでは、サイズの小さいファイルの内容がMFTレコード内に�
 <p>親プロセスがすでに終了していれば一覧にいないこともあるし、PIDが再利用されていると、同じPIDの別プロセスを親と見誤ることもある。親子関係を読むときは作成時刻も確認する。</p>
 <p><code>psscan</code>は、カーネルがメモリを割り当てるpool領域を走査してプロセスの構造体を探すため、終了済みあるいは隠蔽されたプロセスも検出できる場合があるが、時間がかかる。裏で実行しながらコーヒー飲んでpslistとかを眺めておけば良い。</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p><code>psxview</code>を使うと、複数のプロセス列挙方法の結果を突合してくれる。<code>pslist</code>にはないけど<code>psscan</code>にはあった、とか。</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><h4>プロセスの詳細</h4>
 <p>候補をPID <code>4240</code>などに絞れたら、そのプロセスが何を読み込み、何を参照していたかを調べる。ハンドルはファイル、レジストリキー、他のプロセスなどのオブジェクトを参照するための識別子で、調査対象を広げる手掛かりになる。</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p><code>dlllist</code>で読み込まれたDLLのパスや配置を確認し、<code>handles</code>で参照しているファイルやレジストリキーなどを確認する。カーネルのモジュールを列挙する<code>windows.modules</code>とは、調べる対象が異なる。</p>
-<p>例えばコマンドラインに一時ディレクトリ上のスクリプトがあれば、そのファイル名を検索や回収の対象にする。ハンドルに文書のパスがあれば、関連するファイルやアクセスの痕跡をディスク側でも確認する。ハンドルの存在だけでは、ファイルの全内容を読んだことや外部へ送信したことまでは分からない。</p>
+<p>例えばコマンドラインに一時ディレクトリ上のスクリプトがあれば、そのファイル名を検索や復元の対象にする。ハンドルに文書のパスがあれば、関連するファイルやアクセスの痕跡をディスク側でも確認する。ハンドルの存在だけでは、ファイルの全内容を読んだことや外部へ送信したことまでは分からない。</p>
 <h4>コマンド履歴</h4>
 <p>プロセスの起動引数は<code>cmdline</code>、コンソールに残っている入力履歴は<code>cmdscan</code>で調べる。たとえば<code>cmd.exe</code>を起動した後に何を入力したか知りたい場合は、こちらも試しておく。</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p>取得できるのは対応するコンソールの履歴構造がメモリに残っている範囲なので、すべてのシェル操作を復元できるわけではない。PowerShellの履歴やスクリプトの実行内容は、PSReadLineの履歴ファイルやPowerShellログなども照合する。</p>
 <h4>ネットワーク接続</h4>
@@ -561,8 +561,8 @@ NTFSでは、サイズの小さいファイルの内容がMFTレコード内に�
 <p>入力にはダンプしたPEを指定する。欠損やヘッダの破損があると、FLOSS側で解析できないこともある。</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><h4>ファイルの復元</h4>
 <p>メモリには、プロセスが使用したファイルやOSのキャッシュも残る。調査対象のファイル名やパスが分かれば復元を試し、得られた内容をその形式に対応するパーサへ渡せる。</p>
 <p><code>filescan</code>は、Windowsがファイルを管理する<code>FILE_OBJECT</code>を走査する。まずファイル名から候補を探し、そのオブジェクトに対応する内容を<code>dumpfiles</code>で復元する。</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p>次はWindows 10 / 11を対象に、見つかった<code>FILE_OBJECT</code>の仮想アドレスを指定する例である。アドレスは実際の出力に置き換える。</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p><code>--virtaddr</code>と<code>--physaddr</code>は、それぞれ<code>FILE_OBJECT</code>の仮想アドレスと物理アドレスを受け取る。</p>
-<p>プロセスとの関連が分かっていれば、PIDを指定して回収候補を絞ることもできる。</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p><code>filescan</code>で名前が見つかっても、ファイル内容がしっかり残っているとは限らない。
-パーサで開けなければ、部分的に回収できたデータとして文字列検索やカービングに回してみる。</p>
+<p>プロセスとの関連が分かっていれば、PIDを指定して復元候補を絞ることもできる。</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p><code>filescan</code>で名前が見つかっても、ファイル内容がしっかり残っているとは限らない。
+パーサで開けなければ、部分的に復元できたデータとして文字列検索やカービングに回してみる。</p>
 <h2 id="調査結果の整理">調査結果の整理</h2>
 <p>メモリフォレンジックをしていると、ファイルがグチャグチャになりがち。ホストや取得プロセスごとにフォルダを分け、いい感じに整理しておくとよい。
 MemProcFSであれば、タイムラインやCSVも出力してくれるので、アンマウントする前にそのあたりも一通りコピーしておく。</p>
@@ -571,19 +571,19 @@ MemProcFSであれば、タイムラインやCSVも出力してくれるので�
 どちらかが間違っていると決めつける前に、各ツールが何をたどって列挙しているかを確認する。参照する管理構造や、終了済みオブジェクト・欠損ページの扱いが違えば、結果も変わる。</p>
 <h2 id="おわりに">おわりに</h2>
 <p>メモリフォレンジックでは、ディスクフォレンジックと比較して欠けたり壊れたデータを相手にすることが多い。それをどう活かすかというのは、中身を見てアタリをつける経験とセンスになってくるのでなんとも言えないが、困ったらとりあえず文字列として読んでみるとか、画像の断片っぽければGIMPに突っ込んでみるとか。マジに困ったらAIを頼ってもいいと思います。</p>
-<p>メモリフォレンジックなんて人間がやることではない。</p><!----></div><!--]--><!--]--><!--]--></div> <footer class="mt-2 flex justify-center border-t border-gray-800/80 pt-5"><a href="../../posts" class="inline-flex items-center justify-center rounded-md px-5 py-2 text-sm transition-colors border border-indigo-400/20 bg-indigo-400/10 text-indigo-100 hover:border-indigo-300/40 hover:bg-indigo-400/15 hover:text-white shadow-[0_0_0_1px_rgba(99,102,241,0.08)] gap-2 rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-[0.16em]"><svg class="h-3.5 w-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 18l-6-6 6-6"></path></svg> <span>All Posts</span><!----></a><!----></footer></article> <!--[0--><aside class="hidden min-w-0 pt-28 2xl:block"><nav class="sticky top-12 max-h-[calc(100vh-4rem)] overflow-y-auto border-l border-gray-800 pl-4" aria-label="Table of Contents"><p class="mb-2 font-mono text-[10px] font-semibold uppercase tracking-[0.12em] text-gray-500">Table of Contents</p> <ol class="space-y-1"><!--[--><li><a href="#はじめに" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">はじめに</a></li><li><a href="#メモリとは" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">メモリとは</a></li><li class="pl-3"><a href="#メモリに残る情報" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">メモリに残る情報</a></li><li class="pl-3"><a href="#物理メモリと仮想メモリ" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">物理メモリと仮想メモリ</a></li><li><a href="#メモリの保全" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">メモリの保全</a></li><li class="pl-3"><a href="#保全時の注意点" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">保全時の注意点</a></li><li class="pl-3"><a href="#メモリ外の保全対象" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">メモリ外の保全対象</a></li><li class="pl-3"><a href="#取得ツール" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">取得ツール</a></li><li class="pl-3"><a href="#保全時の記録" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">保全時の記録</a></li><li class="pl-3"><a href="#休止ファイルの展開" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">休止ファイルの展開</a></li><li><a href="#解析の準備" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">解析の準備</a></li><li class="pl-3"><a href="#調査目的" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">調査目的</a></li><li class="pl-3"><a href="#環境構築" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">環境構築</a></li><li><a href="#解析手法1-バイナリ解析" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">解析手法1: バイナリ解析</a></li><li class="pl-3"><a href="#文字列抽出" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">文字列抽出</a></li><li class="pl-3"><a href="#文字列検索" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">文字列検索</a></li><li class="pl-3"><a href="#yara検索" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">YARA検索</a></li><li class="pl-3"><a href="#ファイルカービング" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">ファイルカービング</a></li><li><a href="#解析手法2-管理構造の解析" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">解析手法2: 管理構造の解析</a></li><li class="pl-3"><a href="#memprocfs" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">MemProcFS</a></li><li class="pl-3"><a href="#volatility" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">Volatility</a></li><li><a href="#調査結果の整理" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">調査結果の整理</a></li><li><a href="#おわりに" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">おわりに</a></li><!--]--></ol></nav></aside><!--]--></div><!--]--><!----></div></main> <!--[-1--><!--]--> <!--[-1--><!--]--><!--]--><!--]--> <!--[-1--><!--]--><!--]-->
+<p>メモリフォレンジックなんて人間がやることではないな。</p><!----></div><!--]--><!--]--><!--]--></div> <footer class="mt-2 flex justify-center border-t border-gray-800/80 pt-5"><a href="../../posts" class="inline-flex items-center justify-center rounded-md px-5 py-2 text-sm transition-colors border border-indigo-400/20 bg-indigo-400/10 text-indigo-100 hover:border-indigo-300/40 hover:bg-indigo-400/15 hover:text-white shadow-[0_0_0_1px_rgba(99,102,241,0.08)] gap-2 rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-[0.16em]"><svg class="h-3.5 w-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 18l-6-6 6-6"></path></svg> <span>All Posts</span><!----></a><!----></footer></article> <!--[0--><aside class="hidden min-w-0 pt-28 2xl:block"><nav class="sticky top-12 max-h-[calc(100vh-4rem)] overflow-y-auto border-l border-gray-800 pl-4" aria-label="Table of Contents"><p class="mb-2 font-mono text-[10px] font-semibold uppercase tracking-[0.12em] text-gray-500">Table of Contents</p> <ol class="space-y-1"><!--[--><li><a href="#はじめに" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">はじめに</a></li><li><a href="#メモリとは" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">メモリとは</a></li><li class="pl-3"><a href="#メモリに残る情報" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">メモリに残る情報</a></li><li class="pl-3"><a href="#物理メモリと仮想メモリ" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">物理メモリと仮想メモリ</a></li><li><a href="#メモリの保全" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">メモリの保全</a></li><li class="pl-3"><a href="#保全時の注意点" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">保全時の注意点</a></li><li class="pl-3"><a href="#メモリ外の保全対象" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">メモリ外の保全対象</a></li><li class="pl-3"><a href="#取得ツール" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">取得ツール</a></li><li class="pl-3"><a href="#保全時の記録" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">保全時の記録</a></li><li class="pl-3"><a href="#休止ファイルの展開" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">休止ファイルの展開</a></li><li><a href="#解析の準備" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">解析の準備</a></li><li class="pl-3"><a href="#調査目的" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">調査目的</a></li><li class="pl-3"><a href="#環境構築" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">環境構築</a></li><li><a href="#解析手法1-バイナリ解析" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">解析手法1: バイナリ解析</a></li><li class="pl-3"><a href="#文字列抽出" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">文字列抽出</a></li><li class="pl-3"><a href="#文字列検索" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">文字列検索</a></li><li class="pl-3"><a href="#yara検索" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">YARA検索</a></li><li class="pl-3"><a href="#ファイルカービング" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">ファイルカービング</a></li><li><a href="#解析手法2-管理構造の解析" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">解析手法2: 管理構造の解析</a></li><li class="pl-3"><a href="#memprocfs" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">MemProcFS</a></li><li class="pl-3"><a href="#volatility" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">Volatility</a></li><li><a href="#調査結果の整理" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">調査結果の整理</a></li><li><a href="#おわりに" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">おわりに</a></li><!--]--></ol></nav></aside><!--]--></div><!--]--><!----></div></main> <!--[-1--><!--]--> <!--[-1--><!--]--><!--]--><!--]--> <!--[-1--><!--]--><!--]-->
 			
 			<script>
 				{
-					__sveltekit_9nl6us = {
+					__sveltekit_111l4mq = {
 						base: new URL("../..", location).pathname.slice(0, -1)
 					};
 
 					const element = document.currentScript.parentElement;
 
 					Promise.all([
-						import("../../_app/immutable/entry/start.C28O31-I.js"),
-						import("../../_app/immutable/entry/app.DFjIkbL_.js")
+						import("../../_app/immutable/entry/start.6gieesZr.js"),
+						import("../../_app/immutable/entry/app.DNCXLWAC.js")
 					]).then(([kit, app]) => {
 						kit.start(app, element, {
 							node_ids: [0, 7],
