@@ -12,19 +12,19 @@
       gtag('js', new Date());
       gtag('config', 'G-DVLS4LMPGV');
     </script>
-    <link href="../../_app/immutable/entry/start.BYGuGXPV.js" rel="modulepreload">
-		<link href="../../_app/immutable/chunks/BoacvKlt.js" rel="modulepreload">
+    <link href="../../_app/immutable/entry/start.dfzS3hb3.js" rel="modulepreload">
+		<link href="../../_app/immutable/chunks/CtfWh786.js" rel="modulepreload">
 		<link href="../../_app/immutable/chunks/CyU4G86o.js" rel="modulepreload">
-		<link href="../../_app/immutable/entry/app.CHgXNhUJ.js" rel="modulepreload">
+		<link href="../../_app/immutable/entry/app.DBn-q6Fe.js" rel="modulepreload">
 		<link href="../../_app/immutable/chunks/HclGiUj8.js" rel="modulepreload">
 		<link href="../../_app/immutable/chunks/xihTtKlq.js" rel="modulepreload">
-		<link href="../../_app/immutable/nodes/0.cmW_rlCA.js" rel="modulepreload">
-		<link href="../../_app/immutable/chunks/CxDSfIQh.js" rel="modulepreload">
-		<link href="../../_app/immutable/chunks/CQgOFPU5.js" rel="modulepreload">
-		<link href="../../_app/immutable/nodes/7.ROwitKJk.js" rel="modulepreload">
+		<link href="../../_app/immutable/nodes/0.TBXOYpgj.js" rel="modulepreload">
+		<link href="../../_app/immutable/chunks/DS6FV0fe.js" rel="modulepreload">
+		<link href="../../_app/immutable/chunks/D8e8E5o3.js" rel="modulepreload">
+		<link href="../../_app/immutable/nodes/7.DoxbhzGj.js" rel="modulepreload">
 		<link href="../../_app/immutable/chunks/ClbI50hp.js" rel="modulepreload">
 		<link href="../../_app/immutable/chunks/tGA9RONR.js" rel="modulepreload">
-		<link href="../../_app/immutable/chunks/D8AF_sZR.js" rel="modulepreload">
+		<link href="../../_app/immutable/chunks/CX8n9Udu.js" rel="modulepreload">
 		<link href="../../_app/immutable/chunks/i4hBObmy.js" rel="modulepreload">
 		<link href="../../_app/immutable/chunks/D8XUHjZF.js" rel="modulepreload">
 		<link href="../../_app/immutable/chunks/CPlHEan_.js" rel="modulepreload">
@@ -39,20 +39,20 @@
 ただ、取得したはいいものの「で、ここから何を見るの？」となりがち。</p>
 <p>メモリには、ディスク上のファイルやログだけでは追えない情報が含まれています。<br />
 実行中のプロセスやネットワーク接続、ファイルキャッシュ、レジストリ、アプリケーションが扱っていたデータの断片など、調査対象はさまざま。</p>
-<p>ログを読むようにはいかないので、ツールを使ってバイナリの中から必要な情報をDigっていく感じ。なかなか難しめ。</p>
+<p>ログを読むようにはいかないので、<strong>ツールを使ってバイナリの中から必要な情報をDigっていく</strong> 感じ。なかなか難しめ。</p>
 <h2 id="メモリとは">メモリとは</h2>
 <p>メモリとひとくちにいってもいろいろある。<br />
-RAM上の物理メモリを指す場合もあれば、プロセスから見える仮想メモリを指す場合もあるのだが、OSやアプリケーションが動作中のコードやデータを置く場所、としてざっくり読んで貰えれば。</p>
+RAM上の <strong>物理メモリ</strong> を指す場合もあれば、プロセスから見える <strong>仮想メモリ</strong> を指す場合もあるのだが、OSやアプリケーションが動作中のコードやデータを置く場所、としてざっくり読んで貰えれば。</p>
 <p>メモリは、情報を長期間保存しておくための媒体ではなく、OSやアプリケーションの動作に合わせて内容が書き換わり、プロセスの終了やメモリ領域の再利用によって、それまでの情報は失われていく。
-また、電源供給が絶たれればデータはすべて吹き飛ぶ（揮発性）ので、侵害されたコンピュータの電源を落としてしまうと情報は永遠に失われてしまう。可能ならシャットダウンや再起動の前に保全しておきたい。</p>
+また、電源供給が絶たれればデータはすべて吹き飛ぶ（<strong>揮発性</strong>）ので、侵害されたコンピュータの電源を落としてしまうと情報は永遠に失われてしまう。<strong>可能ならシャットダウンや再起動の前に保全しておきたい。</strong></p>
 <p>動作中のコンピュータからメモリの内容を取得することをライブ取得といい、それをファイルに保存したものをメモリイメージあるいはメモリダンプと呼ぶ。一般的にこのメモリイメージを一生懸命解析していくことになる。</p>
 <p>メモリ効率のため、一部のデータをOSがディスクに書き出す場合がある（pagefile.sysなど）。それも補助的な調査対象になる。</p>
 <h3 id="メモリに残る情報">メモリに残る情報</h3>
 <p>メモリには、プログラムのコード、スタックやヒープ、ロードされたDLL、プロセスやソケットの管理構造などが置かれる。これらを解析すると、取得時点でどのようなプロセスが動き、どのコマンドラインで起動され、どこへの接続があったのかを調べられる。</p>
-<p>また、プロセスが掴んでいたファイルやレジストリのキャッシュが残っていることもある。例えば、ログを消去する前のレコードやEVTXの一部がメモリに残っていれば、ディスク側から追えなくなったイベントログを復元できる場合がある。</p>
+<p>また、プロセスが掴んでいたファイルやレジストリのキャッシュが残っていることもある。例えば、攻撃者やローテートによって消去される前のレコードやEVTXの一部がメモリに残っていれば、<strong>ディスク側から追えなくなったイベントログを復元できる場合がある</strong>。</p>
 <p>不要になったメモリ領域も、解放された瞬間に必ずゼロクリアされるわけではない。上書きされるまでの間、終了済みプロセスのデータ（URLやパスなど）が一部残存することもある。</p>
 <h3 id="物理メモリと仮想メモリ">物理メモリと仮想メモリ</h3>
-<p>プロセスから見える仮想メモリと、RAM上の物理的な配置は異なる。Windowsはページと呼ばれる単位でメモリを管理し、ページテーブルを使って仮想アドレスと物理アドレスを対応付けている。そのため、プロセスから連続して見える領域でも、物理メモリでは離れた場所に配置されていることがある。</p>
+<p>プロセスから見える仮想メモリと、RAM上の物理的な配置は異なる。<strong>Windowsはページと呼ばれる単位でメモリを管理</strong>し、ページテーブルを使って仮想アドレスと物理アドレスを対応付けている。そのため、プロセスから連続して見える領域でも、物理メモリでは離れた場所に配置されていることがある。</p>
 <p>この違いは、検索や復元の結果にも影響する。例えば、文字列が物理的に離れたページに分かれていると、物理メモリを先頭から検索するだけでは見つからないことがある。</p>
 <p>そんなときは、ツールでページの対応付けを行い、プロセスの仮想メモリとして再構成してから検索すれば見つかる場合もある。<br />
 逆に、すでにプロセスから参照されなくなった断片は、物理メモリを直接走査した方が見つかることもあるので、どちらか一方が優れているとかそういう話でもない。</p>
@@ -62,7 +62,7 @@ RAM上の物理メモリを指す場合もあれば、プロセスから見え�
 バカデカメモリの場合は注意。</p>
 <p>メモリ取得中もOSやアプリケーションが動いているため、イメージ内の領域ごとに取得時点がズレ、管理構造やデータの状態が食い違うこともある。この不整合は<a href="https://www.nist.gov/glossary-term/39326">Memory Smear</a>と呼ばれます。</p>
 <h3 id="メモリ外の保全対象">メモリ外の保全対象</h3>
-<p>Windowsでは、下記のファイルにもメモリの一部あるいは全部が書き出されることがある。欠損部分を復元したり、過去の状態を調べられる場合があるため、可能なら一緒に保全しておくこと。</p>
+<p>Windowsでは、下記のファイルにも<strong>メモリの一部あるいは全部が書き出される</strong>ことがある。欠損部分を復元したり、過去の状態を調べられる場合があるため、可能なら一緒に保全しておくこと。</p>
 <table>
 <thead>
 <tr>
@@ -101,7 +101,7 @@ RAM上の物理メモリを指す場合もあれば、プロセスから見え�
 <p><img alt="cdirini" src="https://github.com/user-attachments/assets/27205b84-b499-45db-a5db-340b6ecda47d" loading="lazy" decoding="async" /></p>
 <p>取得項目は<code>cdir.ini</code>で設定する。メモリを取得する場合は<code>MemoryDump = true</code>を有効にしておき、<code>cdir-collector.exe</code>をカチカチすると保全できる。</p>
 <p>どのツールを使う場合でも当てはまることだが、対象のWindowsのビルドやCPUアーキテクチャ、ドライバ読み込みの制約を含めて事前に試しておくこと。
-調査対象が複数あるとか、後で解析しますという場合、取得後にファイルサイズがおかしくないか、プロセス一覧が読めるか程度は確認しておきたい。あとから取り直します、というのは難しい。</p>
+調査対象が複数あるとか、後で解析しますという場合、取得後にファイルサイズがおかしくないか、プロセス一覧が読めるか程度は確認しておきたい。<strong>あとから取り直します、というのは難しい</strong>。</p>
 <h3 id="保全時の記録">保全時の記録</h3>
 <p>後から取得時の内容を確認できるよう、次の情報は残しておきたい。</p>
 <ul>
@@ -138,7 +138,7 @@ RAM上の物理メモリを指す場合もあれば、プロセスから見え�
 </tr>
 </tbody>
 </table>
-<p>Fast Startupによるシャットダウン時に保存された<code>hiberfil.sys</code>は、ユーザーセッション全体を含まないため、ライブ取得したメモリと同じ範囲を調べられるわけではない。休止状態のタイミングによっては、過去のメモリ状態と現在のメモリ状態の2つを手に入れられるので、点ではなく線の解析ができる。</p>
+<p>Fast Startupによるシャットダウン時に保存された<code>hiberfil.sys</code>は、<a href="https://learn.microsoft.com/en-us/windows/win32/power/system-power-states">ユーザーセッション全体を含まない</a>ため、ライブ取得したメモリと同じ範囲を調べられるわけではない。休止状態のタイミングによっては、過去のメモリ状態と現在のメモリ状態の2つを手に入れられるので、点ではなく線の解析ができる。</p>
 <h2 id="解析の準備">解析の準備</h2>
 <h3 id="調査目的">調査目的</h3>
 <p>何を調べたいかによって調査項目は異なる。<br />
@@ -191,15 +191,15 @@ RAM上の物理メモリを指す場合もあれば、プロセスから見え�
 <p><img alt="sift" src="https://github.com/user-attachments/assets/7c6c83cd-5044-4781-ae52-60fad30ebeb0" loading="lazy" decoding="async" /></p>
 <h2 id="解析手法1-バイナリ解析">解析手法1: バイナリ解析</h2>
 <p>バイナリの構造を眺めるというよりは、正体不明のドデカバイナリから可読文字列をダンプして、とりあえずわかることを列挙する、的なアプローチ。</p>
-<p>手軽にできるが、文字列が出てきただけでは、どのプロセスが何のために使ったものなのかまでは分からない。前後の文字列などからアタリをつけていく。
-マルウェアの名前が見つかった！と思っても、よくよく見ると定義ファイルのキャッシュかなにかだったりすることもよくある。多少疑ってかかるくらいの勢いで読もう。</p>
+<p>手軽にできるが、文字列が出てきただけでは、どのプロセスが何のために使ったものなのかまでは分からない。<strong>前後の文字列などからアタリをつけていく</strong>。
+マルウェアの名前が見つかった！と思っても、よくよく見るとアンチウイルスソフトの定義ファイルかなにかだったりすることもよくある。多少疑ってかかるくらいの勢いで読もう。</p>
 <h3 id="文字列抽出">文字列抽出</h3>
 <p>兎にも角にも、文字列を抽出しなければ話にならん。</p>
 <p>ASCIIおよびUnicodeの文字列が既定で抽出される、<a href="https://learn.microsoft.com/ja-jp/sysinternals/downloads/strings">Sysinternals Strings</a> がおすすめ。
 最小連続文字列長 <code>-n</code> は 6 とか 8 ぐらいでよいと言われている。何も出てこなければ適宜調整。</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p>Linuxを使っていて、GNU Stringsなどでやるなら、必ず文字コードを意識して出力すること。</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p><code>-t x</code> を付けておくと、文字列が見つかったファイルオフセットも残る。あとで元のメモリイメージへ戻って周辺を確認したいときに便利。<br />
 <code>-e l</code>は入力をUTF-16LEとして読む指定。</p>
 <h4>出力の圧縮</h4>
-<p>メモリ全体から文字列を抽出すると、テキストファイルだけで数GBを超える。x100台とかになると手元の機器に置いとくのは厳しいかも。テキストは圧縮がよく効くので、gzipに流したっていい。</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p>Windowsの標準環境にはgzipコマンドがないので、出力後に <a href="https://www.7-zip.org/">7-Zip</a> などでgzip圧縮するとよい。</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><h4>進捗表示</h4>
+<p>メモリ全体から文字列を抽出すると、テキストファイルだけで数GBを超える。x100台とかになると手元の機器に置いとくのは厳しいかも。テキストは圧縮がよく効くので、<strong>gzipに流したっていい</strong>。</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p>Windowsの標準環境にはgzipコマンドがないので、出力後に <a href="https://www.7-zip.org/">7-Zip</a> などでgzip圧縮するとよい。</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><h4>進捗表示</h4>
 <p>メモリ程度のstringsで必要になることはあまりないが、進捗がわからないと落ち着かないという人は <a href="https://www.ivarch.com/programs/pv.shtml"><code>Pipe Viewer</code></a> を使うと良い。</p>
 <p>Linuxなら <code>pv</code> から入力ファイルを読み込ませると、処理済みサイズ、転送速度、進捗率、残り時間の目安を確認できる。</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p>Windowsにはそんなものない。諦めよう。</p>
 <h3 id="文字列検索">文字列検索</h3>
@@ -384,7 +384,7 @@ grepでもいいが、<a href="https://github.com/burntsushi/ripgrep">ripgrep</a
 既定の設定ではすべて無効になっている。</p>
 <h4>PhotoRec</h4>
 <p><a href="https://www.cgsecurity.org/wiki/PhotoRec">PhotoRec</a> も定番。<br />
-アイコンが怪しいが、<a href="https://sleuthkit.org/autopsy/docs/user-docs/4.20.0/photorec_carver_page.html">Autopsy</a> にも組み込まれている。対応フォーマットは400種類以上あるとか。</p>
+アイコンが怪しいが、<a href="https://sleuthkit.org/autopsy/docs/user-docs/4.20.0/photorec_carver_page.html">Autopsy</a> にも組み込まれている実績のあるツール。対応フォーマットは400種類以上あるとか。</p>
 <p>TestDiskに同梱されているので、ダウンロードして<code>qphotorec_win.exe</code>を起動するとGUI版が使える。</p>
 <p><img alt="photorec" src="https://github.com/user-attachments/assets/d7fc351b-6f87-4643-b7fb-dae700a616e5" loading="lazy" decoding="async" /></p>
 <h4>bulk_extractor-rec</h4>
@@ -478,7 +478,7 @@ PhotoRecなどで抽出できなかったイベントログなどもかなり引
 </tr>
 </tbody>
 </table>
-<p>主要なところだけさらっと。</p>
+<p>主要なところだけさらっとみていく。</p>
 <h4>sys</h4>
 <p>システムに関する情報がいろいろある。まずはここを見ると良い。</p>
 <p><img alt="sys" src="https://github.com/user-attachments/assets/4261220b-6288-40f5-acf6-ca9f17c8cd1f" loading="lazy" decoding="async" /></p>
@@ -534,13 +534,13 @@ NTFSでは、サイズの小さいファイルの内容がMFTレコード内に�
 <p>まずは<code>windows.info</code>でOSやカーネルの情報が読めるかを確認する。ここで失敗する場合は、取得形式、イメージの欠損、シンボルの取得状況などを確認してから先へ進む。</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><h4>プロセス一覧</h4>
 <p>実行中のプロセスと親子関係、実行時コマンドラインを保存する。
 プロセス名だけ見ても怪しいかどうか判別は難しい。実行パス、親プロセス、起動引数、実行ユーザーなどの観点を組み合わせて確認する。</p>
-<p>正規名に似たプロセスや、<code>C:\Users\Public</code>などの<a href="https://attack.mitre.org/techniques/T1074/001/">悪用されがちなフォルダ</a>から起動された実行ファイルは掘り下げるべき。</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p><code>pslist</code>はOSが管理するプロセスのリストをたどり、<code>pstree</code>は同じ列挙結果を親子関係で表示する。<code>pstree</code>も別の方法で隠蔽プロセスを探しているわけではない。</p>
+<p>正規名に似たプロセスや、<code>C:\Users\Public</code>などの<a href="https://attack.mitre.org/techniques/T1074/001/">悪用されがちなフォルダ</a>から起動された実行ファイルは掘り下げるべき。</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p><code>pslist</code>はOSが管理するプロセスのリストをたどり、<code>pstree</code>は同じ列挙結果を親子関係で表示する。</p>
 <p>親プロセスがすでに終了していれば一覧にいないこともあるし、PIDが再利用されていると、同じPIDの別プロセスを親と見誤ることもある。親子関係を読むときは作成時刻も確認する。</p>
 <p><code>psscan</code>は、カーネルがメモリを割り当てるpool領域を走査してプロセスの構造体を探すため、終了済みあるいは隠蔽されたプロセスも検出できる場合があるが、時間がかかる。裏で実行しながらコーヒー飲んでpslistとかを眺めておけば良い。</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p><code>psxview</code>を使うと、複数のプロセス列挙方法の結果を突合してくれる。<code>pslist</code>にはないけど<code>psscan</code>にはあった、とか。</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><h4>プロセスの詳細</h4>
 <p>候補をPID <code>4240</code>などに絞れたら、そのプロセスが何を読み込み、何を参照していたかを調べる。ハンドルはファイル、レジストリキー、他のプロセスなどのオブジェクトを参照するための識別子で、調査対象を広げる手掛かりになる。</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p><code>dlllist</code>で読み込まれたDLLのパスや配置を確認し、<code>handles</code>で参照しているファイルやレジストリキーなどを確認する。カーネルのモジュールを列挙する<code>windows.modules</code>とは、調べる対象が異なる。</p>
-<p>例えばコマンドラインに一時ディレクトリ上のスクリプトがあれば、そのファイル名を検索や復元の対象にする。ハンドルに文書のパスがあれば、関連するファイルやアクセスの痕跡をディスク側でも確認する。ハンドルの存在だけでは、ファイルの全内容を読んだことや外部へ送信したことまでは分からない。</p>
+<p>例えばコマンドラインに一時ディレクトリ上のスクリプトがあれば、そのファイル名を検索や復元の対象にする。ハンドルに文書のパスがあれば、関連するファイルやアクセスの痕跡をディスク側でも確認する。<strong>ハンドルの存在だけでは、ファイルの全内容を読んだことや外部へ送信したことまでは分からない</strong>。</p>
 <h4>コマンド履歴</h4>
-<p>プロセスの起動引数は<code>cmdline</code>、コンソールに残っている入力履歴は<code>cmdscan</code>で調べる。たとえば<code>cmd.exe</code>を起動した後に何を入力したか知りたい場合は、こちらも試しておく。</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p>取得できるのは対応するコンソールの履歴構造がメモリに残っている範囲なので、すべてのシェル操作を復元できるわけではない。PowerShellの履歴やスクリプトの実行内容は、PSReadLineの履歴ファイルやPowerShellログなども照合する。</p>
+<p>プロセスの起動引数は<code>cmdline</code>、コンソールに残っている入力履歴は<code>cmdscan</code>で調べる。たとえば<code>cmd.exe</code>を起動した後に何を入力したか知りたい場合は、こちらも試しておく。</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p>取得できるのは対応するコンソールの履歴構造がメモリに残っている範囲なので、<strong>すべてのシェル操作を復元できるわけではない</strong>。PowerShellの履歴やスクリプトの実行内容は、PSReadLineの履歴ファイルやPowerShellログなども照合する。</p>
 <h4>ネットワーク接続</h4>
 <p>ネットワークの管理構造を調べるなら<code>netscan</code>を使う。</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p>見つかったPIDをプロセス一覧や作成時刻と照合し、そのプロセスを追加で調べる。終了済み・解放済みの構造が残る場合もあるので、<code>State</code>や<code>Created</code>も読む。<code>Created</code>はネットワークオブジェクトの作成時刻を示す。</p>
 <p>また、<code>netscan</code>から通信内容や転送量は得られない。<br />
@@ -566,24 +566,24 @@ NTFSでは、サイズの小さいファイルの内容がMFTレコード内に�
 <h2 id="調査結果の整理">調査結果の整理</h2>
 <p>メモリフォレンジックをしていると、ファイルがグチャグチャになりがち。ホストや取得プロセスごとにフォルダを分け、いい感じに整理しておくとよい。
 MemProcFSであれば、タイムラインやCSVも出力してくれるので、アンマウントする前にそのあたりも一通りコピーしておく。</p>
-<p>整理は本当に大変なので、面倒なら<a href="https://sumeshi.github.io/posts/works/dont-make-ai-your-forensic-analyst">AIにぶん投げても良い</a>と思う。ただし情報の取り扱いには最新の注意を払うこと。</p>
+<p>整理は本当に大変なので、面倒なら<a href="https://sumeshi.github.io/posts/works/dont-make-ai-your-forensic-analyst">AIにぶん投げても良い</a>と思う。ただし<strong>情報の取り扱いには細心の注意を払う</strong>こと。</p>
 <p>ツールによって結果の食い違いが発生することもままある。<br />
 どちらかが間違っていると決めつける前に、各ツールが何をたどって列挙しているかを確認する。参照する管理構造や、終了済みオブジェクト・欠損ページの扱いが違えば、結果も変わる。</p>
 <h2 id="おわりに">おわりに</h2>
-<p>メモリフォレンジックでは、ディスクフォレンジックと比較して欠けたり壊れたデータを相手にすることが多い。それをどう活かすかというのは、中身を見てアタリをつける経験とセンスになってくるのでなんとも言えないが、困ったらとりあえず文字列として読んでみるとか、画像の断片っぽければGIMPに突っ込んでみるとか。マジに困ったらAIを頼ってもいいと思います。</p>
+<p>メモリフォレンジックでは、ディスクフォレンジックと比較して<strong>欠けたり壊れたデータを相手にすることが多い</strong>。それをどう活かすかというのは、中身を見てアタリをつける経験とセンスになってくるのでなんとも言えないが、困ったらとりあえず文字列として読んでみるとか、画像の断片っぽければGIMPに突っ込んでみるとか。マジに困ったらAIを頼ってもいいと思います。</p>
 <p>メモリフォレンジックなんて人間がやることではないな。</p><!----></div><!--]--><!--]--><!--]--></div> <footer class="mt-2 flex justify-center border-t border-gray-800/80 pt-5"><a href="../../posts" class="inline-flex items-center justify-center rounded-md px-5 py-2 text-sm transition-colors border border-indigo-400/20 bg-indigo-400/10 text-indigo-100 hover:border-indigo-300/40 hover:bg-indigo-400/15 hover:text-white shadow-[0_0_0_1px_rgba(99,102,241,0.08)] gap-2 rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-[0.16em]"><svg class="h-3.5 w-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 18l-6-6 6-6"></path></svg> <span>All Posts</span><!----></a><!----></footer></article> <!--[0--><aside class="hidden min-w-0 pt-28 2xl:block"><nav class="sticky top-12 max-h-[calc(100vh-4rem)] overflow-y-auto border-l border-gray-800 pl-4" aria-label="Table of Contents"><p class="mb-2 font-mono text-[10px] font-semibold uppercase tracking-[0.12em] text-gray-500">Table of Contents</p> <ol class="space-y-1"><!--[--><li><a href="#はじめに" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">はじめに</a></li><li><a href="#メモリとは" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">メモリとは</a></li><li class="pl-3"><a href="#メモリに残る情報" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">メモリに残る情報</a></li><li class="pl-3"><a href="#物理メモリと仮想メモリ" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">物理メモリと仮想メモリ</a></li><li><a href="#メモリの保全" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">メモリの保全</a></li><li class="pl-3"><a href="#保全時の注意点" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">保全時の注意点</a></li><li class="pl-3"><a href="#メモリ外の保全対象" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">メモリ外の保全対象</a></li><li class="pl-3"><a href="#取得ツール" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">取得ツール</a></li><li class="pl-3"><a href="#保全時の記録" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">保全時の記録</a></li><li class="pl-3"><a href="#休止ファイルの展開" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">休止ファイルの展開</a></li><li><a href="#解析の準備" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">解析の準備</a></li><li class="pl-3"><a href="#調査目的" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">調査目的</a></li><li class="pl-3"><a href="#環境構築" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">環境構築</a></li><li><a href="#解析手法1-バイナリ解析" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">解析手法1: バイナリ解析</a></li><li class="pl-3"><a href="#文字列抽出" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">文字列抽出</a></li><li class="pl-3"><a href="#文字列検索" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">文字列検索</a></li><li class="pl-3"><a href="#yara検索" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">YARA検索</a></li><li class="pl-3"><a href="#ファイルカービング" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">ファイルカービング</a></li><li><a href="#解析手法2-管理構造の解析" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">解析手法2: 管理構造の解析</a></li><li class="pl-3"><a href="#memprocfs" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">MemProcFS</a></li><li class="pl-3"><a href="#volatility" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">Volatility</a></li><li><a href="#調査結果の整理" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">調査結果の整理</a></li><li><a href="#おわりに" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">おわりに</a></li><!--]--></ol></nav></aside><!--]--></div><!--]--><!----></div></main> <!--[-1--><!--]--> <!--[-1--><!--]--><!--]--><!--]--> <!--[-1--><!--]--><!--]-->
 			
 			<script>
 				{
-					__sveltekit_14wd5xv = {
+					__sveltekit_1d3xaxc = {
 						base: new URL("../..", location).pathname.slice(0, -1)
 					};
 
 					const element = document.currentScript.parentElement;
 
 					Promise.all([
-						import("../../_app/immutable/entry/start.BYGuGXPV.js"),
-						import("../../_app/immutable/entry/app.CHgXNhUJ.js")
+						import("../../_app/immutable/entry/start.dfzS3hb3.js"),
+						import("../../_app/immutable/entry/app.DBn-q6Fe.js")
 					]).then(([kit, app]) => {
 						kit.start(app, element, {
 							node_ids: [0, 7],
