@@ -20,6 +20,32 @@ const indexableFiles = files.filter((file) => file !== fallbackPath);
 const seenTitles = new Map();
 const seenCanonicals = new Map();
 
+function isTranslationPair(first, second) {
+  const english = first.relativePath.endsWith('-en.html') ? first : second;
+  const japanese = english === first ? second : first;
+
+  if (!/^posts\/[^/]+\/[^/]+-en\.html$/.test(english.relativePath)
+    || english.relativePath.replace(/-en\.html$/, '.html') !== japanese.relativePath
+    || !english.html.includes('<html lang="en">')
+    || !japanese.html.includes('<html lang="ja">')) {
+    return false;
+  }
+
+  return [english, japanese].every(({ html }) => {
+    const alternates = new Map(
+      [...html.matchAll(/<link\b[^>]*>/g)].flatMap(([tag]) => {
+        if (!/\brel="alternate"/.test(tag)) return [];
+        const language = tag.match(/\bhreflang="([^"]+)"/)?.[1];
+        const href = tag.match(/\bhref="([^"]+)"/)?.[1];
+        return language && href ? [[language, href]] : [];
+      }),
+    );
+    return alternates.get('ja') === japanese.canonical
+      && alternates.get('en') === english.canonical
+      && alternates.get('x-default') === japanese.canonical;
+  });
+}
+
 for (const file of indexableFiles) {
   const html = readFileSync(file, 'utf8');
   const relativePath = file.slice(buildDirectory.length + 1);
@@ -60,16 +86,20 @@ for (const file of indexableFiles) {
   const title = html.match(/<title>([^<]+)<\/title>/)?.[1];
   const canonical = html.match(/<link rel="canonical" href="([^"]+)"/)?.[1];
 
-  for (const [value, label, seen] of [
-    [title, 'title', seenTitles],
-    [canonical, 'canonical URL', seenCanonicals],
-  ]) {
-    const previousPath = seen.get(value);
-    if (previousPath) {
-      throw new Error(`${relativePath} duplicates ${label} from ${previousPath}`);
+  const currentPage = { relativePath, html, canonical };
+  const previousPages = seenTitles.get(title) ?? [];
+  for (const previousPage of previousPages) {
+    if (!isTranslationPair(previousPage, currentPage)) {
+      throw new Error(`${relativePath} duplicates title from ${previousPage.relativePath}`);
     }
-    seen.set(value, relativePath);
   }
+  seenTitles.set(title, [...previousPages, currentPage]);
+
+  const previousCanonicalPath = seenCanonicals.get(canonical);
+  if (previousCanonicalPath) {
+    throw new Error(`${relativePath} duplicates canonical URL from ${previousCanonicalPath}`);
+  }
+  seenCanonicals.set(canonical, relativePath);
 }
 
 const fallbackHtml = readFileSync(fallbackPath, 'utf8');
