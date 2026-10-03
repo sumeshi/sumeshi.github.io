@@ -12,19 +12,19 @@
       gtag('js', new Date());
       gtag('config', 'G-DVLS4LMPGV');
     </script>
-    <link href="../../_app/immutable/entry/start.GasR1quO.js" rel="modulepreload">
-		<link href="../../_app/immutable/chunks/C7snC7sA.js" rel="modulepreload">
+    <link href="../../_app/immutable/entry/start.CTU-FILA.js" rel="modulepreload">
+		<link href="../../_app/immutable/chunks/sNWv64jt.js" rel="modulepreload">
 		<link href="../../_app/immutable/chunks/CyU4G86o.js" rel="modulepreload">
-		<link href="../../_app/immutable/entry/app.DSpgyPmA.js" rel="modulepreload">
+		<link href="../../_app/immutable/entry/app.BD1cO33l.js" rel="modulepreload">
 		<link href="../../_app/immutable/chunks/HclGiUj8.js" rel="modulepreload">
 		<link href="../../_app/immutable/chunks/xihTtKlq.js" rel="modulepreload">
-		<link href="../../_app/immutable/nodes/0.5Tyoq3kn.js" rel="modulepreload">
-		<link href="../../_app/immutable/chunks/BkRwJ0wW.js" rel="modulepreload">
-		<link href="../../_app/immutable/chunks/C1SvriPt.js" rel="modulepreload">
-		<link href="../../_app/immutable/nodes/7.B6NbJKPj.js" rel="modulepreload">
+		<link href="../../_app/immutable/nodes/0.CRvhvhfA.js" rel="modulepreload">
+		<link href="../../_app/immutable/chunks/DAZRAiIs.js" rel="modulepreload">
+		<link href="../../_app/immutable/chunks/DR6MSSZ6.js" rel="modulepreload">
+		<link href="../../_app/immutable/nodes/7.1dWm2PwA.js" rel="modulepreload">
 		<link href="../../_app/immutable/chunks/ClbI50hp.js" rel="modulepreload">
 		<link href="../../_app/immutable/chunks/tGA9RONR.js" rel="modulepreload">
-		<link href="../../_app/immutable/chunks/wYnmm4M5.js" rel="modulepreload">
+		<link href="../../_app/immutable/chunks/D0ZfZ0ty.js" rel="modulepreload">
 		<link href="../../_app/immutable/chunks/i4hBObmy.js" rel="modulepreload">
 		<link href="../../_app/immutable/chunks/D8XUHjZF.js" rel="modulepreload">
 		<link href="../../_app/immutable/chunks/CPlHEan_.js" rel="modulepreload">
@@ -43,27 +43,32 @@ But once you've got it, it's easy to end up asking, "Okay, what am I supposed to
 <p>Memory contains information you can't get from files and logs on disk alone.
 Running processes, network connections, file caches, the registry, fragments of data that applications were handling... there's plenty to investigate.</p>
 <p>It isn't like reading logs. You're <strong>using tools to dig the information you need out of a binary blob</strong>. It can be a bit of a pain.</p>
+<p>This article starts with what can remain in memory, then walks through acquisition, analysis, and organizing the results.</p>
 <h2 id="what-is-memory">What Is Memory?</h2>
 <p>"Memory" can mean a few different things.
 Sometimes it means <strong>physical memory</strong> in RAM; sometimes it means the <strong>virtual memory</strong> a process sees. For now, just think of it as where the OS and applications keep their code and data while they're running.</p>
 <p>Memory isn't meant for long-term storage. Its contents change as the OS and applications run, and information disappears as processes exit and memory regions get reused.
 RAM is <strong>volatile</strong>: cut the power, and its contents are gone. Shut down a compromised computer, and anything that existed only in RAM is lost for good. <strong>Preserve it before shutting down or restarting, if you can.</strong></p>
-<p>Capturing memory from a running computer is called live acquisition. Save that capture to a file, and you have a memory image, or memory dump. You'll generally spend the rest of your time wrestling with that image.</p>
+<p>Capturing memory from a running computer is called live acquisition. Save that capture to a file, and you have a memory image, or memory dump. In memory forensics, you'll generally spend the rest of your time wrestling with that image.</p>
 <p>To use memory efficiently, the OS may write some data to disk, for example in <code>pagefile.sys</code>. Those files can also help with the investigation.</p>
 <h3 id="what-can-remain-in-memory">What Can Remain in Memory?</h3>
 <p>Memory holds program code, stacks and heaps, loaded DLLs, and the structures used to track processes and sockets. Analyzing these can tell you which processes were running at acquisition time, their command lines, and where they had connections.</p>
-<p>You may also find cached files and registry data that processes were using. For example, if event records or EVTX fragments survive in memory from before an attacker deleted them or log rotation overwrote them, <strong>you may be able to recover event logs that are no longer available on disk</strong>.</p>
-<p>Freeing a memory region doesn't necessarily zero it out immediately. Until it gets overwritten, some data from a terminated process, such as URLs or paths, may remain.</p>
+<p>You may also find cached files and registry data that processes were using. For example, if fragments of EVTX files survive in memory after an attacker deleted them or log rotation removed them from disk, <strong>you may be able to recover event logs that are no longer available on disk</strong>.</p>
+<p>There's also no guarantee that freeing a memory region will zero it out immediately. Until it gets overwritten, some data from a terminated process, such as URLs or paths, may remain.</p>
 <h3 id="physical-and-virtual-memory">Physical and Virtual Memory</h3>
 <p>The virtual memory a process sees is laid out differently from physical RAM. <strong>Windows manages memory in units called pages</strong>, using page tables to map virtual addresses to physical addresses. A region that looks contiguous to a process may be scattered across physical memory.</p>
 <p>This affects searches and recovery. For example, if a string spans pages that are physically far apart, a simple scan from the start of physical memory may miss it.</p>
 <p>In that case, a tool may find it by resolving the page mappings, reconstructing the process's virtual memory, and searching that instead.
 On the other hand, fragments a process no longer references may be easier to find by scanning physical memory directly. Neither approach wins across the board.</p>
 <h2 id="acquiring-memory">Acquiring Memory</h2>
+<p>If you're acquiring memory for a forensic investigation, there are a few things worth knowing beforehand.</p>
 <h3 id="things-to-watch-during-acquisition">Things to Watch During Acquisition</h3>
+<p>Whichever tool you use, test it beforehand against the target Windows build, CPU architecture, and any restrictions on loading drivers.
+It's pretty common to hit an error just when you're ready to capture the evidence. We've all seen an error turn up in production that somehow never appeared during testing.</p>
 <p>Live acquisition takes time. It depends on the tool and the speed of the destination storage, but in my experience, roughly a minute per GB isn't unusual.
 Keep that in mind if the machine has a stupid amount of RAM.</p>
-<p>The OS and applications keep running during acquisition, so different regions of the image are captured at different times. Their structures and data may not agree with each other. This inconsistency is called <a href="https://www.nist.gov/glossary-term/39326">Memory Smear</a>.</p>
+<p>The OS and applications keep running during acquisition, so different regions of the image are captured at different times. Their structures and data may not agree with each other. This inconsistency is called <a href="https://www.nist.gov/glossary-term/39326">Memory Smear</a>.
+It's hard to prevent, so keep in mind that it can happen.</p>
 <h3 id="what-to-preserve-besides-ram">What to Preserve Besides RAM</h3>
 <p>On Windows, <strong>some or all of the contents of memory may also be written to these files</strong>. They may help recover missing data or examine an earlier state, so preserve them too if possible.</p>
 <table>
@@ -94,7 +99,7 @@ Keep that in mind if the machine has a stupid amount of RAM.</p>
 </table>
 <p>If you're using <code>pagefile.sys</code> or <code>swapfile.sys</code> to fill gaps in a RAM capture, acquire them as close to the RAM capture as possible. If the captures are too far apart, reused pages may be incorrectly matched up.</p>
 <h3 id="acquisition-tools">Acquisition Tools</h3>
-<p>There are plenty of memory acquisition tools. For incident response, a collection tool such as <a href="https://www.magnetforensics.com/resources/magnet-response/">Magnet RESPONSE</a> is a good option. It can collect memory, <code>pagefile.sys</code>, volatile data, and key artifacts in one go.</p>
+<p>There are plenty of tools for collecting this evidence. For incident response, a collection tool such as <a href="https://www.magnetforensics.com/resources/magnet-response/">Magnet RESPONSE</a> is a good option. It can collect memory, <code>pagefile.sys</code>, volatile data, and key artifacts in one go.</p>
 <p><img alt="capture" src="https://github.com/user-attachments/assets/ccabbab6-4c10-4d28-a03f-7dffdb4b1ad5" loading="lazy" decoding="async" /></p>
 <p><img alt="capture-completed" src="https://github.com/user-attachments/assets/223bc154-a91f-4621-84c3-c7ea2a4a98dd" loading="lazy" decoding="async" /></p>
 <p><a href="https://www.exterro.com/digital-forensics-software/ftk-imager">FTK Imager</a> used to be a solid option too, but a period of unreliable memory captures and other issues hurt its reputation. Fixed now, maybe? A shame, really.
@@ -103,10 +108,9 @@ I get the impression Magnet is more popular in the industry these days.</p>
 <p>In Japan, <a href="https://github.com/CyberDefenseInstitute/CDIR/blob/master/README_en.md">CDIR-Collector</a> is also widely used. It collects memory and key artifacts together. It doesn't collect <code>pagefile.sys</code>, but if that isn't a concern for you, this works too.</p>
 <p><img alt="cdirini" src="https://github.com/user-attachments/assets/27205b84-b499-45db-a5db-340b6ecda47d" loading="lazy" decoding="async" /></p>
 <p>Configure the collection in <code>cdir.ini</code>. To capture memory, enable <code>MemoryDump = true</code>, then double-click <code>cdir-collector.exe</code> and let it do its thing.</p>
-<p>Whichever tool you use, test it beforehand against the target Windows build, CPU architecture, and any restrictions on loading drivers.
-If you're collecting from multiple machines or leaving the analysis for later, at least check that the file sizes make sense and that you can read a process list. <strong>"We'll just capture it again later" is easier said than done.</strong></p>
+<p>Whichever tool you use, once the capture finishes, at least check that the file sizes make sense and that you can read a process list. Don't skip this when collecting from multiple machines or leaving the analysis for later. <strong>"We'll just capture it again later" is easier said than done.</strong></p>
 <h3 id="recording-the-acquisition">Recording the Acquisition</h3>
-<p>Keep the following so you can reconstruct what happened during acquisition:</p>
+<p>Keep the following alongside the captured files so you can reconstruct what happened during acquisition:</p>
 <ul>
 <li>Target hostname</li>
 <li>Acquisition start and end times</li>
@@ -116,9 +120,8 @@ If you're collecting from multiple machines or leaving the analysis for later, a
 </ul>
 <p>Magnet RESPONSE writes this information to its logs, which is reassuring.</p>
 <h3 id="unpacking-a-hibernation-file">Unpacking a Hibernation File</h3>
-<p>If you've preserved <code>hiberfil.sys</code> from disk, use something like <a href="https://arsenalrecon.com/products/hibernation-recon/faqs">Hibernation Recon</a> to unpack it for analysis.</p>
-<p>The memory data in a hibernation file is compressed, so you first need to reconstruct it into a form your analysis tools can use.</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p>An activation dialog appears on the first launch. Click Cancel to use Free Mode. If you like it, buy a Professional license.</p>
-<p>The main outputs are:</p>
+<p>Of the files you've preserved, <code>hiberfil.sys</code> needs an extra step before analysis. Its memory data is compressed, so use something like <a href="https://arsenalrecon.com/products/hibernation-recon/faqs">Hibernation Recon</a> to unpack and reconstruct it into a form your analysis tools can use.</p>
+<p>An activation dialog appears on the first launch. Click Cancel to use Free Mode. If you like it, buy a Professional license.</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p>The main outputs are:</p>
 <table>
 <thead>
 <tr>
@@ -141,10 +144,11 @@ If you're collecting from multiple machines or leaving the analysis for later, a
 </tr>
 </tbody>
 </table>
-<p>A <code>hiberfil.sys</code> written during a Fast Startup shutdown <a href="https://learn.microsoft.com/en-us/windows/win32/power/system-power-states">doesn't contain the full user sessions</a>, so it doesn't give you the same coverage as a live memory capture. Depending on when the machine hibernated, you may get both an earlier memory state and a current one, letting you compare two points in time instead of staring at a single snapshot.</p>
+<p>Keep in mind that a <code>hiberfil.sys</code> written during a Fast Startup shutdown <a href="https://learn.microsoft.com/en-us/windows/win32/power/system-power-states">doesn't contain the full user sessions</a>, so it doesn't give you the same coverage as a live memory capture.</p>
+<p>Depending on when the machine hibernated, the hibernation file and a live capture may give you both an earlier memory state and a current one. Looking at both lets you compare two points in time instead of staring at a single snapshot.</p>
 <h2 id="preparing-for-analysis">Preparing for Analysis</h2>
 <h3 id="what-are-you-trying-to-find">What Are You Trying to Find?</h3>
-<p>What you examine depends on what you want to know.
+<p>Once you have a memory image, decide what to examine based on what you want to know.
 If you're looking for traces of known malware, you can search the memory image for distinctive strings or IOCs. If you want to know which process connected where, examine the process and network structures.</p>
 <table>
 <thead>
@@ -187,26 +191,27 @@ If you're looking for traces of known malware, you can search the memory image f
 </tr>
 </tbody>
 </table>
-<p>This article starts with finding strings and files in a memory image, then moves on to following the OS's data structures.</p>
+<p>This article starts with finding strings and files in a memory image, then moves on to following the OS's data structures. Use leads from one approach to dig deeper with the other.</p>
 <h3 id="setting-up-your-environment">Setting Up Your Environment</h3>
-<p>I find it easier to match the analysis OS to the target. For Windows, use Windows.
+<p>Once you've picked the approaches and tools you want to use, set up your analysis environment. I find it easier to match the analysis OS to the target.
+For Windows targets, working on Windows tends to mean fewer problems with the analysis tools.
 Linux can be nicer for working with strings, though, so something like <a href="https://www.sans.org/tools/sift-workstation">SIFT Workstation</a> is also worth having around.</p>
 <p><img alt="sift" src="https://github.com/user-attachments/assets/7c6c83cd-5044-4781-ae52-60fad30ebeb0" loading="lazy" decoding="async" /></p>
 <h2 id="analysis-method-1-working-with-the-raw-data">Analysis Method 1: Working with the Raw Data</h2>
-<p>This is less about studying binary structures and more about dumping readable strings from an enormous mystery blob and seeing what you can figure out.</p>
+<p>First, let's examine the memory image as a sequence of bytes. This is less about studying binary structures and more about dumping readable strings from an enormous mystery blob and seeing what you can figure out.</p>
 <p>It's easy to get started, but finding a string doesn't tell you which process used it or why. <strong>Use nearby strings and other clues to get your bearings.</strong>
 "I found the malware's name!" Great, except a closer look often reveals an antivirus signature file or something. Read the results with a healthy amount of suspicion.</p>
 <h3 id="extracting-strings">Extracting Strings</h3>
 <p>First things first: extract some damn strings.</p>
 <p>I recommend <a href="https://learn.microsoft.com/en-us/sysinternals/downloads/strings">Sysinternals Strings</a>, which extracts both ASCII and Unicode strings by default.
-A minimum string length of 6 or 8 with <code>-n</code> is a reasonable starting point. Adjust it if you're not finding anything.</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p>If you're using GNU Strings on Linux, pay attention to the encoding.</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p>Adding <code>-t x</code> records the file offset of each string. That's useful when you want to return to the original memory image and inspect the surrounding bytes.
+A minimum string length of 6 or 8 with <code>-n</code> is a reasonable starting point. Adjust it if you're not finding anything.</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p>If you're using GNU Strings on Linux, pay attention to the encoding. For example, here's how to extract ASCII and UTF-16LE strings separately:</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p>Adding <code>-t x</code> records the file offset of each string. That's useful when you want to return to the original memory image and inspect the surrounding bytes.
 <code>-e l</code> tells it to read the input as UTF-16LE.</p>
 <h4>Compressing the Output</h4>
 <p>Extract strings from an entire memory image and the text alone can run to several GB. Multiply that by a hundred machines, and keeping it all on your workstation gets awkward. Text compresses well, so <strong>just pipe it into gzip</strong> if you like.</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p>Windows doesn't include gzip by default. Save the output first, then compress it with something like <a href="https://www.7-zip.org/">7-Zip</a>.</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><h4>Showing Progress</h4>
 <p>You probably won't need this just to run strings against memory, but if not knowing the progress drives you nuts, try <a href="https://www.ivarch.com/programs/pv.shtml">Pipe Viewer</a>.</p>
 <p>On Linux, feed the input through <code>pv</code> to see the amount processed, throughput, percentage complete, and estimated time remaining.</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p>Windows doesn't come with that. Tough luck.</p>
 <h3 id="searching-strings">Searching Strings</h3>
-<p>If you have indicators of compromise (IOCs), such as a suspicious domain or filename, search for those values.
+<p>Once you've extracted the strings, start looking for leads. If you have indicators of compromise (IOCs), such as a suspicious domain or filename, search for those values.
 grep works, but <a href="https://github.com/burntsushi/ripgrep">ripgrep</a> is ridiculously fast.</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p>Some useful options:</p>
 <table>
 <thead>
@@ -247,13 +252,9 @@ grep works, but <a href="https://github.com/burntsushi/ripgrep">ripgrep</a> is r
 </tbody>
 </table>
 <p>For example, if <code>ioc.txt</code> contains one IOC per line, this displays matches with three lines of surrounding context.
-Remember that strings close together in physical memory don't necessarily belong to the same process or the same point in time.</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p>For gzip-compressed output, zgrep works. <a href="https://github.com/phiresky/ripgrep-all">ripgrep-all</a> also lets you search compressed files much like you would with ripgrep.</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><h4>Finding Other Scripts and Languages with langscan</h4>
-<p><a href="https://github.com/sumeshi/langscan">langscan</a> searches UTF-8 text for characters used in particular languages, such as Cyrillic or Japanese. Convert the text to UTF-8 first if needed.</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p>If you're thinking, "I just want the Cyrillic stuff," do this:</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p>Executables often contain multilingual support code and resources, which can produce a lot of noise.
-Use it on a narrower target, such as an individual process memory dump, as discussed later, or as a quick way to narrow things down.</p>
-<h4>Pattern Searches with bstrings</h4>
-<p><a href="https://github.com/EricZimmerman/bstrings">bstrings</a> can search strings using a set of common regular-expression patterns.
-List the available patterns like this:</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p>Pick whichever pattern you need.
-It works on both binary and text files.</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p>These are some of the ones I use often:</p>
+Remember that strings close together in physical memory don't necessarily belong to the same process or the same point in time.</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p>For gzip-compressed output, zgrep works. <a href="https://github.com/phiresky/ripgrep-all">ripgrep-all</a> also lets you search compressed files much like you would with ripgrep.</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><h4>Pattern Searches with bstrings</h4>
+<p>Even without specific IOCs, you can look for recognizable formats such as email addresses or URLs. <a href="https://github.com/EricZimmerman/bstrings">bstrings</a> can search strings using a set of common regular-expression patterns.
+List the available patterns like this:</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p>Pick whichever pattern you need from the list. It works on both binary and text files. For example, to find email addresses in strings you've already extracted:</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p>These are some of the ones I use often:</p>
 <table>
 <thead>
 <tr>
@@ -325,8 +326,7 @@ It works on both binary and text files.</p><!----></div><!--]--><!--[0--><div cl
 </tbody>
 </table>
 <h4>Pattern Searches with bulk_extractor</h4>
-<p>If you don't have IOCs yet, <a href="https://github.com/simsong/bulk_extractor">bulk_extractor</a> can extract URLs, email addresses, and similar data in bulk. It scans the input as bytes without interpreting a filesystem, so memory images work as input too.</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p>The main outputs are listed below. See <a href="https://forensics.wiki/bulk_extractor/">forensics.wiki</a> for details.
-Which files appear depends on the enabled scanners and the data they actually find.</p>
+<p>If you don't have IOCs yet and want to collect URLs, email addresses, and similar data all at once, try <a href="https://github.com/simsong/bulk_extractor">bulk_extractor</a>. It scans the input as bytes without interpreting a filesystem, so memory images work as input too.</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p>The main outputs are listed below. Which files appear depends on the enabled scanners and the data they actually find. See <a href="https://forensics.wiki/bulk_extractor/">forensics.wiki</a> for details.</p>
 <table>
 <thead>
 <tr>
@@ -373,19 +373,21 @@ Which files appear depends on the enabled scanners and the data they actually fi
 </tr>
 </tbody>
 </table>
-<p>You'll use these findings elsewhere, so keep them organized, okay? Turn them into useful patterns and they can become a pretty powerful tool for other investigations.</p>
+<p>You'll use these findings in other searches and when investigating processes, so keep them organized. Turn them into useful patterns and they can become a pretty powerful tool for other investigations.</p>
+<h4>Finding Other Scripts and Languages with langscan</h4>
+<p>Besides matching formats, you can narrow things down by the language used in the text. <a href="https://github.com/sumeshi/langscan">langscan</a> searches UTF-8 text for characters used in particular languages, such as Cyrillic or Japanese. Convert the text to UTF-8 first if needed.</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p>If you're thinking, "I just want the Cyrillic stuff," do this:</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p>Keep in mind that executables often contain multilingual support code and resources, which can produce a lot of noise.
+Use it on a narrower target, such as an individual process memory dump created using the methods discussed later, or as a quick way to narrow things down.</p>
 <h3 id="yara-searches">YARA Searches</h3>
-<p>If a simple search isn't finding what you need, or you know the malware family but have no idea what to search for, try <a href="https://github.com/VirusTotal/yara">YARA</a>.</p>
+<p>If a simple string search isn't finding what you need, or you know the malware family but have no idea what to search for, try <a href="https://github.com/VirusTotal/yara">YARA</a>. It lets you search with rules that specify byte sequences or combine multiple conditions.</p>
 <p>Google something like <code>{malware-family} yara rule</code> and you'll find plenty. Customize the rules as needed. For a rule collection, try <a href="https://github.com/yara-rules/rules">yara-rules/rules</a>.</p>
 <p>The Rust implementation, <a href="https://github.com/virustotal/yara-x">YARA-X</a>, has been seeing more active development lately. Just watch out for rules that depend on modules it doesn't support.</p>
 <h3 id="file-carving">File Carving</h3>
-<p>Carving means finding files or fragments by recognizing file headers and characteristic record structures.
-In memory, a file may only have been partially loaded, or its pages may be physically scattered. Incomplete recovery is common. Treat even a piece of an image as a nice bonus.</p>
+<p>So far, we've looked for strings and regions matching search conditions, but sometimes you want to extract the files themselves. Carving means finding files or fragments by recognizing file headers and characteristic record structures.</p>
+<p>In memory, a file may only have been partially loaded, or its pages may be physically scattered. Incomplete recovery is common. Treat even a piece of an image as a nice bonus.</p>
 <h4>foremost</h4>
 <p>An old-school tool. <a href="https://github.com/korczis/foremost">foremost</a> extracts files based on headers, footers, and other recognizable features. To look for JPEGs and PNGs:</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><h4>scalpel</h4>
-<p><a href="https://github.com/sleuthkit/scalpel">scalpel</a> is another well-known choice, built on and improved from foremost.</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p>Make a working copy of the supplied <code>scalpel.conf</code>, then uncomment only the format definitions you want to search for.
-They're all disabled in the default configuration.</p>
-<h4>PhotoRec</h4>
+<p><a href="https://github.com/sleuthkit/scalpel">scalpel</a> is another well-known choice, built on and improved from foremost.</p>
+<p>Make a working copy of the supplied <code>scalpel.conf</code>, then uncomment only the format definitions you want to search for. They're all disabled in the default configuration, so do this before running it.</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><h4>PhotoRec</h4>
 <p><a href="https://www.cgsecurity.org/wiki/PhotoRec">PhotoRec</a> is another staple.
 The icon looks a bit sketchy, but it's an established tool that's even integrated into <a href="https://sleuthkit.org/autopsy/docs/user-docs/4.20.0/photorec_carver_page.html">Autopsy</a>. Apparently it supports over 400 formats.</p>
 <p>It comes bundled with TestDisk. Download the package and run <code>qphotorec_win.exe</code> for the GUI.</p>
@@ -396,15 +398,15 @@ The icon looks a bit sketchy, but it's an established tool that's even integrate
 It can pick up quite a few event logs and other artifacts that PhotoRec missed.</p>
 <p><img alt="bulkextractor" src="https://github.com/user-attachments/assets/99041bfd-5aee-47a8-9e90-76ba239afc60" loading="lazy" decoding="async" /></p>
 <h2 id="analysis-method-2-following-os-data-structures">Analysis Method 2: Following OS Data Structures</h2>
-<p>Here we follow the OS's data structures instead of just extracting strings.</p>
+<p>Next, we follow the OS's data structures. This lets us connect leads from string searches and other methods to processes and network connections.</p>
 <p>If you already know the name of a suspicious process, check whether it ran. If you don't have any candidates, dump the process lists, command lines, and network connections first, then read through them at your leisure.</p>
-<p><a href="https://github.com/ufrisk/memprocfs">MemProcFS</a> and Volatility are the usual names here.</p>
-<p>The SANS <a href="https://www.sans.org/posters/memory-forensics">Memory Forensics Cheat Sheet</a> is also handy to keep nearby.</p>
+<p><a href="https://github.com/ufrisk/memprocfs">MemProcFS</a> and Volatility are the usual names here. We'll use both in the following sections. The SANS <a href="https://www.sans.org/posters/memory-forensics">Memory Forensics Cheat Sheet</a> is also handy to keep nearby.</p>
 <h3 id="memprocfs">MemProcFS</h3>
 <p>MemProcFS's forensic mode is useful when you want to browse the files and artifacts recoverable from memory in one place.</p>
 <h4>Mounting an Image</h4>
-<p>On Windows, follow the <a href="https://github.com/ufrisk/MemProcFS/wiki">Wiki</a> to set up Dokany and the other prerequisites, then mount the image on an unused drive letter, usually <code>M:</code>.</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p><img alt="mount" src="https://github.com/user-attachments/assets/a81eeb9f-84a6-4941-88a7-d30c1c79be6d" loading="lazy" decoding="async" /></p>
-<p>Enabling forensic mode at startup with <code>-forensic</code> helps make results reproducible for the same image, settings, and MemProcFS version. Enabling it after mounting can produce differences due to caching and processing order.</p>
+<p>On Windows, follow the <a href="https://github.com/ufrisk/MemProcFS/wiki">Wiki</a> to set up Dokany and the other prerequisites, then mount the image on an unused drive letter, usually <code>M:</code>.</p>
+<p>Enable forensic mode at startup with <code>-forensic</code>. This helps make results reproducible for the same image, settings, and MemProcFS version. Enabling it after mounting can produce differences due to caching and processing order.</p>
+<p>Choose a mode for <code>-forensic</code> based on how you want it to handle the SQLite database containing the analysis results:</p>
 <table>
 <thead>
 <tr>
@@ -431,10 +433,10 @@ It can pick up quite a few event logs and other artifacts that PhotoRec missed.<
 </tr>
 </tbody>
 </table>
-<p>The database location is recorded in <code>M:\forensic\database.txt</code>. Mine was here:</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p>Analysis progress is recorded in <code>M:\forensic\progress_percent.txt</code>. Wait until it reaches 100 before examining the results.</p>
-<p>If you have page files acquired around the same time, you can add them using the corresponding index numbers.</p>
-<p>Each page file has an index. In a standard Windows 10 configuration, <code>pagefile.sys</code> gets 0 and <code>swapfile.sys</code> gets 1.
-Those numbers may differ if page files have been added or reconfigured, so check the target's configuration too.</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p>Once mounted, you'll see folders like these:</p>
+<p>Here, we'll use mode 4 to keep the database after MemProcFS exits.</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p>If you have page files acquired around the same time, you can add them at startup using the corresponding index numbers. Each page file has an index. In a standard Windows 10 configuration, <code>pagefile.sys</code> gets 0 and <code>swapfile.sys</code> gets 1.
+Those numbers may differ if page files have been added or reconfigured, so check the target's configuration too.</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p><img alt="mount" src="https://github.com/user-attachments/assets/a81eeb9f-84a6-4941-88a7-d30c1c79be6d" loading="lazy" decoding="async" /></p>
+<p>After mounting, check <code>M:\forensic\database.txt</code> for the database location. Mine was here:</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p>Analysis progress is recorded in <code>M:\forensic\progress_percent.txt</code>. Wait until it reaches 100 before examining the results.</p>
+<p>The mounted drive contains folders like these:</p>
 <table>
 <thead>
 <tr>
@@ -481,12 +483,11 @@ Those numbers may differ if page files have been added or reconfigured, so check
 </tr>
 </tbody>
 </table>
-<p>Let's take a quick look at the main ones.</p>
+<p>Start with the system-wide information and analysis results, then move on to individual processes and the registry. Let's take a quick look at the main folders.</p>
 <h4>sys</h4>
-<p>All sorts of system information lives here. A good place to start.</p>
+<p>All sorts of system information lives here, including the time zone, OS version, and computer name. A good place to start.</p>
 <p><img alt="sys" src="https://github.com/user-attachments/assets/4261220b-6288-40f5-acf6-ca9f17c8cd1f" loading="lazy" decoding="async" /></p>
-<p>Time zone, OS version, computer name, and so on.
-You can also find a process tree in <code>proc/proc.txt</code>.</p>
+<p>After checking the basics, look at the process tree in <code>proc/proc.txt</code>.</p>
 <p><img alt="proc" src="https://github.com/user-attachments/assets/7c4b011d-f64c-4e71-bae3-eee311c4dce5" loading="lazy" decoding="async" /></p>
 <p>Similarly, <code>users/users.txt</code> lists users, <code>tasks/tasks.txt</code> lists scheduled tasks, and <code>net/netstat.txt</code> shows network connections.
 Have a look through everything, pick up a lead, then dig deeper.</p>
@@ -496,98 +497,99 @@ Have a look through everything, pick up a lead, then dig deeper.</p>
 <p>I'd start with <code>csv</code>, <code>files</code>, and <code>ntfs</code>.</p>
 <p><a href="https://github.com/ufrisk/MemProcFS/wiki/FS_Forensic_CSV">csv</a> holds analysis results for processes, network connections, and other artifacts as CSV files. Open them in something like Timeline Explorer for easier reading.
 Results from <code>findevil</code> and <code>yara</code> are collected here too, making it a convenient starting point.</p>
-<p><code>M:\forensic\files\files.txt</code> lists recovered files. If something catches your eye, grab it from under <code>files</code> and analyze it. The folders are reconstructed along their original paths, so things are easy to find.
-On NTFS, a small file's contents may be stored directly in its MFT record. If you can't find it under <code>files</code>, try <code>ntfs</code>.</p>
 <p><img alt="csv" src="https://github.com/user-attachments/assets/06994dc4-c49f-4ac9-b7bb-ca0af24966d4" loading="lazy" decoding="async" /></p>
+<p>To browse recovered files, look at the list in <code>M:\forensic\files\files.txt</code>. If something catches your eye, grab it from under <code>files</code> and analyze it. The folders are reconstructed along their original paths, so things are easy to find.</p>
+<p>If you can't find a file under <code>files</code>, try <code>ntfs</code>. On NTFS, a small file's contents may be stored directly in its MFT record.</p>
 <h4>name / pid</h4>
-<p>Both contain process information; one organizes it by name, the other by PID. Entries under <code>name</code> also have the PID appended, so that view may be easier to browse.</p>
+<p>Once a process catches your eye, open <code>name</code> or <code>pid</code> to examine it. Both contain process information; one organizes it by name, the other by PID. Entries under <code>name</code> also have the PID appended, so that view may be easier to browse.</p>
 <p><img alt="name" src="https://github.com/user-attachments/assets/6984680a-fa98-40bd-a6de-84451325e76c" loading="lazy" decoding="async" /></p>
 <p><img alt="pid" src="https://github.com/user-attachments/assets/d09a5fd7-b4f7-495f-b092-4315ea7eac7c" loading="lazy" decoding="async" /></p>
 <p><code>name-long</code> is the process name, <code>pid</code> is the process ID, <code>ppid</code> is the parent process ID, <code>time-create</code> is the creation time, <code>win-cmdline</code> is the command line, and <code>win-environment</code> contains environment variables. Pretty much what the names say.</p>
-<p>Start with something like <code>files/handles</code>. It contains files reconstructed using the process's open file handles.
-<code>files/modules</code> contains EXEs, DLLs, and other modules reconstructed from memory. <code>files/vads</code> contains files reconstructed using VADs (Virtual Address Descriptors). A VAD describes a region of a process's virtual memory, including its protection attributes and associated file, if any.</p>
+<p>To examine related files, start with something like <code>files/handles</code>. It contains files reconstructed using the process's open file handles.</p>
+<p><code>files/modules</code> contains EXEs, DLLs, and other modules reconstructed from memory. <code>files/vads</code> contains files reconstructed using VADs (Virtual Address Descriptors). A VAD describes a region of a process's virtual memory, including its protection attributes and associated file, if any.</p>
 <p>Wherever you recover a file from, the whole thing may not have been in memory. If it opens as-is, take the win.</p>
-<p>Search for <code>.evtx</code> and you may find event logs. Some events might be recoverable even if the logs were deleted from disk. If you find any, <a href="https://sumeshi.github.io/posts/knowledges/windows-eventlog-analysis-101-en">dig into them</a>.</p>
+<p>For example, search for <code>.evtx</code> and you may find event logs. Some events might be recoverable even if the logs were deleted from disk. If you find any, <a href="https://sumeshi.github.io/posts/knowledges/windows-eventlog-analysis-101-en">dig into them</a>.</p>
 <p><img alt="evtx" src="https://github.com/user-attachments/assets/6a43c9d8-1567-4f5d-8e92-259d42a39592" loading="lazy" decoding="async" /></p>
 <p><img alt="others" src="https://github.com/user-attachments/assets/8e40de73-f7f4-4efd-9d2c-9f88660b8b2a" loading="lazy" decoding="async" /></p>
 <h4>registry</h4>
 <p>Registry hives, as the name suggests. You'll find both hive files and parsed text.</p>
-<p><img alt="registry" src="https://github.com/user-attachments/assets/ad63c942-d688-4e79-a2ca-0093020020d9" loading="lazy" decoding="async" /></p>
-<p>Personally, I find something like Registry Explorer easier to read. The hives are often broken, though.</p>
-<p><img alt="regexp" src="https://github.com/user-attachments/assets/533a8a97-ae71-4abe-b6a2-8e86bdd6db19" loading="lazy" decoding="async" /></p>
 <p>Registry changes are applied to the in-memory hives and written back to disk using transaction logs (<code>.LOG1</code> and <code>.LOG2</code>). The copy in memory may therefore be newer than the one on disk. Worth a look.</p>
+<p><img alt="registry" src="https://github.com/user-attachments/assets/ad63c942-d688-4e79-a2ca-0093020020d9" loading="lazy" decoding="async" /></p>
+<p>Personally, I find it easier to browse the hive files in something like Registry Explorer. The hives are often broken, though.</p>
+<p><img alt="regexp" src="https://github.com/user-attachments/assets/533a8a97-ae71-4abe-b6a2-8e86bdd6db19" loading="lazy" decoding="async" /></p>
 <h3 id="volatility">Volatility</h3>
 <p>This is probably the first tool people think of for memory forensics, but some plugins take so bloody long you'll burst a blood vessel. MemProcFS is faster for a quick look around.</p>
 <p>Still, Volatility has a broader plugin selection. Start a job, go get dinner. That sort of mindset.</p>
-<p>There's also a fast Rust implementation called <a href="https://github.com/daffainfo/vol-rs">vol-rs</a>. It might be worth a shot for CTFs. It isn't a mature product yet, so I'd want to evaluate and validate it before using it on a real case.</p>
 <p>You'll run into both Volatility 2 and 3. For a recent OS, go with 3. Every now and then, someone hands you an archaeological find that might only work with 2. Keeping both around is a good idea.</p>
-<p>Volatility can also be awkward until you get used to it. Wrappers such as <a href="https://www.osforensics.com/tools/volatility-workbench.html">Volatility Workbench</a> and <a href="https://github.com/4n6ist/KaniVola">KaniVola</a> (documentation in Japanese) make life much easier. I get it, hammering away at commands feels good, but you rarely have that kind of time during an actual incident.</p>
+<p>Until you're used to Volatility, wrappers such as <a href="https://www.osforensics.com/tools/volatility-workbench.html">Volatility Workbench</a> and <a href="https://github.com/4n6ist/KaniVola">KaniVola</a> (documentation in Japanese) make life much easier. I get it, hammering away at commands feels good, but you rarely have that kind of time during an actual incident.</p>
 <p>Volatility Workbench is very easy to use with version 3.</p>
 <p><img alt="vwork" src="https://github.com/user-attachments/assets/1ccd3179-596f-47e0-ba29-07303ab4128b" loading="lazy" decoding="async" /></p>
 <p>For version 2, KaniVola is a good choice.</p>
 <p><img alt="kanivol" src="https://github.com/user-attachments/assets/deba30e7-c826-47c6-93a6-04b8d5d574f1" loading="lazy" decoding="async" /></p>
+<p>There's also a fast Rust implementation called <a href="https://github.com/daffainfo/vol-rs">vol-rs</a>. It might be worth a shot for CTFs. It isn't a mature product yet, so I'd want to evaluate and validate it before using it on a real case.</p>
 <p>The following examples use Volatility 3 from the command line. In Volatility Workbench, select the corresponding plugin and set options such as the PID.</p>
 <p>Here, <code>vol3.py</code> stands for your Volatility 3 launcher. Depending on your installation, replace it with <code>vol</code> or <code>python vol.py</code>.</p>
 <h4>Symbols</h4>
 <p>Volatility 3 uses symbols to interpret Windows structures in memory. If the required symbols aren't available locally, it downloads them from Microsoft's servers, which requires an internet connection.</p>
 <p>I'm an absolute offline fanatic, so I prepare the symbols locally beforehand.
 JPCERT/CC's <a href="https://blogs.jpcert.or.jp/en/2021/09/volatility3_offline.html">How to Use Volatility 3 Offline</a> is an excellent reference.</p>
-<p>Writing a script to automate this beforehand can save you trouble during an incident.</p>
+<p>Writing a script to prepare the symbols automatically can save you trouble during an incident.</p>
 <p>Volatility 2, on the other hand, uses <code>--profile</code> to select a profile containing structure definitions and other information for the target OS. Choose the wrong profile and it may appear to work while interpreting values incorrectly.</p>
 <h4>Basic Information</h4>
 <p>Start with <code>windows.info</code> to check whether the OS and kernel information can be read. If this fails, check the acquisition format, missing data, and symbol availability before moving on.</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><h4>Listing Processes</h4>
-<p>Save the running processes, their parent-child relationships, and their command lines.
-A process name alone won't tell you whether something is suspicious. Look at the executable path, parent process, arguments, and user together.</p>
-<p>Dig into processes whose names mimic legitimate ones, and executables launched from <a href="https://attack.mitre.org/techniques/T1074/001/">commonly abused directories</a> such as <code>C:\Users\Public</code>.</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p><code>pslist</code> walks the OS's process list. <code>pstree</code> displays the same enumeration as a tree of parent-child relationships.</p>
+<p>Once you can read the basic information, save the running processes, their parent-child relationships, and their command lines.</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p><code>pslist</code> walks the OS's process list. <code>pstree</code> displays the same enumeration as a tree of parent-child relationships.</p>
+<p>A process name alone won't tell you whether something is suspicious. Look at the executable path, parent process, arguments, and user together. Dig into processes whose names mimic legitimate ones, and executables launched from <a href="https://attack.mitre.org/techniques/T1074/001/">commonly abused directories</a> such as <code>C:\Users\Public</code>.</p>
 <p>A parent process may already have exited and be missing from the list. If its PID has been reused, you might mistake a different process for the parent. Check creation times when reading the tree.</p>
-<p><code>psscan</code> scans kernel pool memory for process structures, so it may find terminated or hidden processes. It also takes a while. Leave it running in the background, grab a coffee, and look through <code>pslist</code> in the meantime.</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p><code>psxview</code> compares several process enumeration methods. It can show you things like a process appearing in <code>psscan</code> but missing from <code>pslist</code>.</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><h4>Examining a Process</h4>
-<p>Once you've narrowed things down to a PID, say <code>4240</code>, look at what the process loaded and referenced. Handles are identifiers used to reference objects such as files, registry keys, and other processes. They can give you more leads to follow.</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p>Use <code>dlllist</code> to examine the paths and locations of loaded DLLs, and <code>handles</code> to see referenced files, registry keys, and other objects. This is a different target from <code>windows.modules</code>, which lists kernel modules.</p>
+<p>To look for processes missing from the list, use <code>psscan</code>. It scans kernel pool memory for process structures, so it may find terminated or hidden processes. It also takes a while. Leave it running in the background, grab a coffee, and look through <code>pslist</code> in the meantime.</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p><code>psxview</code> compares several process enumeration methods. It can show you things like a process appearing in <code>psscan</code> but missing from <code>pslist</code>.</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><h4>Network Connections</h4>
+<p>Alongside the process list, check network connections. Use <code>netscan</code> to examine network structures.</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p>Match the PIDs you find against the process list and creation times, then investigate those processes further. Structures for closed connections or freed objects may survive, so read <code>State</code> and <code>Created</code> too. <code>Created</code> is the network object's creation time.</p>
+<p>Keep in mind that <code>netscan</code> doesn't tell you the contents of communications or how much data was transferred.
+To work out what actually passed between the endpoints, expand the investigation to proxy, DNS, firewall, EDR, and other records.</p>
+<h4>Examining a Process</h4>
+<p>Once the process list or network connections have helped you narrow things down to a PID, say <code>4240</code>, look at what the process loaded and referenced.</p>
+<p>Here we'll examine DLLs and handles as well as the command line. Handles are identifiers used to reference objects such as files, registry keys, and other processes. They can give you more leads to follow.</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p>Use <code>dlllist</code> to examine the paths and locations of loaded DLLs, and <code>handles</code> to see referenced files, registry keys, and other objects. This is a different target from <code>windows.modules</code>, which lists kernel modules.</p>
 <p>For example, if the command line mentions a script in a temporary directory, search for or try to recover that file. If a handle points to a document, also check the disk for the file and traces of access. <strong>A handle alone doesn't prove that the process read the entire file or sent it outside the system.</strong></p>
 <h4>Command History</h4>
-<p>Use <code>cmdline</code> for process launch arguments and <code>cmdscan</code> for input history remaining in a console. If you want to know what someone typed after launching <code>cmd.exe</code>, try the latter too.</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p>You can only recover what remains in supported console history structures, so <strong>this won't reconstruct every shell command</strong>. For PowerShell history and script execution, cross-reference PSReadLine history files, PowerShell logs, and other records.</p>
-<h4>Network Connections</h4>
-<p>Use <code>netscan</code> to examine network structures.</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p>Match the PIDs you find against the process list and creation times, then investigate those processes further. Structures for closed connections or freed objects may survive, so read <code>State</code> and <code>Created</code> too. <code>Created</code> is the network object's creation time.</p>
-<p><code>netscan</code> doesn't tell you the contents of communications or how much data was transferred.
-To work out what actually passed between the endpoints, expand the investigation to proxy, DNS, firewall, EDR, and other records.</p>
+<p>To follow what happened after a process started, check command history too. Use <code>cmdline</code> for process launch arguments and <code>cmdscan</code> for input history remaining in a console. If you want to know what someone typed after launching <code>cmd.exe</code>, try the latter too.</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p>You can only recover what remains in supported console history structures, so <strong>this won't reconstruct every shell command</strong>. For PowerShell history and script execution, cross-reference PSReadLine history files, PowerShell logs, and other records.</p>
 <h4>Suspicious Executable Regions</h4>
-<p><code>malfind</code> uses VAD attributes and other clues to find suspicious executable memory regions. It's useful when looking for traces of code executing inside another process without leaving a file on disk.</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p>Look at the addresses, protection attributes, initial bytes, and disassembly to decide which regions to examine further. Legitimate activity such as JIT compilation also produces hits, so inspect the contents and related modules.</p>
-<p>You can extract these regions with <code>--dump</code> too.</p>
+<p>To look for suspicious code in a process's memory, use <code>malfind</code>. This plugin uses VAD attributes and other clues to find suspicious executable memory regions. It's useful when looking for traces of code executing inside another process without leaving a file on disk.</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p>Look at the addresses, protection attributes, initial bytes, and disassembly to decide which regions to examine further. Legitimate activity such as JIT compilation also produces hits, so inspect the contents and related modules.</p>
+<p>You can extract candidate regions with <code>--dump</code>. We'll look at an example in "Extracting PE Files and Memory" below.</p>
 <h4>Searching Within Processes</h4>
-<p>If a string search finds a domain but you don't know which process it belongs to, put the string into a YARA rule and search the processes' virtual memory.</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p><code>vadyarascan</code> follows VADs to search virtual memory regions belonging to processes.
+<p>You can also work from a string back to a process. If an earlier string search found a domain but you don't know which process it's associated with, put the string into a YARA rule and search the processes' virtual memory.</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p><code>vadyarascan</code> follows VADs to search virtual memory regions belonging to processes.
 A hit establishes that the IOC was present in a readable region of that process. To work out how it was used, cross-reference other artifacts.</p>
 <h4>Extracting PE Files and Memory</h4>
-<p>Choose the extraction method based on whether you want an executable in PE format or memory that includes heaps and other regions for string searches.
-Create the output directories first.</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p>A dumped PE usually differs from the original file, so you generally can't identify the original sample by looking up the dump's hash on VirusTotal or a similar service.
+<p>Once you've chosen a process or region to investigate, extract it to a file if needed. Choose the extraction method based on whether you want an executable in PE format or memory that includes heaps and other regions for string searches.</p>
+<p>Create the output directories first.</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p>A dumped PE usually differs from the original file, so you generally can't identify the original sample by looking up the dump's hash on VirusTotal or a similar service.
 Getting it to run is difficult too. <del>You may need to rebuild the IAT and so on, but that's outside the scope of this article.</del></p>
-<p>Still, string extraction and YARA scans can give you useful leads.</p>
-<p><a href="https://github.com/mandiant/flare-floss">FLOSS</a> analyzes executable code and attempts to extract obfuscated strings and strings assembled at runtime.
+<p>Still, applying the string extraction and YARA searches described earlier to the extracted data can give you useful leads.</p>
+<p>For a closer look at a PE, you can also use <a href="https://github.com/mandiant/flare-floss">FLOSS</a>. It analyzes executable code and attempts to extract obfuscated strings and strings assembled at runtime.
 It's useful for finding strings that ordinary strings tools won't show you.</p>
 <p>Feed it the dumped PE. Missing data or damaged headers may prevent FLOSS from analyzing it.</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><h4>Recovering Files</h4>
-<p>Memory may retain files used by processes and data in the OS's caches. If you know the name or path of a file you're interested in, try recovering it, then feed the result to a parser for that format.</p>
+<p>Besides process executable images and memory regions, you can try recovering files used by processes and data in the OS's caches. If you know the name or path of a file you're interested in, try recovering it, then feed the result to a parser for that format.</p>
 <p><code>filescan</code> scans for the <code>FILE_OBJECT</code> structures Windows uses to track files. Find candidates by filename, then use <code>dumpfiles</code> to recover the contents associated with those objects.</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p>For Windows 10 / 11, the following example supplies the virtual address of a discovered <code>FILE_OBJECT</code>. Replace the address with one from your actual output.</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p><code>--virtaddr</code> and <code>--physaddr</code> take a <code>FILE_OBJECT</code>'s virtual and physical address, respectively.</p>
 <p>If you've linked the file to a process, you can also narrow down recovery candidates by PID.</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p>Finding a name with <code>filescan</code> doesn't guarantee that the file's contents are still there.
 If a parser can't open the recovered data, try string searches or carving against what you managed to recover.</p>
 <h2 id="organizing-the-results">Organizing the Results</h2>
 <p>Memory forensics tends to leave you with a complete mess of files. Separate things into folders by host and by the process you extracted them from, and try to keep it all vaguely organized.
 MemProcFS also produces timelines and CSVs, so copy those out before unmounting.</p>
-<p>Organizing everything is a pain. If you can't be bothered, I think it's fine to <a href="https://sumeshi.github.io/posts/works/dont-make-ai-your-forensic-analyst-en">dump that job on AI</a>. Just <strong>be extremely careful about how you handle the data</strong>.</p>
-<p>Different tools often produce conflicting results.
+<p>When comparing results, you'll often find that different tools disagree.
 Before deciding that one of them is wrong, check what each tool is following to enumerate the data. Different structures, handling of terminated objects, or treatment of missing pages can produce different results.</p>
+<p>Organizing all these results is a pain. If you can't be bothered, I think it's fine to <a href="https://sumeshi.github.io/posts/works/dont-make-ai-your-forensic-analyst-en">dump that job on AI</a>. Just <strong>be extremely careful about how you handle the data</strong>.</p>
 <h2 id="closing-thoughts">Closing Thoughts</h2>
-<p>Compared with disk forensics, memory forensics involves <strong>a lot more incomplete or broken data</strong>. What you can do with it often comes down to experience and a feel for what you're looking at, so I can't give you a neat answer. When stuck, try reading it as strings. If it looks like an image fragment, chuck it into GIMP. If you're really stuck, I think asking AI for help is fair game too.</p>
+<p>Compared with disk forensics, memory forensics involves <strong>a lot more incomplete or broken data</strong>. What you can do with it often comes down to experience and a feel for what you're looking at, so I can't give you a neat answer.</p>
+<p>When stuck, try a different way of looking at the data you have. Read it as strings, or if it looks like an image fragment, chuck it into GIMP. If you're really stuck, I think asking AI for help is fair game too.</p>
 <p>Memory forensics really isn't a job for humans.</p><!----></div><!--]--><!--]--><!--]--></div> <footer class="mt-2 flex justify-center border-t border-gray-800/80 pt-5"><a href="../../posts" class="inline-flex items-center justify-center rounded-md px-5 py-2 text-sm transition-colors border border-indigo-400/20 bg-indigo-400/10 text-indigo-100 hover:border-indigo-300/40 hover:bg-indigo-400/15 hover:text-white shadow-[0_0_0_1px_rgba(99,102,241,0.08)] gap-2 rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-[0.16em]"><svg class="h-3.5 w-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 18l-6-6 6-6"></path></svg> <span>All Posts</span><!----></a><!----></footer></article> <!--[0--><aside class="hidden min-w-0 pt-28 2xl:block"><nav class="sticky top-12 max-h-[calc(100vh-4rem)] overflow-y-auto border-l border-gray-800 pl-4" aria-label="Table of Contents"><p class="mb-2 font-mono text-[10px] font-semibold uppercase tracking-[0.12em] text-gray-500">Table of Contents</p> <ol class="space-y-1"><!--[--><li><a href="#introduction" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">Introduction</a></li><li><a href="#what-is-memory" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">What Is Memory?</a></li><li class="pl-3"><a href="#what-can-remain-in-memory" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">What Can Remain in Memory?</a></li><li class="pl-3"><a href="#physical-and-virtual-memory" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">Physical and Virtual Memory</a></li><li><a href="#acquiring-memory" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">Acquiring Memory</a></li><li class="pl-3"><a href="#things-to-watch-during-acquisition" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">Things to Watch During Acquisition</a></li><li class="pl-3"><a href="#what-to-preserve-besides-ram" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">What to Preserve Besides RAM</a></li><li class="pl-3"><a href="#acquisition-tools" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">Acquisition Tools</a></li><li class="pl-3"><a href="#recording-the-acquisition" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">Recording the Acquisition</a></li><li class="pl-3"><a href="#unpacking-a-hibernation-file" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">Unpacking a Hibernation File</a></li><li><a href="#preparing-for-analysis" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">Preparing for Analysis</a></li><li class="pl-3"><a href="#what-are-you-trying-to-find" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">What Are You Trying to Find?</a></li><li class="pl-3"><a href="#setting-up-your-environment" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">Setting Up Your Environment</a></li><li><a href="#analysis-method-1-working-with-the-raw-data" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">Analysis Method 1: Working with the Raw Data</a></li><li class="pl-3"><a href="#extracting-strings" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">Extracting Strings</a></li><li class="pl-3"><a href="#searching-strings" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">Searching Strings</a></li><li class="pl-3"><a href="#yara-searches" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">YARA Searches</a></li><li class="pl-3"><a href="#file-carving" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">File Carving</a></li><li><a href="#analysis-method-2-following-os-data-structures" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">Analysis Method 2: Following OS Data Structures</a></li><li class="pl-3"><a href="#memprocfs" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">MemProcFS</a></li><li class="pl-3"><a href="#volatility" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">Volatility</a></li><li><a href="#organizing-the-results" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">Organizing the Results</a></li><li><a href="#closing-thoughts" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">Closing Thoughts</a></li><!--]--></ol></nav></aside><!--]--></div><!--]--><!----></div></main> <!--[-1--><!--]--> <!--[-1--><!--]--><!--]--><!--]--> <!--[-1--><!--]--><!--]-->
 			
 			<script>
 				{
-					__sveltekit_1t8yhcj = {
+					__sveltekit_1symuoh = {
 						base: new URL("../..", location).pathname.slice(0, -1)
 					};
 
 					const element = document.currentScript.parentElement;
 
 					Promise.all([
-						import("../../_app/immutable/entry/start.GasR1quO.js"),
-						import("../../_app/immutable/entry/app.DSpgyPmA.js")
+						import("../../_app/immutable/entry/start.CTU-FILA.js"),
+						import("../../_app/immutable/entry/app.BD1cO33l.js")
 					]).then(([kit, app]) => {
 						kit.start(app, element, {
 							node_ids: [0, 7],

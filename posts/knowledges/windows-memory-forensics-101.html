@@ -12,19 +12,19 @@
       gtag('js', new Date());
       gtag('config', 'G-DVLS4LMPGV');
     </script>
-    <link href="../../_app/immutable/entry/start.GasR1quO.js" rel="modulepreload">
-		<link href="../../_app/immutable/chunks/C7snC7sA.js" rel="modulepreload">
+    <link href="../../_app/immutable/entry/start.CTU-FILA.js" rel="modulepreload">
+		<link href="../../_app/immutable/chunks/sNWv64jt.js" rel="modulepreload">
 		<link href="../../_app/immutable/chunks/CyU4G86o.js" rel="modulepreload">
-		<link href="../../_app/immutable/entry/app.DSpgyPmA.js" rel="modulepreload">
+		<link href="../../_app/immutable/entry/app.BD1cO33l.js" rel="modulepreload">
 		<link href="../../_app/immutable/chunks/HclGiUj8.js" rel="modulepreload">
 		<link href="../../_app/immutable/chunks/xihTtKlq.js" rel="modulepreload">
-		<link href="../../_app/immutable/nodes/0.5Tyoq3kn.js" rel="modulepreload">
-		<link href="../../_app/immutable/chunks/BkRwJ0wW.js" rel="modulepreload">
-		<link href="../../_app/immutable/chunks/C1SvriPt.js" rel="modulepreload">
-		<link href="../../_app/immutable/nodes/7.B6NbJKPj.js" rel="modulepreload">
+		<link href="../../_app/immutable/nodes/0.CRvhvhfA.js" rel="modulepreload">
+		<link href="../../_app/immutable/chunks/DAZRAiIs.js" rel="modulepreload">
+		<link href="../../_app/immutable/chunks/DR6MSSZ6.js" rel="modulepreload">
+		<link href="../../_app/immutable/nodes/7.1dWm2PwA.js" rel="modulepreload">
 		<link href="../../_app/immutable/chunks/ClbI50hp.js" rel="modulepreload">
 		<link href="../../_app/immutable/chunks/tGA9RONR.js" rel="modulepreload">
-		<link href="../../_app/immutable/chunks/wYnmm4M5.js" rel="modulepreload">
+		<link href="../../_app/immutable/chunks/D0ZfZ0ty.js" rel="modulepreload">
 		<link href="../../_app/immutable/chunks/i4hBObmy.js" rel="modulepreload">
 		<link href="../../_app/immutable/chunks/D8XUHjZF.js" rel="modulepreload">
 		<link href="../../_app/immutable/chunks/CPlHEan_.js" rel="modulepreload">
@@ -39,30 +39,34 @@
 ただ、取得したはいいものの「で、ここから何を見るの？」となりがち。</p>
 <p>メモリには、ディスク上のファイルやログだけでは追えない情報が含まれています。<br />
 実行中のプロセスやネットワーク接続、ファイルキャッシュ、レジストリ、アプリケーションが扱っていたデータの断片など、調査対象はさまざま。</p>
-<p>ログを読むようにはいかないので、<strong>ツールを使ってバイナリの中から必要な情報をDigっていく</strong> 感じ。なかなか難しめ。</p>
+<p>そのままログを読むようにはいかないので、<strong>ツールを使ってバイナリの中から必要な情報をDigっていく</strong> 感じ。なかなか難しめ。</p>
+<p>本稿では、メモリに何が残るのかを押さえたうえで、保全から解析、結果の整理までを順に解説します。</p>
 <h2 id="メモリとは">メモリとは</h2>
 <p>メモリとひとくちにいってもいろいろある。<br />
-RAM上の <strong>物理メモリ</strong> を指す場合もあれば、プロセスから見える <strong>仮想メモリ</strong> を指す場合もあるのだが、OSやアプリケーションが動作中のコードやデータを置く場所、としてざっくり読んで貰えれば。</p>
-<p>メモリは、情報を長期間保存しておくための媒体ではなく、OSやアプリケーションの動作に合わせて内容が書き換わり、プロセスの終了やメモリ領域の再利用によって、それまでの情報は失われていく。
-また、電源供給が絶たれればデータはすべて吹き飛ぶ（<strong>揮発性</strong>）ので、侵害されたコンピュータの電源を落としてしまうと情報は永遠に失われてしまう。<strong>可能ならシャットダウンや再起動の前に保全しておきたい。</strong></p>
-<p>動作中のコンピュータからメモリの内容を取得することをライブ取得といい、それをファイルに保存したものをメモリイメージあるいはメモリダンプと呼ぶ。一般的にこのメモリイメージを一生懸命解析していくことになる。</p>
-<p>メモリ効率のため、一部のデータをOSがディスクに書き出す場合がある（pagefile.sysなど）。それも補助的な調査対象になる。</p>
+RAM上の <strong>物理メモリ</strong> を指す場合もあれば、プロセスから見える <strong>仮想メモリ</strong> を指す場合もある。ひとまずは、OSやアプリケーションが動作中のコードやデータを置く場所、としてざっくり読んで貰えれば。</p>
+<p>メモリは、情報を長期間保存しておくための媒体ではない。OSやアプリケーションの動作に合わせて内容が書き換わり、プロセスの終了やメモリ領域の再利用によって、それまでの情報は失われていく。
+また、電源供給が絶たれればデータはすべて吹き飛ぶ（<strong>揮発性</strong>）。侵害されたコンピュータの電源を落としてしまうと、メモリ上の情報は永遠に失われてしまうので、<strong>可能ならシャットダウンや再起動の前に保全しておきたい。</strong></p>
+<p>動作中のコンピュータからメモリの内容を取得することをライブ取得といい、それをファイルに保存したものをメモリイメージあるいはメモリダンプと呼ぶ。メモリフォレンジックでは、一般的にこのメモリイメージを一生懸命解析していくことになる。</p>
+<p>なお、メモリ効率のため、一部のデータをOSがディスクに書き出す場合がある（pagefile.sysなど）。こうしたファイルも補助的な調査対象になる。</p>
 <h3 id="メモリに残る情報">メモリに残る情報</h3>
 <p>メモリには、プログラムのコード、スタックやヒープ、ロードされたDLL、プロセスやソケットの管理構造などが置かれる。これらを解析すると、取得時点でどのようなプロセスが動き、どのコマンドラインで起動され、どこへの接続があったのかを調べられる。</p>
-<p>また、プロセスが掴んでいたファイルやレジストリのキャッシュが残っていることもある。例えば、攻撃者やローテートによって消去される前のレコードやEVTXの一部がメモリに残っていれば、<strong>ディスク側から追えなくなったイベントログを復元できる場合がある</strong>。</p>
-<p>不要になったメモリ領域も、解放された瞬間に必ずゼロクリアされるわけではない。上書きされるまでの間、終了済みプロセスのデータ（URLやパスなど）が一部残存することもある。</p>
+<p>また、プロセスが掴んでいたファイルやレジストリのキャッシュが残っていることもある。例えば、攻撃者による消去やログのローテートでディスクから失われたEVTXファイルの一部がメモリに残っていれば、<strong>ディスク側から追えなくなったイベントログを復元できる場合がある</strong>。</p>
+<p>さらに、不要になったメモリ領域も、解放された瞬間に必ずゼロクリアされるわけではない。上書きされるまでの間、終了済みプロセスのデータ（URLやパスなど）が一部残存していることもある。</p>
 <h3 id="物理メモリと仮想メモリ">物理メモリと仮想メモリ</h3>
 <p>プロセスから見える仮想メモリと、RAM上の物理的な配置は異なる。<strong>Windowsはページと呼ばれる単位でメモリを管理</strong>し、ページテーブルを使って仮想アドレスと物理アドレスを対応付けている。そのため、プロセスから連続して見える領域でも、物理メモリでは離れた場所に配置されていることがある。</p>
 <p>この違いは、検索や復元の結果にも影響する。例えば、文字列が物理的に離れたページに分かれていると、物理メモリを先頭から検索するだけでは見つからないことがある。</p>
 <p>そんなときは、ツールでページの対応付けを行い、プロセスの仮想メモリとして再構成してから検索すれば見つかる場合もある。<br />
 逆に、すでにプロセスから参照されなくなった断片は、物理メモリを直接走査した方が見つかることもあるので、どちらか一方が優れているとかそういう話でもない。</p>
 <h2 id="メモリの保全">メモリの保全</h2>
+<p>フォレンジック目的でメモリ取得を実施するのであれば、いくつか事前に知っておきたいことがある。</p>
 <h3 id="保全時の注意点">保全時の注意点</h3>
-<p>ライブ取得には時間がかかります。取得ツールや保存先の速度にもよるが、体感では1GBあたり1分くらいかな。<br />
-バカデカメモリの場合は注意。</p>
-<p>メモリ取得中もOSやアプリケーションが動いているため、イメージ内の領域ごとに取得時点がズレ、管理構造やデータの状態が食い違うこともある。この不整合は<a href="https://www.nist.gov/glossary-term/39326">Memory Smear</a>と呼ばれます。</p>
+<p>どのツールを使う場合でも、対象のWindowsのビルドやCPUアーキテクチャ、ドライバ読み込みの制約を含めて事前に試しておくこと。<br />
+いざ保全！と実行したけどエラーになりましたみたいなのはよくある。今まで見たことないエラーがなぜか本番環境でだけ発生するのはみんな経験あるでしょ。</p>
+<p>ライブ取得には時間がかかる。取得ツールや保存先の速度にもよるが、体感では1GBあたり1分くらいかな。バカデカメモリの場合は注意。</p>
+<p>メモリ取得中もOSやアプリケーションが動いているため、イメージ内の領域ごとに取得時点がズレ、管理構造やデータの状態が食い違うこともある。この不整合は<a href="https://www.nist.gov/glossary-term/39326">Memory Smear</a>と呼ばれる。<br />
+防ぐことは難しいので、そういうことが起きる可能性があるということは理解しておく。</p>
 <h3 id="メモリ外の保全対象">メモリ外の保全対象</h3>
-<p>Windowsでは、下記のファイルにも<strong>メモリの一部あるいは全部が書き出される</strong>ことがある。欠損部分を復元したり、過去の状態を調べられる場合があるため、可能なら一緒に保全しておくこと。</p>
+<p>Windowsでは、下記のファイルにも<strong>メモリの一部あるいは全部が書き出される</strong>ことがある。これらを使って欠損部分を復元したり、過去の状態を調べたりできる場合があるため、可能なら一緒に保全しておくこと。</p>
 <table>
 <thead>
 <tr>
@@ -91,19 +95,18 @@ RAM上の <strong>物理メモリ</strong> を指す場合もあれば、プロ�
 </table>
 <p><code>pagefile.sys</code>や<code>swapfile.sys</code>をRAMの欠損部分の補完に使う場合は、できるだけ近いタイミングで取得すること。取得タイミングがズレると、再利用されたページを誤って結び付けてしまうことがある。</p>
 <h3 id="取得ツール">取得ツール</h3>
-<p>メモリを取得するツールは様々あるが、インシデント対応であれば <a href="https://www.magnetforensics.com/resources/magnet-response/">Magnet RESPONSE</a> のような収集ツールを使うとよい。メモリだけでなく、pagefile.sysや揮発性の高いデータ、主要なアーティファクトもまとめて保全してくれる。</p>
+<p>こうした保全に使えるツールは様々あるが、インシデント対応であれば <a href="https://www.magnetforensics.com/resources/magnet-response/">Magnet RESPONSE</a> のような収集ツールを使うとよい。メモリだけでなく、pagefile.sysや揮発性の高いデータ、主要なアーティファクトもまとめて保全してくれる。</p>
 <p><img alt="capture" src="https://github.com/user-attachments/assets/ccabbab6-4c10-4d28-a03f-7dffdb4b1ad5" loading="lazy" decoding="async" /></p>
 <p><img alt="capture-completed" src="https://github.com/user-attachments/assets/223bc154-a91f-4621-84c3-c7ea2a4a98dd" loading="lazy" decoding="async" /></p>
 <p>以前は <a href="https://www.exterro.com/digital-forensics-software/ftk-imager">FTK Imager</a> も有用な選択肢だったのだが、一時期うまくメモリが取得できないなどの不具合があり（現在は解消？）評判が落ちてしまった。悲しいね。<br />
 業界的にもMagnetのほうが最近は人気がある気がする。</p>
 <p><img alt="ftkimager" src="https://github.com/user-attachments/assets/b20b304c-4d8d-4ef4-a375-93b17f018c9e" loading="lazy" decoding="async" /></p>
-<p>日本国内においては、<a href="https://github.com/CyberDefenseInstitute/CDIR">CDIR-Collector</a> もよく使われている。メモリと主要なアーティファクトをまとめて保全できる。pagefile.sysは収集対象外だが、あまり気にしないというならばこっちで。</p>
+<p>日本国内においては、<a href="https://github.com/CyberDefenseInstitute/CDIR">CDIR-Collector</a> もよく使われている。こちらもメモリと主要なアーティファクトをまとめて保全できる。pagefile.sysは収集対象外だが、あまり気にしないというならばこっちで。</p>
 <p><img alt="cdirini" src="https://github.com/user-attachments/assets/27205b84-b499-45db-a5db-340b6ecda47d" loading="lazy" decoding="async" /></p>
 <p>取得項目は<code>cdir.ini</code>で設定する。メモリを取得する場合は<code>MemoryDump = true</code>を有効にしておき、<code>cdir-collector.exe</code>をカチカチすると保全できる。</p>
-<p>どのツールを使う場合でも当てはまることだが、対象のWindowsのビルドやCPUアーキテクチャ、ドライバ読み込みの制約を含めて事前に試しておくこと。
-調査対象が複数あるとか、後で解析しますという場合、取得後にファイルサイズがおかしくないか、プロセス一覧が読めるか程度は確認しておきたい。<strong>あとから取り直します、というのは難しい</strong>。</p>
+<p>どのツールを使うにせよ、取得が終わったらファイルサイズがおかしくないか、プロセス一覧が読めるか程度は確認しておきたい。特に調査対象が複数あるとか、解析を後回しにする場合は忘れずに。<strong>あとから取り直す、というのは難しい</strong>。</p>
 <h3 id="保全時の記録">保全時の記録</h3>
-<p>後から取得時の内容を確認できるよう、次の情報は残しておきたい。</p>
+<p>後からメモリ取得時の状況を確認できるよう、次の情報も合わせて残しておきたい。</p>
 <ul>
 <li>対象ホスト名</li>
 <li>取得開始・終了時刻</li>
@@ -113,9 +116,8 @@ RAM上の <strong>物理メモリ</strong> を指す場合もあれば、プロ�
 </ul>
 <p>Magnet RESPONSEの場合、これらの情報はログとして出力してくれるので安心。</p>
 <h3 id="休止ファイルの展開">休止ファイルの展開</h3>
-<p>ディスクから<code>hiberfil.sys</code>を保全できた場合は、<a href="https://arsenalrecon.com/products/hibernation-recon/faqs">Hibernation Recon</a>などで展開して解析する。</p>
-<p>休止ファイル内のメモリデータは圧縮されているため、まず解析に使える形へ再構成する。</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p>初回起動時にアクティベーション画面が出てくるが、Cancelで閉じるとFree Modeで起動できる。気に入ったらProfessional版のライセンスを買いましょう。</p>
-<p>主な出力は下記。</p>
+<p>保全したファイルのうち、<code>hiberfil.sys</code>は解析の前にひと手間必要になる。休止ファイル内のメモリデータは圧縮されているため、<a href="https://arsenalrecon.com/products/hibernation-recon/faqs">Hibernation Recon</a>などで展開し、解析に使える形へ再構成する。</p>
+<p>初回起動時にアクティベーション画面が出てくるが、Cancelで閉じるとFree Modeで起動できる。気に入ったらProfessional版のライセンスを買おう。</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p>主な出力は下記。</p>
 <table>
 <thead>
 <tr>
@@ -138,10 +140,11 @@ RAM上の <strong>物理メモリ</strong> を指す場合もあれば、プロ�
 </tr>
 </tbody>
 </table>
-<p>Fast Startupによるシャットダウン時に保存された<code>hiberfil.sys</code>は、<a href="https://learn.microsoft.com/en-us/windows/win32/power/system-power-states">ユーザーセッション全体を含まない</a>ため、ライブ取得したメモリと同じ範囲を調べられるわけではない。休止状態のタイミングによっては、過去のメモリ状態と現在のメモリ状態の2つを手に入れられるので、点ではなく線の解析ができる。</p>
+<p>ただし、Fast Startupによるシャットダウン時に保存された<code>hiberfil.sys</code>は、<a href="https://learn.microsoft.com/en-us/windows/win32/power/system-power-states">ユーザーセッション全体を含まない</a>ため、ライブ取得したメモリと同じ範囲を調べられるわけではない。</p>
+<p>また、休止状態のタイミングによっては、ライブ取得したメモリと合わせて過去と現在の2つのメモリ状態を手に入れられる。両方を見れば、点ではなく線の解析ができる。</p>
 <h2 id="解析の準備">解析の準備</h2>
 <h3 id="調査目的">調査目的</h3>
-<p>何を調べたいかによって調査項目は異なる。<br />
+<p>メモリイメージを用意できたら、何を調べたいかに合わせて調査項目を決める。<br />
 たとえば、既知のマルウェアの痕跡を探すなら、特徴的な文字列やIOCでメモリイメージを検索しても良い。どのプロセスがどこへ接続していたかを知りたいなら、プロセスやネットワークの管理構造を調べる。</p>
 <table>
 <thead>
@@ -184,26 +187,27 @@ RAM上の <strong>物理メモリ</strong> を指す場合もあれば、プロ�
 </tr>
 </tbody>
 </table>
-<p>本稿では、まずメモリイメージから文字列やファイルを探す方法を、次にOSの管理構造をたどる方法を紹介する。</p>
+<p>本稿では、まずメモリイメージから文字列やファイルを探す方法を、次にOSの管理構造をたどる方法を紹介する。一方で見つけた手掛かりを、もう一方で掘り下げていくとよい。</p>
 <h3 id="環境構築">環境構築</h3>
-<p>解析対象とOSは合わせておくと吉。WindowsならWindowsがいい。<br />
+<p>使う手法やツールの目星がついたら、解析環境を準備する。解析対象とOSは合わせておくと吉。<br />
+WindowsならWindowsのほうが解析ツールの都合上トラブルは少ない。<br />
 文字列周りはLinuxのが触りやすい場合もあるので、<a href="https://www.sans.org/tools/sift-workstation">SIFT Workstation</a> あたりを使っても良い。</p>
 <p><img alt="sift" src="https://github.com/user-attachments/assets/7c6c83cd-5044-4781-ae52-60fad30ebeb0" loading="lazy" decoding="async" /></p>
 <h2 id="解析手法1-バイナリ解析">解析手法1: バイナリ解析</h2>
-<p>バイナリの構造を眺めるというよりは、正体不明のドデカバイナリから可読文字列をダンプして、とりあえずわかることを列挙する、的なアプローチ。</p>
+<p>まずは、メモリイメージをバイト列として調べる方法から。バイナリの構造を眺めるというよりは、正体不明のドデカバイナリから可読文字列をダンプして、とりあえずわかることを列挙する、的なアプローチ。</p>
 <p>手軽にできるが、文字列が出てきただけでは、どのプロセスが何のために使ったものなのかまでは分からない。<strong>前後の文字列などからアタリをつけていく</strong>。
 マルウェアの名前が見つかった！と思っても、よくよく見るとアンチウイルスソフトの定義ファイルかなにかだったりすることもよくある。多少疑ってかかるくらいの勢いで読もう。</p>
 <h3 id="文字列抽出">文字列抽出</h3>
-<p>兎にも角にも、文字列を抽出しなければ話にならん。</p>
+<p>兎にも角にも、まずは文字列を抽出しなければ話にならん。</p>
 <p>ASCIIおよびUnicodeの文字列が既定で抽出される、<a href="https://learn.microsoft.com/ja-jp/sysinternals/downloads/strings">Sysinternals Strings</a> がおすすめ。
-最小連続文字列長 <code>-n</code> は 6 とか 8 ぐらいでよいと言われている。何も出てこなければ適宜調整。</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p>Linuxを使っていて、GNU Stringsなどでやるなら、必ず文字コードを意識して出力すること。</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p><code>-t x</code> を付けておくと、文字列が見つかったファイルオフセットも残る。あとで元のメモリイメージへ戻って周辺を確認したいときに便利。<br />
+最小連続文字列長 <code>-n</code> は 6 とか 8 ぐらいでよいと言われている。何も出てこなければ適宜調整。</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p>LinuxでGNU Stringsなどを使うなら、必ず文字コードを意識して出力すること。例えば、ASCIIとUTF-16LEを分けて抽出する場合は下記。</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p><code>-t x</code> を付けておくと、文字列が見つかったファイルオフセットも残る。あとで元のメモリイメージへ戻って周辺を確認したいときに便利。<br />
 <code>-e l</code>は入力をUTF-16LEとして読む指定。</p>
 <h4>出力の圧縮</h4>
 <p>メモリ全体から文字列を抽出すると、テキストファイルだけで数GBを超える。x100台とかになると手元の機器に置いとくのは厳しいかも。テキストは圧縮がよく効くので、<strong>gzipに流したっていい</strong>。</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p>Windowsの標準環境にはgzipコマンドがないので、出力後に <a href="https://www.7-zip.org/">7-Zip</a> などでgzip圧縮するとよい。</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><h4>進捗表示</h4>
 <p>メモリ程度のstringsで必要になることはあまりないが、進捗がわからないと落ち着かないという人は <a href="https://www.ivarch.com/programs/pv.shtml"><code>Pipe Viewer</code></a> を使うと良い。</p>
 <p>Linuxなら <code>pv</code> から入力ファイルを読み込ませると、処理済みサイズ、転送速度、進捗率、残り時間の目安を確認できる。</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p>Windowsにはそんなものない。諦めよう。</p>
 <h3 id="文字列検索">文字列検索</h3>
-<p>既知の不審なドメインやファイル名などのIOC（侵害の痕跡を探すための指標）がある場合は、その値を検索する。
+<p>文字列を抽出したら、調査の手掛かりを探していく。既知の不審なドメインやファイル名などのIOC（侵害の痕跡を探すための指標）がある場合は、その値を検索する。
 grepでもいいが、<a href="https://github.com/burntsushi/ripgrep">ripgrep</a> のほうが爆速。</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p>よく使うオプションは下記。</p>
 <table>
 <thead>
@@ -244,13 +248,9 @@ grepでもいいが、<a href="https://github.com/burntsushi/ripgrep">ripgrep</a
 </tbody>
 </table>
 <p>例えば、IOCを1行に1件ずつ書いた<code>ioc.txt</code>があるなら、下記のように前後3行と合わせて確認できる。<br />
-ただし、物理メモリ上で近くにある文字列が、同じプロセスや同じ時点のデータとは限らないので注意。</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p>gzip圧縮している場合は、zgrepを使えばよい。<a href="https://github.com/phiresky/ripgrep-all">ripgrep-all</a> なら、圧縮ファイルもripgrepと同じ使い心地で検索できる。</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><h4>langscanによる異言語検索</h4>
-<p><a href="https://github.com/sumeshi/langscan">langscan</a> を使うと、UTF-8テキストからキリル文字や日本語など、指定した言語で使われる文字を検索できる。必要に応じてUTF-8へ変換してから渡す。</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p>キリル文字だけひっかけたいな～というときには次のように書けばよい。</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p>exeファイル内に多言語対応処理が書かれている関係でノイズが非常に多くなったりもする。<br />
-後述のように、プロセス単位でダンプされたメモリなど狭い範囲で使うか、ざっと絞り込みたいときに使えば良い。</p>
-<h4>bstringsによるパターン検索</h4>
-<p><a href="https://github.com/EricZimmerman/bstrings">bstrings</a> を使えば、よく使われる正規表現パターンで文字列の検索が可能。
-パターン一覧は以下のように確認する。</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p>お好みのものを検索すればよい。<br />
-バイナリに対しても、テキストに対しても検索できる。</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p>よく使うのは下記辺り。</p>
+ただし、物理メモリ上で近くにある文字列が、同じプロセスや同じ時点のデータとは限らないので注意。</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p>gzip圧縮している場合は、zgrepを使えばよい。<a href="https://github.com/phiresky/ripgrep-all">ripgrep-all</a> なら、圧縮ファイルもripgrepと同じ使い心地で検索できる。</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><h4>bstringsによるパターン検索</h4>
+<p>具体的なIOCがなくても、メールアドレスやURLといった形式から探すことはできる。<a href="https://github.com/EricZimmerman/bstrings">bstrings</a> を使えば、よく使われる正規表現パターンで文字列の検索が可能。
+パターン一覧は以下のように確認する。</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p>一覧からお好みのパターンを選んで検索すればよい。バイナリに対しても、テキストに対しても検索できる。例えば、抽出済みの文字列からメールアドレスを探すなら下記。</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p>よく使うのは下記辺り。</p>
 <table>
 <thead>
 <tr>
@@ -322,8 +322,7 @@ grepでもいいが、<a href="https://github.com/burntsushi/ripgrep">ripgrep</a
 </tbody>
 </table>
 <h4>bulk_extractorによるパターン検索</h4>
-<p>IOCがまだ分からない段階では、<a href="https://github.com/simsong/bulk_extractor">bulk_extractor</a>でURL、メールアドレスなどを一括抽出できる。ファイルシステムを解釈せず入力をバイト列として走査するため、メモリイメージも入力にできる。</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p>主な出力は下記。詳しくは <a href="https://forensics.wiki/bulk_extractor/">forensics.wiki</a> を見るとよい。
-出力されるファイルは、有効にしたスキャナや実際に見つかったデータで変わる。</p>
+<p>IOCがまだ分からない段階で、URLやメールアドレスなどをまとめて洗い出したいなら、<a href="https://github.com/simsong/bulk_extractor">bulk_extractor</a>で一括抽出できる。ファイルシステムを解釈せず入力をバイト列として走査するため、メモリイメージも入力にできる。</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p>主な出力は下記。出力されるファイルは、有効にしたスキャナや実際に見つかったデータで変わる。詳しくは <a href="https://forensics.wiki/bulk_extractor/">forensics.wiki</a> を見るとよい。</p>
 <table>
 <thead>
 <tr>
@@ -370,19 +369,22 @@ grepでもいいが、<a href="https://github.com/burntsushi/ripgrep">ripgrep</a
 </tr>
 </tbody>
 </table>
-<p>こうやって見つけた情報はまた別のところでも使うのでちゃんと整理しておきましょうネ。うまいこと一般化すれば強力な武器にもなる。</p>
+<p>こうやって見つけた情報は、別の検索やプロセスの調査でも使うので、ちゃんと整理しておこう。<br />
+うまいこと一般化すれば強力な武器にもなる。</p>
+<h4>langscanによる異言語検索</h4>
+<p>文字列の形式に加えて、使われている言語を手掛かりに絞り込む方法もある。<a href="https://github.com/sumeshi/langscan">langscan</a> を使うと、UTF-8テキストからキリル文字や日本語など、指定した言語で使われる文字を検索できる。必要に応じてUTF-8へ変換してから渡す。</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p>キリル文字だけひっかけたいな～というときには次のように書けばよい。</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p>ただし、exeファイル内に多言語対応処理が書かれている関係でノイズが非常に多くなったりもする。<br />
+後述する方法でプロセス単位のメモリをダンプし、そのような狭い範囲で使うか、ざっと絞り込みたいときに使えば良い。</p>
 <h3 id="yara検索">YARA検索</h3>
-<p>単純な検索では引っかからない場合や、マルウェアファミリはわかってるんだけどどう検索していいかわからない場合は<a href="https://github.com/VirusTotal/yara">YARA</a> を使えばいい。</p>
-<p><code>{malware-family} yara rule</code> とかでググるとたくさん出てくる。必要に応じてカスタムしながら使うこと。ルール集ならこの辺。<a href="https://github.com/yara-rules/rules">yara-rules/rules</a></p>
+<p>文字列の単純な検索では引っかからない場合や、マルウェアファミリはわかってるんだけどどう検索していいかわからない場合は、<a href="https://github.com/VirusTotal/yara">YARA</a> を使えばいい。特定のバイト列や複数の条件をルールにまとめて検索できる。</p>
+<p><code>{malware-family} yara rule</code> とかでググるとたくさん出てくる。必要に応じてカスタムしながら使うこと。ルール集なら <a href="https://github.com/yara-rules/rules">yara-rules/rules</a> あたり。</p>
 <p>Rust実装の <a href="https://github.com/virustotal/yara-x">YARA-X</a> のほうが最近は開発が盛ん。ただし、一部のモジュールに依存したルールなどは動かないので注意。</p>
 <h3 id="ファイルカービング">ファイルカービング</h3>
-<p>ファイルヘッダやレコードの特徴を頼りに、ファイルやその断片を探す方法をカービングという。
-メモリでは、ファイルの一部しか読み込まれていなかったり、物理的に離れたページに分かれていたりするので、不完全な復元となるケースが多い。画像ファイルの一部でも出てきたら儲けたな、ぐらいの期待度で。</p>
+<p>ここまでは文字列や条件に一致する領域を探してきたが、ファイルそのものを取り出したい場合もある。ファイルヘッダやレコードの特徴を頼りに、ファイルやその断片を探す方法をカービングという。</p>
+<p>メモリでは、ファイルの一部しか読み込まれていなかったり、物理的に離れたページに分かれていたりするので、不完全な復元となるケースが多い。画像ファイルの一部でも出てきたら儲けたな、ぐらいの期待度で。</p>
 <h4>foremost</h4>
 <p>老舗ツール。<a href="https://github.com/korczis/foremost">foremost</a>は、ヘッダやフッタなどの特徴をもとにファイル抽出する。JPEGとPNGを探すなら次のように実行する。</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><h4>scalpel</h4>
-<p><a href="https://github.com/sleuthkit/scalpel">scalpel</a>も有名。foremostをベースに改良されたやつ。</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p>配布されている<code>scalpel.conf</code>を作業用にコピーし、探したい形式の定義だけコメントを外して使う。
-既定の設定ではすべて無効になっている。</p>
-<h4>PhotoRec</h4>
+<p><a href="https://github.com/sleuthkit/scalpel">scalpel</a>も有名。foremostをベースに改良されたやつ。</p>
+<p>配布されている<code>scalpel.conf</code>を作業用にコピーし、探したい形式の定義だけコメントを外して使う。既定の設定ではすべて無効になっているので、実行前に設定しておく。</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><h4>PhotoRec</h4>
 <p><a href="https://www.cgsecurity.org/wiki/PhotoRec">PhotoRec</a> も定番。<br />
 アイコンが怪しいが、<a href="https://sleuthkit.org/autopsy/docs/user-docs/4.20.0/photorec_carver_page.html">Autopsy</a> にも組み込まれている実績のあるツール。対応フォーマットは400種類以上あるとか。</p>
 <p>TestDiskに同梱されているので、ダウンロードして<code>qphotorec_win.exe</code>を起動するとGUI版が使える。</p>
@@ -393,15 +395,15 @@ grepでもいいが、<a href="https://github.com/burntsushi/ripgrep">ripgrep</a
 PhotoRecなどで抽出できなかったイベントログなどもかなり引っかかる。</p>
 <p><img alt="bulkextractor" src="https://github.com/user-attachments/assets/99041bfd-5aee-47a8-9e90-76ba239afc60" loading="lazy" decoding="async" /></p>
 <h2 id="解析手法2-管理構造の解析">解析手法2: 管理構造の解析</h2>
-<p>単純に文字列抽出とかではなく、OSの管理構造に沿って解析する方法。  </p>
+<p>次は、OSの管理構造に沿って解析する方法。文字列検索などで見つけた手掛かりを、プロセスや通信先と結び付けて調べていく。  </p>
 <p>あやしいプロセスの名前などが分かっている場合はその実行有無を調べればいいし、候補がなければプロセス一覧、コマンドライン、通信先などをひととおり出力しておいて後でゆっくり読めばいい。</p>
-<p><a href="https://github.com/ufrisk/memprocfs">MemProcFS</a>とVolatilityが有名。</p>
-<p>SANSの <a href="https://www.sans.org/posters/memory-forensics">Memory Forensics Cheat Sheet</a> も手元にあると便利。</p>
+<p>この用途では<a href="https://github.com/ufrisk/memprocfs">MemProcFS</a>とVolatilityが有名。以下ではこの2つを使って見ていく。SANSの <a href="https://www.sans.org/posters/memory-forensics">Memory Forensics Cheat Sheet</a> も手元にあると便利。</p>
 <h3 id="memprocfs">MemProcFS</h3>
 <p>メモリから復元できるファイルやアーティファクトを横断的に見たい場合は、MemProcFSのforensic modeが便利。</p>
 <h4>マウント</h4>
-<p>Windowsでは <a href="https://github.com/ufrisk/MemProcFS/wiki">Wiki</a> に従ってDokanyなどを準備し、空いているドライブ(一般的には <code>M:</code>)へマウントする。</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p><img alt="mount" src="https://github.com/user-attachments/assets/a81eeb9f-84a6-4941-88a7-d30c1c79be6d" loading="lazy" decoding="async" /></p>
-<p>起動時に<code>-forensic</code>をつけてフォレンジックモードを有効にすることで、同じ入力イメージ・設定・MemProcFSバージョンでの解析結果を再現しやすくなる。マウント後に有効化すると、キャッシュや処理順序の違いから差異が出る可能性がある。</p>
+<p>Windowsでは <a href="https://github.com/ufrisk/MemProcFS/wiki">Wiki</a> に従ってDokanyなどを準備し、空いているドライブ(一般的には <code>M:</code>)へマウントする。</p>
+<p>フォレンジックモードは、起動時に<code>-forensic</code>をつけて有効にする。こうすることで、同じ入力イメージ・設定・MemProcFSバージョンでの解析結果を再現しやすくなる。マウント後に有効化すると、キャッシュや処理順序の違いから差異が出る可能性がある。</p>
+<p><code>-forensic</code>には、解析結果を保存するSQLiteデータベースの扱いに応じて、次のモードを指定する。</p>
 <table>
 <thead>
 <tr>
@@ -428,10 +430,10 @@ PhotoRecなどで抽出できなかったイベントログなどもかなり引
 </tr>
 </tbody>
 </table>
-<p>データベースの保存場所は<code>M:\forensic\database.txt</code>に書かれている。私の場合は下記だった。</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p>解析の進捗状況は <code>M:\forensic\progress_percent.txt</code> に記録されるので、100になるまで待ってから、結果を確認する。</p>
-<p>同時期に取得したページファイルがあるなら、対応する番号で追加できる。</p>
-<p>各ページファイルにはインデックス番号が振られており、Windows 10の標準構成では<code>pagefile.sys</code>に0、<code>swapfile.sys</code>に1が割り当てられる。
-ページファイルを追加・変更した環境では番号が異なる場合があるので、対象環境の構成も確認しておく。</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p>マウントすると、次のようなフォルダが見える。</p>
+<p>ここでは、終了後もデータベースを残すモード4で起動する。</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p>同時期に取得したページファイルがあるなら、起動時に対応する番号で追加できる。各ページファイルにはインデックス番号が振られており、Windows 10の標準構成では<code>pagefile.sys</code>に0、<code>swapfile.sys</code>に1が割り当てられる。
+ページファイルを追加・変更した環境では番号が異なる場合があるので、対象環境の構成も確認しておく。</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p><img alt="mount" src="https://github.com/user-attachments/assets/a81eeb9f-84a6-4941-88a7-d30c1c79be6d" loading="lazy" decoding="async" /></p>
+<p>マウント後、データベースの保存場所は<code>M:\forensic\database.txt</code>で確認できる。私の場合は下記だった。</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p>解析の進捗状況は <code>M:\forensic\progress_percent.txt</code> に記録されるので、100になるまで待ってから結果を確認する。</p>
+<p>マウント先には、次のようなフォルダが見える。</p>
 <table>
 <thead>
 <tr>
@@ -478,12 +480,12 @@ PhotoRecなどで抽出できなかったイベントログなどもかなり引
 </tr>
 </tbody>
 </table>
-<p>主要なところだけさらっとみていく。</p>
+<p>まずはシステム全体の情報と解析結果を眺め、そこから個別のプロセスやレジストリを見ていく。<br />
+主要なところだけさらっと。</p>
 <h4>sys</h4>
-<p>システムに関する情報がいろいろある。まずはここを見ると良い。</p>
+<p>システムに関する情報がいろいろある。タイムゾーンやバージョン情報、コンピュータ名などを確認できるので、まずはここを見ると良い。</p>
 <p><img alt="sys" src="https://github.com/user-attachments/assets/4261220b-6288-40f5-acf6-ca9f17c8cd1f" loading="lazy" decoding="async" /></p>
-<p>タイムゾーンやバージョン情報、コンピュータ名などなど。
-あとは<code>proc/proc.txt</code>あたりを見るとプロセスツリーが見れる。</p>
+<p>基本情報に続いて、<code>proc/proc.txt</code>でプロセスツリーを確認する。</p>
 <p><img alt="proc" src="https://github.com/user-attachments/assets/7c4b011d-f64c-4e71-bae3-eee311c4dce5" loading="lazy" decoding="async" /></p>
 <p>同様に、<code>users/users.txt</code>でユーザー一覧、<code>tasks/tasks.txt</code>でスケジュールされたタスク一覧、<code>net/netstat.txt</code>でネットワーク接続などが見れる。<br />
 一通り見てからアタリをつけて掘り下げるといい感じ。</p>
@@ -493,97 +495,98 @@ PhotoRecなどで抽出できなかったイベントログなどもかなり引
 <p>とりあえず見るべきは <code>csv</code>, <code>files</code>, <code>ntfs</code> あたりかな。</p>
 <p><a href="https://github.com/ufrisk/MemProcFS/wiki/FS_Forensic_CSV">csv</a>には、プロセスやネットワーク接続などの解析結果がCSVで置かれている。Timeline Explorerなどで開くと見やすい。
 <code>findevil</code>や<code>yara</code>の検出結果もまとまっているので、まずここから眺めると楽。</p>
-<p><code>M:\forensic\files\files.txt</code>には復元されたファイルの一覧がある。気になるものがあれば、<code>files</code>配下からもらってきて分析しましょう。元パスと同様にフォルダが再構成されているので探しやすい。
-NTFSでは、サイズの小さいファイルの内容がMFTレコード内に直接記録されることがある。<code>files</code>に見当たらなければ、<code>ntfs</code>側を見るとよいかもしれない。</p>
 <p><img alt="csv" src="https://github.com/user-attachments/assets/06994dc4-c49f-4ac9-b7bb-ca0af24966d4" loading="lazy" decoding="async" /></p>
+<p>復元されたファイルを見たい場合は、<code>M:\forensic\files\files.txt</code>に一覧がある。気になるものがあれば、<code>files</code>配下からもらってきて分析しよう。元パスと同様にフォルダが再構成されているので探しやすい。</p>
+<p><code>files</code>に見当たらなければ、<code>ntfs</code>側を見るとよいかもしれない。NTFSでは、サイズの小さいファイルの内容がMFTレコード内に直接記録されることがある。</p>
 <h4>name / pid</h4>
-<p>どちらもプロセスに関する情報で、それがプロセス名別かPID別かというだけ。nameの方は末尾にプロセスIDがついているのでそっちのが見やすいかも。</p>
+<p>気になるプロセスが見つかったら、<code>name</code>か<code>pid</code>から個別の情報を確認する。どちらもプロセスに関する情報で、それがプロセス名別かPID別かというだけ。nameの方は末尾にプロセスIDがついているのでそっちのが見やすいかも。</p>
 <p><img alt="name" src="https://github.com/user-attachments/assets/6984680a-fa98-40bd-a6de-84451325e76c" loading="lazy" decoding="async" /></p>
 <p><img alt="pid" src="https://github.com/user-attachments/assets/d09a5fd7-b4f7-495f-b092-4315ea7eac7c" loading="lazy" decoding="async" /></p>
 <p><code>name-long</code>がプロセス名、<code>pid</code>がプロセスID、<code>ppid</code>が親のプロセスID、<code>time-create</code>が作成時刻、<code>win-cmdline</code>がコマンドライン、<code>win-environment</code>が環境変数。名前の通り。</p>
-<p>まず見たいのは<code>files/handles</code>あたり。プロセスが開いているファイルハンドルを手掛かりに再構築されたファイルがある。
-<code>files/modules</code> はメモリ上のモジュールから再構築されたexeやdllなど。<code>files/vads</code> はVAD（Virtual Address Descriptor）を手掛かりに再構築されたファイル。VADは、プロセスの仮想メモリ領域と、その保護属性や対応するファイルなどを管理する構造である。</p>
+<p>関連するファイルを調べるなら、まず見たいのは<code>files/handles</code>あたり。プロセスが開いているファイルハンドルを手掛かりに再構築されたファイルがある。</p>
+<p><code>files/modules</code> はメモリ上のモジュールから再構築されたexeやdllなど。<code>files/vads</code> にはVAD（Virtual Address Descriptor）を手掛かりに再構築されたファイルが置かれている。VADは、プロセスの仮想メモリ領域と、その保護属性や対応するファイルなどを管理する構造である。</p>
 <p>どの場所から復元した場合でも、ファイル全体がメモリに残っているとは限らない。そのまま読めれば嬉しい。</p>
-<p>.evtxで検索するとイベントログが見つかったりする。ディスク側で削除されていても一部イベントの復元ができるかも。見つけたら<a href="https://sumeshi.github.io/posts/knowledges/windows-eventlog-analysis-101">調査してみるとよい</a> 。</p>
+<p>例えば、.evtxで検索するとイベントログが見つかったりする。ディスク側で削除されていても一部イベントの復元ができるかも。見つけたら<a href="https://sumeshi.github.io/posts/knowledges/windows-eventlog-analysis-101">調査してみるとよい</a> 。</p>
 <p><img alt="evtx" src="https://github.com/user-attachments/assets/6a43c9d8-1567-4f5d-8e92-259d42a39592" loading="lazy" decoding="async" /></p>
 <p><img alt="others" src="https://github.com/user-attachments/assets/8e40de73-f7f4-4efd-9d2c-9f88660b8b2a" loading="lazy" decoding="async" /></p>
 <h4>registry</h4>
 <p>名前の通りレジストリハイブ。ハイブファイルも置かれてるし、パースされたテキストもある。</p>
-<p><img alt="registry" src="https://github.com/user-attachments/assets/ad63c942-d688-4e79-a2ca-0093020020d9" loading="lazy" decoding="async" /></p>
-<p>個人的にはRegistryExplorerとかで見るほうが見やすい。が、壊れていることもよくある。</p>
-<p><img alt="regexp" src="https://github.com/user-attachments/assets/533a8a97-ae71-4abe-b6a2-8e86bdd6db19" loading="lazy" decoding="async" /></p>
 <p>レジストリへの変更はメモリ上のハイブに反映され、トランザクションログ（<code>.LOG1</code>、<code>.LOG2</code>）を使いながらディスクへ書き戻される。そのため、メモリのほうがディスク上にあるものよりも新しい場合もある。見る価値はある。</p>
+<p><img alt="registry" src="https://github.com/user-attachments/assets/ad63c942-d688-4e79-a2ca-0093020020d9" loading="lazy" decoding="async" /></p>
+<p>ハイブファイルは、個人的にはRegistryExplorerとかで見るほうが見やすい。ただし、壊れていることもよくある。</p>
+<p><img alt="regexp" src="https://github.com/user-attachments/assets/533a8a97-ae71-4abe-b6a2-8e86bdd6db19" loading="lazy" decoding="async" /></p>
 <h3 id="volatility">Volatility</h3>
 <p>メモリ調査といえばこれ！のイメージだが、プラグインによってはマジで血管がブチ切れるぐらい時間がかかる。ざっと眺めるならMemProcFSのが早い。</p>
 <p>とはいえ、こちらのほうがプラグインが充実しているので、処理かけてからご飯食べに行くとかそういう気持ちで。</p>
-<p><a href="https://github.com/daffainfo/vol-rs">vol-rs</a> という高速なRust実装版もある。CTFとかならこういうの使ってもいいかもね。まだ成熟したプロダクトではないので、実務で使う場合は評価検証が必要だと思う。</p>
 <p>Volatility 2と3がよく使われるが、最近のOSなら3でいい。たまに古代の発掘品とかが来たときは2じゃないと動かないときもある？どちらも用意しておくとよい。</p>
-<p>また、Volatilityは慣れないと使いづらい。<a href="https://www.osforensics.com/tools/volatility-workbench.html">Volatility Workbench</a> や<a href="https://github.com/4n6ist/KaniVola">KaniVola</a> などのラッパーを使うとかなり楽。コマンドをカチャカチャ打つほうが気持ちいいのはわかるのだが、実際インシデント対応してるときにそんな暇はないことがほとんど。</p>
+<p>操作に慣れないうちは、<a href="https://www.osforensics.com/tools/volatility-workbench.html">Volatility Workbench</a> や<a href="https://github.com/4n6ist/KaniVola">KaniVola</a> などのラッパーを使うとかなり楽。コマンドをカチャカチャ打つほうが気持ちいいのはわかるのだが、実際インシデント対応してるときにそんな暇はないことがほとんど。</p>
 <p>3系ならVolatility Workbenchがすごく使いやすい。</p>
 <p><img alt="vwork" src="https://github.com/user-attachments/assets/1ccd3179-596f-47e0-ba29-07303ab4128b" loading="lazy" decoding="async" /></p>
 <p>2系ならKaniVolaがよい。</p>
 <p><img alt="kanivol" src="https://github.com/user-attachments/assets/deba30e7-c826-47c6-93a6-04b8d5d574f1" loading="lazy" decoding="async" /></p>
+<p>なお、<a href="https://github.com/daffainfo/vol-rs">vol-rs</a> という高速なRust実装版もある。CTFとかならこういうの使ってもいいかもね。まだ成熟したプロダクトではないので、実務で使う場合は評価検証が必要だと思う。</p>
 <p>以下はVolatility 3をコマンドラインから実行する前提での解説。Volatility Workbenchを使っている場合は、対応するプラグインを選択して、PIDなどのオプションを設定すればよい。</p>
 <h4>シンボル情報</h4>
 <p>Volatility 3は、Windowsのメモリ内の構造を解釈するためにシンボル情報を使う。必要なシンボルがローカルにない場合はMicrosoftのサーバから自動取得するので、その際にはインターネット接続が必要になる。</p>
 <p>私はオフライン絶対至上主義なので、あらかじめシンボル情報をローカルに準備しておく。
 <a href="https://blogs.jpcert.or.jp/ja/2021/08/volatility3_offline.html">JPCERT/CC - オフラインでVolatility 3を実行する方法</a> が非常に参考になる。</p>
-<p>これを自動化するようなスクリプトを書いておくと実際対応するときに助かる。</p>
+<p>シンボル情報の準備を自動化するようなスクリプトを書いておくと、実際に対応するときに助かる。</p>
 <p>一方、Volatility 2では、対象OSに対応する構造体の定義などをまとめたプロファイルを<code>--profile</code>で指定する。違うプロファイルを使うと、一見読めているようでも値を誤って解釈することがあるので注意。</p>
 <h4>基本情報</h4>
 <p>まずは<code>windows.info</code>でOSやカーネルの情報が読めるかを確認する。ここで失敗する場合は、取得形式、イメージの欠損、シンボルの取得状況などを確認してから先へ進む。</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><h4>プロセス一覧</h4>
-<p>実行中のプロセスと親子関係、実行時コマンドラインを保存する。
-プロセス名だけ見ても怪しいかどうか判別は難しい。実行パス、親プロセス、起動引数、実行ユーザーなどの観点を組み合わせて確認する。</p>
-<p>正規名に似たプロセスや、<code>C:\Users\Public</code>などの<a href="https://attack.mitre.org/techniques/T1074/001/">悪用されがちなフォルダ</a>から起動された実行ファイルは掘り下げるべき。</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p><code>pslist</code>はOSが管理するプロセスのリストをたどり、<code>pstree</code>は同じ列挙結果を親子関係で表示する。</p>
+<p>基本情報が読めたら、実行中のプロセスと親子関係、実行時コマンドラインを保存する。</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p><code>pslist</code>はOSが管理するプロセスのリストをたどり、<code>pstree</code>は同じ列挙結果を親子関係で表示する。</p>
+<p>プロセス名だけ見ても怪しいかどうか判別は難しい。実行パス、親プロセス、起動引数、実行ユーザーなどの観点を組み合わせて確認する。正規名に似たプロセスや、<code>C:\Users\Public</code>などの<a href="https://attack.mitre.org/techniques/T1074/001/">悪用されがちなフォルダ</a>から起動された実行ファイルは掘り下げるべき。</p>
 <p>親プロセスがすでに終了していれば一覧にいないこともあるし、PIDが再利用されていると、同じPIDの別プロセスを親と見誤ることもある。親子関係を読むときは作成時刻も確認する。</p>
-<p><code>psscan</code>は、カーネルがメモリを割り当てるpool領域を走査してプロセスの構造体を探すため、終了済みあるいは隠蔽されたプロセスも検出できる場合があるが、時間がかかる。裏で実行しながらコーヒー飲んでpslistとかを眺めておけば良い。</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p><code>psxview</code>を使うと、複数のプロセス列挙方法の結果を突合してくれる。<code>pslist</code>にはないけど<code>psscan</code>にはあった、とか。</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><h4>プロセスの詳細</h4>
-<p>候補をPID <code>4240</code>などに絞れたら、そのプロセスが何を読み込み、何を参照していたかを調べる。ハンドルはファイル、レジストリキー、他のプロセスなどのオブジェクトを参照するための識別子で、調査対象を広げる手掛かりになる。</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p><code>dlllist</code>で読み込まれたDLLのパスや配置を確認し、<code>handles</code>で参照しているファイルやレジストリキーなどを確認する。カーネルのモジュールを列挙する<code>windows.modules</code>とは、調べる対象が異なる。</p>
+<p>一覧に出てこないプロセスも探したい場合は、<code>psscan</code>を使う。カーネルがメモリを割り当てるpool領域を走査してプロセスの構造体を探すため、終了済みあるいは隠蔽されたプロセスも検出できる場合がある。ただし、時間がかかる。裏で実行しながらコーヒー飲んでpslistとかを眺めておけば良い。</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p><code>psxview</code>を使うと、複数のプロセス列挙方法の結果を突合してくれる。<code>pslist</code>にはないけど<code>psscan</code>にはあった、とか。</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><h4>ネットワーク接続</h4>
+<p>プロセス一覧と合わせて、通信先も確認しておく。ネットワークの管理構造を調べるなら<code>netscan</code>を使う。</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p>見つかったPIDをプロセス一覧や作成時刻と照合し、そのプロセスを追加で調べる。終了済み・解放済みの構造が残る場合もあるので、<code>State</code>や<code>Created</code>も読む。<code>Created</code>はネットワークオブジェクトの作成時刻を示す。</p>
+<p>ただし、<code>netscan</code>から通信内容や転送量は得られない。<br />
+接続先との実際のやり取りを確認するなら、メモリだけでなくプロキシ、DNS、ファイアウォール、EDRなどの記録へ調査を広げる必要がある。</p>
+<h4>プロセスの詳細</h4>
+<p>プロセス一覧や通信先から候補をPID <code>4240</code>などに絞れたら、そのプロセスが何を読み込み、何を参照していたかを調べる。</p>
+<p>ここでは、コマンドラインに加えてDLLとハンドルも確認する。ハンドルはファイル、レジストリキー、他のプロセスなどのオブジェクトを参照するための識別子で、調査対象を広げる手掛かりになる。</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p><code>dlllist</code>で読み込まれたDLLのパスや配置を確認し、<code>handles</code>で参照しているファイルやレジストリキーなどを確認する。カーネルのモジュールを列挙する<code>windows.modules</code>とは、調べる対象が異なる。</p>
 <p>例えばコマンドラインに一時ディレクトリ上のスクリプトがあれば、そのファイル名を検索や復元の対象にする。ハンドルに文書のパスがあれば、関連するファイルやアクセスの痕跡をディスク側でも確認する。<strong>ハンドルの存在だけでは、ファイルの全内容を読んだことや外部へ送信したことまでは分からない</strong>。</p>
 <h4>コマンド履歴</h4>
-<p>プロセスの起動引数は<code>cmdline</code>、コンソールに残っている入力履歴は<code>cmdscan</code>で調べる。たとえば<code>cmd.exe</code>を起動した後に何を入力したか知りたい場合は、こちらも試しておく。</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p>取得できるのは対応するコンソールの履歴構造がメモリに残っている範囲なので、<strong>すべてのシェル操作を復元できるわけではない</strong>。PowerShellの履歴やスクリプトの実行内容は、PSReadLineの履歴ファイルやPowerShellログなども照合する。</p>
-<h4>ネットワーク接続</h4>
-<p>ネットワークの管理構造を調べるなら<code>netscan</code>を使う。</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p>見つかったPIDをプロセス一覧や作成時刻と照合し、そのプロセスを追加で調べる。終了済み・解放済みの構造が残る場合もあるので、<code>State</code>や<code>Created</code>も読む。<code>Created</code>はネットワークオブジェクトの作成時刻を示す。</p>
-<p>また、<code>netscan</code>から通信内容や転送量は得られない。<br />
-接続先との実際のやり取りを確認するなら、メモリだけでなくプロキシ、DNS、ファイアウォール、EDRなどの記録へ調査を広げる必要がある。</p>
+<p>起動時だけでなく、その後の操作も追いたい場合はコマンド履歴を調べる。プロセスの起動引数は<code>cmdline</code>、コンソールに残っている入力履歴は<code>cmdscan</code>で調べられる。たとえば<code>cmd.exe</code>を起動した後に何を入力したか知りたい場合は、こちらも試しておく。</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p>取得できるのは対応するコンソールの履歴構造がメモリに残っている範囲なので、<strong>すべてのシェル操作を復元できるわけではない</strong>。PowerShellの履歴やスクリプトの実行内容は、PSReadLineの履歴ファイルやPowerShellログなども照合する。</p>
 <h4>不審な実行領域</h4>
-<p><code>malfind</code>は、VADの属性などから、不審な実行可能領域を探す。ファイルをディスクに残さず、別のプロセスのメモリ上でコードを実行するような痕跡を探すときに使える。</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p>出力されたアドレスや保護属性、先頭部分のバイト列・逆アセンブル結果を見て、追加で解析する領域を選ぶ。JITコンパイルなど正規の処理でも候補が出るため、ヒットした領域の内容や関連するモジュールも確認する。</p>
-<p>こちらも <code>--dump</code> で抽出できる。</p>
+<p>プロセスのメモリ内に不審なコードがないか調べるなら、<code>malfind</code>を使う。VADの属性などから、不審な実行可能領域を探すプラグインで、ファイルをディスクに残さず、別のプロセスのメモリ上でコードを実行するような痕跡を探すときに使える。</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p>出力されたアドレスや保護属性、先頭部分のバイト列・逆アセンブル結果を見て、追加で解析する領域を選ぶ。JITコンパイルなど正規の処理でも候補が出るため、ヒットした領域の内容や関連するモジュールも確認する。</p>
+<p>候補の領域は <code>--dump</code> で抽出できる。具体例は後述する「PEとメモリの抽出」で見ていく。</p>
 <h4>プロセス内の検索</h4>
-<p>文字列検索でドメインが見つかったものの、どのプロセスと関係するか分からない場合は、同じ文字列をYARAルールにしてプロセスの仮想メモリを検索できる。</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p><code>vadyarascan</code>は、VADをたどってプロセスの仮想メモリ領域を検索する。<br />
+<p>一方、前述の文字列検索でドメインが見つかったものの、どのプロセスと関係するか分からない場合は、同じ文字列をYARAルールにしてプロセスの仮想メモリを検索できる。</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p><code>vadyarascan</code>は、VADをたどってプロセスの仮想メモリ領域を検索する。<br />
 この結果は「そのプロセスの読み取れた領域にIOCがあった」という根拠になるが、それがどう使われていたかは他のアーティファクトと突合して見ていく必要がある。</p>
 <h4>PEとメモリの抽出</h4>
-<p>実行ファイルをPE形式で取り出したいのか、ヒープなども含めて文字列を探したいのかで、抽出方法を変える。<br />
-出力先フォルダはあらかじめ作っておくこと。</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p>ダンプしたPEは通常、もとのPEファイルと同一ではないので、VirusTotalなどでハッシュ値からもとの検体を同定することはできない。<br />
+<p>調べたいプロセスや領域が決まったら、必要に応じてファイルに抽出する。実行ファイルをPE形式で取り出したいのか、ヒープなども含めて文字列を探したいのかで、抽出方法を変える。  </p>
+<p>出力先フォルダはあらかじめ作っておくこと。</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p>ダンプしたPEは通常、もとのPEファイルと同一ではないので、VirusTotalなどでハッシュ値からもとの検体を同定することはできない。<br />
 実行することも難しい。 <del>やるならIAT再構築などをする必要があるが、ここでは取り扱わない。</del></p>
-<p>それでも、前述の文字列抽出やYARAによるスキャンから解析のヒントが得られることはある。</p>
-<p><a href="https://github.com/mandiant/flare-floss">FLOSS</a> は、実行ファイルのコードを解析し、難読化されていた文字列や、実行時に組み立てられる文字列の抽出を試みるツール。<br />
+<p>それでも、抽出したデータに前述の文字列抽出やYARAによるスキャンをかけることで、解析のヒントが得られることはある。</p>
+<p>PEをさらに調べるなら、<a href="https://github.com/mandiant/flare-floss">FLOSS</a> も使える。実行ファイルのコードを解析し、難読化されていた文字列や、実行時に組み立てられる文字列の抽出を試みるツール。<br />
 通常のstringsでは出てこない文字列を探したいときに有用。</p>
 <p>入力にはダンプしたPEを指定する。欠損やヘッダの破損があると、FLOSS側で解析できないこともある。</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><h4>ファイルの復元</h4>
-<p>メモリには、プロセスが使用したファイルやOSのキャッシュも残る。調査対象のファイル名やパスが分かれば復元を試し、得られた内容をその形式に対応するパーサへ渡せる。</p>
+<p>プロセスの実行イメージやメモリ領域に加えて、プロセスが使用したファイルやOSのキャッシュも復元の対象になる。調査対象のファイル名やパスが分かれば復元を試し、得られた内容をその形式に対応するパーサへ渡せる。</p>
 <p><code>filescan</code>は、Windowsがファイルを管理する<code>FILE_OBJECT</code>を走査する。まずファイル名から候補を探し、そのオブジェクトに対応する内容を<code>dumpfiles</code>で復元する。</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p>次はWindows 10 / 11を対象に、見つかった<code>FILE_OBJECT</code>の仮想アドレスを指定する例である。アドレスは実際の出力に置き換える。</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p><code>--virtaddr</code>と<code>--physaddr</code>は、それぞれ<code>FILE_OBJECT</code>の仮想アドレスと物理アドレスを受け取る。</p>
 <p>プロセスとの関連が分かっていれば、PIDを指定して復元候補を絞ることもできる。</p><!----></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p><code>filescan</code>で名前が見つかっても、ファイル内容がしっかり残っているとは限らない。
 パーサで開けなければ、部分的に復元できたデータとして文字列検索やカービングに回してみる。</p>
 <h2 id="調査結果の整理">調査結果の整理</h2>
 <p>メモリフォレンジックをしていると、ファイルがグチャグチャになりがち。ホストや取得プロセスごとにフォルダを分け、いい感じに整理しておくとよい。
 MemProcFSであれば、タイムラインやCSVも出力してくれるので、アンマウントする前にそのあたりも一通りコピーしておく。</p>
-<p>整理は本当に大変なので、面倒なら<a href="https://sumeshi.github.io/posts/works/dont-make-ai-your-forensic-analyst">AIにぶん投げても良い</a>と思う。ただし<strong>情報の取り扱いには細心の注意を払う</strong>こと。</p>
-<p>ツールによって結果の食い違いが発生することもままある。<br />
+<p>結果を突き合わせると、ツールによって食い違いが発生することもままある。<br />
 どちらかが間違っていると決めつける前に、各ツールが何をたどって列挙しているかを確認する。参照する管理構造や、終了済みオブジェクト・欠損ページの扱いが違えば、結果も変わる。</p>
+<p>こうした結果の整理は本当に大変なので、面倒なら<a href="https://sumeshi.github.io/posts/works/dont-make-ai-your-forensic-analyst">AIにぶん投げても良い</a>と思う。ただし<strong>情報の取り扱いには細心の注意を払う</strong>こと。</p>
 <h2 id="おわりに">おわりに</h2>
-<p>メモリフォレンジックでは、ディスクフォレンジックと比較して<strong>欠けたり壊れたデータを相手にすることが多い</strong>。それをどう活かすかというのは、中身を見てアタリをつける経験とセンスになってくるのでなんとも言えないが、困ったらとりあえず文字列として読んでみるとか、画像の断片っぽければGIMPに突っ込んでみるとか。マジに困ったらAIを頼ってもいいと思います。</p>
+<p>メモリフォレンジックでは、ディスクフォレンジックと比較して<strong>欠けたり壊れたデータを相手にすることが多い</strong>。それをどう活かすかは、中身を見てアタリをつける経験とセンスになってくるのでなんとも言えないな。</p>
+<p>困ったら、とりあえず文字列として読んでみるとか、画像の断片っぽければGIMPに突っ込んでみるとか、手元に残ったデータから別の見方を試してみる。マジに困ったらAIを頼ってもいいと思います。</p>
 <p>メモリフォレンジックなんて人間がやることではないな。</p><!----></div><!--]--><!--]--><!--]--></div> <footer class="mt-2 flex justify-center border-t border-gray-800/80 pt-5"><a href="../../posts" class="inline-flex items-center justify-center rounded-md px-5 py-2 text-sm transition-colors border border-indigo-400/20 bg-indigo-400/10 text-indigo-100 hover:border-indigo-300/40 hover:bg-indigo-400/15 hover:text-white shadow-[0_0_0_1px_rgba(99,102,241,0.08)] gap-2 rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-[0.16em]"><svg class="h-3.5 w-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 18l-6-6 6-6"></path></svg> <span>All Posts</span><!----></a><!----></footer></article> <!--[0--><aside class="hidden min-w-0 pt-28 2xl:block"><nav class="sticky top-12 max-h-[calc(100vh-4rem)] overflow-y-auto border-l border-gray-800 pl-4" aria-label="Table of Contents"><p class="mb-2 font-mono text-[10px] font-semibold uppercase tracking-[0.12em] text-gray-500">Table of Contents</p> <ol class="space-y-1"><!--[--><li><a href="#はじめに" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">はじめに</a></li><li><a href="#メモリとは" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">メモリとは</a></li><li class="pl-3"><a href="#メモリに残る情報" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">メモリに残る情報</a></li><li class="pl-3"><a href="#物理メモリと仮想メモリ" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">物理メモリと仮想メモリ</a></li><li><a href="#メモリの保全" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">メモリの保全</a></li><li class="pl-3"><a href="#保全時の注意点" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">保全時の注意点</a></li><li class="pl-3"><a href="#メモリ外の保全対象" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">メモリ外の保全対象</a></li><li class="pl-3"><a href="#取得ツール" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">取得ツール</a></li><li class="pl-3"><a href="#保全時の記録" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">保全時の記録</a></li><li class="pl-3"><a href="#休止ファイルの展開" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">休止ファイルの展開</a></li><li><a href="#解析の準備" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">解析の準備</a></li><li class="pl-3"><a href="#調査目的" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">調査目的</a></li><li class="pl-3"><a href="#環境構築" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">環境構築</a></li><li><a href="#解析手法1-バイナリ解析" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">解析手法1: バイナリ解析</a></li><li class="pl-3"><a href="#文字列抽出" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">文字列抽出</a></li><li class="pl-3"><a href="#文字列検索" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">文字列検索</a></li><li class="pl-3"><a href="#yara検索" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">YARA検索</a></li><li class="pl-3"><a href="#ファイルカービング" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">ファイルカービング</a></li><li><a href="#解析手法2-管理構造の解析" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">解析手法2: 管理構造の解析</a></li><li class="pl-3"><a href="#memprocfs" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">MemProcFS</a></li><li class="pl-3"><a href="#volatility" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">Volatility</a></li><li><a href="#調査結果の整理" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">調査結果の整理</a></li><li><a href="#おわりに" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">おわりに</a></li><!--]--></ol></nav></aside><!--]--></div><!--]--><!----></div></main> <!--[-1--><!--]--> <!--[-1--><!--]--><!--]--><!--]--> <!--[-1--><!--]--><!--]-->
 			
 			<script>
 				{
-					__sveltekit_1t8yhcj = {
+					__sveltekit_1symuoh = {
 						base: new URL("../..", location).pathname.slice(0, -1)
 					};
 
 					const element = document.currentScript.parentElement;
 
 					Promise.all([
-						import("../../_app/immutable/entry/start.GasR1quO.js"),
-						import("../../_app/immutable/entry/app.DSpgyPmA.js")
+						import("../../_app/immutable/entry/start.CTU-FILA.js"),
+						import("../../_app/immutable/entry/app.BD1cO33l.js")
 					]).then(([kit, app]) => {
 						kit.start(app, element, {
 							node_ids: [0, 7],
