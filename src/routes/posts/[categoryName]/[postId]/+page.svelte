@@ -10,7 +10,7 @@
   import { untrack } from 'svelte';
   import { createAsyncDataState } from '$lib/load-state.svelte';
   import { pathWithBase } from '$lib/paths';
-  import { formatPostPublishedAt, getPostTitle } from '$lib/posts';
+  import { formatPostListDate, getPostTitle } from '$lib/posts';
   import {
     jsonLd,
     pageTitle,
@@ -386,7 +386,7 @@
               class="shrink-0 font-mono text-[10px] text-gray-500 sm:pt-2"
               datetime={metaPost.published_at}
             >
-              {formatPostPublishedAt(metaPost.published_at)}
+              {formatPostListDate(metaPost.published_at)}
             </time>
           {/if}
         </div>
