@@ -6,13 +6,13 @@
     <description>デジタルフォレンジック(DFIR), マルウェア解析, OSS開発などに関する活動をまとめた個人ブログ。</description>
     <language>ja</language>
     <atom:link href="https://sumeshi.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <lastBuildDate>Sat, 03 Oct 2026 00:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Sun, 04 Oct 2026 00:00:00 GMT</lastBuildDate>
     <item>
       <title>a tale of volatile memories.</title>
       <link>https://sumeshi.github.io/posts/knowledges/windows-memory-forensics-101-en</link>
       <guid isPermaLink="true">https://sumeshi.github.io/posts/knowledges/windows-memory-forensics-101-en</guid>
-      <description>Windows is the only one in the world. That made Windows the god of this world.</description>
-      <pubDate>Sat, 03 Oct 2026 00:00:00 GMT</pubDate>
+      <description>Windows is only one in the world. That made Windows the god of this world.</description>
+      <pubDate>Sun, 04 Oct 2026 00:00:00 GMT</pubDate>
     </item>
     <item>
       <title>a tale of volatile memories.</title>
