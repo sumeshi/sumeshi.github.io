@@ -19,6 +19,24 @@
 
   const articles: MentionedArticle[] = [
     {
+      titleEn: 'a tale of volatile memories.',
+      titleJa: 'Windowsは世界に一人。だからWindowsは神様だ。',
+      sourceEn: '/posts/knowledges/windows-memory-forensics-101-en',
+      sourceJa: '/posts/knowledges/windows-memory-forensics-101',
+      mentions: [
+        {
+          date: '2026-10-05',
+          media: 'Forensic Focus / DFIR News, 05 Oct 2026',
+          url: 'https://www.forensicfocus.com/news/headlines/dfir-news-05-oct-2026/',
+        },
+        {
+          date: '2026-10-04',
+          media: 'This Week in 4n6 / WEEK 40 - 2026',
+          url: 'https://thisweekin4n6.com/2026/10/04/week-40-2026/',
+        },
+      ],
+    },
+    {
       titleEn: "Don't Make AI Your Forensic Analyst",
       titleJa: 'AIにフォレンジックさせるのをやめよう',
       sourceEn: '/posts/works/dont-make-ai-your-forensic-analyst-en',
@@ -55,6 +73,11 @@
       sourceEn: '/posts/knowledges/windows-eventlog-analysis-101-en',
       sourceJa: '/posts/knowledges/windows-eventlog-analysis-101',
       mentions: [
+        {
+          date: '2026-10-03',
+          media: 'CTO at NCSC - Cyber Defence Analysis / Summary: week ending October 4th',
+          url: 'https://ctoatncsc.substack.com/p/cto-at-ncsc-summary-week-ending-october-8fd',
+        },
         {
           date: '2026-09-28',
           media: 'Forensic Focus / DFIR News, 28 Sep 2026',
