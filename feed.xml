@@ -6,7 +6,21 @@
     <description>デジタルフォレンジック(DFIR), マルウェア解析, OSS開発などに関する活動をまとめた個人ブログ。</description>
     <language>ja</language>
     <atom:link href="https://sumeshi.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <lastBuildDate>Sun, 04 Oct 2026 10:54:14 GMT</lastBuildDate>
+    <lastBuildDate>Sat, 10 Oct 2026 22:28:00 GMT</lastBuildDate>
+    <item>
+      <title>君たちはどうWindowsイベントログを調査するか</title>
+      <link>https://sumeshi.github.io/posts/knowledges/windows-eventlog-analysis-101</link>
+      <guid isPermaLink="true">https://sumeshi.github.io/posts/knowledges/windows-eventlog-analysis-101</guid>
+      <description>イベントログ調査のぼんやりメモ。思い出したら追記。</description>
+      <pubDate>Sat, 10 Oct 2026 22:28:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>How Do You Investigate Windows Event Logs?</title>
+      <link>https://sumeshi.github.io/posts/knowledges/windows-eventlog-analysis-101-en</link>
+      <guid isPermaLink="true">https://sumeshi.github.io/posts/knowledges/windows-eventlog-analysis-101-en</guid>
+      <description>Vague notes on Windows event log investigation. I&apos;ll add more as I remember.</description>
+      <pubDate>Sat, 10 Oct 2026 22:28:00 GMT</pubDate>
+    </item>
     <item>
       <title>a tale of volatile memories.</title>
       <link>https://sumeshi.github.io/posts/knowledges/windows-memory-forensics-101</link>
@@ -20,20 +34,6 @@
       <guid isPermaLink="true">https://sumeshi.github.io/posts/knowledges/windows-memory-forensics-101-en</guid>
       <description>Windows is only one in the world. That made Windows the god of this world.</description>
       <pubDate>Sun, 04 Oct 2026 10:00:37 GMT</pubDate>
-    </item>
-    <item>
-      <title>君たちはどうWindowsイベントログを調査するか</title>
-      <link>https://sumeshi.github.io/posts/knowledges/windows-eventlog-analysis-101</link>
-      <guid isPermaLink="true">https://sumeshi.github.io/posts/knowledges/windows-eventlog-analysis-101</guid>
-      <description>イベントログ調査のぼんやりメモ。思い出したら追記。</description>
-      <pubDate>Mon, 28 Sep 2026 15:29:05 GMT</pubDate>
-    </item>
-    <item>
-      <title>How Do You Investigate Windows Event Logs?</title>
-      <link>https://sumeshi.github.io/posts/knowledges/windows-eventlog-analysis-101-en</link>
-      <guid isPermaLink="true">https://sumeshi.github.io/posts/knowledges/windows-eventlog-analysis-101-en</guid>
-      <description>Vague notes on Windows event log investigation. I&apos;ll add more as I remember.</description>
-      <pubDate>Mon, 28 Sep 2026 15:28:30 GMT</pubDate>
     </item>
     <item>
       <title>NTFS脊髄剣</title>
