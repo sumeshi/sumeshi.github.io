@@ -6,7 +6,21 @@
     <description>デジタルフォレンジック(DFIR), マルウェア解析, OSS開発などに関する活動をまとめた個人ブログ。</description>
     <language>ja</language>
     <atom:link href="https://sumeshi.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <lastBuildDate>Sat, 10 Oct 2026 22:28:00 GMT</lastBuildDate>
+    <lastBuildDate>Sun, 11 Oct 2026 00:15:29 GMT</lastBuildDate>
+    <item>
+      <title>NTFS脊髄剣</title>
+      <link>https://sumeshi.github.io/posts/works/ntfsfind-dump</link>
+      <guid isPermaLink="true">https://sumeshi.github.io/posts/works/ntfsfind-dump</guid>
+      <description>Windowsイメージファイルから直接ファイルをぶっこ抜く方法。ボボボボボボボボボボボ</description>
+      <pubDate>Sun, 11 Oct 2026 00:15:29 GMT</pubDate>
+    </item>
+    <item>
+      <title>NTFS Spinal Cord Sword</title>
+      <link>https://sumeshi.github.io/posts/works/ntfsfind-dump-en</link>
+      <guid isPermaLink="true">https://sumeshi.github.io/posts/works/ntfsfind-dump-en</guid>
+      <description>How to rip files straight out of Windows disk images. AHGAHGAHGAHGAHGAHGAHGAHGAHGAHGAHGAHGAH</description>
+      <pubDate>Sun, 11 Oct 2026 00:15:29 GMT</pubDate>
+    </item>
     <item>
       <title>君たちはどうWindowsイベントログを調査するか</title>
       <link>https://sumeshi.github.io/posts/knowledges/windows-eventlog-analysis-101</link>
@@ -34,13 +48,6 @@
       <guid isPermaLink="true">https://sumeshi.github.io/posts/knowledges/windows-memory-forensics-101-en</guid>
       <description>Windows is only one in the world. That made Windows the god of this world.</description>
       <pubDate>Sun, 04 Oct 2026 10:00:37 GMT</pubDate>
-    </item>
-    <item>
-      <title>NTFS脊髄剣</title>
-      <link>https://sumeshi.github.io/posts/works/ntfsfind-dump</link>
-      <guid isPermaLink="true">https://sumeshi.github.io/posts/works/ntfsfind-dump</guid>
-      <description>Windowsイメージファイルから直接ファイルをぶっこ抜く方法。ボボボボボボボボボボボ</description>
-      <pubDate>Mon, 21 Sep 2026 19:39:09 GMT</pubDate>
     </item>
     <item>
       <title>Don&apos;t Make AI Your Forensic Analyst</title>
