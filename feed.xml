@@ -6,13 +6,13 @@
     <description>デジタルフォレンジック(DFIR), マルウェア解析, OSS開発などに関する活動をまとめた個人ブログ。</description>
     <language>ja</language>
     <atom:link href="https://sumeshi.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <lastBuildDate>Mon, 12 Oct 2026 16:42:11 GMT</lastBuildDate>
+    <lastBuildDate>Mon, 12 Oct 2026 16:45:52 GMT</lastBuildDate>
     <item>
       <title>290円で作るBadUSB</title>
       <link>https://sumeshi.github.io/posts/works/badusb-290yen</link>
       <guid isPermaLink="true">https://sumeshi.github.io/posts/works/badusb-290yen</guid>
       <description>牛丼より安い。</description>
-      <pubDate>Mon, 12 Oct 2026 16:42:11 GMT</pubDate>
+      <pubDate>Mon, 12 Oct 2026 16:45:52 GMT</pubDate>
     </item>
     <item>
       <title>NTFS脊髄剣</title>
