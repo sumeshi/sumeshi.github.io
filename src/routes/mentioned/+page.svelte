@@ -162,30 +162,30 @@
     <p class="font-mono text-xs text-gray-600">{mentionCount} mentions</p>
   </header>
 
-  <div class="space-y-8">
+  <div class="space-y-10 sm:space-y-8">
     {#each articles as article}
-      <section aria-label={`${article.titleEn} / ${article.titleJa}`}>
-        <h2 class="mb-3 leading-snug">
+      <section aria-label={`${article.titleEn} / ${article.titleJa}`} class="min-w-0 break-words">
+        <h2 class="mb-4 leading-6">
           {#if article.sourceEn}
-            <a href={pathWithBase(article.sourceEn)} class="text-base font-semibold text-white transition-colors hover:text-indigo-300 focus-visible:rounded-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-400">{article.titleEn}</a>
+            <a href={pathWithBase(article.sourceEn)} class="block text-base font-semibold text-white transition-colors hover:text-indigo-300 focus-visible:rounded-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-400">{article.titleEn}</a>
           {:else}
-            <span class="text-base font-semibold text-white">{article.titleEn}</span>
+            <span class="block text-base font-semibold text-white">{article.titleEn}</span>
           {/if}
           {#if article.sourceJa}
-            <a href={pathWithBase(article.sourceJa)} class="mt-0.5 block w-fit text-xs font-normal leading-tight text-gray-500 transition-colors hover:text-indigo-300 focus-visible:rounded-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-400">{article.titleJa}</a>
+            <a href={pathWithBase(article.sourceJa)} class="mt-1 block w-fit text-xs font-normal leading-5 text-gray-500 transition-colors hover:text-indigo-300 focus-visible:rounded-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-400">{article.titleJa}</a>
           {:else}
-            <span class="mt-0.5 block text-xs font-normal leading-tight text-gray-500">{article.titleJa}</span>
+            <span class="mt-1 block text-xs font-normal leading-5 text-gray-500">{article.titleJa}</span>
           {/if}
         </h2>
         <ul class="divide-y divide-gray-800/60 border-t border-gray-800/60">
           {#each article.mentions as mention}
-            <li class="flex flex-wrap items-baseline gap-x-5 gap-y-1 py-3">
-              <span class="font-mono text-xs text-gray-500">{mention.date}</span>
+            <li class="grid min-w-0 gap-x-5 gap-y-1.5 py-3.5 sm:grid-cols-[6rem_minmax(0,1fr)] sm:items-baseline sm:py-3">
+              <time datetime={mention.date} class="whitespace-nowrap font-mono text-xs text-gray-500">{mention.date}</time>
               <a
                 href={mention.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                class="text-sm font-medium text-indigo-300 transition-colors hover:text-indigo-200"
+                class="min-w-0 text-sm font-medium leading-6 text-indigo-300 transition-colors hover:text-indigo-200 focus-visible:rounded-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-400"
               >
                 {mention.media} ↗
               </a>
