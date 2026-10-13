@@ -64,16 +64,16 @@
 
 <div class="mx-auto flex w-full max-w-6xl flex-col items-center gap-10 py-4 md:gap-12 lg:min-h-[calc(100vh-6rem)] lg:justify-center lg:py-0">
   <section class="flex w-full shrink-0 flex-col items-center py-6 text-center sm:py-8">
-    <h1 class="sr-only">SIPDEP</h1>
-    <img
-      src={pathWithBase('/img/sipdep.svg')}
-      alt=""
-      aria-hidden="true"
-      width="1351"
-      height="207"
-      draggable="false"
-      class="h-auto w-full max-w-[680px] shrink-0 object-contain sm:max-w-[760px]"
-    />
+    <h1 class="flex w-full justify-center">
+      <img
+        src={pathWithBase('/img/sipdep.svg')}
+        alt="SIPDEP"
+        width="1351"
+        height="207"
+        draggable="false"
+        class="h-auto w-full max-w-[680px] shrink-0 object-contain sm:max-w-[760px]"
+      />
+    </h1>
   </section>
 
   {#if data.popularPostPaths.length > 0}
