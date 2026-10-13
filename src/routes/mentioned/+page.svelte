@@ -19,6 +19,24 @@
 
   const articles: MentionedArticle[] = [
     {
+      titleEn: 'NTFS Spinal Cord Sword',
+      titleJa: 'NTFS脊髄剣',
+      sourceEn: '/posts/works/ntfsfind-dump-en',
+      sourceJa: '/posts/works/ntfsfind-dump',
+      mentions: [
+        {
+          date: '2026-10-12',
+          media: 'Forensic Focus / DFIR News, 12 Oct 2026',
+          url: 'https://www.forensicfocus.com/news/headlines/dfir-news-12-oct-2026/',
+        },
+        {
+          date: '2026-10-11',
+          media: 'This Week in 4n6 / WEEK 41 - 2026',
+          url: 'https://thisweekin4n6.com/2026/10/11/week-41-2026/',
+        },
+      ],
+    },
+    {
       titleEn: 'a tale of volatile memories.',
       titleJa: 'Windowsは世界に一人。だからWindowsは神様だ。',
       sourceEn: '/posts/knowledges/windows-memory-forensics-101-en',
@@ -73,6 +91,16 @@
       sourceEn: '/posts/knowledges/windows-eventlog-analysis-101-en',
       sourceJa: '/posts/knowledges/windows-eventlog-analysis-101',
       mentions: [
+        {
+          date: '2026-10-12',
+          media: 'Forensic Focus / DFIR News, 12 Oct 2026',
+          url: 'https://www.forensicfocus.com/news/headlines/dfir-news-12-oct-2026/',
+        },
+        {
+          date: '2026-10-11',
+          media: 'This Week in 4n6 / WEEK 41 - 2026',
+          url: 'https://thisweekin4n6.com/2026/10/11/week-41-2026/',
+        },
         {
           date: '2026-10-03',
           media: 'CTO at NCSC - Cyber Defence Analysis / Summary: week ending October 4th',
