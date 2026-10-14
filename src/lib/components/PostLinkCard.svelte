@@ -1,8 +1,8 @@
 <script lang="ts">
-  import { base } from '$app/paths';
-  import { postHref } from '$lib/paths';
-  import { fetchPosts, getPostCategory, getPostTitle } from '$lib/posts';
-  import type { PostIndex } from '$lib/types';
+  import { asset } from '$app/paths';
+  import { postHref } from '#lib/paths.ts';
+  import { fetchPosts, getPostCategory, getPostTitle } from '#lib/posts.ts';
+  import type { PostIndex } from '#lib/types.ts';
 
   interface Props {
     /** Internal post path, e.g. `/posts/malware/analysis-101` */
@@ -83,7 +83,7 @@
 >
   <span class="flex shrink-0 items-center border-r border-gray-800 pr-3.5">
     <img
-      src={`${base}/img/sipdep-wordmark.svg`}
+      src={asset('img/sipdep-wordmark.svg')}
       alt=""
       aria-hidden="true"
       width="1460"

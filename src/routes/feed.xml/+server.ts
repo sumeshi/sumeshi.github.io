@@ -1,5 +1,5 @@
-import { fetchPostIndexForBuild, postRouteEntry, postUrlFromEntry } from '$lib/post-index-build';
-import { siteDescription, siteFeedUrl, siteName, siteUrl } from '$lib/site';
+import { fetchPostIndexForBuild, postRouteEntry, postUrlFromEntry } from '#lib/post-index-build.ts';
+import { siteDescription, siteFeedUrl, siteName, siteUrl } from '#lib/site.ts';
 import type { RequestHandler } from './$types';
 
 export const prerender = true;

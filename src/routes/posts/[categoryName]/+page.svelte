@@ -1,14 +1,14 @@
 <script lang="ts">
-  import { page } from '$app/stores';
-  import Breadcrumb from '$lib/components/Breadcrumb.svelte';
-  import LoadingPulse from '$lib/components/LoadingPulse.svelte';
-  import PageMeta from '$lib/components/PageMeta.svelte';
-  import PostListItem from '$lib/components/PostListItem.svelte';
-  import { pathWithBase } from '$lib/paths';
-  import { createPostListState } from '$lib/post-list-state.svelte';
-  import { fetchCategoryPosts } from '$lib/posts';
+  import { page } from '$app/state';
+  import Breadcrumb from '#lib/components/Breadcrumb.svelte';
+  import LoadingPulse from '#lib/components/LoadingPulse.svelte';
+  import PageMeta from '#lib/components/PageMeta.svelte';
+  import PostListItem from '#lib/components/PostListItem.svelte';
+  import { pathWithBase } from '#lib/paths.ts';
+  import { createPostListState } from '#lib/post-list-state.svelte.ts';
+  import { fetchCategoryPosts } from '#lib/posts.ts';
   import { untrack } from 'svelte';
-  import { jsonLd, pageTitle, siteBlogId, siteName, siteUrl } from '$lib/site';
+  import { jsonLd, pageTitle, siteBlogId, siteName, siteUrl } from '#lib/site.ts';
   import type { PageData } from './$types';
 
   interface Props {
@@ -23,7 +23,7 @@
     tools: 'Usage notes and practical guides for third-party tools used in security research and software development.',
     works: 'Articles on software I build, technical experiments, and the design ideas behind my open-source and digital forensics projects.',
   };
-  const categoryName = $derived($page.params.categoryName);
+  const categoryName = $derived(page.params.categoryName);
   const categoryLabel = $derived(categoryName ?? 'unknown');
   const categoryDescription = $derived(
     categoryDescriptions[categoryLabel] ?? `Posts filed under ${categoryLabel}.`,

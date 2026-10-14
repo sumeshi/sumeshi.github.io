@@ -1,5 +1,5 @@
-import { fetchPostIndexForBuild, postRouteEntry, uniqueCategoryEntries } from '$lib/post-index-build';
-import { orderPostsDescending } from '$lib/posts';
+import { fetchPostIndexForBuild, postRouteEntry, uniqueCategoryEntries } from '#lib/post-index-build.ts';
+import { orderPostsDescending } from '#lib/posts.ts';
 import type { EntryGenerator, PageLoad } from './$types';
 
 export const prerender = true;

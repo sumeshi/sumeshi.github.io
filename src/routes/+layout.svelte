@@ -1,9 +1,9 @@
 <script lang="ts">
   import '../app.css';
-  import { pathWithBase } from '$lib/paths';
-  import { page } from '$app/stores';
+  import { pathWithBase } from '#lib/paths.ts';
+  import { page } from '$app/state';
   import { afterNavigate } from '$app/navigation';
-  import { languageForPathname } from '$lib/site-language';
+  import { languageForPathname } from '#lib/site-language.ts';
   import { onMount, tick } from 'svelte';
 
   interface Props {
@@ -61,7 +61,7 @@
   }
 
   function isActive(href: string): boolean {
-    const path = $page.url.pathname;
+    const path = page.url.pathname;
     const resolvedHref = pathWithBase(href);
     return href === '/' ? path === resolvedHref : path.startsWith(resolvedHref);
   }

@@ -1,8 +1,8 @@
 <script lang="ts">
-  import Badge from '$lib/components/Badge.svelte';
-  import IconButton from '$lib/components/IconButton.svelte';
-  import PageMeta from '$lib/components/PageMeta.svelte';
-  import { pathWithBase } from '$lib/paths';
+  import Badge from '#lib/components/Badge.svelte';
+  import IconButton from '#lib/components/IconButton.svelte';
+  import PageMeta from '#lib/components/PageMeta.svelte';
+  import { pathWithBase } from '#lib/paths.ts';
   import {
     jsonLd,
     pageTitle,
@@ -12,7 +12,7 @@
     siteSameAs,
     siteUrl,
     siteWebsiteId,
-  } from '$lib/site';
+  } from '#lib/site.ts';
 
   type Lang = 'en' | 'ja';
 

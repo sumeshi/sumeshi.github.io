@@ -1,10 +1,10 @@
 <script lang="ts">
-  import PageMeta from '$lib/components/PageMeta.svelte';
-  import PopularPosts from '$lib/components/PopularPosts.svelte';
-  import RecentPosts from '$lib/components/RecentPosts.svelte';
-  import { pathWithBase } from '$lib/paths';
-  import { createPostListState } from '$lib/post-list-state.svelte';
-  import { fetchPosts } from '$lib/posts';
+  import PageMeta from '#lib/components/PageMeta.svelte';
+  import PopularPosts from '#lib/components/PopularPosts.svelte';
+  import RecentPosts from '#lib/components/RecentPosts.svelte';
+  import { pathWithBase } from '#lib/paths.ts';
+  import { createPostListState } from '#lib/post-list-state.svelte.ts';
+  import { fetchPosts } from '#lib/posts.ts';
   import { untrack } from 'svelte';
   import {
     jsonLd,
@@ -16,7 +16,7 @@
     siteSameAs,
     siteUrl,
     siteWebsiteId,
-  } from '$lib/site';
+  } from '#lib/site.ts';
   import type { PageData } from './$types';
 
   interface Props {

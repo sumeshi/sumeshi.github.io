@@ -1,7 +1,7 @@
 <script lang="ts">
-  import { pathWithBase } from '$lib/paths';
-  import { getPostPath } from '$lib/posts';
-  import type { PostIndex } from '$lib/types';
+  import { pathWithBase } from '#lib/paths.ts';
+  import { getPostPath } from '#lib/posts.ts';
+  import type { PostIndex } from '#lib/types.ts';
   import PostListItem from './PostListItem.svelte';
 
   interface Props {

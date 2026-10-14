@@ -2,7 +2,7 @@
 
 # enable pinned pnpm from package.json
 corepack enable
-corepack prepare pnpm@11.21.0 --activate
+corepack install
 
 # install project dependencies
 pnpm install --frozen-lockfile

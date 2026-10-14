@@ -1,7 +1,7 @@
 <script lang="ts">
-  import { postHref } from '$lib/paths';
-  import { formatPostListDate, getPostCategory, getPostListTitle } from '$lib/posts';
-  import type { PostIndex } from '$lib/types';
+  import { postHref } from '#lib/paths.ts';
+  import { formatPostListDate, getPostCategory, getPostListTitle } from '#lib/posts.ts';
+  import type { PostIndex } from '#lib/types.ts';
 
   interface Props {
     post: PostIndex;

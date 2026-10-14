@@ -1,8 +1,8 @@
 <script lang="ts">
-  import Badge from '$lib/components/Badge.svelte';
-  import PageMeta from '$lib/components/PageMeta.svelte';
-  import SpeakerDeckEmbed from '$lib/components/SpeakerDeckEmbed.svelte';
-  import { pageTitle } from '$lib/site';
+  import Badge from '#lib/components/Badge.svelte';
+  import PageMeta from '#lib/components/PageMeta.svelte';
+  import SpeakerDeckEmbed from '#lib/components/SpeakerDeckEmbed.svelte';
+  import { pageTitle } from '#lib/site.ts';
 
   type Slide = {
     title: string;

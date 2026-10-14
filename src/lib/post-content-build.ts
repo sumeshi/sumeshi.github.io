@@ -1,7 +1,7 @@
 import sanitizeHtml from 'sanitize-html';
 import hljs from 'highlight.js/lib/common';
-import { extractInternalPostLinkCard, extractGitHubRepoLinkCard } from '$lib/post-content';
-import type { ContentBlock } from '$lib/types';
+import { extractInternalPostLinkCard, extractGitHubRepoLinkCard } from '#lib/post-content.ts';
+import type { ContentBlock } from '#lib/types.ts';
 
 const ALLOWED_TAGS = [
   'h1', 'h2', 'h3', 'h4', 'h5', 'h6',

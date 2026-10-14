@@ -1,7 +1,7 @@
 <script lang="ts">
-  import PageMeta from '$lib/components/PageMeta.svelte';
-  import { pathWithBase } from '$lib/paths';
-  import { pageTitle } from '$lib/site';
+  import PageMeta from '#lib/components/PageMeta.svelte';
+  import { pathWithBase } from '#lib/paths.ts';
+  import { pageTitle } from '#lib/site.ts';
 
   type Mention = {
     date: string;

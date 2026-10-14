@@ -1,13 +1,13 @@
 import { error } from '@sveltejs/kit';
-import { building } from '$app/environment';
+import { building } from '$app/env';
 import {
   fetchPostIndexForBuild,
   postRouteEntry,
   postUrlFromEntry,
   uniquePostEntries,
-} from '$lib/post-index-build';
-import { fetchPostContent } from '$lib/post-content';
-import type { ContentBlock, PostContent } from '$lib/types';
+} from '#lib/post-index-build.ts';
+import { fetchPostContent } from '#lib/post-content.ts';
+import type { ContentBlock, PostContent } from '#lib/types.ts';
 import type { EntryGenerator, PageLoad } from './$types';
 
 export const prerender = true;
@@ -55,7 +55,7 @@ export const load: PageLoad = async ({ params }) => {
   // a sanitized snapshot; the component refreshes it from the API in-browser.
   if (building) {
     postContent = await fetchPostContent(params.categoryName, params.postId);
-    const { parsePostContentForBuild } = await import('$lib/post-content-build');
+    const { parsePostContentForBuild } = await import('#lib/post-content-build.ts');
     initialContents = parsePostContentForBuild(postContent.html_text);
   }
 

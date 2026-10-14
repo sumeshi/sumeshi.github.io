@@ -1,5 +1,5 @@
-import { POSTS_API_BASE } from '$lib/config';
-import type { PostContent, PostIndex } from '$lib/types';
+import { POSTS_API_BASE } from '#lib/config.ts';
+import type { PostContent, PostIndex } from '#lib/types.ts';
 
 async function fetchJson<T>(url: string, signal?: AbortSignal): Promise<T> {
   const response = await fetch(url, { signal });

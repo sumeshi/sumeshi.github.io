@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { page } from '$app/stores';
+  import { page } from '$app/state';
   import {
     canonicalUrlForPath,
     siteAuthor,
@@ -8,7 +8,7 @@
     siteOgImageUrl,
     siteUrl,
     xHandle,
-  } from '$lib/site';
+  } from '#lib/site.ts';
 
   interface Props {
     title: string;
@@ -34,7 +34,7 @@
     languageAlternates = [],
   }: Props = $props();
 
-  const canonicalUrl = $derived(canonicalUrlForPath($page.url.pathname));
+  const canonicalUrl = $derived(canonicalUrlForPath(page.url.pathname));
 </script>
 
 <svelte:head>

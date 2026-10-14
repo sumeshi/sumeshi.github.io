@@ -1,6 +1,6 @@
-import { fetchPostIndexForBuild, postRouteEntry, postUrlFromEntry, uniqueCategoryEntries } from '$lib/post-index-build';
-import { siteUrl } from '$lib/site';
-import type { PostIndex } from '$lib/types';
+import { fetchPostIndexForBuild, postRouteEntry, postUrlFromEntry, uniqueCategoryEntries } from '#lib/post-index-build.ts';
+import { siteUrl } from '#lib/site.ts';
+import type { PostIndex } from '#lib/types.ts';
 import type { RequestHandler } from './$types';
 
 export const prerender = true;

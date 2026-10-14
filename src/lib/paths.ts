@@ -1,6 +1,7 @@
-import { base } from '$app/paths';
+import { resolve } from '$app/paths';
 
 export function pathWithBase(path: string): string {
+  const base = resolve('/').replace(/\/$/, '');
   if (path === '/') {
     return base || '/';
   }

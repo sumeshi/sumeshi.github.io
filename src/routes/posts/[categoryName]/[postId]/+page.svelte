@@ -1,16 +1,16 @@
 <script lang="ts">
-  import LoadingPulse from '$lib/components/LoadingPulse.svelte';
-  import Breadcrumb from '$lib/components/Breadcrumb.svelte';
-  import IconButton from '$lib/components/IconButton.svelte';
-  import LinkButton from '$lib/components/LinkButton.svelte';
-  import PostLinkCard from '$lib/components/PostLinkCard.svelte';
-  import GitHubRepoCard from '$lib/components/GitHubRepoCard.svelte';
-  import PageMeta from '$lib/components/PageMeta.svelte';
-  import { page } from '$app/stores';
+  import LoadingPulse from '#lib/components/LoadingPulse.svelte';
+  import Breadcrumb from '#lib/components/Breadcrumb.svelte';
+  import IconButton from '#lib/components/IconButton.svelte';
+  import LinkButton from '#lib/components/LinkButton.svelte';
+  import PostLinkCard from '#lib/components/PostLinkCard.svelte';
+  import GitHubRepoCard from '#lib/components/GitHubRepoCard.svelte';
+  import PageMeta from '#lib/components/PageMeta.svelte';
+  import { page } from '$app/state';
   import { untrack } from 'svelte';
-  import { createAsyncDataState } from '$lib/load-state.svelte';
-  import { pathWithBase } from '$lib/paths';
-  import { formatPostListDate, getPostTitle } from '$lib/posts';
+  import { createAsyncDataState } from '#lib/load-state.svelte.ts';
+  import { pathWithBase } from '#lib/paths.ts';
+  import { formatPostListDate, getPostTitle } from '#lib/posts.ts';
   import {
     jsonLd,
     pageTitle,
@@ -21,9 +21,9 @@
     siteOgImageUrl,
     sitePersonId,
     siteUrl,
-  } from '$lib/site';
-  import { fetchPostContent, parsePostContent, postSourceUrl } from '$lib/post-content';
-  import type { PostContent, ContentBlock, PostIndex } from '$lib/types';
+  } from '#lib/site.ts';
+  import { fetchPostContent, parsePostContent, postSourceUrl } from '#lib/post-content.ts';
+  import type { PostContent, ContentBlock, PostIndex } from '#lib/types.ts';
   import type { PageData } from './$types';
   import 'highlight.js/styles/tokyo-night-dark.css';
 
@@ -68,8 +68,8 @@
     postState.state.loading = false;
   }
 
-  const categoryName = $derived($page.params.categoryName);
-  const postId = $derived($page.params.postId);
+  const categoryName = $derived(page.params.categoryName);
+  const postId = $derived(page.params.postId);
   const loadedPost = $derived(data.post);
   const metaPost = $derived(loadedPost ?? postState.state.value);
   const postTitle = $derived(metaPost.title || metaPost.heading ? getPostTitle(metaPost) : '');

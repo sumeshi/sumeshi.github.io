@@ -1,6 +1,6 @@
-import { POSTS_API_BASE } from '$lib/config';
-import { siteUrl } from '$lib/site';
-import type { ContentBlock, PostContent } from '$lib/types';
+import { POSTS_API_BASE } from '#lib/config.ts';
+import { siteUrl } from '#lib/site.ts';
+import type { ContentBlock, PostContent } from '#lib/types.ts';
 
 const ALLOWED_TAGS = [
   'h1', 'h2', 'h3', 'h4', 'h5', 'h6',

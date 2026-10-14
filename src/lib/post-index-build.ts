@@ -1,6 +1,6 @@
-import { POSTS_API_BASE } from '$lib/config';
-import { siteUrl } from '$lib/site';
-import type { PostIndex } from '$lib/types';
+import { POSTS_API_BASE } from '#lib/config.ts';
+import { siteUrl } from '#lib/site.ts';
+import type { PostIndex } from '#lib/types.ts';
 
 type PostRouteEntry = {
   categoryName: string;

@@ -1,7 +1,7 @@
 <script lang="ts">
-  import PageMeta from '$lib/components/PageMeta.svelte';
-  import XPostEmbed from '$lib/components/XPostEmbed.svelte';
-  import { pageTitle } from '$lib/site';
+  import PageMeta from '#lib/components/PageMeta.svelte';
+  import XPostEmbed from '#lib/components/XPostEmbed.svelte';
+  import { pageTitle } from '#lib/site.ts';
 
   type ProjectStatusKey =
     | 'active'

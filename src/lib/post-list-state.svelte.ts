@@ -1,5 +1,5 @@
-import { createAsyncDataState } from '$lib/load-state.svelte';
-import type { PostIndex } from '$lib/types';
+import { createAsyncDataState } from '#lib/load-state.svelte.ts';
+import type { PostIndex } from '#lib/types.ts';
 
 type PostListRequest = (signal?: AbortSignal) => Promise<PostIndex[]>;
 
