@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { getSiteLanguage } from '#lib/site-language.ts';
   import LoadingPulse from '#lib/components/LoadingPulse.svelte';
   import PageMeta from '#lib/components/PageMeta.svelte';
   import PostListItem from '#lib/components/PostListItem.svelte';
@@ -18,6 +19,8 @@
   } from '#lib/site.ts';
   import type { PageData } from './$types';
 
+  const language = getSiteLanguage();
+
   interface Props {
     data: PageData;
   }
@@ -35,8 +38,9 @@
 </script>
 
 <PageMeta
+  language={$language}
   title={pageTitle('Posts')}
-  description="個人メモや備忘録の一覧"
+  description={$language === 'ja' ? '個人メモや備忘録の一覧' : 'Personal notes and knowledge in progress.'}
 />
 
 <svelte:head>
@@ -81,7 +85,7 @@
     <div>
       <h1 class="page-title">$ ls /var/log</h1>
       <p class="mt-3 max-w-2xl text-sm leading-6 text-gray-400">
-        記事にするほどでもない備忘録とか、整理中の知識とか。ここで得た知識を悪用しないようにね。
+        {$language === 'ja' ? '記事にするほどでもない備忘録とか、整理中の知識とか。ここで得た知識を悪用しないようにね。' : 'Personal notes that do not quite call for a full article, and knowledge I am still sorting out. Please do not misuse what you learn here.'}
       </p>
     </div>
     <div class="flex items-center gap-3 self-start sm:self-end">

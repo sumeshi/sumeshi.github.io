@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { getSiteLanguage, type SiteLanguage } from '#lib/site-language.ts';
   import { page } from '$app/state';
   import Breadcrumb from '#lib/components/Breadcrumb.svelte';
   import LoadingPulse from '#lib/components/LoadingPulse.svelte';
@@ -11,22 +12,24 @@
   import { jsonLd, pageTitle, siteBlogId, siteName, siteUrl } from '#lib/site.ts';
   import type { PageData } from './$types';
 
+  const language = getSiteLanguage();
+
   interface Props {
     data: PageData;
   }
 
   let { data }: Props = $props();
 
-  const categoryDescriptions: Record<string, string> = {
-    ideas: 'Notes on future plans, ongoing projects, and ideas currently being explored.',
-    knowledges: 'Original findings, practical insights, and personal perspectives developed through hands-on work and research in digital forensics, cybersecurity, and computing.',
-    tools: 'Usage notes and practical guides for third-party tools used in security research and software development.',
-    works: 'Articles on software I build, technical experiments, and the design ideas behind my open-source and digital forensics projects.',
+  const categoryDescriptions: Record<string, Record<SiteLanguage, string>> = {
+    ideas: { ja: "今後の計画、進行中のプロジェクト、検討中のアイデアについてのメモ。", en: "Notes on future plans, ongoing projects, and ideas currently being explored." },
+    knowledges: { ja: "デジタルフォレンジック、セキュリティ、コンピューティングの実践と研究から得た知見や考察。", en: "Original findings, practical insights, and personal perspectives developed through hands-on work and research in digital forensics, cybersecurity, and computing." },
+    tools: { ja: "セキュリティ研究やソフトウェア開発で使うツールの使い方や実践的なメモ。", en: "Usage notes and practical guides for third-party tools used in security research and software development." },
+    works: { ja: "自作ソフトウェア、技術的な実験、OSSやフォレンジック関連プロジェクトの設計について。", en: "Articles on software I build, technical experiments, and the design ideas behind my open-source and digital forensics projects." },
   };
   const categoryName = $derived(page.params.categoryName);
   const categoryLabel = $derived(categoryName ?? 'unknown');
   const categoryDescription = $derived(
-    categoryDescriptions[categoryLabel] ?? `Posts filed under ${categoryLabel}.`,
+    categoryDescriptions[categoryLabel]?.[$language] ?? ($language === 'ja' ? `${categoryLabel} の投稿一覧。` : `Posts filed under ${categoryLabel}.`),
   );
   const categoryUrl = $derived(`${siteUrl}/posts/${encodeURIComponent(categoryLabel)}`);
   const postState = createPostListState({
@@ -41,6 +44,7 @@
 </script>
 
 <PageMeta
+  language={$language}
   title={pageTitle(`${categoryLabel} | Posts`)}
   description={categoryDescription}
 />
@@ -54,6 +58,7 @@
         "@id": categoryUrl,
         "name": `${categoryLabel} | Posts | ${siteName}`,
         "description": categoryDescription,
+        "inLanguage": $language,
         "url": categoryUrl,
         "isPartOf": { "@id": siteBlogId }
       },

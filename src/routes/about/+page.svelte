@@ -2,6 +2,7 @@
   import Badge from '#lib/components/Badge.svelte';
   import IconButton from '#lib/components/IconButton.svelte';
   import PageMeta from '#lib/components/PageMeta.svelte';
+  import { getSiteLanguage } from '#lib/site-language.ts';
   import { pathWithBase } from '#lib/paths.ts';
   import {
     jsonLd,
@@ -16,12 +17,7 @@
 
   type Lang = 'en' | 'ja';
 
-  let lang: Lang = $state('ja');
-
-  function setLanguage(language: Lang): void {
-    lang = language;
-    document.documentElement.lang = language;
-  }
+  const lang = getSiteLanguage();
 
   const socialLinks = [
     { name: 'GitHub', url: 'https://github.com/sumeshi' },
@@ -66,7 +62,7 @@
   ];
   const linksCopy = {
     ja: 'Postsよりちょびっと一般化した記事の置き場。',
-    en: 'Places for articles and talk slides.',
+    en: 'Articles that go a little beyond the personal notes in Posts.',
   };
   const mentionedCopy = {
     ja: '外部からの記事紹介、ツール採用事例など。',
@@ -90,11 +86,8 @@
   // string = 1段落 / string[] = 同一段落内の複数行（行間はline-heightのみ）
   const aboutme: Record<Lang, Array<string | string[]>> = {
     en: [
-      'I specialize in cybersecurity, particularly incident response.',
-      [
-        'With a background in software engineering, I enjoy applying that experience in my work.',
-        'I also build tools I find useful and release them as open source on GitHub.',
-      ],
+      'I specialize in cybersecurity and work at a security company on incident response, digital forensics, malware analysis, and threat intelligence. I have investigated hundreds of devices and draw on that experience to train security professionals and teach technical courses.',
+      'I also develop open-source forensic tools. Some are included in distributions such as Tsurugi Linux and DRIFT Linux.',
     ],
     ja: [
       ['サイバーセキュリティを専門とし、セキュリティ企業にてインシデント対応、デジタルフォレンジック、マルウェア解析、脅威情報分析などに従事する。累計数百台の機器調査を経験し、その知見を生かしてセキュリティ人材の育成や技術訓練講師としても活動する。'],
@@ -187,8 +180,8 @@
 
 <PageMeta
   title={pageTitle('About')}
-  description="S.Nakano is a cybersecurity professional specializing in incident response, digital forensics, malware analysis, and open-source software development."
-  language={lang}
+  description={$lang === 'ja' ? 'S.Nakano のプロフィール。インシデント対応、デジタルフォレンジック、マルウェア解析、OSS開発など。' : 'S.Nakano is a cybersecurity professional specializing in incident response, digital forensics, malware analysis, and open-source software development.'}
+  language={$lang}
 />
 
 <svelte:head>
@@ -200,7 +193,7 @@
         "@id": `${siteUrl}/about#profile`,
         "url": `${siteUrl}/about`,
         "name": "About | SIPDEP",
-        "inLanguage": lang,
+        "inLanguage": $lang,
         "isPartOf": { "@id": siteWebsiteId },
         "mainEntity": { "@id": sitePersonId }
       },
@@ -219,22 +212,6 @@
 
 <div class="site-container space-y-8">
   <header class="border-b border-gray-800/80 pb-7">
-    <div class="mb-5 flex justify-end">
-      <div class="flex overflow-hidden rounded-lg border border-gray-700">
-        {#each ['en', 'ja'] as option (option)}
-          <button
-            type="button"
-            onclick={() => setLanguage(option as Lang)}
-            class="px-4 py-1.5 text-xs font-semibold uppercase tracking-wider transition-colors
-              {lang === option ? 'bg-indigo-600 text-white' : 'text-gray-400 hover:text-white'}"
-            aria-pressed={lang === option}
-          >
-            {option}
-          </button>
-        {/each}
-      </div>
-    </div>
-
     <h2 class="section-title mb-4">$ whoami</h2>
     <div class="grid gap-6 md:grid-cols-[8rem_1fr] md:items-start md:gap-10">
       <img
@@ -279,7 +256,7 @@
         </div>
 
         <div class="mt-5 max-w-3xl space-y-3">
-          {#each aboutme[lang] as paragraph}
+          {#each aboutme[$lang] as paragraph}
             <p class="text-sm leading-relaxed text-gray-400">
               {#if Array.isArray(paragraph)}
                 {#each paragraph as line, i}
@@ -313,7 +290,7 @@
 
   <section class="space-y-3 border-b border-gray-800/80 pb-7">
     <h2 class="section-title">$ ln</h2>
-    <p class="text-sm leading-relaxed text-gray-400">{linksCopy[lang]}</p>
+    <p class="text-sm leading-relaxed text-gray-400">{linksCopy[$lang]}</p>
     <div class="grid grid-cols-5 gap-1.5 sm:gap-2">
       {#each writingPlatforms as platform}
         <Badge
@@ -328,7 +305,7 @@
       {/each}
     </div>
     <div class="space-y-2 border-t border-gray-800/80 pt-4">
-      <p class="text-sm leading-relaxed text-gray-400">{mentionedCopy[lang]}</p>
+      <p class="text-sm leading-relaxed text-gray-400">{mentionedCopy[$lang]}</p>
       <a
         href={pathWithBase('/mentioned')}
         class="inline-block font-mono text-sm text-gray-300 underline decoration-gray-700 underline-offset-4 transition-colors hover:text-white hover:decoration-gray-400"
@@ -339,7 +316,7 @@
   <section class="space-y-3 border-b border-gray-800/80 pb-7">
     <h2 class="section-title">$ history</h2>
     <div class="space-y-6">
-      {#each Object.entries(history[lang]) as [period, items]}
+      {#each Object.entries(history[$lang]) as [period, items]}
         <div>
           <h3 class="mb-2 text-sm font-semibold tracking-tight text-indigo-400">{period}</h3>
           <ul class="max-w-3xl space-y-1.5">

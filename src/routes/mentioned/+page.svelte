@@ -1,7 +1,10 @@
 <script lang="ts">
+  import { getSiteLanguage } from '#lib/site-language.ts';
   import PageMeta from '#lib/components/PageMeta.svelte';
   import { pathWithBase } from '#lib/paths.ts';
   import { pageTitle } from '#lib/site.ts';
+
+  const language = getSiteLanguage();
 
   type Mention = {
     date: string;
@@ -157,8 +160,9 @@
 </script>
 
 <PageMeta
+  language={$language}
   title={pageTitle('Mentioned')}
-  description="S.Nakano の記事やプロジェクトについて、外部で紹介・言及いただいた記録。"
+  description={$language === 'ja' ? 'S.Nakano の記事やプロジェクトについて、外部で紹介・言及いただいた記録。' : 'External mentions of articles and projects by S.Nakano.'}
 />
 
 <div class="site-container space-y-6">
@@ -166,7 +170,7 @@
     <div>
       <h1 class="page-title">$ locate</h1>
       <p class="mt-3 max-w-2xl text-sm leading-6 text-gray-400">
-        外部で言及された記事・プロジェクトについて。
+        {$language === 'ja' ? '外部で言及された記事・プロジェクトについて。' : 'Articles and projects mentioned by others.'}
       </p>
     </div>
     <p class="font-mono text-xs text-gray-600">{mentionCount} mentions</p>
