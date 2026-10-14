@@ -7,6 +7,7 @@
     date: string;
     media: string;
     url: string;
+    description?: string;
   };
 
   type MentionedArticle = {
@@ -119,7 +120,7 @@
       ],
     },
     {
-      titleEn: '*2es',
+      titleEn: '*2es/json',
       titleJa: 'Windows Forensic Artifact Parsers',
       sourceEn: '/works',
       sourceJa: '/works',
@@ -128,16 +129,25 @@
           date: '2026-04-16',
           media: 'DRIFT Linux',
           url: 'https://www.driftlinux.org/',
+          description: 'evtx2json is included as a Windows Event Log analysis tool.',
         },
         {
           date: '2022-01-19',
           media: 'Tsurugi Linux [LAB]',
           url: 'https://tsurugi-linux.org/tsurugi_linux.php',
+          description: 'evtx2es/json and mft2es/json are included for Windows Event Log and NTFS MFT analysis.',
+        },
+        {
+          date: '2021-10-01',
+          media: 'Security Onion',
+          url: 'https://docs.securityonion.net/en/3/main/software-bill-of-materials/',
+          description: 'evtx2es is integrated into the EVTX import workflow.',
         },
         {
           date: '2020-01-03',
           media: 'ELK Detection Lab',
           url: 'https://github.com/thomaspatzke/elk-detection-lab',
+          description: 'evtx2es is used to import the EVTX-ATTACK-SAMPLES dataset.',
         },
       ],
     },
@@ -181,14 +191,19 @@
           {#each article.mentions as mention}
             <li class="grid min-w-0 gap-x-5 gap-y-1.5 py-3.5 sm:grid-cols-[6rem_minmax(0,1fr)] sm:items-baseline sm:py-3">
               <time datetime={mention.date} class="whitespace-nowrap font-mono text-xs text-gray-500">{mention.date}</time>
-              <a
-                href={mention.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                class="min-w-0 text-sm font-medium leading-6 text-indigo-300 transition-colors hover:text-indigo-200 focus-visible:rounded-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-400"
-              >
-                {mention.media} ↗
-              </a>
+              <div class="min-w-0">
+                <a
+                  href={mention.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="text-sm font-medium leading-6 text-indigo-300 transition-colors hover:text-indigo-200 focus-visible:rounded-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-400"
+                >
+                  {mention.media} ↗
+                </a>
+                {#if mention.description}
+                  <p class="mt-1 text-xs leading-5 text-gray-400">{mention.description}</p>
+                {/if}
+              </div>
             </li>
           {/each}
         </ul>
