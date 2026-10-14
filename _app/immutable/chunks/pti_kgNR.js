@@ -1,0 +1,1 @@
+import{o as e}from"./DgFDg67G.js";function t(t){let n=e(`/`).replace(/\/$/,``);return t===`/`?n||`/`:`${n}${`/${t}`.replace(/\/+/g,`/`)}`}function n(e){let n=e.trim().replace(/^\/+|\/+$/g,``);return t(n.startsWith(`posts/`)?n:`posts/${n}`)}export{n,t};
