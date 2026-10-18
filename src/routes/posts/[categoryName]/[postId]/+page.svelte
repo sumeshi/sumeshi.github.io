@@ -5,6 +5,7 @@
   import LinkButton from '#lib/components/LinkButton.svelte';
   import PostLinkCard from '#lib/components/PostLinkCard.svelte';
   import GitHubRepoCard from '#lib/components/GitHubRepoCard.svelte';
+  import MermaidDiagram from '#lib/components/MermaidDiagram.svelte';
   import PageMeta from '#lib/components/PageMeta.svelte';
   import { page } from '$app/state';
   import { untrack } from 'svelte';
@@ -402,6 +403,8 @@
             <PostLinkCard path={block.content} label={block.label} />
           {:else if block.type === 'github-repo'}
             <GitHubRepoCard url={block.content} />
+          {:else if block.type === 'mermaid'}
+            <MermaidDiagram source={block.content} />
           {:else}
             <div class="code-block">
               <pre><code>{@html block.content}</code></pre>

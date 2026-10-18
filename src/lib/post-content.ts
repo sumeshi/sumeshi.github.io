@@ -273,6 +273,11 @@ export async function parsePostContent(html: string): Promise<ContentBlock[]> {
       }
 
       const language = extractLanguage(codeElement.className);
+      if (language === 'mermaid') {
+        blocks.push({ type: 'mermaid', content: rawCode });
+        continue;
+      }
+
       const highlighted = language && hljs.getLanguage(language)
         ? hljs.highlight(rawCode, { language }).value
         : hljs.highlightAuto(rawCode).value;

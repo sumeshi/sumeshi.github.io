@@ -113,7 +113,7 @@ export function parsePostContentForBuild(html: string): ContentBlock[] {
 
     if (boundary.preCode) {
       const segment = html.slice(boundary.start, boundary.end);
-      const preCodeMatch = segment.match(PRE_CODE_PATTERN);
+      const [preCodeMatch] = segment.matchAll(PRE_CODE_PATTERN);
       const codeContent = preCodeMatch?.[2];
 
       if (codeContent) {
@@ -121,11 +121,15 @@ export function parsePostContentForBuild(html: string): ContentBlock[] {
 
         if (rawCode.trim()) {
           const language = extractLanguage(preCodeMatch[1]);
-          const highlighted = language && hljs.getLanguage(language)
-            ? hljs.highlight(rawCode, { language }).value
-            : hljs.highlightAuto(rawCode).value;
+          if (language === 'mermaid') {
+            blocks.push({ type: 'mermaid', content: rawCode });
+          } else {
+            const highlighted = language && hljs.getLanguage(language)
+              ? hljs.highlight(rawCode, { language }).value
+              : hljs.highlightAuto(rawCode).value;
 
-          blocks.push({ type: 'code', content: highlighted });
+            blocks.push({ type: 'code', content: highlighted });
+          }
         }
       }
     } else {
