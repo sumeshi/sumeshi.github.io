@@ -38,6 +38,7 @@
     { label: 'Works', href: '/works' },
     { label: 'Talks', href: '/talks' },
     { label: 'Posts', href: '/posts' },
+    { label: 'Archives', href: '/archives' },
   ];
   const headerMessages = [
     'Keep it simple stupid.',
