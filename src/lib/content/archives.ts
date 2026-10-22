@@ -26,8 +26,8 @@ export const archives: Archive[] = [
         en: 'Preview of the Windows Event Log investigation poster (English version)',
       },
       hrefs: [
-        { label: 'Download ja', url: `${repositoryUrl}/blob/main/posters/windows-eventlog-analysis-101-ja.pdf` },
-        { label: 'Download en', url: `${repositoryUrl}/blob/main/posters/windows-eventlog-analysis-101-en.pdf` },
+        { label: '日本語版 PDF', url: `${repositoryUrl}/blob/main/posters/windows-eventlog-analysis-101-ja.pdf` },
+        { label: 'English PDF', url: `${repositoryUrl}/blob/main/posters/windows-eventlog-analysis-101-en.pdf` },
       ],
     },
   ];

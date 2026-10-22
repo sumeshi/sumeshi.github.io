@@ -33,10 +33,10 @@
   const navItems = [
     { label: 'Home', href: '/' },
     { label: 'About', href: '/about' },
-    { label: 'Works', href: '/works' },
+    { label: 'Works', href: '/works', separatorBefore: true },
     { label: 'Talks', href: '/talks' },
-    { label: 'Posts', href: '/posts' },
     { label: 'Archives', href: '/archives' },
+    { label: 'Posts', href: '/posts', separatorBefore: true },
   ];
   const headerMessages = [
     'Keep it simple stupid.',
@@ -244,6 +244,9 @@
 >
   <div class="flex-1 px-3 py-8">
     {#each navItems as item, index}
+      {#if item.separatorBefore}
+        <hr class="mx-4 my-3 border-0 border-t border-gray-800/70" aria-hidden="true" />
+      {/if}
       <a
         id={`primary-nav-link-${index}`}
         href={pathWithBase(item.href)}
