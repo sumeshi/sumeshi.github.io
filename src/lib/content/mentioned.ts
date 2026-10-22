@@ -82,11 +82,29 @@ export const articles: MentionedArticle[] = [
       ],
     },
     {
+      titleEn: 'Do Local LLMs Dream of Forensic Investigators? — Part II',
+      titleJa: '続・ローカルLLMはフォレンジック調査官の夢を見るか',
+      sourceEn: '/posts/works/do-localllms-dream-of-forensic-investigator-2-en',
+      sourceJa: '/posts/works/do-localllms-dream-of-forensic-investigator-2',
+      mentions: [
+        {
+          date: '2026-10-18',
+          media: 'This Week in 4n6 / WEEK 42 - 2026',
+          url: 'https://thisweekin4n6.com/2026/10/18/week-42-2026/',
+        },
+      ],
+    },
+    {
       titleEn: 'How Do You Investigate Windows Event Logs?',
       titleJa: '君たちはどうWindowsイベントログを調査するか',
       sourceEn: '/posts/knowledges/windows-eventlog-analysis-101-en',
       sourceJa: '/posts/knowledges/windows-eventlog-analysis-101',
       mentions: [
+        {
+          date: '2026-10-19',
+          media: 'Windows Incident Response / Investigations and Analysis (Harlan Carvey)',
+          url: 'https://windowsir.blogspot.com/2026/10/investigations-and-analysis.html',
+        },
         {
           date: '2026-10-12',
           media: 'Forensic Focus / DFIR News, 12 Oct 2026',

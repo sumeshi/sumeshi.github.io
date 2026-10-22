@@ -3,7 +3,7 @@
   import IconButton from '#lib/components/IconButton.svelte';
   import PageMeta from '#lib/components/PageMeta.svelte';
   import { getSiteLanguage } from '#lib/site-language.ts';
-  import { aboutme, certifications, history, linksCopy, mentionedCopy, socialLinks, techstack, writingPlatforms } from '#lib/content/about.ts';
+  import { aboutme, certifications, history, linksCopy, socialLinks, techstack, writingPlatforms } from '#lib/content/about.ts';
   import { pathWithBase } from '#lib/paths.ts';
   import {
     jsonLd,
@@ -145,13 +145,6 @@
           {platform.name}
         </Badge>
       {/each}
-    </div>
-    <div class="space-y-2 border-t border-gray-800/80 pt-4">
-      <p class="text-sm leading-relaxed text-gray-400">{mentionedCopy[$lang]}</p>
-      <a
-        href={pathWithBase('/mentioned')}
-        class="inline-block font-mono text-sm text-gray-300 underline decoration-gray-700 underline-offset-4 transition-colors hover:text-white hover:decoration-gray-400"
-      >/mentioned</a>
     </div>
   </section>
 

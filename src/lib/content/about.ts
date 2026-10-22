@@ -45,10 +45,6 @@ export const linksCopy = {
     ja: 'Postsよりちょびっと一般化した記事の置き場。',
     en: 'Articles that go a little beyond the personal notes in Posts.',
   };
-export const mentionedCopy = {
-    ja: '外部からの記事紹介、ツール採用事例など。',
-    en: 'External article mentions, tool adoption cases, and the like.',
-  };
 export const certifications = [
     {
       name: 'GREM',
@@ -68,11 +64,11 @@ export const certifications = [
 export const aboutme: Record<SiteLanguage, Array<string | string[]>> = {
     en: [
       'I specialize in cybersecurity and work at a security company on incident response, digital forensics, malware analysis, and threat intelligence. I have investigated hundreds of devices and draw on that experience to train security professionals and teach technical courses.',
-      'I also develop open-source forensic tools. Some are included in distributions such as Tsurugi Linux and DRIFT Linux.',
+      'I also develop open-source forensic tools. Some are included in distributions such as Tsurugi Linux, DRIFT Linux, and Security Onion.',
     ],
     ja: [
       ['サイバーセキュリティを専門とし、セキュリティ企業にてインシデント対応、デジタルフォレンジック、マルウェア解析、脅威情報分析などに従事する。累計数百台の機器調査を経験し、その知見を生かしてセキュリティ人材の育成や技術訓練講師としても活動する。'],
-      ['フォレンジック関連のOSS開発にも取り組み、開発したソフトウェアは「Tsurugi Linux」「DRIFT Linux」などのOSに標準搭載されている。']
+      ['フォレンジック関連のOSS開発にも取り組み、開発したソフトウェアは「Tsurugi Linux」「DRIFT Linux」「Security Onion」などのセキュリティ向けディストリビューションに採用されている。']
     ],
   };
 

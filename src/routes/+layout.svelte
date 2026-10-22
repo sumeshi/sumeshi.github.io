@@ -33,8 +33,9 @@
   const navItems = [
     { label: 'Home', href: '/' },
     { label: 'About', href: '/about' },
-    { label: 'Works', href: '/works', separatorBefore: true },
-    { label: 'Talks', href: '/talks' },
+    { label: 'Mentioned', href: '/mentioned' },
+    { label: 'Talks', href: '/talks', separatorBefore: true },
+    { label: 'Works', href: '/works' },
     { label: 'Archives', href: '/archives' },
     { label: 'Posts', href: '/posts', separatorBefore: true },
   ];
