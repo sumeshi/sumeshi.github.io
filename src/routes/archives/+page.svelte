@@ -1,36 +1,27 @@
 <script lang="ts">
-  import { getSiteLanguage, type SiteLanguage } from '#lib/site-language.ts';
+  import { getSiteLanguage } from '#lib/site-language.ts';
   import Badge from '#lib/components/Badge.svelte';
   import PageMeta from '#lib/components/PageMeta.svelte';
   import PageHeader from '#lib/components/PageHeader.svelte';
   import { pageTitle } from '#lib/site.ts';
-  import { archives, repositoryUrl } from '#lib/content/archives.ts';
+  import { archives } from '#lib/content/archives.ts';
 
   const language = getSiteLanguage();
-  const description: Record<SiteLanguage, string> = {
-    ja: 'デジタルフォレンジック・インシデント対応・セキュリティ研究に関するポスターや参考資料。',
-    en: 'Posters and reference materials from SIPDEP on digital forensics, incident response, and security research.',
-  };
+  const description = 'Technical resources and publications from SIPDEP.';
 
 </script>
 
 <PageMeta
   language={$language}
   title={pageTitle('Archives')}
-  description={description[$language]}
+  {description}
 />
 
 <div class="site-container space-y-6">
   <PageHeader
     title="$ tar cvfz archives.tar.gz *"
-    description={description[$language]}
-  >
-    {#snippet action()}
-      <Badge href={repositoryUrl} external={true} variant="gray" size="xs" shape="rounded" className="w-fit shrink-0 font-mono">
-        GitHub ↗
-      </Badge>
-    {/snippet}
-  </PageHeader>
+    {description}
+  />
 
   <section aria-label="Posters" class="divide-y divide-gray-800/60">
     {#each archives as archive}
@@ -50,7 +41,7 @@
         </div>
         <p class="mt-3 max-w-3xl text-sm leading-relaxed text-gray-400">{archive.summary[$language]}</p>
         <a
-          href={archive.imageUrl}
+          href={archive.imageHref}
           target="_blank"
           rel="noopener noreferrer"
           class="mt-5 block overflow-hidden rounded-lg border border-gray-800 transition-colors hover:border-gray-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-400"
