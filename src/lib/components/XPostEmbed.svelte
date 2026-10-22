@@ -1,116 +1,130 @@
-<script lang="ts">
-  import { onMount, tick } from 'svelte';
-
-  let { url }: { url: string } = $props();
-
-  type XWindow = Window &
-    typeof globalThis & {
-      twttr?: {
-        ready?: (callback: (twttr: NonNullable<XWindow['twttr']>) => void) => void;
-        widgets?: {
-          createTweet: (
-            tweetId: string,
-            element: HTMLElement,
-            options?: {
-              theme?: 'dark' | 'light';
-              dnt?: boolean;
-              align?: 'left' | 'center' | 'right';
-            }
-          ) => Promise<HTMLElement | undefined>;
-        };
-      };
+<script module lang="ts">
+  type XWidgets = {
+    ready?: (callback: (x: XWidgets) => void) => void;
+    widgets?: {
+      createTweet: (
+        tweetId: string,
+        element: HTMLElement,
+        options?: { theme?: 'dark' | 'light'; dnt?: boolean; align?: 'left' | 'center' | 'right' },
+      ) => Promise<HTMLElement | undefined>;
     };
+  };
+
+  type XWindow = Window & { twttr?: XWidgets };
 
   const SCRIPT_ID = 'x-widgets-script';
-  let embedRoot: HTMLDivElement | undefined;
+  let loadScriptPromise: Promise<XWidgets> | undefined;
 
-  let widgetScriptPromise: Promise<void> | null = null;
-
-  function getTweetId(value: string) {
-    const match = value.match(/status\/(\d+)/);
-    return match?.[1] ?? null;
-  }
-
-  function getXWindow() {
+  function xWindow(): XWindow {
     return window as XWindow;
   }
 
-  function ensureWidgetScript() {
-    if (getXWindow().twttr?.widgets) {
-      return Promise.resolve();
-    }
+  function loadWidgets(): Promise<XWidgets> {
+    if (xWindow().twttr?.widgets) return Promise.resolve(xWindow().twttr!);
+    if (loadScriptPromise) return loadScriptPromise;
 
-    if (widgetScriptPromise) {
-      return widgetScriptPromise;
-    }
+    loadScriptPromise = new Promise<XWidgets>((resolve, reject) => {
+      let script = document.getElementById(SCRIPT_ID) as HTMLScriptElement | null;
+      const fail = (error: Error) => {
+        window.clearTimeout(timeout);
+        script?.remove();
+        reject(error);
+      };
+      const timeout = window.setTimeout(() => {
+        fail(new Error('Timed out loading X widgets script'));
+      }, 15_000);
+      const finish = () => {
+        const widgets = xWindow().twttr;
+        if (!widgets) {
+          fail(new Error('X widgets did not initialize'));
+          return;
+        }
+        if (widgets.widgets) {
+          window.clearTimeout(timeout);
+          resolve(widgets);
+          return;
+        }
+        if (widgets.ready) {
+          widgets.ready((readyWidgets) => {
+            window.clearTimeout(timeout);
+            resolve(readyWidgets);
+          });
+        } else fail(new Error('X widgets API is not available'));
+      };
 
-    widgetScriptPromise = new Promise<void>((resolve, reject) => {
-      const existingScript = document.getElementById(SCRIPT_ID) as HTMLScriptElement | null;
-
-      if (existingScript) {
-        existingScript.addEventListener('load', () => resolve(), { once: true });
-        existingScript.addEventListener('error', () => reject(new Error('Failed to load X widgets script')), { once: true });
-        return;
+      const shouldAppend = !script;
+      if (!script) {
+        script = document.createElement('script');
+        script.id = SCRIPT_ID;
+        script.src = 'https://platform.twitter.com/widgets.js';
+        script.async = true;
+        script.charset = 'utf-8';
       }
 
-      const script = document.createElement('script');
-      script.id = SCRIPT_ID;
-      script.src = 'https://platform.twitter.com/widgets.js';
-      script.async = true;
-      script.charset = 'utf-8';
-      script.onload = () => resolve();
-      script.onerror = () => reject(new Error('Failed to load X widgets script'));
-      document.body.appendChild(script);
+      script.addEventListener('load', finish, { once: true });
+      script.addEventListener(
+        'error',
+        () => fail(new Error('Failed to load X widgets script')),
+        { once: true },
+      );
+
+      if (shouldAppend) document.head.appendChild(script);
+
+      // The script may already have loaded between the initial check and listener setup.
+      if (xWindow().twttr) finish();
+    }).catch((error: unknown) => {
+      loadScriptPromise = undefined;
+      throw error;
     });
 
-    return widgetScriptPromise;
+    return loadScriptPromise;
   }
 
-  function waitForWidgets() {
-    return new Promise<NonNullable<XWindow['twttr']>>((resolve, reject) => {
-      const xWindow = getXWindow();
-
-      if (xWindow.twttr?.widgets) {
-        resolve(xWindow.twttr);
-        return;
-      }
-
-      if (xWindow.twttr?.ready) {
-        xWindow.twttr.ready((twttr) => resolve(twttr));
-        return;
-      }
-
-      reject(new Error('X widgets API is not available'));
-    });
+  function tweetIdFromUrl(value: string): string | undefined {
+    return value.match(/status\/(\d+)/)?.[1];
   }
+</script>
 
-  onMount(async () => {
-    await tick();
+<script lang="ts">
+  import { onMount } from 'svelte';
 
-    try {
-      const tweetId = getTweetId(url);
+  let { url }: { url: string } = $props();
+  let embedRoot: HTMLDivElement | undefined;
+  let fallbackLink: HTMLAnchorElement | undefined;
 
-      if (!tweetId || !embedRoot) {
-        return;
-      }
+  onMount(() => {
+    let mounted = true;
+    const tweetId = tweetIdFromUrl(url);
 
-      await ensureWidgetScript();
-      const twttr = await waitForWidgets();
+    if (!tweetId || !embedRoot) return;
 
-      embedRoot.innerHTML = '';
-      await twttr.widgets?.createTweet(tweetId, embedRoot, {
-        theme: 'dark',
-        dnt: true,
-        align: 'center',
+    void loadWidgets()
+      .then((x) => {
+        if (!mounted || !embedRoot || !x.widgets) return;
+        return x.widgets.createTweet(tweetId, embedRoot, { theme: 'dark', dnt: true });
+      })
+      .then((tweet) => {
+        if (mounted && tweet && fallbackLink) fallbackLink.hidden = true;
+      })
+      .catch((error: unknown) => {
+        console.error('Unable to load X post', error);
       });
-    } catch (error) {
-      console.error(error);
-    }
+
+    return () => {
+      mounted = false;
+    };
   });
 </script>
 
-<div bind:this={embedRoot} class="overflow-hidden">
-  <a class="block text-center text-sm text-gray-400 underline decoration-gray-700 underline-offset-4" href={url} target="_blank" rel="noreferrer">
-    View post on X
+<div class="overflow-hidden">
+  <div bind:this={embedRoot} class="flex justify-center"></div>
+  <a
+    bind:this={fallbackLink}
+    href={url}
+    target="_blank"
+    rel="noopener noreferrer"
+    class="block text-center text-sm text-gray-400 underline decoration-gray-700 underline-offset-4 hover:text-indigo-300"
+  >
+    View post on X ↗
   </a>
 </div>

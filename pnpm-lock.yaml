@@ -14,6 +14,9 @@ importers:
       highlight.js:
         specifier: ^11.12.0
         version: 11.12.0
+      htmlparser2:
+        specifier: ^12.0.0
+        version: 12.0.0
       mermaid:
         specifier: ^12.2.0
         version: 12.2.0

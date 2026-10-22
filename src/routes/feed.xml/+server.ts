@@ -1,17 +1,10 @@
 import { fetchPostIndexForBuild, postRouteEntry, postUrlFromEntry } from '#lib/post-index-build.ts';
 import { siteDescription, siteFeedUrl, siteName, siteUrl } from '#lib/site.ts';
 import type { RequestHandler } from './$types';
+import { escapeXml } from '#lib/xml.ts';
 
 export const prerender = true;
 
-function escapeXml(value: string): string {
-  return value
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&apos;');
-}
 
 function rssDate(value: string): string | null {
   const date = new Date(value);

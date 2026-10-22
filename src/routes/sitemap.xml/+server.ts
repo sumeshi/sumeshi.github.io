@@ -2,6 +2,7 @@ import { fetchPostIndexForBuild, postRouteEntry, postUrlFromEntry, uniqueCategor
 import { siteUrl } from '#lib/site.ts';
 import type { PostIndex } from '#lib/types.ts';
 import type { RequestHandler } from './$types';
+import { escapeXml } from '#lib/xml.ts';
 
 export const prerender = true;
 
@@ -30,14 +31,6 @@ function latestPublishedDate(posts: PostIndex[]): string | undefined {
     .at(-1);
 }
 
-function escapeXml(value: string): string {
-  return value
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&apos;');
-}
 
 function postSitemapUrls(posts: PostIndex[]): SitemapUrl[] {
   const seen = new Set<string>();

@@ -1,86 +1,65 @@
 <script lang="ts">
   import { asset } from '$app/paths';
   import { postHref } from '#lib/paths.ts';
-  import { fetchPosts, getPostCategory, getPostTitle } from '#lib/posts.ts';
+  import { getPostCategory } from '#lib/posts.ts';
+  import { findPostLinkMetadata, loadPostLinkMetadata, type PostLinkMetadata } from '#lib/link-preview-metadata.ts';
   import type { PostIndex } from '#lib/types.ts';
+  import LinkPreview from './LinkPreview.svelte';
 
   interface Props {
     /** Internal post path, e.g. `/posts/malware/analysis-101` */
     path: string;
     /** Optional link text used in the markdown source */
     label?: string;
+    /** Optional index data supplied by the page to avoid fetching it again. */
+    posts?: PostIndex[];
   }
 
-  let { path, label }: Props = $props();
+  let { path, label, posts }: Props = $props();
+  let asyncMetadataState = $state<{
+    status: 'idle' | 'loading' | 'loaded' | 'error';
+    metadata: PostLinkMetadata | null;
+  }>({ status: 'idle', metadata: null });
 
-  let postIndexCache: Promise<PostIndex[]> | null = null;
-
-  function loadPostIndex(): Promise<PostIndex[]> {
-    postIndexCache ??= fetchPosts();
-    return postIndexCache;
-  }
-
-  const href = $derived(postHref(path));
-  const category = $derived(getPostCategory(path));
-  const normalizedPath = $derived(path.trim().replace(/^\/+|\/+$/g, '').replace(/^posts\//, ''));
-
-  let metaState = $state<{
-    status: 'loading' | 'loaded' | 'error';
-    title: string | null;
-    description: string | null;
-  }>({
-    status: 'loading',
-    title: null,
-    description: null,
+  const href = $derived.by(() => {
+    const suffixIndex = path.search(/[?#]/);
+    const pathname = suffixIndex === -1 ? path : path.slice(0, suffixIndex);
+    const queryAndHash = suffixIndex === -1 ? '' : path.slice(suffixIndex);
+    return `${postHref(pathname)}${queryAndHash}`;
   });
+  const normalizedPath = $derived(path.split(/[?#]/, 1)[0]);
+  const metadata = $derived(
+    posts ? findPostLinkMetadata(normalizedPath, posts)
+      : asyncMetadataState.status === 'loaded' ? asyncMetadataState.metadata : null,
+  );
+  const category = $derived(metadata?.category || getPostCategory(normalizedPath));
+  const isUrlLabel = $derived(label ? /^https?:\/\//i.test(label) : false);
+  const displayTitle = $derived((!isUrlLabel && label) || metadata?.title || path);
 
   $effect(() => {
-    const controller = new AbortController();
-    metaState = { status: 'loading', title: null, description: null };
+    const requestedPath = path;
+    const suppliedPosts = posts;
+    let current = true;
 
-    loadPostIndex()
-      .then((posts) => {
-        if (controller.signal.aborted) {
-          return;
-        }
+    if (suppliedPosts) {
+      asyncMetadataState = { status: 'idle', metadata: null };
+      return;
+    }
 
-        const post = posts.find((candidate) => {
-          const candidatePath = candidate.path.trim().replace(/^\/+|\/+$/g, '').replace(/^posts\//, '');
-          return candidatePath === normalizedPath;
-        });
+    asyncMetadataState = { status: 'loading', metadata: null };
+    void loadPostLinkMetadata(requestedPath).then((loadedMetadata) => {
+      if (current) asyncMetadataState = { status: 'loaded', metadata: loadedMetadata };
+    }).catch((error: unknown) => {
+      if (!current) return;
+      console.error(error);
+      asyncMetadataState = { status: 'error', metadata: null };
+    });
 
-        metaState = post
-          ? {
-              status: 'loaded',
-              title: getPostTitle(post),
-              description: post.description || null,
-            }
-          : { status: 'error', title: null, description: null };
-      })
-      .catch((error: unknown) => {
-        if (controller.signal.aborted) {
-          return;
-        }
-
-        console.error(error);
-        metaState = { status: 'error', title: null, description: null };
-      });
-
-    return () => controller.abort();
+    return () => { current = false; };
   });
-
-  const isUrlLabel = $derived(label ? /^https?:\/\//i.test(label) : false);
-  const displayTitle = $derived(
-    (!isUrlLabel && label) || metaState.title || path,
-  );
 </script>
 
-<a
-  {href}
-  target="_blank"
-  rel="noopener noreferrer"
-  class="group my-5 flex gap-3.5 rounded-lg border border-gray-800 bg-gray-900/50 px-4 py-3.5 transition-colors hover:border-indigo-400/40 hover:bg-indigo-950/20"
->
+<LinkPreview href={href}>
   <span class="flex shrink-0 items-center border-r border-gray-800 pr-3.5">
     <img
       src={asset('img/sipdep-wordmark.svg')}
@@ -100,10 +79,8 @@
     <span class="font-sans text-base font-semibold leading-snug tracking-tight text-white transition-colors group-hover:text-indigo-300">
       {displayTitle}
     </span>
-    {#if metaState.status === 'loaded' && metaState.description}
-      <span class="text-sm leading-snug text-gray-400">
-        {metaState.description}
-      </span>
+    {#if metadata?.description}
+      <span class="text-sm leading-snug text-gray-400">{metadata.description}</span>
     {/if}
     <span class="mt-0.5 flex items-center gap-1.5 font-mono text-[11px] text-gray-500">
       <svg class="h-3 w-3 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
@@ -112,4 +89,4 @@
       <span class="truncate">sumeshi.github.io</span>
     </span>
   </span>
-</a>
+</LinkPreview>

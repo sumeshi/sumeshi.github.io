@@ -51,7 +51,7 @@ html {
   background: rgb(0 0 0 / 0.5);
 }
 
-.site-dialog-backdrop {
+dialog.site-dialog::backdrop {
   background: rgb(0 0 0 / 0.6);
 }
 

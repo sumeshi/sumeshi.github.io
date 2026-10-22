@@ -1,6 +1,7 @@
 <script lang="ts">
   import '../app.css';
   import LanguageSwitch from '#lib/components/LanguageSwitch.svelte';
+  import Modal from '#lib/components/Modal.svelte';
   import { pathWithBase } from '#lib/paths.ts';
   import { page } from '$app/state';
   import { afterNavigate } from '$app/navigation';
@@ -21,17 +22,14 @@
       : $language;
   });
   let drawerOpen = $state(false);
+  let isMobileNav = $state(false);
   let privacyOpen = $state(false);
   let disclaimerOpen = $state(false);
   let navToggleButton = $state<HTMLButtonElement | undefined>(undefined);
   let privacyTriggerButton = $state<HTMLButtonElement | undefined>(undefined);
-  let privacyCloseButton = $state<HTMLButtonElement | undefined>(undefined);
-  let disclaimerTriggerButton = $state<HTMLButtonElement | undefined>(undefined);
-  let disclaimerCloseButton = $state<HTMLButtonElement | undefined>(undefined);
-  let previousDrawerOpen = false;
-  let previousPrivacyOpen = false;
-  let previousDisclaimerOpen = false;
-  let lastTrackedPagePath = '';
+    let disclaimerTriggerButton = $state<HTMLButtonElement | undefined>(undefined);
+    let previousDrawerOpen = false;
+      let lastTrackedPagePath = '';
   const navItems = [
     { label: 'Home', href: '/' },
     { label: 'About', href: '/about' },
@@ -87,6 +85,11 @@
   });
 
   onMount(() => {
+    const mobileQuery = window.matchMedia('(max-width: 1023px)');
+    const updateMobileNav = () => (isMobileNav = mobileQuery.matches);
+    updateMobileNav();
+    mobileQuery.addEventListener('change', updateMobileNav);
+
     try {
       const savedLanguage = localStorage.getItem('site-language');
       if (savedLanguage === 'ja' || savedLanguage === 'en') language.set(savedLanguage);
@@ -94,6 +97,8 @@
       // Keep Japanese when browser storage is unavailable.
     }
     trackPageView(new URL(window.location.href));
+
+    return () => mobileQuery.removeEventListener('change', updateMobileNav);
   });
 
   onMount(() => {
@@ -126,6 +131,7 @@
 
   function closePrivacyPolicy(): void {
     privacyOpen = false;
+    tick().then(() => (isMobileNav ? navToggleButton : privacyTriggerButton)?.focus());
   }
 
   function openDisclaimer(): void {
@@ -136,6 +142,7 @@
 
   function closeDisclaimer(): void {
     disclaimerOpen = false;
+    tick().then(() => (isMobileNav ? navToggleButton : disclaimerTriggerButton)?.focus());
   }
 
   function handleGlobalKeydown(event: KeyboardEvent): void {
@@ -168,26 +175,7 @@
     previousDrawerOpen = drawerOpen;
   });
 
-  $effect(() => {
-    if (privacyOpen && !previousPrivacyOpen) {
-      tick().then(() => privacyCloseButton?.focus());
-    } else if (!privacyOpen && previousPrivacyOpen) {
-      tick().then(() => privacyTriggerButton?.focus());
-    }
-
-    previousPrivacyOpen = privacyOpen;
-  });
-
-  $effect(() => {
-    if (disclaimerOpen && !previousDisclaimerOpen) {
-      tick().then(() => disclaimerCloseButton?.focus());
-    } else if (!disclaimerOpen && previousDisclaimerOpen) {
-      tick().then(() => disclaimerTriggerButton?.focus());
-    }
-
-    previousDisclaimerOpen = disclaimerOpen;
-  });
-</script>
+  </script>
 
 <svelte:window onkeydown={handleGlobalKeydown} />
 
@@ -249,7 +237,8 @@
 <nav
   id="primary-sidebar"
   aria-label="Primary"
-  class="site-sidebar fixed top-14 lg:top-0 left-0 h-full w-64 z-40 flex flex-col
+  inert={isMobileNav && !drawerOpen}
+  class="site-sidebar fixed top-14 lg:top-0 left-0 h-[calc(100dvh-3.5rem)] lg:h-dvh w-64 z-40 flex flex-col
     transition-transform duration-300 ease-in-out
     {drawerOpen ? 'translate-x-0' : '-translate-x-full'} lg:translate-x-0"
 >
@@ -304,87 +293,31 @@
   </div>
 </main>
 
-<!-- Privacy Policy dialog -->
-{#if privacyOpen}
-  <div class="site-dialog-backdrop fixed inset-0 z-50 flex items-center justify-center p-4">
-    <button
-      type="button"
-      class="absolute inset-0"
-      onclick={closePrivacyPolicy}
-      aria-label="Close privacy policy dialog"
-    ></button>
-    <div
-      id="privacy-policy-dialog"
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="privacy-policy-title"
-      class="site-dialog relative max-w-md w-full p-6"
-    >
-      <h2 id="privacy-policy-title" class="text-white text-lg font-semibold mb-4">Privacy Policy</h2>
-      <p class="text-gray-400 text-sm leading-relaxed mb-3">
-        This website uses Google Analytics to collect traffic information for site improvement.
-        Google Analytics may use cookies or similar technologies to measure page views and usage patterns.
-      </p>
-      <p class="text-gray-400 text-sm leading-relaxed mb-6">
-        By continuing to use this site, you acknowledge that site usage analytics may be recorded.
-      </p>
-      <div class="flex flex-wrap items-center gap-3">
-        <button
-          bind:this={privacyCloseButton}
-          type="button"
-          onclick={closePrivacyPolicy}
-          class="text-sm font-medium text-indigo-400 transition-colors hover:text-indigo-300"
-        >
-          Close
-        </button>
-      </div>
-    </div>
-  </div>
-{/if}
+<Modal id="privacy-policy-dialog" open={privacyOpen} labelledBy="privacy-policy-title" className="max-w-md" onClose={closePrivacyPolicy}>
+  <h2 id="privacy-policy-title" class="mb-4 text-lg font-semibold text-white">Privacy Policy</h2>
+  <p class="mb-3 text-sm leading-relaxed text-gray-400">
+    This website uses Google Analytics to collect traffic information for site improvement. Google Analytics may use cookies and similar technologies to measure page views and usage patterns.
+  </p>
+  <p class="mb-6 text-sm leading-relaxed text-gray-400">
+    By continuing to use this site, you acknowledge that your site usage may be recorded for analytics purposes.
+  </p>
+  <button type="button" onclick={closePrivacyPolicy} class="text-sm font-medium text-indigo-400 transition-colors hover:text-indigo-300">
+    Close
+  </button>
+</Modal>
 
-<!-- Disclaimer dialog -->
-{#if disclaimerOpen}
-  <div class="site-dialog-backdrop fixed inset-0 z-50 flex items-center justify-center p-4">
-    <button
-      type="button"
-      class="absolute inset-0"
-      onclick={closeDisclaimer}
-      aria-label="Close disclaimer dialog"
-    ></button>
-    <div
-      id="disclaimer-dialog"
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="disclaimer-title"
-      class="site-dialog relative max-w-xl w-full p-6"
-    >
-      <h2 id="disclaimer-title" class="text-white text-lg font-semibold mb-4">Disclaimer</h2>
-      <p class="text-gray-400 text-sm leading-relaxed mb-3">
-        The content published on this website is based on publicly accessible information available
-        on the Internet and other open sources, and represents the author&apos;s personal views.
-        Paid training materials, non-public materials, or similar sources are not used as
-        information sources.
-      </p>
-      <p class="text-gray-400 text-sm leading-relaxed mb-3">
-        The content of this website does not represent the views, policies, or positions of any
-        organization, group, company, or other third party with which the author is affiliated, and
-        has no relation to them.
-      </p>
-      <p class="text-gray-400 text-sm leading-relaxed mb-6">
-        No warranty is made as to the accuracy, completeness, or usefulness of the information on
-        this website. The author assumes no responsibility for any damages arising from the use of,
-        or inability to use, the content of this website.
-      </p>
-      <div class="flex flex-wrap items-center gap-3">
-        <button
-          bind:this={disclaimerCloseButton}
-          type="button"
-          onclick={closeDisclaimer}
-          class="text-sm font-medium text-indigo-400 transition-colors hover:text-indigo-300"
-        >
-          Close
-        </button>
-      </div>
-    </div>
-  </div>
-{/if}
+<Modal id="disclaimer-dialog" open={disclaimerOpen} labelledBy="disclaimer-title" className="max-w-xl" onClose={closeDisclaimer}>
+  <h2 id="disclaimer-title" class="mb-4 text-lg font-semibold text-white">Disclaimer</h2>
+  <p class="mb-3 text-sm leading-relaxed text-gray-400">
+    The content published on this website is based on publicly accessible information available on the Internet and other open sources, and represents the author&apos;s personal views. Paid training materials, non-public materials, and similar sources are not used as information sources.
+  </p>
+  <p class="mb-3 text-sm leading-relaxed text-gray-400">
+    The content of this website does not represent the views, policies, or positions of any organization, group, company, or other third party with which the author is affiliated or has a relationship.
+  </p>
+  <p class="mb-6 text-sm leading-relaxed text-gray-400">
+    No warranty is made as to the accuracy, completeness, or usefulness of the information on this website. The author assumes no responsibility for any damages arising from the use of, or inability to use, the content of this website.
+  </p>
+  <button type="button" onclick={closeDisclaimer} class="text-sm font-medium text-indigo-400 transition-colors hover:text-indigo-300">
+    Close
+  </button>
+</Modal>

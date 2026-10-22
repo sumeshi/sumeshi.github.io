@@ -1,8 +1,8 @@
 <script lang="ts">
   import { getSiteLanguage } from '#lib/site-language.ts';
-  import LoadingPulse from '#lib/components/LoadingPulse.svelte';
+  import PageHeader from '#lib/components/PageHeader.svelte';
+  import PostCollection from '#lib/components/PostCollection.svelte';
   import PageMeta from '#lib/components/PageMeta.svelte';
-  import PostListItem from '#lib/components/PostListItem.svelte';
   import { pathWithBase } from '#lib/paths.ts';
   import { createPostListState } from '#lib/post-list-state.svelte.ts';
   import { fetchPosts } from '#lib/posts.ts';
@@ -81,45 +81,38 @@
 </svelte:head>
 
 <div class="site-container space-y-6">
-  <header class="flex flex-col gap-3 border-b border-gray-800/80 pb-5 sm:flex-row sm:items-end sm:justify-between">
-    <div>
-      <h1 class="page-title">$ ls /var/log</h1>
-      <p class="mt-3 max-w-2xl text-sm leading-6 text-gray-400">
-        {$language === 'ja' ? '記事にするほどでもない備忘録とか、整理中の知識とか。ここで得た知識を悪用しないようにね。' : 'Personal notes that do not quite call for a full article, and knowledge I am still sorting out. Please do not misuse what you learn here.'}
-      </p>
-    </div>
-    <div class="flex items-center gap-3 self-start sm:self-end">
-      {#if !postState.state.loading}
-        <p class="font-mono text-xs text-gray-600">{postState.state.value.length} entries</p>
-      {/if}
-      <a
-        href={pathWithBase('/feed.xml')}
-        rel="alternate"
-        type="application/rss+xml"
-        class="inline-flex items-center gap-1 rounded border border-amber-400/60 px-1.5 py-0.5 font-mono text-[11px] text-amber-300 transition-colors hover:border-amber-300 hover:text-amber-200"
-      >
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-3 w-3" fill="currentColor" aria-hidden="true">
-          <circle cx="6.18" cy="17.82" r="2.18" />
-          <path d="M4 4.44v2.83a12.73 12.73 0 0 1 12.73 12.73h2.83A15.56 15.56 0 0 0 4 4.44zm0 5.66v2.83a7.07 7.07 0 0 1 7.07 7.07h2.83A9.9 9.9 0 0 0 4 10.1z" />
-        </svg>
-        rss
-      </a>
-    </div>
-  </header>
+  <PageHeader
+    title="$ ls /var/log"
+    description={$language === 'ja'
+      ? '記事にするほどでもない備忘録とか、整理中の知識とか。ここで得た知識を悪用しないようにね。'
+      : 'Personal notes that do not quite call for a full article, and knowledge I am still sorting out. Please do not misuse what you learn here.'}
+  >
+    {#snippet action()}
+      <div class="flex items-center gap-3 self-start sm:self-end">
+        {#if !postState.state.loading}
+          <p class="font-mono text-xs text-gray-600">{postState.state.value.length} entries</p>
+        {/if}
+        <a
+          href={pathWithBase('/feed.xml')}
+          rel="alternate"
+          type="application/rss+xml"
+          class="inline-flex items-center gap-1 rounded border border-amber-400/60 px-1.5 py-0.5 font-mono text-[11px] text-amber-300 transition-colors hover:border-amber-300 hover:text-amber-200"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-3 w-3" fill="currentColor" aria-hidden="true">
+            <circle cx="6.18" cy="17.82" r="2.18" />
+            <path d="M4 4.44v2.83a12.73 12.73 0 0 1 12.73 12.73h2.83A15.56 15.56 0 0 0 4 4.44zm0 5.66v2.83a7.07 7.07 0 0 1 7.07 7.07h2.83A9.9 9.9 0 0 0 4 10.1z" />
+          </svg>
+          rss
+        </a>
+      </div>
+    {/snippet}
+  </PageHeader>
 
   <section>
-    {#if postState.state.loading}
-      <LoadingPulse lines={4} />
-    {:else if postState.state.errorMessage}
-      <p class="text-sm text-red-300">{postState.state.errorMessage}</p>
-    {:else if postState.state.value.length === 0}
-      <p class="text-sm text-gray-600">No posts found.</p>
-    {:else}
-      <div class="divide-y divide-gray-800/60">
-        {#each postState.state.value as post}
-          <PostListItem {post} />
-        {/each}
-      </div>
-    {/if}
+    <PostCollection
+      posts={postState.state.value}
+      loading={postState.state.loading}
+      errorMessage={postState.state.errorMessage}
+    />
   </section>
 </div>

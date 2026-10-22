@@ -59,5 +59,5 @@ export const load: PageLoad = async ({ params }) => {
     initialContents = parsePostContentForBuild(postContent.html_text);
   }
 
-  return { post, postContent, initialContents, languageAlternates };
+  return { post, posts, postContent, initialContents, languageAlternates };
 };

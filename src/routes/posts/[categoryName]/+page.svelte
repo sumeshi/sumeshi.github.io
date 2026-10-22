@@ -2,9 +2,9 @@
   import { getSiteLanguage, type SiteLanguage } from '#lib/site-language.ts';
   import { page } from '$app/state';
   import Breadcrumb from '#lib/components/Breadcrumb.svelte';
-  import LoadingPulse from '#lib/components/LoadingPulse.svelte';
+  import PageHeader from '#lib/components/PageHeader.svelte';
+  import PostCollection from '#lib/components/PostCollection.svelte';
   import PageMeta from '#lib/components/PageMeta.svelte';
-  import PostListItem from '#lib/components/PostListItem.svelte';
   import { pathWithBase } from '#lib/paths.ts';
   import { createPostListState } from '#lib/post-list-state.svelte.ts';
   import { fetchCategoryPosts } from '#lib/posts.ts';
@@ -94,26 +94,20 @@
   <Breadcrumb items={[{ label: 'POSTS', href: pathWithBase('/posts') }, { label: categoryLabel }]} />
 
   <section>
-    <div class="mb-2 flex items-baseline justify-between border-b border-gray-800/80 pb-4">
-      <h1 class="page-title">{categoryLabel}</h1>
-      {#if !postState.state.loading}
-        <span class="text-gray-500 text-sm">{postState.state.value.length} post{postState.state.value.length !== 1 ? 's' : ''}</span>
-      {/if}
-    </div>
-    <p class="mb-5 max-w-3xl text-sm leading-6 text-gray-400">{categoryDescription}</p>
+    <PageHeader
+      title={categoryLabel}
+      description={categoryDescription}
+      meta={!postState.state.loading
+        ? `${postState.state.value.length} post${postState.state.value.length !== 1 ? 's' : ''}`
+        : undefined}
+    />
 
-    {#if postState.state.loading}
-      <LoadingPulse lines={4} />
-    {:else if postState.state.errorMessage}
-      <p class="text-red-300 text-sm">{postState.state.errorMessage}</p>
-    {:else if postState.state.value.length === 0}
-      <p class="text-gray-600 text-sm">No posts in this category.</p>
-    {:else}
-      <div class="divide-y divide-gray-800/60">
-        {#each postState.state.value as post}
-          <PostListItem {post} showCategory={false} />
-        {/each}
-      </div>
-    {/if}
+    <PostCollection
+      posts={postState.state.value}
+      loading={postState.state.loading}
+      errorMessage={postState.state.errorMessage}
+      emptyMessage="No posts in this category."
+      showCategory={false}
+    />
   </section>
 </div>

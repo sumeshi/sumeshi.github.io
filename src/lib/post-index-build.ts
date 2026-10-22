@@ -1,4 +1,5 @@
 import { POSTS_API_BASE } from '#lib/config.ts';
+import { fetchJson } from '#lib/http.ts';
 import { siteUrl } from '#lib/site.ts';
 import type { PostIndex } from '#lib/types.ts';
 
@@ -9,16 +10,6 @@ type PostRouteEntry = {
 
 let postIndexPromise: Promise<PostIndex[]> | undefined;
 
-async function fetchJson<T>(url: string): Promise<T> {
-  const response = await fetch(url);
-
-  if (!response.ok) {
-    throw new Error(`Request failed with status ${response.status}`);
-  }
-
-  return response.json() as Promise<T>;
-}
-
 function decodePathSegment(segment: string): string {
   try {
     return decodeURIComponent(segment);
@@ -28,7 +19,10 @@ function decodePathSegment(segment: string): string {
 }
 
 export async function fetchPostIndexForBuild(): Promise<PostIndex[]> {
-  postIndexPromise ??= fetchJson<PostIndex[]>(`${POSTS_API_BASE}/`);
+  postIndexPromise ??= fetchJson<PostIndex[]>(`${POSTS_API_BASE}/`).catch((error: unknown) => {
+    postIndexPromise = undefined;
+    throw error;
+  });
   return postIndexPromise;
 }
 

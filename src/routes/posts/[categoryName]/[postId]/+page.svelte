@@ -12,19 +12,19 @@
   import { createAsyncDataState } from '#lib/load-state.svelte.ts';
   import { pathWithBase } from '#lib/paths.ts';
   import { formatPostListDate, getPostTitle } from '#lib/posts.ts';
+  import { buildArticle, buildPostStructuredData, getPostDescription } from '#lib/post-article.ts';
   import {
     jsonLd,
     pageTitle,
     siteAuthor,
     siteBlogId,
-    siteDescription,
     siteName,
     siteOgImageUrl,
     sitePersonId,
     siteUrl,
   } from '#lib/site.ts';
   import { fetchPostContent, parsePostContent, postSourceUrl } from '#lib/post-content.ts';
-  import type { PostContent, ContentBlock, PostIndex } from '#lib/types.ts';
+  import type { PostContent, ContentBlock } from '#lib/types.ts';
   import type { PageData } from './$types';
   import 'highlight.js/styles/tokyo-night-dark.css';
 
@@ -32,11 +32,6 @@
     data: PageData;
   }
 
-  interface TableOfContentsItem {
-    id: string;
-    label: string;
-    level: 2 | 3;
-  }
 
   let { data }: Props = $props();
 
@@ -46,18 +41,6 @@
     html_text: '',
     published_at: '',
   };
-
-  function getPostDescription(post: PostContent | PostIndex): string {
-    if ('description' in post && post.description) {
-      return post.description;
-    }
-
-    if ('html_text' in post && typeof post.html_text === 'string' && post.html_text) {
-      return post.html_text.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 150);
-    }
-
-    return siteDescription;
-  }
 
   const initialPostContent = untrack(() => data.postContent);
   const initialContents = untrack(() => data.initialContents);
@@ -88,104 +71,6 @@
     alternateLanguage === 'en' ? 'Read in English' : 'Read in Japanese',
   );
 
-  function withoutMarkdownTitle(blocks: ContentBlock[]): ContentBlock[] {
-    let titleRemoved = false;
-
-    return blocks.map((block) => {
-      if (titleRemoved || block.type !== 'text' || !/<h1\b/i.test(block.content)) {
-        return block;
-      }
-
-      titleRemoved = true;
-      return {
-        ...block,
-        content: block.content.replace(/<h1\b[^>]*>[\s\S]*?<\/h1>/i, '').trim(),
-      };
-    }).filter((block) => block.content);
-  }
-
-  function slugifyHeading(label: string): string {
-    return label
-      .normalize('NFKC')
-      .toLocaleLowerCase()
-      .replace(/[^\p{Letter}\p{Number}]+/gu, '-')
-      .replace(/^-+|-+$/g, '');
-  }
-
-  function headingLabel(html: string): string {
-    const namedEntities: Record<string, string> = {
-      amp: '&',
-      apos: "'",
-      gt: '>',
-      lt: '<',
-      nbsp: ' ',
-      quot: '"',
-    };
-
-    return html
-      .replace(/<[^>]+>/g, '')
-      .replace(/&(#(?:x[\da-f]+|\d+)|[a-z]+);/gi, (entity, name: string) => {
-        if (name.startsWith('#x') || name.startsWith('#X')) {
-          return String.fromCodePoint(Number.parseInt(name.slice(2), 16));
-        }
-
-        if (name.startsWith('#')) {
-          return String.fromCodePoint(Number.parseInt(name.slice(1), 10));
-        }
-
-        return namedEntities[name.toLowerCase()] ?? entity;
-      })
-      .trim()
-      .replace(/\s+/g, ' ');
-  }
-
-  function buildArticle(blocks: ContentBlock[]): {
-    contents: ContentBlock[];
-    tableOfContents: TableOfContentsItem[];
-  } {
-    const tableOfContents: TableOfContentsItem[] = [];
-    const usedIds = new Set<string>();
-    let fallbackIndex = 0;
-
-    const anchoredContents = withoutMarkdownTitle(blocks).map((block) => {
-      if (block.type !== 'text') {
-        return block;
-      }
-
-      const content = block.content.replace(
-        /<h([23])(\s[^>]*)?>([\s\S]*?)<\/h\1>/gi,
-        (_match, levelText: string, attributes: string | undefined, innerHtml: string) => {
-          const label = headingLabel(innerHtml);
-          if (!label) {
-            return _match;
-          }
-
-          const baseId = slugifyHeading(label) || `section-${++fallbackIndex}`;
-          let id = baseId;
-          let duplicateIndex = 2;
-
-          while (usedIds.has(id)) {
-            id = `${baseId}-${duplicateIndex++}`;
-          }
-
-          usedIds.add(id);
-          const level = Number(levelText) as 2 | 3;
-          tableOfContents.push({
-            id,
-            label,
-            level,
-          });
-
-          return `<h${levelText}${attributes ?? ''} id="${id}">${innerHtml}</h${levelText}>`;
-        },
-      );
-
-      return { ...block, content };
-    });
-
-    return { contents: anchoredContents, tableOfContents };
-  }
-
   const article = $derived(buildArticle(contents));
   const articleContents = $derived(article.contents);
   const tableOfContents = $derived(article.tableOfContents);
@@ -202,81 +87,31 @@
   );
   const postStructuredData = $derived(
     postTitle
-      ? {
-          "@context": "https://schema.org",
-          "@graph": [
-            {
-              "@type": "BlogPosting",
-              "@id": `${postCanonicalUrl}#article`,
-              "headline": postTitle,
-              "description": postDescription,
-              "url": postCanonicalUrl,
-              "mainEntityOfPage": {
-                "@type": "WebPage",
-                "@id": postCanonicalUrl
-              },
-              "image": siteOgImageUrl,
-              "inLanguage": postLanguage,
-              "datePublished": metaPost.published_at || undefined,
-              "author": {
-                "@type": "Person",
-                "@id": sitePersonId,
-                "name": siteAuthor,
-                "url": siteUrl
-              },
-              "publisher": {
-                "@type": "Person",
-                "@id": sitePersonId,
-                "name": siteAuthor,
-                "url": siteUrl
-              },
-              "isPartOf": {
-                "@type": "Blog",
-                "@id": siteBlogId,
-                "name": `${siteName} Posts`,
-                "url": `${siteUrl}/posts`
-              }
-            },
-            {
-              "@type": "BreadcrumbList",
-              "@id": `${postCanonicalUrl}#breadcrumb`,
-              "itemListElement": [
-                {
-                  "@type": "ListItem",
-                  "position": 1,
-                  "name": "Home",
-                  "item": `${siteUrl}/`
-                },
-                {
-                  "@type": "ListItem",
-                  "position": 2,
-                  "name": "Posts",
-                  "item": `${siteUrl}/posts`
-                },
-                {
-                  "@type": "ListItem",
-                  "position": 3,
-                  "name": categoryName,
-                  "item": `${siteUrl}/posts/${encodeURIComponent(categoryName ?? '')}`
-                },
-                {
-                  "@type": "ListItem",
-                  "position": 4,
-                  "name": postTitle,
-                  "item": postCanonicalUrl
-                }
-              ]
-            }
-          ]
-        }
-      : null
+      ? buildPostStructuredData({
+          canonicalUrl: postCanonicalUrl,
+          categoryName: categoryName ?? '',
+          description: postDescription,
+          language: postLanguage,
+          post: metaPost,
+          title: postTitle,
+          site: {
+            author: siteAuthor,
+            blogId: siteBlogId,
+            name: siteName,
+            ogImageUrl: siteOgImageUrl,
+            personId: sitePersonId,
+            url: siteUrl,
+          },
+        })
+      : null,
   );
 
   async function loadPost(category: string, id: string, signal: AbortSignal | undefined = undefined): Promise<void> {
     await postState.load((loadSignal) => fetchPostContent(category, id, loadSignal), {
       errorMessage: 'Failed to load this post.',
-      onSuccess: async (data) => {
-        contents = await parsePostContent(data.html_text);
+      onSuccess: async (data, isCurrent) => {
+        const parsedContents = await parsePostContent(data.html_text);
+        if (isCurrent()) contents = parsedContents;
       },
       onError: (error) => {
         console.error('Failed to fetch post:', error);
@@ -400,7 +235,7 @@
               {@html block.content}
             </div>
           {:else if block.type === 'link-card'}
-            <PostLinkCard path={block.content} label={block.label} />
+            <PostLinkCard path={block.content} label={block.label} posts={data.posts} />
           {:else if block.type === 'github-repo'}
             <GitHubRepoCard url={block.content} />
           {:else if block.type === 'mermaid'}
