@@ -1,1 +1,0 @@
-import{yt as e}from"./DgFDg67G.js";var t=Symbol(`site-language`);function n(){return e(t)}function r(e){let t=e===`/`?`/`:e.replace(/\/+$/,``);return t===`/`||t.endsWith(`-en`)?`en`:`ja`}export{r as n,t as r,n as t};
