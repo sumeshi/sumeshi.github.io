@@ -5,6 +5,6 @@ export const handle: Handle = async ({ event, resolve }) => {
   const language = languageForPathname(event.url.pathname);
 
   return resolve(event, {
-    transformPageChunk: ({ html }) => html.replace('<html lang="ja">', `<html lang="${language}">`),
+    transformPageChunk: ({ html }) => html.replace('<html lang="en">', `<html lang="${language}">`),
   });
 };

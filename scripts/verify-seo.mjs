@@ -49,8 +49,10 @@ function isTranslationPair(first, second) {
 for (const file of indexableFiles) {
   const html = readFileSync(file, 'utf8');
   const relativePath = file.slice(buildDirectory.length + 1);
+  const isPost = relativePath.startsWith('posts/') && relativePath.split('/').length === 3;
+  const expectedLanguage = isPost && !relativePath.endsWith('-en.html') ? 'ja' : 'en';
   const requiredPatterns = [
-    [/<html lang="(?:en|ja)">/, 'language'],
+    [new RegExp(`<html lang="${expectedLanguage}">`), `${expectedLanguage} language`],
     [/<title>[^<]+<\/title>/, 'title'],
     [/<meta name="description" content="[^"]+"/, 'description'],
     [/<link rel="canonical" href="https:\/\/sumeshi\.github\.io\//, 'canonical URL'],

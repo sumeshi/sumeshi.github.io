@@ -14,7 +14,7 @@
   }
 
   let { children }: Props = $props();
-  const language = setContext(siteLanguageKey, writable<SiteLanguage>('ja'));
+  const language = setContext(siteLanguageKey, writable<SiteLanguage>('en'));
 
   $effect(() => {
     document.documentElement.lang = page.url.pathname === '/' || page.params.postId
@@ -95,7 +95,7 @@
       const savedLanguage = localStorage.getItem('site-language');
       if (savedLanguage === 'ja' || savedLanguage === 'en') language.set(savedLanguage);
     } catch {
-      // Keep Japanese when browser storage is unavailable.
+      // Keep English when browser storage is unavailable.
     }
     trackPageView(new URL(window.location.href));
 

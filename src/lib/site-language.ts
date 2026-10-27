@@ -12,7 +12,7 @@ export function getSiteLanguage(): Writable<SiteLanguage> {
 export function languageForPathname(pathname: string): SiteLanguage {
   const normalizedPath = pathname === '/' ? '/' : pathname.replace(/\/+$/, '');
 
-  if (normalizedPath === '/' || normalizedPath.endsWith('-en')) {
+  if (!/^\/posts\/[^/]+\/[^/]+$/.test(normalizedPath) || normalizedPath.endsWith('-en')) {
     return 'en';
   }
 
