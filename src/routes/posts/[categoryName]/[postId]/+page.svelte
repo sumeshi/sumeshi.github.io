@@ -214,7 +214,7 @@
     <div class="py-6">
       {#if postTitle}
         <div class="mb-7 flex flex-col gap-2 border-b border-gray-700 pb-4 sm:flex-row sm:items-start sm:justify-between sm:gap-6">
-          <h1 class="min-w-0 font-sans text-2xl font-bold leading-tight tracking-tight text-white sm:text-[2rem]">
+          <h1 class="min-w-0 font-sans text-2xl font-semibold leading-snug tracking-tight text-white sm:text-[2rem]">
             {postTitle}
           </h1>
           {#if metaPost.published_at}

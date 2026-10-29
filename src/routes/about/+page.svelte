@@ -62,16 +62,16 @@
         width="400"
         height="400"
         draggable="false"
-        class="h-24 w-24 shrink-0 self-start rounded-lg border border-gray-700/80 object-cover shadow-lg select-none md:h-32 md:w-32"
+        class="h-24 w-24 shrink-0 self-start rounded border border-gray-700/80 object-cover select-none md:h-32 md:w-32"
       />
 
       <div class="min-w-0">
         <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
           <div class="min-w-0">
-            <h1 class="font-sans text-[2rem] font-black leading-none text-white sm:text-[2.75rem]">
+            <h1 class="font-sans text-[2rem] font-semibold leading-tight tracking-tight text-white sm:text-[2.5rem]">
               S.Nakano
             </h1>
-            <p class="mt-2 text-xs font-semibold uppercase tracking-[0.18em] text-gray-500">
+            <p class="mt-2 text-xs tracking-wide text-gray-400">
               DFIR Researcher / Software Developer
             </p>
           </div>
@@ -153,7 +153,7 @@
     <div class="space-y-6">
       {#each Object.entries(history[$lang]) as [period, items]}
         <div>
-          <h3 class="mb-2 text-sm font-semibold tracking-tight text-indigo-400">{period}</h3>
+          <h3 class="mb-2 text-sm font-semibold text-indigo-400">{period}</h3>
           <ul class="max-w-3xl space-y-1.5">
             {#each items as item}
               <li class="flex gap-2 text-sm leading-relaxed text-gray-400">

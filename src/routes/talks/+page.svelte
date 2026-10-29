@@ -59,7 +59,7 @@
         </div>
 
         <div class="mt-2.5 flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between sm:gap-6">
-          <h2 class="min-w-0 font-sans text-base font-semibold leading-snug tracking-tight text-white sm:text-[1.05rem]">
+          <h2 class="min-w-0 font-sans text-base font-semibold leading-relaxed text-white">
             {talk.title[$language]}
           </h2>
 

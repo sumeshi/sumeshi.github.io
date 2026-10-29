@@ -76,7 +76,7 @@
     <span class="font-mono text-[10px] font-medium uppercase tracking-[0.14em] text-indigo-400">
       {category}
     </span>
-    <span class="font-sans text-base font-semibold leading-snug tracking-tight text-white transition-colors group-hover:text-indigo-300">
+    <span class="font-sans text-base font-semibold leading-relaxed text-white transition-colors group-hover:text-indigo-300">
       {displayTitle}
     </span>
     {#if metadata?.description}

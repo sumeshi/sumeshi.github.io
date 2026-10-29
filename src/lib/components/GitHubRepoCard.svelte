@@ -59,7 +59,7 @@
     <span class="font-mono text-[10px] font-medium uppercase tracking-[0.14em] text-indigo-400">
       GitHub{repoState.repo?.fork ? ' · Fork' : ''}
     </span>
-    <span class="truncate font-mono text-base font-semibold leading-snug tracking-tight text-white transition-colors group-hover:text-indigo-300">
+    <span class="truncate font-mono text-base font-semibold leading-relaxed text-white transition-colors group-hover:text-indigo-300">
       {repoPath}
     </span>
     {#if repoState.status === 'loaded' && repoState.repo?.description}
@@ -90,7 +90,7 @@
       {:else if repoState.status === 'loading'}
         <span class="animate-pulse">loading…</span>
       {/if}
-      <span class="flex items-center gap-1.5">
+      <span class="flex min-w-0 max-w-full items-center gap-1.5">
         <svg class="h-3 w-3 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
           <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
         </svg>

@@ -211,7 +211,7 @@
 {/if}
 
 <!-- Caption bar -->
-<header class="site-captionbar fixed left-0 right-0 top-14 z-30 flex h-8 items-center gap-4 px-4 lg:left-64 lg:top-0 lg:px-8">
+<header class="site-captionbar fixed left-0 right-0 top-14 z-30 flex h-8 items-center gap-4 px-4 lg:left-56 lg:top-0 lg:px-10">
   <p class="truncate text-[11px] font-medium text-gray-500 font-mono">
     <span class="text-indigo-400 whitespace-pre">$ {displayText}</span>
     {#if phase !== 'done'}
@@ -239,23 +239,24 @@
   id="primary-sidebar"
   aria-label="Primary"
   inert={isMobileNav && !drawerOpen}
-  class="site-sidebar fixed top-14 lg:top-0 left-0 h-[calc(100dvh-3.5rem)] lg:h-dvh w-64 z-40 flex flex-col
+  class="site-sidebar fixed top-14 lg:top-0 left-0 h-[calc(100dvh-3.5rem)] lg:h-dvh w-56 z-40 flex flex-col
     transition-transform duration-300 ease-in-out
     {drawerOpen ? 'translate-x-0' : '-translate-x-full'} lg:translate-x-0"
 >
-  <div class="flex-1 px-3 py-8">
+  <div class="flex-1 px-6 py-10">
     {#each navItems as item, index}
       {#if item.separatorBefore}
-        <hr class="mx-4 my-3 border-0 border-t border-gray-800/70" aria-hidden="true" />
+        <hr class="my-5 border-0 border-t border-gray-800/70" aria-hidden="true" />
       {/if}
       <a
         id={`primary-nav-link-${index}`}
         href={pathWithBase(item.href)}
+        aria-current={isActive(item.href) ? 'page' : undefined}
         onclick={() => (drawerOpen = false)}
-        class="flex items-center px-4 py-2 rounded-lg mb-0.5 text-xs font-semibold uppercase tracking-[0.12em] transition-colors
+        class="flex min-h-10 items-center border-l px-4 py-2 text-[13px] tracking-wide transition-colors
           {isActive(item.href)
-            ? 'bg-indigo-600/20 text-indigo-400'
-            : 'text-gray-400 hover:text-white hover:bg-white/5'}"
+            ? 'border-indigo-400 text-indigo-400'
+            : 'border-transparent text-gray-400 hover:border-gray-700 hover:text-white'}"
       >
         {item.label}
       </a>
@@ -263,7 +264,7 @@
   </div>
 
   <div class="p-4 border-t border-gray-800">
-    <div class="flex items-center justify-between gap-4 px-6">
+    <div class="flex items-center justify-between gap-4">
       <button
         bind:this={privacyTriggerButton}
         type="button"
@@ -291,8 +292,8 @@
 </nav>
 
 <!-- Main content -->
-<main class="site-main lg:ml-64 pt-[5.5rem] lg:pt-8">
-  <div class="px-4 py-5 sm:px-6 lg:px-8 lg:py-8">
+<main class="site-main lg:ml-56 pt-[5.5rem] lg:pt-8">
+  <div class="px-5 py-8 sm:px-8 lg:px-10 lg:py-12">
     {@render children()}
   </div>
 </main>

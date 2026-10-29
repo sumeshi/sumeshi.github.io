@@ -29,7 +29,7 @@
 {:else}
   <div class="divide-y divide-gray-800/60">
     {#each posts as post (post.path)}
-      <PostListItem {post} {showCategory} />
+      <PostListItem {post} {showCategory} stacked />
     {/each}
   </div>
 {/if}

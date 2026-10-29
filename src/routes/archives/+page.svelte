@@ -28,7 +28,7 @@
       <article class="py-6 first:pt-1 sm:py-7">
         <p class="font-mono text-[10px] uppercase tracking-[0.14em] text-gray-500">Poster / PDF</p>
         <div class="mt-2.5 flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between sm:gap-6">
-          <h2 class="min-w-0 font-sans text-base font-semibold leading-snug tracking-tight text-white sm:text-[1.05rem]">
+          <h2 class="min-w-0 font-sans text-base font-semibold leading-relaxed text-white">
             {archive.title[$language]}
           </h2>
           <div class="flex shrink-0 flex-wrap gap-1.5">

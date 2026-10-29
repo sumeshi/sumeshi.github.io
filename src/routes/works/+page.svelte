@@ -32,7 +32,7 @@
         {/if}
 
         <div class="mt-2.5 flex flex-wrap items-baseline gap-x-4 gap-y-1.5">
-          <h2 class="min-w-0 font-sans text-base font-semibold leading-snug tracking-tight text-white sm:text-[1.05rem]">
+          <h2 class="min-w-0 font-sans text-base font-semibold leading-relaxed text-white">
             {project.title[$language]}
           </h2>
 

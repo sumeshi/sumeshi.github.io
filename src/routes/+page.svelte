@@ -62,8 +62,8 @@
   })}</script>`}
 </svelte:head>
 
-<div class="mx-auto flex w-full max-w-6xl flex-col items-center gap-10 py-4 md:gap-12 lg:min-h-[calc(100vh-6rem)] lg:justify-center lg:py-0">
-  <section class="flex w-full shrink-0 flex-col items-center py-6 text-center sm:py-8">
+<div class="site-container flex flex-col gap-12 pb-8 sm:gap-16">
+  <section class="flex w-full shrink-0 flex-col items-center py-8 text-center sm:py-12">
     <h1 class="flex w-full justify-center">
       <img
         src={pathWithBase('/img/sipdep.svg')}
@@ -71,7 +71,7 @@
         width="1351"
         height="207"
         draggable="false"
-        class="h-auto w-full max-w-[680px] shrink-0 object-contain sm:max-w-[760px]"
+        class="h-auto w-full max-w-[560px] shrink-0 object-contain"
       />
     </h1>
   </section>
