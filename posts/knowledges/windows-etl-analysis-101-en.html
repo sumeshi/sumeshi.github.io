@@ -1,0 +1,688 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="../../img/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0C111B" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600;700&amp;family=Noto+Sans+JP:wght@400;500;600;700&amp;display=swap"
+    />
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-DVLS4LMPGV"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+    gtag('config', 'G-DVLS4LMPGV', { send_page_view: false });
+    </script>
+    <link href="../../_app/immutable/entry/start.Cq5CBjf6.js" rel="modulepreload">
+		<link href="../../_app/immutable/entry/payload.DSmR2FwN.js" rel="modulepreload">
+		<link href="../../_app/immutable/chunks/CRzLMJPS.js" rel="modulepreload">
+		<link href="../../_app/immutable/chunks/dRU47Fy1.js" rel="modulepreload">
+		<link href="../../_app/immutable/chunks/DCRuPlBJ.js" rel="modulepreload">
+		<link href="../../_app/immutable/chunks/DgFDg67G.js" rel="modulepreload">
+		<link href="../../_app/immutable/chunks/CQHzehzU.js" rel="modulepreload">
+		<link href="../../_app/immutable/entry/app.DMK_KLBo.js" rel="modulepreload">
+		<link href="../../_app/immutable/nodes/0.DZpsN2eR.js" rel="modulepreload">
+		<link href="../../_app/immutable/chunks/C0FnF6B9.js" rel="modulepreload">
+		<link href="../../_app/immutable/chunks/BeZWAbE2.js" rel="modulepreload">
+		<link href="../../_app/immutable/chunks/sgut3xGc.js" rel="modulepreload">
+		<link href="../../_app/immutable/chunks/pti_kgNR.js" rel="modulepreload">
+		<link href="../../_app/immutable/chunks/J2ReeRQa.js" rel="modulepreload">
+		<link href="../../_app/immutable/nodes/8.DsbB0Q2-.js" rel="modulepreload">
+		<link href="../../_app/immutable/chunks/ClbI50hp.js" rel="modulepreload">
+		<link href="../../_app/immutable/chunks/Ci9LWLfM.js" rel="modulepreload">
+		<link href="../../_app/immutable/chunks/ebJNel_7.js" rel="modulepreload">
+		<link href="../../_app/immutable/chunks/B_1bIIya.js" rel="modulepreload">
+		<link href="../../_app/immutable/chunks/Bu38usfF.js" rel="modulepreload">
+		<link href="../../_app/immutable/chunks/CxeSu8xo.js" rel="modulepreload">
+		<!--1qspgas--><!--[0--><!----><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"BlogPosting","@id":"https://sumeshi.github.io/posts/knowledges/windows-etl-analysis-101-en#article","headline":"The World Ends with ETW","description":"How to Investigate ETL (Event Trace Log) Files","url":"https://sumeshi.github.io/posts/knowledges/windows-etl-analysis-101-en","mainEntityOfPage":{"@type":"WebPage","@id":"https://sumeshi.github.io/posts/knowledges/windows-etl-analysis-101-en"},"image":"https://sumeshi.github.io/img/og-card.png","inLanguage":"en","datePublished":"2026-11-09T04:23:45+09:00","author":{"@type":"Person","@id":"https://sumeshi.github.io/#person","name":"S.Nakano","url":"https://sumeshi.github.io"},"publisher":{"@type":"Person","@id":"https://sumeshi.github.io/#person","name":"S.Nakano","url":"https://sumeshi.github.io"},"isPartOf":{"@type":"Blog","@id":"https://sumeshi.github.io/posts#blog","name":"SIPDEP Posts","url":"https://sumeshi.github.io/posts"}},{"@type":"BreadcrumbList","@id":"https://sumeshi.github.io/posts/knowledges/windows-etl-analysis-101-en#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://sumeshi.github.io/"},{"@type":"ListItem","position":2,"name":"Posts","item":"https://sumeshi.github.io/posts"},{"@type":"ListItem","position":3,"name":"knowledges","item":"https://sumeshi.github.io/posts/knowledges"},{"@type":"ListItem","position":4,"name":"The World Ends with ETW","item":"https://sumeshi.github.io/posts/knowledges/windows-etl-analysis-101-en"}]}]}</script><!----><!--]--><!----><!--k3tbry--><link rel="canonical" href="https://sumeshi.github.io/posts/knowledges/windows-etl-analysis-101-en"/> <link rel="sitemap" type="application/xml" href="https://sumeshi.github.io/sitemap.xml"/> <link rel="alternate" type="application/rss+xml" title="SIPDEP Posts" href="https://sumeshi.github.io/feed.xml"/> <!--[--><link rel="alternate" hreflang="ja" href="https://sumeshi.github.io/posts/knowledges/windows-etl-analysis-101"/><link rel="alternate" hreflang="en" href="https://sumeshi.github.io/posts/knowledges/windows-etl-analysis-101-en"/><link rel="alternate" hreflang="x-default" href="https://sumeshi.github.io/posts/knowledges/windows-etl-analysis-101"/><!--]--> <meta name="description" content="How to Investigate ETL (Event Trace Log) Files"/> <meta name="author" content="S.Nakano"/> <meta name="robots" content="index, follow"/> <meta property="og:site_name" content="SIPDEP"/> <meta property="og:type" content="article"/> <meta property="og:locale" content="en_US"/> <meta property="og:title" content="The World Ends with ETW | SIPDEP"/> <meta property="og:description" content="How to Investigate ETL (Event Trace Log) Files"/> <meta property="og:url" content="https://sumeshi.github.io/posts/knowledges/windows-etl-analysis-101-en"/> <meta property="og:image" content="https://sumeshi.github.io/img/og-card.png"/> <meta property="og:image:type" content="image/png"/> <meta property="og:image:width" content="1920"/> <meta property="og:image:height" content="1080"/> <meta property="og:image:alt" content="SIPDEP social preview image"/> <!--[0--><meta property="article:author" content="S.Nakano"/> <!--[0--><meta property="article:published_time" content="2026-11-09T04:23:45+09:00"/><!--]--> <!--[-1--><!--]--><!--]--> <meta name="twitter:card" content="summary_large_image"/> <meta name="twitter:site" content="@sum3sh1"/> <meta name="twitter:creator" content="@sum3sh1"/> <meta name="twitter:title" content="The World Ends with ETW | SIPDEP"/> <meta name="twitter:description" content="How to Investigate ETL (Event Trace Log) Files"/> <meta name="twitter:image" content="https://sumeshi.github.io/img/og-card.png"/> <meta name="twitter:image:alt" content="SIPDEP social preview image"/><!----><title>The World Ends with ETW | SIPDEP</title>
+		<link href="../../_app/immutable/assets/0.1DdoG8Jl.css" rel="stylesheet">
+		<link href="../../_app/immutable/assets/8.BKaa1rY2.css" rel="stylesheet">
+  </head>
+  <body data-sveltekit-preload-data="hover">
+    <div style="display: contents"><!--[--><!--[--><!--[0--><!--[--><div class="site-topbar lg:hidden fixed top-0 left-0 right-0 z-50 h-14 flex items-center px-4 svelte-12qhfyh"><button type="button" class="text-gray-400 hover:text-white p-1 svelte-12qhfyh" aria-controls="primary-sidebar" aria-expanded="false" aria-label="Open navigation"><svg class="w-6 h-6 svelte-12qhfyh" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" class="svelte-12qhfyh"></path></svg></button> <div class="ml-auto svelte-12qhfyh"><button type="button" lang="ja" aria-label="Read in Japanese" class="shrink-0 px-2 py-1 font-mono text-xs text-gray-400 transition-colors hover:text-indigo-300">[JA]</button><!----></div></div> <!--[-1--><!--]--> <header class="site-captionbar fixed left-0 right-0 top-14 z-30 flex h-8 items-center gap-4 px-4 lg:left-56 lg:top-0 lg:px-10 svelte-12qhfyh"><p class="truncate text-[11px] font-medium text-gray-500 font-mono svelte-12qhfyh"><span class="text-indigo-400 whitespace-pre svelte-12qhfyh">$ </span> <!--[0--><span class="inline-block w-[1ch] h-[1.1em] bg-indigo-400 align-text-bottom blink-cursor svelte-12qhfyh"></span><!--]--></p> <div class="ml-auto hidden shrink-0 lg:block svelte-12qhfyh"><button type="button" lang="ja" aria-label="Read in Japanese" class="shrink-0 px-2 py-1 font-mono text-xs text-gray-400 transition-colors hover:text-indigo-300">[JA]</button><!----></div></header>  <nav id="primary-sidebar" aria-label="Primary" class="site-sidebar fixed top-14 lg:top-0 left-0 h-[calc(100dvh-3.5rem)] lg:h-dvh w-56 z-40 flex flex-col transition-transform duration-300 ease-in-out -translate-x-full lg:translate-x-0 svelte-12qhfyh"><div class="flex-1 px-6 py-10 svelte-12qhfyh"><!--[--><!--[-1--><!--]--> <a id="primary-nav-link-0" href="../.." class="flex min-h-10 items-center border-l px-4 py-2 text-[13px] tracking-wide transition-colors border-transparent text-gray-400 hover:border-gray-700 hover:text-white svelte-12qhfyh">Home</a><!--[-1--><!--]--> <a id="primary-nav-link-1" href="../../about" class="flex min-h-10 items-center border-l px-4 py-2 text-[13px] tracking-wide transition-colors border-transparent text-gray-400 hover:border-gray-700 hover:text-white svelte-12qhfyh">About</a><!--[-1--><!--]--> <a id="primary-nav-link-2" href="../../mentioned" class="flex min-h-10 items-center border-l px-4 py-2 text-[13px] tracking-wide transition-colors border-transparent text-gray-400 hover:border-gray-700 hover:text-white svelte-12qhfyh">Mentioned</a><!--[0--><hr class="my-5 border-0 border-t border-gray-800/70 svelte-12qhfyh" aria-hidden="true"/><!--]--> <a id="primary-nav-link-3" href="../../talks" class="flex min-h-10 items-center border-l px-4 py-2 text-[13px] tracking-wide transition-colors border-transparent text-gray-400 hover:border-gray-700 hover:text-white svelte-12qhfyh">Talks</a><!--[-1--><!--]--> <a id="primary-nav-link-4" href="../../works" class="flex min-h-10 items-center border-l px-4 py-2 text-[13px] tracking-wide transition-colors border-transparent text-gray-400 hover:border-gray-700 hover:text-white svelte-12qhfyh">Works</a><!--[-1--><!--]--> <a id="primary-nav-link-5" href="../../archives" class="flex min-h-10 items-center border-l px-4 py-2 text-[13px] tracking-wide transition-colors border-transparent text-gray-400 hover:border-gray-700 hover:text-white svelte-12qhfyh">Archives</a><!--[0--><hr class="my-5 border-0 border-t border-gray-800/70 svelte-12qhfyh" aria-hidden="true"/><!--]--> <a id="primary-nav-link-6" href="../../posts" class="flex min-h-10 items-center border-l px-4 py-2 text-[13px] tracking-wide transition-colors border-transparent text-gray-400 hover:border-gray-700 hover:text-white svelte-12qhfyh">Posts</a><!--]--></div> <div class="p-4 border-t border-gray-800 svelte-12qhfyh"><div class="flex items-center justify-between gap-4 svelte-12qhfyh"><button type="button" class="text-xs text-gray-600 hover:text-gray-400 transition-colors svelte-12qhfyh" aria-haspopup="dialog" aria-expanded="false" aria-controls="privacy-policy-dialog">Privacy Policy</button> <button type="button" class="text-xs text-gray-600 hover:text-gray-400 transition-colors svelte-12qhfyh" aria-haspopup="dialog" aria-expanded="false" aria-controls="disclaimer-dialog">Disclaimer</button></div></div></nav> <main class="site-main lg:ml-56 pt-[5.5rem] lg:pt-8 svelte-12qhfyh"><div class="px-5 py-8 sm:px-8 lg:px-10 lg:py-12 svelte-12qhfyh"><!--[--><!--[-1--><!--[--><!----> <div class="site-container post-layout"><article><header class="flex flex-col gap-3"><nav class="font-mono text-xs text-gray-500" aria-label="Breadcrumb"><div class="flex min-w-0 items-center gap-y-1 flex-wrap"><!--[--><!--[-1--><!--]--> <!--[0--><a href="../../posts" class="truncate transition-colors hover:text-gray-300">POSTS</a><!--]--><!--[0--><span class="mx-1">/</span><!--]--> <!--[0--><a href="../../posts/knowledges" class="truncate transition-colors hover:text-gray-300">knowledges</a><!--]--><!--[0--><span class="mx-1">/</span><!--]--> <!--[-1--><span class="truncate text-gray-400">windows-etl-analysis-101-en</span><!--]--><!--]--></div></nav><!----> <div class="flex flex-wrap items-center justify-end gap-2"><!--[0--><a href="https://twitter.com/intent/tweet?text=The%20World%20Ends%20with%20ETW%20-%20SIPDEP&amp;url=https%3A%2F%2Fsumeshi.github.io%2Fposts%2Fknowledges%2Fwindows-etl-analysis-101-en" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center rounded-md px-5 py-2 text-sm transition-colors border border-white/10 bg-black text-white hover:border-white/25 hover:bg-neutral-950 order-2 gap-1.5 px-3 py-1.5 text-xs font-medium"><svg class="h-3.5 w-3.5 shrink-0" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.258 5.63zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg> <span>Share</span><!----></a><!--]--> <a href="https://github.com/sumeshi/api/blob/master/knowledges/windows-etl-analysis-101-en.md" target="_blank" rel="noopener noreferrer" aria-label="View source on GitHub" title="View source on GitHub" class="inline-flex h-9 w-9 items-center justify-center rounded-lg border transition-colors sm:h-10 sm:w-10 bg-transparent border-transparent text-gray-500 hover:text-white order-1"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"></path></svg><!----></a><!----> <!--[0--><a href="../../posts/knowledges/windows-etl-analysis-101" hreflang="ja" rel="alternate" class="order-4 rounded-md border border-gray-800 bg-gray-950/30 px-2 py-1 font-mono text-[10px] uppercase tracking-[0.1em] text-gray-500 transition-colors hover:border-gray-600 hover:bg-gray-900/60 hover:text-indigo-300">Read in Japanese</a><!--]--></div></header> <div class="py-6"><!--[0--><div class="mb-7 flex flex-col gap-2 border-b border-gray-700 pb-4 sm:flex-row sm:items-start sm:justify-between sm:gap-6"><h1 class="min-w-0 font-sans text-2xl font-semibold leading-snug tracking-tight text-white sm:text-[2rem]">The World Ends with ETW</h1> <!--[0--><time class="shrink-0 font-mono text-[10px] text-gray-500 sm:pt-2" datetime="2026-11-09T04:23:45+09:00">2026-11-09</time><!--]--></div><!--]--> <!--[0--><!--[--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p>How to Investigate ETL (Event Trace Log) Files</p>
+<h2 id="introduction">Introduction</h2>
+<p>When it comes to Windows logs, the first thing that usually comes to mind is Event Logs in EVTX format. But there's another type of log called ETL (Event Trace Log), too (though it's not nearly as well known).</p>
+<p>ETL files are used for Windows diagnostics, application debugging, performance analysis, and more. They can contain detailed records of system activity, including processes, file operations, and network communication, making them another useful source of information for Windows forensics.</p>
+<p>If you've ever investigated Windows Event Logs, you probably know that the information you want is often missing.</p>
+<p>By default, detailed process activity, file operations, and network communication may not be recorded. Logs may also have been deleted by an attacker or overwritten due to rotation settings, leaving only the last hour or two of activity. None of this is particularly unusual.</p>
+<p>On the other hand, ETL files may contain more detailed information than Event Logs. Sometimes, even when the Event Logs have been deleted, the ETL files are still there.</p>
+<p>In this article, I'll go over what ETW and ETL actually are and share some tips for investigating ETL files.</p>
+<h2 id="1-etw-overview">1. ETW Overview</h2>
+<h3 id="what-is-etw">What is ETW?</h3>
+<p>ETW (Event Tracing for Windows) is a Windows <strong>mechanism</strong> for collecting events emitted by the operating system and applications. <strong>ETL (Event Trace Log) is the file format used to store the collected events.</strong></p>
+<p>ETW was introduced in Windows 2000 and <a href="https://learn.microsoft.com/en-us/archive/msdn-magazine/2007/april/event-tracing-improve-debugging-and-performance-tuning-with-etw">significantly expanded in Windows Vista</a>.</p>
+<p>With Windows Vista, the event publishing model was integrated with Windows Event Log, allowing events to be handled through a shared infrastructure.</p>
+<p><strong>This article focuses on ETW in Windows Vista and later.</strong></p>
+<h3 id="how-does-it-differ-from-windows-event-logs">How Does It Differ from Windows Event Logs?</h3>
+<p>Windows Event Log and ETW share parts of the underlying event publishing infrastructure. The main difference is how events are collected and stored.</p>
+<p>Windows Event Log saves events assigned to <a href="https://learn.microsoft.com/en-us/windows/win32/wes/defining-channels">channels</a> in EVTX files. ETW, on the other hand, collects events through <strong>sessions</strong>, which can write them to ETL files or deliver them to consumers in real time.</p>
+<p>For example, a system might record an error message in an Event Log while collecting the beginning and end of the corresponding operation in a separate ETW session. In that case, the EVTX file would contain the error, while the ETL file would contain information about the operations surrounding it.</p>
+<p>The same event may appear in both, depending on the collection configuration. This means that an ETL file may contain process activity, file operations, or network destinations that are absent from the EVTX files.</p>
+<p>That said, tools such as <a href="https://learn.microsoft.com/en-us/sysinternals/downloads/sysmon">Sysmon</a> can also record detailed information in EVTX files, so ETL is not necessarily more detailed in every case.</p>
+<h3 id="etw-components">ETW Components</h3>
+<p>ETW consists of the following components.</p>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Role</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Provider</td>
+<td>The source that emits events</td>
+<td>Windows components and applications, such as <code>Microsoft-Windows-DNS-Client</code></td>
+</tr>
+<tr>
+<td>Session</td>
+<td>Collects events and delivers them to ETL files or consumers</td>
+<td>A trace session configured with specific providers and output settings</td>
+</tr>
+<tr>
+<td>Controller</td>
+<td>Starts and stops sessions, enables providers, and configures collection settings</td>
+<td><code>logman.exe</code>, Windows Performance Recorder</td>
+</tr>
+<tr>
+<td>Consumer</td>
+<td>Reads collected events</td>
+<td>Real-time monitoring tools and utilities that analyze existing ETL files</td>
+</tr>
+</tbody>
+</table>
+<p>The following diagram provides a simplified overview of these components and how events flow between them. Solid arrows represent event flow, while dashed arrows represent configuration operations. The ETL file highlighted in blue is what we'll be investigating in this article.</p><!----></div><!--]--><!--[3--><div class="my-6 max-w-full overflow-x-auto rounded-lg border border-gray-800 bg-gray-950/40 p-4"><!--[-1--><!--[-1--><!--]--> <pre class="text-sm text-gray-300"><code>flowchart TB
+    P["Provider(s)"] -->|Events| S["Session(s)"]
+    C[Controller] -.->|Enable/Disable| P
+    C -.->|Configure| S
+    S -->|Save| F[(ETL)]
+    F -->|Read| A[Consumer]
+    S -.->|Deliver| A
+    style F fill:#eef5ff,stroke:#315b82,stroke-width:2px,color:#111</code></pre><!--]--></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p>First, the Controller starts and stops sessions, enables or disables Providers, and configures collection settings. Typical Controllers include <code>logman.exe</code> and Windows Performance Recorder.</p>
+<p>When a Controller enables a Provider, the Provider emits events. These events are filtered according to the conditions configured by the Controller, such as Level (severity), Keyword (category), and the Providers selected for collection, before being delivered to a Session.</p>
+<p>The events are first collected in memory buffers, which are then used to write ETL files or deliver events to Consumers in real time.</p>
+<p>A single Session can collect events from multiple Providers. Multiple Sessions can also run at the same time, and events emitted by the same Provider may be delivered to several Sessions and saved in separate ETL files.</p>
+<p>Each Session has its own collection and storage settings. In circular logging, older data is overwritten. When investigating an ETL file, it is therefore worth checking not only its filename but also the Providers it contains and the time range it covers.</p>
+<p>For a more detailed diagram, see Microsoft's <a href="https://learn.microsoft.com/en-us/windows-hardware/test/weg/instrumenting-your-code-with-etw">ETW Architecture</a>.</p>
+<h2 id="2-preserving-etl-files">2. Preserving ETL Files</h2>
+<p>ETL files can be stored in all sorts of locations, depending on the application and its configuration.</p>
+<p>When collecting evidence, you can search the system and copy the files directly, or use an acquisition tool that supports ETL collection.</p>
+<h3 id="live-acquisition">Live Acquisition</h3>
+<h4>Using Built-in Windows Tools</h4>
+<p>You can use Windows' built-in <a href="https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/robocopy">robocopy</a> to copy all files matching <code>*.etl*</code> from <code>C:\</code> to <code>E:\Cases\etls</code>, preserving their relative paths.</p>
+<p>Run the following commands with administrator privileges.</p><!----></div><!--]--><!--[-1--><div class="code-block"><pre><code><!---->New-Item -ItemType Directory -Path <span class="hljs-symbol">&#x27;E</span>:\Cases<span class="hljs-string">&#x27; -Force | Out-Null
+robocopy C:\ E:<span class="hljs-char escape_">\C</span>ases<span class="hljs-char escape_">\e</span>tls *.etl* /S /COPY:DAT /DCOPY:DAT /R:0 /W:0 /XJ /UNILOG:E:<span class="hljs-char escape_">\C</span>ases<span class="hljs-char escape_">\e</span>tl-copy.log</span><!----></code></pre></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/COPY:DAT</code></td>
+<td>Copies file data, attributes, and timestamps</td>
+</tr>
+<tr>
+<td><code>/DCOPY:DAT</code></td>
+<td>Copies directory data, attributes, and timestamps</td>
+</tr>
+<tr>
+<td><code>/XJ</code></td>
+<td>Excludes junction points</td>
+</tr>
+<tr>
+<td><code>/R:0</code></td>
+<td>Disables retries</td>
+</tr>
+</tbody>
+</table>
+<p>Check <code>etl-copy.log</code> for files that could not be copied due to access restrictions, open handles, or other errors.</p>
+<p>Note that <code>/COPY:DAT</code> does not preserve access control lists (ACLs), ownership, or other security metadata. This example is intended for collecting ETL files rather than performing a complete forensic acquisition.</p>
+<p>After copying the files, it's a good idea to calculate and record SHA-256 hashes so their integrity can be verified later.</p>
+<p>As mentioned earlier, events are initially collected in memory buffers. This method only captures data that has already been written to disk.</p>
+<p>If you also want to investigate events that have not yet been written to an ETL file, another option is to acquire a memory image and use <a href="https://blogs.jpcert.or.jp/ja/2024/11/etw_forensics.html"><code>etw-scan</code></a>, a Volatility 3 plugin.</p>
+<p>However, not every event can necessarily be recovered from memory.</p>
+<h4>Using Acquisition Tools</h4>
+<p>Ideally, I'd prefer to collect everything with an acquisition tool, but tools with comprehensive ETL collection support still seem somewhat limited.</p>
+<p><a href="https://github.com/EricZimmerman/KapeDocs">KAPE</a> can collect related files using predefined Targets. Depending on the selected Targets, it can collect not only ETL files but also registry information and other artifacts from the source system.</p>
+<p>Be aware that <a href="https://github.com/EricZimmerman/KapeDocs/blob/master/Pages/50-Frequently-asked-questions.md">KAPE has restrictions on commercial use</a>.</p>
+<table>
+<thead>
+<tr>
+<th>Target</th>
+<th>Main Collection Targets</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>EventTraceLogs</code></td>
+<td>ETL files related to WDI, WMI, SleepStudy, Delivery Optimization, and others</td>
+</tr>
+<tr>
+<td><code>WindowsUpdate</code></td>
+<td>Windows Update ETL files, ETL files under <code>USOShared\Logs\System</code>, CBS logs, and related files</td>
+</tr>
+<tr>
+<td><code>RDPJumplist</code></td>
+<td>The package directory for the Store version of Remote Desktop, including <code>LocalState\Logs</code></td>
+</tr>
+<tr>
+<td><code>RegistryHivesSystem</code></td>
+<td>System registry hives such as SYSTEM and SOFTWARE, along with transaction logs</td>
+</tr>
+</tbody>
+</table>
+<p>Again, run this with administrator privileges.</p><!----></div><!--]--><!--[-1--><div class="code-block"><pre><code><!---->.\kape.exe --tsource C: --tdest <span class="hljs-string">&#x27;E:\Cases\KAPE&#x27;</span> --target <span class="hljs-string">&#x27;EventTraceLogs,WindowsUpdate,RDPJumplist,RegistryHivesSystem&#x27;</span> --tdd <span class="hljs-literal">false</span><!----></code></pre></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p>The <code>--tdd false</code> option prevents files with identical contents but different paths from being deduplicated.</p>
+<p>Of course, these Targets won't collect every ETL file on the system. You may need to add custom collection definitions or acquire certain files separately.</p>
+<p><a href="https://triage.velocidex.com/docs/windows.triage.targets/">Velociraptor</a> also provides <code>Windows.Triage.Targets</code>, which includes collection definitions derived from KapeFiles.</p>
+<p>I haven't used it myself yet, but it may be a good alternative if you're already familiar with Velociraptor.</p>
+<h3 id="acquiring-etl-files-from-disk-images">Acquiring ETL Files from Disk Images</h3>
+<p>One of the most reliable approaches is still to acquire a disk image.</p>
+<p>Memory-resident information will be lost unless it is collected separately, but having a disk image means you can return to the evidence and extract additional artifacts later. It's worth considering, especially when the number of target systems is relatively small.</p>
+<p>To search for and extract files directly from disk images, you can use <a href="https://github.com/sumeshi/ntfsfind">ntfsfind</a> and <a href="https://github.com/sumeshi/ntfsdump">ntfsdump</a>.</p>
+<p>As an example, I used <code>ntfsfind</code> to search for <code>.etl</code> files in the disk image from NIST's <a href="https://cfreds-archive.nist.gov/data_leakage_case/data-leakage-case.html">CFReDS Data Leakage Case</a>.</p>
+<p>Here are the results.</p><!----></div><!--]--><!--[-1--><div class="code-block"><pre><code><!----><span class="hljs-meta prompt_">&gt; </span><span class="language-bash">ntfsfind.exe cfreds_2015_data_leakage_pc.E01 -e etl</span>
+/Windows/System32/LogFiles/WMI/RtBackup/EtwRTEventlog-Security.etl
+/Windows/System32/LogFiles/WMI/RtBackup/EtwRTEventLog-Application.etl
+/Windows/System32/wdi/{67144949-5132-4859-8036-a737b43825d8}/{9a3d7e9e-7fc6-43a4-a74e-8d50303fcdae}/snapshot.etl
+/Windows/System32/wdi/{67144949-5132-4859-8036-a737b43825d8}/{ac1aa789-a259-4e50-be32-58447f92b714}/snapshot.etl
+/Windows/System32/wdi/{86432a0b-3c7d-4ddf-a89c-172faa90485d}/{d3f5594e-34ec-4579-b2ed-9b3aa4a561f9}/snapshot.etl
+/Users/informant/AppData/Local/Microsoft/Windows/Explorer/ExplorerStartupLog.etl
+/Users/informant/AppData/Local/Microsoft/Windows/Explorer/ExplorerStartupLog_RunOnce.etl
+/Windows/System32/LogFiles/WMI/RtBackup/EtwRTUBPM.etl
+/Windows/Performance/WinSAT/DataStore/2015-03-24 11.11.25.240.winsat.etl
+/Windows/System32/wdi/{86432a0b-3c7d-4ddf-a89c-172faa90485d}/{8c8a5498-1428-4a4f-9a52-aa2105754f70}/snapshot.etl
+/Windows/System32/wdi/{86432a0b-3c7d-4ddf-a89c-172faa90485d}/{9e840662-7805-40ea-abbc-2666b58e80f3}/snapshot.etl
+/Windows/System32/umstartup.etl
+/Windows/System32/umstartup000.etl
+/Windows/System32/LogFiles/WMI/Terminal-Services-Core.etl
+/Windows/System32/LogFiles/WMI/Terminal-Services-IP-Virtualization.etl
+/Windows/System32/LogFiles/WMI/Terminal-Services-RPC-Client.etl
+/Windows/System32/LogFiles/WMI/Terminal-Services-SessionEnv.etl
+/Windows/System32/LogFiles/WMI/Terminal-Services-Unified-APIs.etl
+/Windows/System32/LogFiles/WMI/RtBackup/EtwRTDiagLog.etl
+/Windows/System32/LogFiles/WMI/RtBackup/EtwRTEventLog-System.etl
+/Windows/System32/wdi/LogFiles/BootCKCL.etl
+/Windows/System32/wdi/LogFiles/ShutdownCKCL.etl
+/Windows/System32/wfp/wfpdiag.etl
+/Windows/System32/wdi/{86432a0b-3c7d-4ddf-a89c-172faa90485d}/{dc425e1a-3399-4a2e-9a96-e67a64c9ffd2}/snapshot.etl
+/Windows/System32/wdi/{86432a0b-3c7d-4ddf-a89c-172faa90485d}/{3aaf5c18-c3df-412f-921f-a7c03ea7e145}/snapshot.etl
+/Windows/System32/wdi/{86432a0b-3c7d-4ddf-a89c-172faa90485d}/{336c8a0e-f419-4df4-b3fe-52de057e5cae}/snapshot.etl
+/Windows/Panther/setup.etl
+/Windows/System32/winevt/Logs/DebugChannel.etl
+<span class="hljs-meta prompt_">/Windows/System32/winevt/Logs/Microsoft-RMS-MSIPC%</span><span class="language-bash">4Debug.etl</span>
+/Users/admin11/AppData/Local/Microsoft/Windows/Explorer/ExplorerStartupLog.etl
+/Users/temporary/AppData/Local/Microsoft/Windows/Explorer/ExplorerStartupLog.etl
+/ProgramData/Microsoft/Windows/Power Efficiency Diagnostics/energy-trace.etl
+/ProgramData/Microsoft/Windows/Power Efficiency Diagnostics/energy-ntkl.etl
+/Windows/System32/wdi/{86432a0b-3c7d-4ddf-a89c-172faa90485d}/{2c5f5048-4e9b-487e-b245-7e0e9b604606}/snapshot.etl
+/Windows/System32/LogFiles/WMI/RtBackup/EtwRTMsMpPsSession7.etl<!----></code></pre></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p>That's quite a few files.</p>
+<p>To extract them, simply pipe the results from <code>ntfsfind</code> into <code>ntfsdump</code>.</p><!----></div><!--]--><!--[-1--><div class="code-block"><pre><code><!----><span class="hljs-meta prompt_">&gt; </span><span class="language-bash">ntfsfind.exe cfreds_2015_data_leakage_pc.E01 -e etl | ntfsdump.exe cfreds_2015_data_leakage_pc.E01 -o etl</span><!----></code></pre></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p>For more details, see <a href="https://sumeshi.github.io/posts/works/ntfsfind-dump-en">NTFS Spinal Cord Sword</a>.</p>
+<h3 id="other-information-worth-preserving">Other Information Worth Preserving</h3>
+<p>To maintain the evidentiary value of collected logs, it's important to document which system they came from and how they were acquired.</p>
+<p>From a practical standpoint, preserving information about the source environment also saves you from having to investigate the same details again later.</p>
+<p>At a minimum, I'd recommend keeping the following information.</p>
+<table>
+<thead>
+<tr>
+<th>Information</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Source computer name, user, original path, acquisition time, tools, and methods</td>
+<td>Identifies the source of each log when investigating multiple systems or users</td>
+</tr>
+<tr>
+<td>Windows build and architecture, relevant application versions</td>
+<td>Helps explain differences between the source system and the analysis environment, especially when an ETL file cannot be decoded correctly</td>
+</tr>
+<tr>
+<td>Time zone</td>
+<td>Helps correlate local timestamps with UTC and logs from other systems</td>
+</tr>
+<tr>
+<td>Files containing the relevant Provider definitions</td>
+<td>Allows event fields and values to be decoded when the definitions are missing from the analysis system</td>
+</tr>
+<tr>
+<td>File hashes</td>
+<td>Helps verify that files have not changed during copying or transfer</td>
+</tr>
+</tbody>
+</table>
+<p>You can collect some of this information using PowerShell.</p><!----></div><!--]--><!--[-1--><div class="code-block"><pre><code><!----><span class="hljs-keyword">Get</span><span class="hljs-operator">-</span>CimInstance Win32_OperatingSystem <span class="hljs-operator">|</span>
+    <span class="hljs-keyword">Select</span><span class="hljs-operator">-</span>Object Caption, Version, BuildNumber, OSArchitecture <span class="hljs-operator">|</span>
+    Export<span class="hljs-operator">-</span>Clixml <span class="hljs-operator">-</span>LiteralPath <span class="hljs-string">&#x27;E:\Cases\os.xml&#x27;</span>
+
+<span class="hljs-keyword">Get</span><span class="hljs-operator">-</span>TimeZone <span class="hljs-operator">|</span> Export<span class="hljs-operator">-</span>Clixml <span class="hljs-operator">-</span>LiteralPath <span class="hljs-string">&#x27;E:\Cases\timezone.xml&#x27;</span>
+<span class="hljs-keyword">Get</span><span class="hljs-operator">-</span><span class="hljs-type">Date</span> <span class="hljs-operator">-</span>Format o <span class="hljs-operator">|</span> <span class="hljs-keyword">Out</span><span class="hljs-operator">-</span>File <span class="hljs-operator">-</span>FilePath <span class="hljs-string">&#x27;E:\Cases\collection-time.txt&#x27;</span><!----></code></pre></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p>During live acquisition, you can also use <a href="https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/logman-query">logman query</a> to record information about the currently available sessions and Providers.</p><!----></div><!--]--><!--[-1--><div class="code-block"><pre><code><!---->logman query <span class="hljs-operator">-</span>ets <span class="hljs-operator">|</span> <span class="hljs-keyword">Out</span><span class="hljs-operator">-</span>File <span class="hljs-operator">-</span>FilePath <span class="hljs-string">&#x27;E:\Cases\sessions.txt&#x27;</span>
+logman query <span class="hljs-string">&#x27;SessionName&#x27;</span> <span class="hljs-operator">-</span>ets <span class="hljs-operator">|</span> <span class="hljs-keyword">Out</span><span class="hljs-operator">-</span>File <span class="hljs-operator">-</span>FilePath <span class="hljs-string">&#x27;E:\Cases\session-details.txt&#x27;</span>
+logman query providers <span class="hljs-operator">|</span> <span class="hljs-keyword">Out</span><span class="hljs-operator">-</span>File <span class="hljs-operator">-</span>FilePath <span class="hljs-string">&#x27;E:\Cases\providers.txt&#x27;</span><!----></code></pre></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p>Of course, these commands only show the state of the system at the time of acquisition. Historical session settings or definitions may no longer be available.</p>
+<p>Ideally, you'd also preserve <code>.man</code> files and DLLs or EXEs containing the relevant Provider definitions. Doing all of that during initial triage may not always be realistic, though. I'll return to this later.</p>
+<h2 id="3-converting-etl-files">3. Converting ETL Files</h2>
+<p>ETL files can be read on a different computer from the one they were collected from. However, if the analysis environment lacks the required Provider definitions, application metadata, or matching versions, some events may not be decoded correctly.</p>
+<p>Parsing the files in an environment matching the source system, or preserving files containing the relevant definitions, may allow you to recover more information.</p>
+<h3 id="event-metadata-formats">Event Metadata Formats</h3>
+<p>An event's payload contains its event-specific fields. Without the appropriate metadata, the field names and data types may not be interpreted correctly.</p>
+<p>For more details, see Microsoft's <a href="https://learn.microsoft.com/en-us/windows/win32/etw/event-metadata-overview">Event Metadata Overview</a>.</p>
+<p>Some of the main metadata formats are listed below.</p>
+<table>
+<thead>
+<tr>
+<th>Format</th>
+<th>How Metadata Is Defined</th>
+<th>What Is Needed to Decode It</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Manifest-based</td>
+<td>Event types and fields are defined in advance using a Manifest</td>
+<td>A matching <code>.man</code> file or a DLL/EXE containing the definitions</td>
+</tr>
+<tr>
+<td>TraceLogging</td>
+<td>Field names, types, and other metadata are embedded in the event itself</td>
+<td>A tool that supports the self-describing format; no separate Manifest is required</td>
+</tr>
+<tr>
+<td>MOF / Classic</td>
+<td>A legacy format using MOF (<code>.mof</code>) definitions</td>
+<td>Registered MOF schemas or equivalent definitions supported by the analysis tool</td>
+</tr>
+<tr>
+<td>WPP</td>
+<td>Debug tracing messages decoded using external formatting information</td>
+<td>A corresponding PDB (debug symbol file), or a TMF extracted from it, along with a WPP-compatible tool</td>
+</tr>
+</tbody>
+</table>
+<p>If an ETL file cannot be decoded, first determine whether the problem is missing metadata or a limitation of the tool itself.</p>
+<h3 id="converting-etl-files-with-built-in-windows-tools">Converting ETL Files with Built-in Windows Tools</h3>
+<p>You can inspect ETL files using <code>tracerpt</code> or <code>Get-WinEvent</code>.</p>
+<p>For us mere humans, CSV is usually easier to read. But if you need to inspect field names or the underlying structure in more detail, XML is also an option.</p><!----></div><!--]--><!--[-1--><div class="code-block"><pre><code><!---->tracerpt <span class="hljs-string">&#x27;C:\Cases\trace.etl&#x27;</span> -o <span class="hljs-string">&#x27;C:\Cases\trace.csv&#x27;</span> -of CSV
+
+Get-WinEvent -Path <span class="hljs-string">&#x27;C:\Cases\trace.etl&#x27;</span> -Oldest -MaxEvents 5 |
+    ForEach-Object { <span class="hljs-variable">$_</span>.ToXml() }<!----></code></pre></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p>Here's an example of the information you can get.</p>
+<table>
+<thead>
+<tr>
+<th>Event Name</th>
+<th>Type</th>
+<th>Event ID</th>
+<th>Version</th>
+<th>Channel</th>
+<th>Level</th>
+<th>Opcode</th>
+<th>Task</th>
+<th>Keyword</th>
+<th>PID</th>
+<th>TID</th>
+<th>Processor Number</th>
+<th>Instance ID</th>
+<th>Parent Instance ID</th>
+<th>Activity ID</th>
+<th>Related Activity ID</th>
+<th>Clock-Time</th>
+<th>Kernel(ms)</th>
+<th>User(ms)</th>
+<th>User Data</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Microsoft-Windows-Shell-Core</td>
+<td>Start</td>
+<td>9601</td>
+<td>0</td>
+<td>16</td>
+<td>4</td>
+<td>1</td>
+<td>9601</td>
+<td>0x0000000004010000</td>
+<td>0x000005A8</td>
+<td>0x00000594</td>
+<td>0</td>
+<td></td>
+<td></td>
+<td>{00000000-0000-0000-0000-000000000000}</td>
+<td></td>
+<td>1.30715084822146E+017</td>
+<td>0</td>
+<td>0</td>
+<td>DataSize=0</td>
+</tr>
+<tr>
+<td>Microsoft-Windows-Shell-Core</td>
+<td>Start</td>
+<td>9703</td>
+<td>0</td>
+<td>16</td>
+<td>4</td>
+<td>1</td>
+<td>9703</td>
+<td>0x0000000004010000</td>
+<td>0x000005A8</td>
+<td>0x00000594</td>
+<td>0</td>
+<td></td>
+<td></td>
+<td>{00000000-0000-0000-0000-000000000000}</td>
+<td></td>
+<td>1.30715084826663E+017</td>
+<td>0</td>
+<td>0</td>
+<td>DataSize=0</td>
+</tr>
+<tr>
+<td>Microsoft-Windows-Shell-Core</td>
+<td>Stop</td>
+<td>9704</td>
+<td>0</td>
+<td>16</td>
+<td>4</td>
+<td>2</td>
+<td>9703</td>
+<td>0x0000000004010000</td>
+<td>0x000005A8</td>
+<td>0x00000594</td>
+<td>0</td>
+<td></td>
+<td></td>
+<td>{00000000-0000-0000-0000-000000000000}</td>
+<td></td>
+<td>1.30715084834634E+017</td>
+<td>0</td>
+<td>0</td>
+<td>DataSize=0</td>
+</tr>
+<tr>
+<td>Microsoft-Windows-Shell-Core</td>
+<td>Start</td>
+<td>9707</td>
+<td>0</td>
+<td>16</td>
+<td>4</td>
+<td>1</td>
+<td>9707</td>
+<td>0x0000000004010000</td>
+<td>0x000005A8</td>
+<td>0x00000594</td>
+<td>0</td>
+<td></td>
+<td></td>
+<td>{00000000-0000-0000-0000-000000000000}</td>
+<td></td>
+<td>1.30715084836727E+017</td>
+<td>0</td>
+<td>0</td>
+<td>C:\Windows\SysWOW64\ie4uinit.exe -BaseSettings</td>
+</tr>
+</tbody>
+</table>
+<p>For more information, see the documentation for <a href="https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/tracerpt">tracerpt</a> and <a href="https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.diagnostics/get-winevent?view=powershell-5.1">Get-WinEvent</a>.</p>
+<p>When you move an ETL file to another computer, you may need Provider definitions that are only available on the original system.</p>
+<p>If the source environment is still accessible, you can use <code>wevtutil gp</code> to identify the associated files registered on that system.</p><!----></div><!--]--><!--[-1--><div class="code-block"><pre><code><!---->wevtutil gp <span class="hljs-string">&#x27;Microsoft-Windows-DNS-Client&#x27;</span> /f:xml<!----></code></pre></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p>The DLLs or EXEs referenced by <code>resourceFileName</code> and <code>messageFileName</code> may provide useful clues.</p>
+<p>You can also look at <code>Microsoft\Windows\CurrentVersion\WINEVT\Publishers</code> in the SOFTWARE registry hive.</p>
+<p>Even with the original definitions, however, the analysis tool may not support the relevant metadata format. If all else fails, you could try examining the binary data directly—or throwing it at an AI and seeing what happens.</p>
+<h3 id="converting-etl-files-with-etw2json">Converting ETL Files with ETW2JSON</h3>
+<p>If you want to search and aggregate events across multiple files, converting them into a common format makes life much easier.</p>
+<p>Microsoft's <a href="https://github.com/microsoft/ETW2JSON">ETW2JSON</a> can convert ETL files into JSON.</p><!----></div><!--]--><!--[-1--><div class="code-block"><pre><code><!---->ETW2JSON <span class="hljs-string">&#x27;C:\Cases\trace.etl&#x27;</span> <span class="hljs-string">&#x27;--output=C:\Cases\trace.json&#x27;</span><!----></code></pre></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p>However, the original version has a few limitations. For example, you cannot directly specify Manifest files or DLLs recovered from the source system, and it can be difficult to inspect the original data or identify which metadata was used to decode an event.</p>
+<p><del>Also, having to compile it yourself because no executable is distributed is a bit of a hassle.</del></p>
+<p>So I forked it and made some changes.</p><!----></div><!--]--><!--[2--><a href="https://github.com/sumeshi/ETW2JSON" target="_blank" rel="noopener noreferrer" class="group my-5 flex gap-3.5 rounded-lg border border-gray-800 bg-gray-900/50 px-4 py-3.5 transition-colors hover:border-indigo-400/40 hover:bg-indigo-950/20 "><span class="flex shrink-0 items-center border-r border-gray-800 pr-3.5"><svg class="h-8 w-8 text-gray-300 transition-colors group-hover:text-white" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"></path></svg></span> <span class="flex min-w-0 flex-col gap-1"><span class="font-mono text-[10px] font-medium uppercase tracking-[0.14em] text-indigo-400">GitHub</span> <span class="truncate font-mono text-base font-semibold leading-relaxed text-white transition-colors group-hover:text-indigo-300">sumeshi/ETW2JSON</span> <!--[-1--><!--]--> <span class="mt-0.5 flex flex-wrap items-center gap-x-4 gap-y-1 font-mono text-[11px] text-gray-500"><!--[1--><span class="animate-pulse">loading…</span><!--]--> <span class="flex min-w-0 max-w-full items-center gap-1.5"><svg class="h-3 w-3 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"></path></svg> <span class="truncate">github.com/sumeshi/ETW2JSON</span></span></span></span><!----></a><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p><strong>Main changes</strong></p>
+<ul>
+<li>Added <code>--allow-local-metadata</code> to control whether metadata registered on the analysis system can be used, and added metadata provenance tracking.</li>
+<li>Added <code>--manifest</code>, <code>--resource</code>, and <code>--provider-info</code> to allow external metadata sources, including Manifest files and DLLs, to be specified.</li>
+<li>Preserved original event IDs, versions, raw payloads, and decode status even when an event cannot be decoded.</li>
+<li>Added <code>--scan</code> and <code>--report-missing</code> to identify missing metadata before conversion.</li>
+<li>Added JSONL output support.</li>
+<li>Added safeguards to prevent existing files from being overwritten.</li>
+</ul>
+<p>By default, the fork does not use metadata registered on the analysis computer.</p>
+<p>If you just want to take a quick look at the contents, you can enable it with <code>--allow-local-metadata</code>.</p>
+<p>Keep in mind that the definitions on the analysis computer may differ from those on the source system.</p><!----></div><!--]--><!--[-1--><div class="code-block"><pre><code><!----><span class="hljs-variable constant_">ETW2JSON</span>.exe <span class="hljs-string">&#x27;C:\Cases\ExplorerStartupLog.etl&#x27;</span> <span class="hljs-string">`
+    --allow-local-metadata `</span>
+    --output <span class="hljs-string">&#x27;C:\Cases\ExplorerStartupLog.jsonl&#x27;</span><!----></code></pre></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p>Here's an example of the output.</p><!----></div><!--]--><!--[-1--><div class="code-block"><pre><code><!----><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;timestamp&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;10031861934&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;raw_timestamp&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">10031861934</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;trace_clock&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;performance_frequency&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">10000000</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;start_time&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">130715084822135124</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;boot_time&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">130715074949265519</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;reserved_flags&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">1</span>
+  <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;provider_guid&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;30336ed4-e327-447c-9de0-51b652c86108&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;provider_name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Microsoft-Windows-Shell-Core&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;event_id&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">9707</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;version&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">0</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;level&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">4</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;opcode&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">1</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;task&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">9707</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;keyword&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">9223372036921950208</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;process_id&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">1448</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;thread_id&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">1428</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;processor_number&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">0</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;activity_id&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">null</span></span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;related_activity_id&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">null</span></span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;event_name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Microsoft-Windows-Shell-Core/Explorer_ExecutingFromRunKey/Start&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;properties&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;Command&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;C:\\Windows\\SysWOW64\\ie4uinit.exe -BaseSettings&quot;</span>
+  <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;metadata_source&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;local_cache&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;decode_status&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;decoded&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;metadata_provenance&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;tdh:analysis-host-provider-registration&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;raw_payload&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;QwA6AFwAVwBpAG4AZABvAHcAcwBcAFMAeQBzAFcATwBXADYANABcAGkAZQA0AHUAaQBuAGkAdAAuAGUAeABlACAALQBCAGEAcwBlAFMAZQB0AHQAaQBuAGcAcwAAAA==&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;source_file&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;ExplorerStartupLog.etl&quot;</span>
+<span class="hljs-punctuation">}</span><!----></code></pre></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p>Note that <code>timestamp</code> is a raw ETW timestamp, not a UTC date and time. If you want to correlate these events with other logs, you need to convert the timestamps using the trace clock information.</p>
+<p>You can also specify a DLL or EXE using <code>--resource</code>. The file is only read as a metadata source; it is not executed.</p><!----></div><!--]--><!--[-1--><div class="code-block"><pre><code><!---->ETW2JSON.exe <span class="hljs-string">&#x27;C:\Cases\trace.etl&#x27;</span> `
+    --resource &#x27;C:\Cases\Metadata\provider.dll&#x27; `
+    <span class="hljs-operator">-</span><span class="hljs-operator">-</span>output <span class="hljs-string">&#x27;C:\Cases\trace-with-metadata.jsonl&#x27;</span><!----></code></pre></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p>Use <code>--manifest</code> if you want to provide a <code>.man</code> file instead.</p>
+<p>You can check the <code>decode_status</code> field to see whether an event was decoded successfully.</p>
+<ul>
+<li><code>decoded</code>: Successfully decoded</li>
+<li><code>metadata_missing</code>: Required metadata was not found</li>
+<li><code>unsupported</code>: The event format is not supported by the tool</li>
+</ul>
+<p>If decoding fails, <code>--report-missing</code> can help identify which metadata definitions are missing.</p>
+<h3 id="using-tools-designed-for-specific-purposes">Using Tools Designed for Specific Purposes</h3>
+<p>For commonly investigated logs, such as Windows Update logs, it is often easier to use tools or commands designed specifically for them.</p>
+<table>
+<thead>
+<tr>
+<th>Target</th>
+<th>Tool</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Windows Update</td>
+<td><code>Get-WindowsUpdateLog</code></td>
+</tr>
+<tr>
+<td>Delivery Optimization</td>
+<td><code>Get-DeliveryOptimizationLog</code>, <code>Get-DeliveryOptimizationLogAnalysis</code></td>
+</tr>
+<tr>
+<td>CPU and disk I/O</td>
+<td>WPA, PerfView</td>
+</tr>
+<tr>
+<td>WPP</td>
+<td>Tracefmt</td>
+</tr>
+<tr>
+<td>ETL files containing packet data</td>
+<td><a href="https://github.com/microsoft/etl2pcapng">Microsoft etl2pcapng</a></td>
+</tr>
+</tbody>
+</table>
+<p>The following two Microsoft GUI tools are also well known.</p>
+<table>
+<thead>
+<tr>
+<th>Tool</th>
+<th>Capabilities</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://github.com/microsoft/perfview">PerfView</a></td>
+<td>Inspect trace duration, event counts, and lost events; filter by event type or process</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/windows-hardware/test/wpt/windows-performance-analyzer">Windows Performance Analyzer (WPA)</a></td>
+<td>Filter by Provider, time, and event fields; visualize CPU, I/O, and other information in graphs</td>
+</tr>
+</tbody>
+</table>
+<p>Both provide detailed views of trace data, including graphical representations of events.</p>
+<p>Their primary use cases seem to be debugging and performance tuning rather than forensics, though.</p>
+<p>The following Japanese-language article explains how to use them in more detail.</p>
+<p><a href="https://qiita.com/kouzimiso/items/a74466f8fc2032683845">How to Use PerfView and Windows Performance Analyzer (WPA)</a></p>
+<h3 id="analyzing-etl-files-on-linux">Analyzing ETL Files on Linux</h3>
+<p>If you want to analyze ETL files outside Windows, you can use tools such as <a href="https://github.com/airbus-cert/etl-parser">Airbus CERT etl-parser</a> and <a href="https://docs.dissect.tools/en/stable/projects/dissect.etl/index.html">Dissect</a>.</p>
+<p><code>etl-parser</code> is still actively maintained and is quite useful.</p>
+<p>For example, you can convert ETL files into XML.</p><!----></div><!--]--><!--[-1--><div class="code-block"><pre><code><!---->etl2xml -i example.etl -o example.xml<!----></code></pre></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p>Dissect is another well-known open-source digital forensics framework. It provides <a href="https://docs.dissect.tools/en/stable/plugins/etl.etl.html">ETL-related plugins</a> that can be useful depending on what you're investigating.</p><!----></div><!--]--><!--[-1--><div class="code-block"><pre><code><!---->target-query <span class="hljs-string">&#x27;case.E01&#x27;</span> -f etl.boot,etl.shutdown -j &gt; etl-events.jsonl<!----></code></pre></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p>The example above extracts events from Boot and Shutdown ETL files in a disk image.</p>
+<h2 id="4-putting-the-information-together">4. Putting the Information Together</h2>
+<p>Once you understand the basic concepts and how to convert ETL files, the rest is much like investigating Windows Event Logs.</p>
+<p>The fields recorded in each log can vary considerably. The trick is to organize the information around a common timeline, then keep forming hypotheses, testing them against the evidence, and refining them.</p>
+<p>Knowledge and intuition. And, above all, a whole lot of patience.</p>
+<p>For more about investigating Windows Event Logs, see my earlier article:</p><!----></div><!--]--><!--[1--><a href="../../posts/knowledges/windows-eventlog-analysis-101-en" target="_blank" rel="noopener noreferrer" class="group my-5 flex gap-3.5 rounded-lg border border-gray-800 bg-gray-900/50 px-4 py-3.5 transition-colors hover:border-indigo-400/40 hover:bg-indigo-950/20 "><span class="flex shrink-0 items-center border-r border-gray-800 pr-3.5"><img src="../../img/sipdep-wordmark.svg" alt="" aria-hidden="true" width="1460" height="235" draggable="false" loading="lazy" class="h-3.5 w-auto opacity-70 transition-opacity group-hover:opacity-100"/></span> <span class="flex min-w-0 flex-col gap-1"><span class="font-mono text-[10px] font-medium uppercase tracking-[0.14em] text-indigo-400">knowledges</span> <span class="font-sans text-base font-semibold leading-relaxed text-white transition-colors group-hover:text-indigo-300">How Do You Investigate Windows Event Logs?</span> <!--[0--><span class="text-sm leading-snug text-gray-400">Vague notes on Windows event log investigation. I'll add more as I remember.</span><!--]--> <span class="mt-0.5 flex items-center gap-1.5 font-mono text-[11px] text-gray-500"><svg class="h-3 w-3 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"></path></svg> <span class="truncate">sumeshi.github.io</span></span></span><!----></a><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><h2 id="appendix-tips-for-investigating-etl-files">Appendix: Tips for Investigating ETL Files</h2>
+<p>As mentioned earlier, ETL files are scattered all over the system. I've put together some notes on where to look, depending on what you're trying to investigate.</p>
+<p>There is still a lot I don't understand about ETL files, and the available information seems to vary considerably depending on the system and its configuration. It may take some time before these findings can be turned into broadly applicable investigation techniques.</p>
+<p>I'll add more as I verify things myself.</p>
+<table>
+<thead>
+<tr>
+<th>Investigation Target</th>
+<th>Typical Location</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Program execution</td>
+<td><code>%ProgramData%\Microsoft\Diagnosis\ETLLogs\AutoLogger\AutoLogger-Diagtrack-Listener.etl</code></td>
+</tr>
+<tr>
+<td>File operations during system startup and shutdown</td>
+<td><code>%SystemRoot%\System32\WDI\LogFiles\</code></td>
+</tr>
+<tr>
+<td>Disk configuration at the time of recording</td>
+<td><code>%ProgramData%\Microsoft\Windows\Power Efficiency Diagnostics\energy-ntkl.etl</code></td>
+</tr>
+<tr>
+<td>Paths and Run keys handled by Explorer</td>
+<td><code>%LOCALAPPDATA%\Microsoft\Windows\Explorer\ExplorerStartupLog.etl</code></td>
+</tr>
+<tr>
+<td>Legacy Store version of Remote Desktop</td>
+<td><code>%LOCALAPPDATA%\Packages\Microsoft.RemoteDesktop_8wekyb3d8bbwe\LocalState\Logs\</code></td>
+</tr>
+<tr>
+<td>Wi-Fi</td>
+<td><code>%SystemRoot%\System32\LogFiles\WMI\Wifi.etl</code></td>
+</tr>
+<tr>
+<td>External IP addresses and related information</td>
+<td><code>%SystemRoot%\ServiceProfiles\NetworkService\AppData\Local\Microsoft\Windows\DeliveryOptimization\Logs\</code></td>
+</tr>
+<tr>
+<td>Windows Update</td>
+<td><code>%SystemRoot%\Logs\WindowsUpdate\</code>, <code>%ProgramData%\USOShared\Logs\</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="program-execution">Program Execution</h3>
+<p>According to <a href="https://www.fortinet.com/blog/threat-research/uncovering-hidden-forensic-evidence-in-windows-mystery-of-autologger">Uncovering Hidden Forensic Evidence in Windows: The Mystery of AutoLogger-Diagtrack-Listener.etl</a>, an investigation of <code>AutoLogger-Diagtrack-Listener.etl</code> on Windows Server 2016 revealed the path and command line of an executable that had already been deleted.</p>
+<p>However, the conditions under which this particular ETL file records such information remain unclear.</p>
+<h3 id="file-operations-during-startup-and-shutdown">File Operations During Startup and Shutdown</h3>
+<p><code>BootCKCL.etl</code> and <code>ShutdownCKCL.etl</code> may contain information about file operations, process activity, and DLL loading during system startup and shutdown.</p>
+<p>Interesting events include <code>FileIo/FileCreate</code>, <code>FileIo/FileDelete</code>, <code>Process/Start</code>, and <code>Process/End</code>.</p>
+<p>However, <code>FileIo/FileCreate</code> alone does not prove that a new file was created. You shouldn't determine whether an operation succeeded based solely on its event name. Check related events and correlate them with other artifacts.</p>
+<p><a href="https://www.hecfblog.com/2018/06/etw-event-tracing-for-windows-and-etl.html">ETW Event Tracing for Windows and ETL Files</a> walks through an investigation involving a suspicious executable.</p>
+<h3 id="disk-and-volume-configuration">Disk and Volume Configuration</h3>
+<p><code>energy-ntkl.etl</code> may contain information about disk and device configurations at the time the trace was recorded.</p>
+<p>Events such as <code>SystemConfig/PhyDisk</code>, <code>SystemConfig/LogDisk</code>, and <code>SystemConfig/PnP</code> look useful when investigating disk details. It is worth correlating them with registry artifacts and other sources.</p>
+<p>Reference: <a href="https://www.hecfblog.com/2018/06/etw-event-tracing-for-windows-and-etl.html">ETW Event Tracing for Windows and ETL Files</a></p>
+<h3 id="paths-and-run-keys-handled-by-explorer">Paths and Run Keys Handled by Explorer</h3>
+<p><code>ExplorerStartupLog.etl</code> may contain events related to paths, network shares, and Run keys handled by Windows Explorer.</p>
+<p>The <a href="https://github.com/repnz/etw-providers-docs">etw-providers-docs</a> repository contains Provider definitions, including the following events.</p>
+<table>
+<thead>
+<tr>
+<th>Event ID</th>
+<th>Information</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>9705 / 9706</td>
+<td>Enumeration of Run keys; check <code>KeyName</code></td>
+</tr>
+<tr>
+<td>9707 / 9708</td>
+<td>Execution from Run keys; check <code>Command</code> and <code>PID</code></td>
+</tr>
+<tr>
+<td>19501 / 19502</td>
+<td>Path parsing; check <code>Name</code> and the result</td>
+</tr>
+</tbody>
+</table>
+<p>As with other artifacts, make sure to correlate the findings with LNK files, Jump Lists, ShellBags, and other available evidence.</p>
+<h3 id="remote-desktop-connections">Remote Desktop Connections</h3>
+<p>According to <a href="https://www.zerofox.com/blog/remote-desktop-application-vs-mstsc-forensics-the-rdp-artifacts-you-might-be-missing/">Remote Desktop Application vs MSTSC Forensics: The RDP Artifacts You Might Be Missing</a>, ETL files from the legacy Store version of Remote Desktop may reveal connection destinations, usernames, successful logins, and disconnections.</p>
+<p>Related <code>.model</code> files may also contain information that can be used to identify saved credentials.</p>
+<h3 id="wi-fi-connections">Wi-Fi Connections</h3>
+<p><code>Wifi.etl</code> may contain events related to wireless network connections.</p>
+<p>However, finding an SSID does not necessarily mean that a connection was successful. Check the related events to determine how far the connection process progressed—authentication, successful connection, disconnection, and so on.</p>
+<p>Reference: <a href="https://learn.microsoft.com/en-us/troubleshoot/windows-client/networking/wireless-network-connectivity-issues-troubleshooting">Advanced troubleshooting wireless network connectivity</a></p>
+<h3 id="external-ip-addresses">External IP Addresses</h3>
+<p>Delivery Optimization (DoSvc), which is used to distribute content such as Windows updates, may record external IP addresses in ETL files.</p>
+<p>According to <a href="https://forensenellanebbia.blogspot.com/2018/12/what-was-my-ip-ask-dosvc-on-windows-10.html">What was my IP? Ask DoSvc on Windows 10</a>, the <code>ExternalIpAddress</code> keyword can reveal information about external IP addresses, including those observed when using a VPN.</p>
+<p>On Windows 10 version 2004 and later, <code>Get-DeliveryOptimizationLogAnalysis</code> can also be used to inspect connection destinations, peer types, transferred data volumes, and other information.</p><!----></div><!--]--><!--[-1--><div class="code-block"><pre><code><!----><span class="hljs-keyword">Get</span><span class="hljs-operator">-</span>DeliveryOptimizationLogAnalysis <span class="hljs-string">&#x27;C:\Cases\DeliveryOptimization\trace.etl&#x27;</span> `
+    <span class="hljs-operator">-</span>ListConnections<!----></code></pre></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><h3 id="windows-update">Windows Update</h3>
+<p>The <code>Get-WindowsUpdateLog</code> command can be used to extract information from Windows Update ETL files.</p><!----></div><!--]--><!--[-1--><div class="code-block"><pre><code><!----><span class="hljs-keyword">Get</span><span class="hljs-operator">-</span>WindowsUpdateLog <span class="hljs-operator">-</span>ETLPath <span class="hljs-string">&#x27;C:\Cases\WindowsUpdate&#x27;</span> `
+    <span class="hljs-operator">-</span>LogPath <span class="hljs-string">&#x27;C:\Cases\WindowsUpdate.log&#x27;</span><!----></code></pre></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p>You can use an update GUID to follow the operations surrounding a particular update.</p>
+<p>For example, <code>ProtocolTalker</code> relates to communication with update servers, <code>DownloadManager</code> handles downloads, and <code>Handler</code> and <code>Setup</code> are associated with installation.</p>
+<p><code>UpdateSessionOrchestration.etl</code> contains information about update and restart coordination, while <code>NotificationUxBroker.etl</code> contains information related to notifications.</p>
+<h2 id="closing-thoughts">Closing Thoughts</h2>
+<p>ETL files sometimes contain useful information that isn't recorded in Windows Event Logs. However, the information available varies considerably between environments, making ETL feel like even more of a mysterious rabbit hole than Event Logs.</p>
+<p>I haven't accumulated enough knowledge to confidently decide which ETL files are worth keeping and which can be ignored. For now, perhaps the best approach is to collect everything and analyze it later.</p>
+<p>Or maybe just collect everything with the intention of throwing it all at an LLM.</p>
+<p>The end.</p><!----></div><!--]--><!--]--><!--]--></div> <footer class="mt-2 flex justify-center border-t border-gray-800/80 pt-5"><a href="../../posts" class="inline-flex items-center justify-center rounded-md px-5 py-2 text-sm transition-colors border border-indigo-400/20 bg-indigo-400/10 text-indigo-100 hover:border-indigo-300/40 hover:bg-indigo-400/15 hover:text-white shadow-[0_0_0_1px_rgba(99,102,241,0.08)] gap-2 rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-[0.16em]"><svg class="h-3.5 w-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 18l-6-6 6-6"></path></svg> <span>All Posts</span><!----></a><!----></footer></article> <!--[0--><aside class="hidden min-w-0 pt-28 2xl:block"><nav class="sticky top-12 max-h-[calc(100vh-4rem)] overflow-y-auto border-l border-gray-800 pl-4" aria-label="Table of Contents"><p class="mb-2 font-mono text-[10px] font-semibold uppercase tracking-[0.12em] text-gray-500">Table of Contents</p> <ol class="space-y-1"><!--[--><li><a href="#introduction" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">Introduction</a></li><li><a href="#1-etw-overview" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">1. ETW Overview</a></li><li class="pl-3"><a href="#what-is-etw" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">What is ETW?</a></li><li class="pl-3"><a href="#how-does-it-differ-from-windows-event-logs" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">How Does It Differ from Windows Event Logs?</a></li><li class="pl-3"><a href="#etw-components" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">ETW Components</a></li><li><a href="#2-preserving-etl-files" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">2. Preserving ETL Files</a></li><li class="pl-3"><a href="#live-acquisition" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">Live Acquisition</a></li><li class="pl-3"><a href="#acquiring-etl-files-from-disk-images" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">Acquiring ETL Files from Disk Images</a></li><li class="pl-3"><a href="#other-information-worth-preserving" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">Other Information Worth Preserving</a></li><li><a href="#3-converting-etl-files" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">3. Converting ETL Files</a></li><li class="pl-3"><a href="#event-metadata-formats" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">Event Metadata Formats</a></li><li class="pl-3"><a href="#converting-etl-files-with-built-in-windows-tools" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">Converting ETL Files with Built-in Windows Tools</a></li><li class="pl-3"><a href="#converting-etl-files-with-etw2json" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">Converting ETL Files with ETW2JSON</a></li><li class="pl-3"><a href="#using-tools-designed-for-specific-purposes" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">Using Tools Designed for Specific Purposes</a></li><li class="pl-3"><a href="#analyzing-etl-files-on-linux" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">Analyzing ETL Files on Linux</a></li><li><a href="#4-putting-the-information-together" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">4. Putting the Information Together</a></li><li><a href="#appendix-tips-for-investigating-etl-files" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">Appendix: Tips for Investigating ETL Files</a></li><li class="pl-3"><a href="#program-execution" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">Program Execution</a></li><li class="pl-3"><a href="#file-operations-during-startup-and-shutdown" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">File Operations During Startup and Shutdown</a></li><li class="pl-3"><a href="#disk-and-volume-configuration" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">Disk and Volume Configuration</a></li><li class="pl-3"><a href="#paths-and-run-keys-handled-by-explorer" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">Paths and Run Keys Handled by Explorer</a></li><li class="pl-3"><a href="#remote-desktop-connections" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">Remote Desktop Connections</a></li><li class="pl-3"><a href="#wi-fi-connections" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">Wi-Fi Connections</a></li><li class="pl-3"><a href="#external-ip-addresses" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">External IP Addresses</a></li><li class="pl-3"><a href="#windows-update" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">Windows Update</a></li><li><a href="#closing-thoughts" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">Closing Thoughts</a></li><!--]--></ol></nav></aside><!--]--></div><!--]--><!--]--><!--]--><!----></div></main> <dialog id="privacy-policy-dialog" tabindex="-1" aria-labelledby="privacy-policy-title" class="site-dialog m-auto w-[calc(100%-2rem)] p-6 text-left max-w-md"><h2 id="privacy-policy-title" class="mb-4 text-lg font-semibold text-white svelte-12qhfyh">Privacy Policy</h2> <p class="mb-3 text-sm leading-relaxed text-gray-400 svelte-12qhfyh">This website uses Google Analytics to collect traffic information for site improvement. Google Analytics may use cookies and similar technologies to measure page views and usage patterns.</p> <p class="mb-6 text-sm leading-relaxed text-gray-400 svelte-12qhfyh">By continuing to use this site, you acknowledge that your site usage may be recorded for analytics purposes.</p> <button type="button" class="text-sm font-medium text-indigo-400 transition-colors hover:text-indigo-300 svelte-12qhfyh">Close</button><!----></dialog><!----> <dialog id="disclaimer-dialog" tabindex="-1" aria-labelledby="disclaimer-title" class="site-dialog m-auto w-[calc(100%-2rem)] p-6 text-left max-w-xl"><h2 id="disclaimer-title" class="mb-4 text-lg font-semibold text-white svelte-12qhfyh">Disclaimer</h2> <p class="mb-3 text-sm leading-relaxed text-gray-400 svelte-12qhfyh">The content published on this website is based on publicly accessible information available on the Internet and other open sources, and represents the author's personal views. Paid training materials, non-public materials, and similar sources are not used as information sources.</p> <p class="mb-3 text-sm leading-relaxed text-gray-400 svelte-12qhfyh">The content of this website does not represent the views, policies, or positions of any organization, group, company, or other third party with which the author is affiliated or has a relationship.</p> <p class="mb-6 text-sm leading-relaxed text-gray-400 svelte-12qhfyh">No warranty is made as to the accuracy, completeness, or usefulness of the information on this website. The author assumes no responsibility for any damages arising from the use of, or inability to use, the content of this website.</p> <button type="button" class="text-sm font-medium text-indigo-400 transition-colors hover:text-indigo-300 svelte-12qhfyh">Close</button><!----></dialog><!----><!--]--><!--]--><!--]--><!----> <!--[-1--><!--]--><!--]-->
+			
+			<script>
+				{
+					__sveltekit_1y6llyu = {
+						base: new URL("../..", location).pathname.slice(0, -1),
+						version: "1794165883559"
+					};
+
+					const element = document.currentScript.parentElement;
+
+					import("../../_app/immutable/entry/start.Cq5CBjf6.js").then(async (kit) => {
+						kit.init(__sveltekit_1y6llyu);
+						const app = await import("../../_app/immutable/entry/app.DMK_KLBo.js");
+						kit.start(app, element, {
+							node_ids: [0, 8],
+							data: [null,null],
+							form: null,
+							error: null
+						});
+					});
+				}
+			</script>
+		</div>
+  </body>
+</html>

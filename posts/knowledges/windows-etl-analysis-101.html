@@ -1,0 +1,665 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="../../img/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0C111B" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600;700&amp;family=Noto+Sans+JP:wght@400;500;600;700&amp;display=swap"
+    />
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-DVLS4LMPGV"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+    gtag('config', 'G-DVLS4LMPGV', { send_page_view: false });
+    </script>
+    <link href="../../_app/immutable/entry/start.Cq5CBjf6.js" rel="modulepreload">
+		<link href="../../_app/immutable/entry/payload.DSmR2FwN.js" rel="modulepreload">
+		<link href="../../_app/immutable/chunks/CRzLMJPS.js" rel="modulepreload">
+		<link href="../../_app/immutable/chunks/dRU47Fy1.js" rel="modulepreload">
+		<link href="../../_app/immutable/chunks/DCRuPlBJ.js" rel="modulepreload">
+		<link href="../../_app/immutable/chunks/DgFDg67G.js" rel="modulepreload">
+		<link href="../../_app/immutable/chunks/CQHzehzU.js" rel="modulepreload">
+		<link href="../../_app/immutable/entry/app.DMK_KLBo.js" rel="modulepreload">
+		<link href="../../_app/immutable/nodes/0.DZpsN2eR.js" rel="modulepreload">
+		<link href="../../_app/immutable/chunks/C0FnF6B9.js" rel="modulepreload">
+		<link href="../../_app/immutable/chunks/BeZWAbE2.js" rel="modulepreload">
+		<link href="../../_app/immutable/chunks/sgut3xGc.js" rel="modulepreload">
+		<link href="../../_app/immutable/chunks/pti_kgNR.js" rel="modulepreload">
+		<link href="../../_app/immutable/chunks/J2ReeRQa.js" rel="modulepreload">
+		<link href="../../_app/immutable/nodes/8.DsbB0Q2-.js" rel="modulepreload">
+		<link href="../../_app/immutable/chunks/ClbI50hp.js" rel="modulepreload">
+		<link href="../../_app/immutable/chunks/Ci9LWLfM.js" rel="modulepreload">
+		<link href="../../_app/immutable/chunks/ebJNel_7.js" rel="modulepreload">
+		<link href="../../_app/immutable/chunks/B_1bIIya.js" rel="modulepreload">
+		<link href="../../_app/immutable/chunks/Bu38usfF.js" rel="modulepreload">
+		<link href="../../_app/immutable/chunks/CxeSu8xo.js" rel="modulepreload">
+		<!--1qspgas--><!--[0--><!----><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"BlogPosting","@id":"https://sumeshi.github.io/posts/knowledges/windows-etl-analysis-101#article","headline":"すばらしきこのETW","description":"ETL(Event Trace Log)の調査方法について","url":"https://sumeshi.github.io/posts/knowledges/windows-etl-analysis-101","mainEntityOfPage":{"@type":"WebPage","@id":"https://sumeshi.github.io/posts/knowledges/windows-etl-analysis-101"},"image":"https://sumeshi.github.io/img/og-card.png","inLanguage":"ja","datePublished":"2026-11-09T04:18:51+09:00","author":{"@type":"Person","@id":"https://sumeshi.github.io/#person","name":"S.Nakano","url":"https://sumeshi.github.io"},"publisher":{"@type":"Person","@id":"https://sumeshi.github.io/#person","name":"S.Nakano","url":"https://sumeshi.github.io"},"isPartOf":{"@type":"Blog","@id":"https://sumeshi.github.io/posts#blog","name":"SIPDEP Posts","url":"https://sumeshi.github.io/posts"}},{"@type":"BreadcrumbList","@id":"https://sumeshi.github.io/posts/knowledges/windows-etl-analysis-101#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://sumeshi.github.io/"},{"@type":"ListItem","position":2,"name":"Posts","item":"https://sumeshi.github.io/posts"},{"@type":"ListItem","position":3,"name":"knowledges","item":"https://sumeshi.github.io/posts/knowledges"},{"@type":"ListItem","position":4,"name":"すばらしきこのETW","item":"https://sumeshi.github.io/posts/knowledges/windows-etl-analysis-101"}]}]}</script><!----><!--]--><!----><!--k3tbry--><link rel="canonical" href="https://sumeshi.github.io/posts/knowledges/windows-etl-analysis-101"/> <link rel="sitemap" type="application/xml" href="https://sumeshi.github.io/sitemap.xml"/> <link rel="alternate" type="application/rss+xml" title="SIPDEP Posts" href="https://sumeshi.github.io/feed.xml"/> <!--[--><link rel="alternate" hreflang="ja" href="https://sumeshi.github.io/posts/knowledges/windows-etl-analysis-101"/><link rel="alternate" hreflang="en" href="https://sumeshi.github.io/posts/knowledges/windows-etl-analysis-101-en"/><link rel="alternate" hreflang="x-default" href="https://sumeshi.github.io/posts/knowledges/windows-etl-analysis-101"/><!--]--> <meta name="description" content="ETL(Event Trace Log)の調査方法について"/> <meta name="author" content="S.Nakano"/> <meta name="robots" content="index, follow"/> <meta property="og:site_name" content="SIPDEP"/> <meta property="og:type" content="article"/> <meta property="og:locale" content="ja_JP"/> <meta property="og:title" content="すばらしきこのETW | SIPDEP"/> <meta property="og:description" content="ETL(Event Trace Log)の調査方法について"/> <meta property="og:url" content="https://sumeshi.github.io/posts/knowledges/windows-etl-analysis-101"/> <meta property="og:image" content="https://sumeshi.github.io/img/og-card.png"/> <meta property="og:image:type" content="image/png"/> <meta property="og:image:width" content="1920"/> <meta property="og:image:height" content="1080"/> <meta property="og:image:alt" content="SIPDEP social preview image"/> <!--[0--><meta property="article:author" content="S.Nakano"/> <!--[0--><meta property="article:published_time" content="2026-11-09T04:18:51+09:00"/><!--]--> <!--[-1--><!--]--><!--]--> <meta name="twitter:card" content="summary_large_image"/> <meta name="twitter:site" content="@sum3sh1"/> <meta name="twitter:creator" content="@sum3sh1"/> <meta name="twitter:title" content="すばらしきこのETW | SIPDEP"/> <meta name="twitter:description" content="ETL(Event Trace Log)の調査方法について"/> <meta name="twitter:image" content="https://sumeshi.github.io/img/og-card.png"/> <meta name="twitter:image:alt" content="SIPDEP social preview image"/><!----><title>すばらしきこのETW | SIPDEP</title>
+		<link href="../../_app/immutable/assets/0.1DdoG8Jl.css" rel="stylesheet">
+		<link href="../../_app/immutable/assets/8.BKaa1rY2.css" rel="stylesheet">
+  </head>
+  <body data-sveltekit-preload-data="hover">
+    <div style="display: contents"><!--[--><!--[--><!--[0--><!--[--><div class="site-topbar lg:hidden fixed top-0 left-0 right-0 z-50 h-14 flex items-center px-4 svelte-12qhfyh"><button type="button" class="text-gray-400 hover:text-white p-1 svelte-12qhfyh" aria-controls="primary-sidebar" aria-expanded="false" aria-label="Open navigation"><svg class="w-6 h-6 svelte-12qhfyh" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" class="svelte-12qhfyh"></path></svg></button> <div class="ml-auto svelte-12qhfyh"><button type="button" lang="ja" aria-label="Read in Japanese" class="shrink-0 px-2 py-1 font-mono text-xs text-gray-400 transition-colors hover:text-indigo-300">[JA]</button><!----></div></div> <!--[-1--><!--]--> <header class="site-captionbar fixed left-0 right-0 top-14 z-30 flex h-8 items-center gap-4 px-4 lg:left-56 lg:top-0 lg:px-10 svelte-12qhfyh"><p class="truncate text-[11px] font-medium text-gray-500 font-mono svelte-12qhfyh"><span class="text-indigo-400 whitespace-pre svelte-12qhfyh">$ </span> <!--[0--><span class="inline-block w-[1ch] h-[1.1em] bg-indigo-400 align-text-bottom blink-cursor svelte-12qhfyh"></span><!--]--></p> <div class="ml-auto hidden shrink-0 lg:block svelte-12qhfyh"><button type="button" lang="ja" aria-label="Read in Japanese" class="shrink-0 px-2 py-1 font-mono text-xs text-gray-400 transition-colors hover:text-indigo-300">[JA]</button><!----></div></header>  <nav id="primary-sidebar" aria-label="Primary" class="site-sidebar fixed top-14 lg:top-0 left-0 h-[calc(100dvh-3.5rem)] lg:h-dvh w-56 z-40 flex flex-col transition-transform duration-300 ease-in-out -translate-x-full lg:translate-x-0 svelte-12qhfyh"><div class="flex-1 px-6 py-10 svelte-12qhfyh"><!--[--><!--[-1--><!--]--> <a id="primary-nav-link-0" href="../.." class="flex min-h-10 items-center border-l px-4 py-2 text-[13px] tracking-wide transition-colors border-transparent text-gray-400 hover:border-gray-700 hover:text-white svelte-12qhfyh">Home</a><!--[-1--><!--]--> <a id="primary-nav-link-1" href="../../about" class="flex min-h-10 items-center border-l px-4 py-2 text-[13px] tracking-wide transition-colors border-transparent text-gray-400 hover:border-gray-700 hover:text-white svelte-12qhfyh">About</a><!--[-1--><!--]--> <a id="primary-nav-link-2" href="../../mentioned" class="flex min-h-10 items-center border-l px-4 py-2 text-[13px] tracking-wide transition-colors border-transparent text-gray-400 hover:border-gray-700 hover:text-white svelte-12qhfyh">Mentioned</a><!--[0--><hr class="my-5 border-0 border-t border-gray-800/70 svelte-12qhfyh" aria-hidden="true"/><!--]--> <a id="primary-nav-link-3" href="../../talks" class="flex min-h-10 items-center border-l px-4 py-2 text-[13px] tracking-wide transition-colors border-transparent text-gray-400 hover:border-gray-700 hover:text-white svelte-12qhfyh">Talks</a><!--[-1--><!--]--> <a id="primary-nav-link-4" href="../../works" class="flex min-h-10 items-center border-l px-4 py-2 text-[13px] tracking-wide transition-colors border-transparent text-gray-400 hover:border-gray-700 hover:text-white svelte-12qhfyh">Works</a><!--[-1--><!--]--> <a id="primary-nav-link-5" href="../../archives" class="flex min-h-10 items-center border-l px-4 py-2 text-[13px] tracking-wide transition-colors border-transparent text-gray-400 hover:border-gray-700 hover:text-white svelte-12qhfyh">Archives</a><!--[0--><hr class="my-5 border-0 border-t border-gray-800/70 svelte-12qhfyh" aria-hidden="true"/><!--]--> <a id="primary-nav-link-6" href="../../posts" class="flex min-h-10 items-center border-l px-4 py-2 text-[13px] tracking-wide transition-colors border-transparent text-gray-400 hover:border-gray-700 hover:text-white svelte-12qhfyh">Posts</a><!--]--></div> <div class="p-4 border-t border-gray-800 svelte-12qhfyh"><div class="flex items-center justify-between gap-4 svelte-12qhfyh"><button type="button" class="text-xs text-gray-600 hover:text-gray-400 transition-colors svelte-12qhfyh" aria-haspopup="dialog" aria-expanded="false" aria-controls="privacy-policy-dialog">Privacy Policy</button> <button type="button" class="text-xs text-gray-600 hover:text-gray-400 transition-colors svelte-12qhfyh" aria-haspopup="dialog" aria-expanded="false" aria-controls="disclaimer-dialog">Disclaimer</button></div></div></nav> <main class="site-main lg:ml-56 pt-[5.5rem] lg:pt-8 svelte-12qhfyh"><div class="px-5 py-8 sm:px-8 lg:px-10 lg:py-12 svelte-12qhfyh"><!--[--><!--[-1--><!--[--><!----> <div class="site-container post-layout"><article><header class="flex flex-col gap-3"><nav class="font-mono text-xs text-gray-500" aria-label="Breadcrumb"><div class="flex min-w-0 items-center gap-y-1 flex-wrap"><!--[--><!--[-1--><!--]--> <!--[0--><a href="../../posts" class="truncate transition-colors hover:text-gray-300">POSTS</a><!--]--><!--[0--><span class="mx-1">/</span><!--]--> <!--[0--><a href="../../posts/knowledges" class="truncate transition-colors hover:text-gray-300">knowledges</a><!--]--><!--[0--><span class="mx-1">/</span><!--]--> <!--[-1--><span class="truncate text-gray-400">windows-etl-analysis-101</span><!--]--><!--]--></div></nav><!----> <div class="flex flex-wrap items-center justify-end gap-2"><!--[0--><a href="https://twitter.com/intent/tweet?text=%E3%81%99%E3%81%B0%E3%82%89%E3%81%97%E3%81%8D%E3%81%93%E3%81%AEETW%20-%20SIPDEP&amp;url=https%3A%2F%2Fsumeshi.github.io%2Fposts%2Fknowledges%2Fwindows-etl-analysis-101" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center rounded-md px-5 py-2 text-sm transition-colors border border-white/10 bg-black text-white hover:border-white/25 hover:bg-neutral-950 order-2 gap-1.5 px-3 py-1.5 text-xs font-medium"><svg class="h-3.5 w-3.5 shrink-0" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.258 5.63zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg> <span>Share</span><!----></a><!--]--> <a href="https://github.com/sumeshi/api/blob/master/knowledges/windows-etl-analysis-101.md" target="_blank" rel="noopener noreferrer" aria-label="View source on GitHub" title="View source on GitHub" class="inline-flex h-9 w-9 items-center justify-center rounded-lg border transition-colors sm:h-10 sm:w-10 bg-transparent border-transparent text-gray-500 hover:text-white order-1"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"></path></svg><!----></a><!----> <!--[0--><a href="../../posts/knowledges/windows-etl-analysis-101-en" hreflang="en" rel="alternate" class="order-4 rounded-md border border-gray-800 bg-gray-950/30 px-2 py-1 font-mono text-[10px] uppercase tracking-[0.1em] text-gray-500 transition-colors hover:border-gray-600 hover:bg-gray-900/60 hover:text-indigo-300">Read in English</a><!--]--></div></header> <div class="py-6"><!--[0--><div class="mb-7 flex flex-col gap-2 border-b border-gray-700 pb-4 sm:flex-row sm:items-start sm:justify-between sm:gap-6"><h1 class="min-w-0 font-sans text-2xl font-semibold leading-snug tracking-tight text-white sm:text-[2rem]">すばらしきこのETW</h1> <!--[0--><time class="shrink-0 font-mono text-[10px] text-gray-500 sm:pt-2" datetime="2026-11-09T04:18:51+09:00">2026-11-09</time><!--]--></div><!--]--> <!--[0--><!--[--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p>ETL(Event Trace Log)の調査方法について</p>
+<h2 id="はじめに">はじめに</h2>
+<p>Windowsのログというと一般的にはEVTX形式のイベントログが思い浮かびますが、ETL（Event Trace Log）というログもあったりします（あまり知られていませんが）。</p>
+<p>Windowsの診断やアプリケーションのデバッグ、性能の解析などに使われており、プロセスやファイル操作、通信など、システムの細かい動作が記録されることもあるため、Windowsフォレンジックを行う上で有用な情報源のひとつです。</p>
+<p>イベントログを調査したことがある人なら分かると思いますが、イベントログには欲しい情報が残っていないことが多いです。<br />
+既定では細かいプロセスの動きやファイル操作、通信までは記録されなかったり、攻撃者によって消されたり、ローテート設定によって直近1〜2時間ぶんしか残っていなかったりはザラ。</p>
+<p>一方で、ETLにはイベントログより細かい単位の情報が残っていたり、イベントログは消えていたけどETLは残っていたりもします。</p>
+<p>本記事では、ETW/ETLとはなんぞやというところから、実際にETLを読む際のTipsをつらつらと書いていこうかなと。</p>
+<h2 id="1-etw概要">1. ETW概要</h2>
+<h3 id="etwとは">ETWとは</h3>
+<p>ETW（Event Tracing for Windows）は、OSやアプリケーションが発行するイベントを収集するためのWindowsの <strong>仕組み</strong> です。収集した <strong>結果が保存されたファイルがETL（Event Trace Log）</strong> です。</p>
+<p>ETWはWindows 2000で導入され、Windows Vistaで <a href="https://learn.microsoft.com/en-us/archive/msdn-magazine/2007/april/event-tracing-improve-debugging-and-performance-tuning-with-etw">大幅に拡張されました</a>。
+このときWindows Event Logとのイベント発行モデルが統合され、共通の仕組みでイベントを扱えるようになりました。</p>
+<p><strong>本記事では、このWindows Vista以降のETWについて扱います。</strong></p>
+<h3 id="イベントログとの違い">イベントログとの違い</h3>
+<p>Windows Event LogとETWは、イベント発行の仕組みの一部を共有しています。違いは、イベントがどのように収集・保存されるかです。</p>
+<p>Windows Event Logは<a href="https://learn.microsoft.com/en-us/windows/win32/wes/defining-channels"><strong>チャネル</strong></a>に割り当てられたイベントをEVTXとして保存します。一方、ETWは<strong>セッション</strong>にイベントを集め、ETLファイルとして保存したり、リアルタイムに配信したりします。</p>
+<p>例えば、発行元のエラーメッセージをイベントログに残し、処理の開始・終了を別のセッションで集めるような構成であれば、EVTXにはエラー、ETLにはその前後の処理が記録として残ります。</p>
+<p>同じイベントが両方に残ることもありますが、そのあたりは収集設定次第です。そのため、EVTXにないプロセスの動作やファイル操作、接続先がETLに残る場合があります。</p>
+<p>ただし、<a href="https://learn.microsoft.com/en-us/sysinternals/downloads/sysmon">Sysmon</a>などでEVTXにも詳細な記録を残すことができるため、ETLが常に詳しいというわけでもありません。</p>
+<h3 id="etwの構成要素">ETWの構成要素</h3>
+<p>ETWは以下の仕組みからなります。 </p>
+<table>
+<thead>
+<tr>
+<th>名前</th>
+<th>役割</th>
+<th>例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Provider</td>
+<td>イベントの発行元</td>
+<td>OSの機能やアプリケーション。<code>Microsoft-Windows-DNS-Client</code>など</td>
+</tr>
+<tr>
+<td>Session</td>
+<td>イベントを収集し、ETLや読み取り側へ渡す単位</td>
+<td>収集対象や出力先を設定して動かすトレースセッション</td>
+</tr>
+<tr>
+<td>Controller</td>
+<td>セッションの開始・停止や、Providerの有効化、収集条件の設定を行う</td>
+<td><code>logman.exe</code>、Windows Performance Recorderなど</td>
+</tr>
+<tr>
+<td>Consumer</td>
+<td>イベントを読み取るプログラム</td>
+<td>リアルタイムの監視ツールや、取得済みETLの解析ツール</td>
+</tr>
+</tbody>
+</table>
+<p>役割とイベントの流れを簡略化したのが次の図です。実線はイベントの流れ、破線は設定の操作を表します。青枠のETLに保存された内容が本記事で調べる対象です。</p><!----></div><!--]--><!--[3--><div class="my-6 max-w-full overflow-x-auto rounded-lg border border-gray-800 bg-gray-950/40 p-4"><!--[-1--><!--[-1--><!--]--> <pre class="text-sm text-gray-300"><code>flowchart TB
+    P["Provider(s)"] -->|Events| S["Session(s)"]
+    C[Controller] -.->|Enable/Disable| P
+    C -.->|Configure| S
+    S -->|Save| F[(ETL)]
+    F -->|Read| A[Consumer]
+    S -.->|Deliver| A
+    style F fill:#eef5ff,stroke:#315b82,stroke-width:2px,color:#111</code></pre><!--]--></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p>まず、Controllerは、セッションの開始・停止と、Providerの有効化・無効化、収集条件の設定を行います。代表的なControllerは<code>logman.exe</code>やWindows Performance Recorderなどです。</p>
+<p>ControllerがProviderを有効にすると、そのProviderがイベントを発行します。発行されたイベントは、Controllerが指定した条件（重要度を表すLevel、分類を表すKeyword、収集対象のProviderなど）で絞り込まれ、Sessionに集められます。それらのイベントはメモリ上のバッファーに一度集約され、ETLファイルへの書き出しやConsumerへのリアルタイム配信に使われます。</p>
+<p>一つのSessionでは、複数のProviderからイベントを収集できます。また、Session自体も複数動かすことができ、同じProviderが発行したイベントが複数のSessionに送られ、それぞれのETLに保存されることもあります。</p>
+<p>収集対象や保存方法はSessionごとの設定で決まり、循環記録では古い内容が上書きされます。そのため、ETLを調べる際はファイル名だけでなく、含まれるProviderや記録期間も確認します。</p>
+<p>より正確な図はMicrosoftの<a href="https://learn.microsoft.com/ja-jp/windows-hardware/test/weg/instrumenting-your-code-with-etw">ETW Architecture</a>をご覧ください。</p>
+<h2 id="2-etlを保全する">2. ETLを保全する</h2>
+<p>ETLの保存先はアプリケーションの設定などによって異なり、いろんなところに散らばっています。
+保全する際は、端末内を検索してコピーしたり、ETLに対応した保全ツールを使うとよいでしょう。</p>
+<h3 id="live取得する">Live取得する</h3>
+<h4>OS標準機能で取得する</h4>
+<p>Windows標準の<a href="https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/robocopy">robocopy</a>で、<code>C:\</code>以下の<code>*.etl*</code>を元の相対パスを保って<code>E:\Cases\etls</code>へコピーします。管理者権限で実行しましょう。</p><!----></div><!--]--><!--[-1--><div class="code-block"><pre><code><!---->New-Item -ItemType Directory -Path <span class="hljs-symbol">&#x27;E</span>:\Cases<span class="hljs-string">&#x27; -Force | Out-Null
+robocopy C:\ E:<span class="hljs-char escape_">\C</span>ases<span class="hljs-char escape_">\e</span>tls *.etl* /S /COPY:DAT /DCOPY:DAT /R:0 /W:0 /XJ /UNILOG:E:<span class="hljs-char escape_">\C</span>ases<span class="hljs-char escape_">\e</span>tl-copy.log</span><!----></code></pre></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><table>
+<thead>
+<tr>
+<th>オプション</th>
+<th>意味</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/COPY:DAT</code></td>
+<td>データ・属性・時刻のコピー</td>
+</tr>
+<tr>
+<td><code>/DCOPY:DAT</code></td>
+<td>ディレクトリのデータ・属性・時刻のコピー</td>
+</tr>
+<tr>
+<td><code>/XJ</code></td>
+<td>ジャンクションの除外</td>
+</tr>
+<tr>
+<td><code>/R:0</code></td>
+<td>再試行しない</td>
+</tr>
+</tbody>
+</table>
+<p>アクセス権やファイル使用中などによるコピー失敗は、<code>etl-copy.log</code>で確認します。<code>/COPY:DAT</code>にはアクセス権（ACL）や所有者などは含まれないため、この例はETLファイルの一括コピーとして扱います。</p>
+<p>コピー後は、ファイルの完全性を検証できるよう、SHA-256などのハッシュ値を記録しておくとよいでしょう。</p>
+<p>前述のとおり、イベントは一度セッション上のバッファーに貯められるため、この方法で取得できるのはディスクに書き出された範囲のみとなります。
+未出力のバッファーを調べたい場合は、メモリイメージも取得し、<a href="https://blogs.jpcert.or.jp/ja/2024/11/etw_forensics.html"><code>etw-scan</code></a>というVolatility 3用プラグインを利用する方法もあります。ただし、メモリからすべてのイベントを復元できるとは限りません。</p>
+<h4>保全ツールで取得する</h4>
+<p>可能なら保全ツールでまとめて取得するのが理想ですが、ETLに対応したコレクションツールは現状あまり充実していない気がします。</p>
+<p><a href="https://github.com/EricZimmerman/KapeDocs">KAPE</a>では、定義されたTargetを引数として与えることで関連ファイルをまとめて取得できます。ETL単体ではなく取得元環境やレジストリ登録情報も合わせて取得できるようです。
+ただし、KAPEは<a href="https://github.com/EricZimmerman/KapeDocs/blob/master/Pages/50-Frequently-asked-questions.md">商用利用に一定の制限</a>があるので注意してください。</p>
+<table>
+<thead>
+<tr>
+<th>Target</th>
+<th>主な取得対象</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>EventTraceLogs</code></td>
+<td>WDI、WMI、SleepStudy、Delivery OptimizationなどのETL</td>
+</tr>
+<tr>
+<td><code>WindowsUpdate</code></td>
+<td>Windows UpdateのETL、<code>USOShared\Logs\System</code>以下のETL、CBSログなど</td>
+</tr>
+<tr>
+<td><code>RDPJumplist</code></td>
+<td>Store版Remote Desktopのパッケージディレクトリ。<code>LocalState\Logs</code>も対象に含む</td>
+</tr>
+<tr>
+<td><code>RegistryHivesSystem</code></td>
+<td>SYSTEM・SOFTWAREなどのシステムハイブとトランザクションログ</td>
+</tr>
+</tbody>
+</table>
+<p>これも実行時は管理者権限で。</p><!----></div><!--]--><!--[-1--><div class="code-block"><pre><code><!---->.\kape.exe --tsource C: --tdest <span class="hljs-string">&#x27;E:\Cases\KAPE&#x27;</span> --target <span class="hljs-string">&#x27;EventTraceLogs,WindowsUpdate,RDPJumplist,RegistryHivesSystem&#x27;</span> --tdd <span class="hljs-literal">false</span><!----></code></pre></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p><code>--tdd false</code>は、同一内容でも異なるパスのファイルを重複除外せず取得する指定です。
+もちろん、これで取得できないETLファイルもあるため、必要であれば設定を追加したり、個別に取得するのがよいでしょう。</p>
+<p>また、<a href="https://triage.velocidex.com/docs/windows.triage.targets/">Velociraptor</a>では、<code>Windows.Triage.Targets</code>にKapeFiles由来の収集定義があるようです。私はまだ使っていませんが、慣れている人ならこちらでもよいかもしれません。</p>
+<h3 id="ディスクイメージから取得する">ディスクイメージから取得する</h3>
+<p>最も確実な方法の一つはやはりディスクイメージですね。
+別途取得しておかない限りメモリ上の情報は消えてしまいますが、必要に応じて後から掘り出したりもできるので、対象台数が少ないときにはこちらも検討したいです。</p>
+<p>イメージ内からファイルを直接検索して抽出する場合は、<a href="https://github.com/sumeshi/ntfsfind">ntfsfind</a>と<a href="https://github.com/sumeshi/ntfsdump">ntfsdump</a>が有用です。</p>
+<p>ためしにCFReDSの<a href="https://cfreds-archive.nist.gov/data_leakage_case/data-leakage-case.html">Data Leakage Case</a>のディスクイメージから<code>ntfsfind</code>で<code>.etl</code>形式のファイルを検索した結果は以下のとおりです。</p><!----></div><!--]--><!--[-1--><div class="code-block"><pre><code><!----><span class="hljs-meta prompt_">&gt; </span><span class="language-bash">ntfsfind.exe cfreds_2015_data_leakage_pc.E01 -e etl</span>
+/Windows/System32/LogFiles/WMI/RtBackup/EtwRTEventlog-Security.etl
+/Windows/System32/LogFiles/WMI/RtBackup/EtwRTEventLog-Application.etl
+/Windows/System32/wdi/{67144949-5132-4859-8036-a737b43825d8}/{9a3d7e9e-7fc6-43a4-a74e-8d50303fcdae}/snapshot.etl
+/Windows/System32/wdi/{67144949-5132-4859-8036-a737b43825d8}/{ac1aa789-a259-4e50-be32-58447f92b714}/snapshot.etl
+/Windows/System32/wdi/{86432a0b-3c7d-4ddf-a89c-172faa90485d}/{d3f5594e-34ec-4579-b2ed-9b3aa4a561f9}/snapshot.etl
+/Users/informant/AppData/Local/Microsoft/Windows/Explorer/ExplorerStartupLog.etl
+/Users/informant/AppData/Local/Microsoft/Windows/Explorer/ExplorerStartupLog_RunOnce.etl
+/Windows/System32/LogFiles/WMI/RtBackup/EtwRTUBPM.etl
+/Windows/Performance/WinSAT/DataStore/2015-03-24 11.11.25.240.winsat.etl
+/Windows/System32/wdi/{86432a0b-3c7d-4ddf-a89c-172faa90485d}/{8c8a5498-1428-4a4f-9a52-aa2105754f70}/snapshot.etl
+/Windows/System32/wdi/{86432a0b-3c7d-4ddf-a89c-172faa90485d}/{9e840662-7805-40ea-abbc-2666b58e80f3}/snapshot.etl
+/Windows/System32/umstartup.etl
+/Windows/System32/umstartup000.etl
+/Windows/System32/LogFiles/WMI/Terminal-Services-Core.etl
+/Windows/System32/LogFiles/WMI/Terminal-Services-IP-Virtualization.etl
+/Windows/System32/LogFiles/WMI/Terminal-Services-RPC-Client.etl
+/Windows/System32/LogFiles/WMI/Terminal-Services-SessionEnv.etl
+/Windows/System32/LogFiles/WMI/Terminal-Services-Unified-APIs.etl
+/Windows/System32/LogFiles/WMI/RtBackup/EtwRTDiagLog.etl
+/Windows/System32/LogFiles/WMI/RtBackup/EtwRTEventLog-System.etl
+/Windows/System32/wdi/LogFiles/BootCKCL.etl
+/Windows/System32/wdi/LogFiles/ShutdownCKCL.etl
+/Windows/System32/wfp/wfpdiag.etl
+/Windows/System32/wdi/{86432a0b-3c7d-4ddf-a89c-172faa90485d}/{dc425e1a-3399-4a2e-9a96-e67a64c9ffd2}/snapshot.etl
+/Windows/System32/wdi/{86432a0b-3c7d-4ddf-a89c-172faa90485d}/{3aaf5c18-c3df-412f-921f-a7c03ea7e145}/snapshot.etl
+/Windows/System32/wdi/{86432a0b-3c7d-4ddf-a89c-172faa90485d}/{336c8a0e-f419-4df4-b3fe-52de057e5cae}/snapshot.etl
+/Windows/Panther/setup.etl
+/Windows/System32/winevt/Logs/DebugChannel.etl
+<span class="hljs-meta prompt_">/Windows/System32/winevt/Logs/Microsoft-RMS-MSIPC%</span><span class="language-bash">4Debug.etl</span>
+/Users/admin11/AppData/Local/Microsoft/Windows/Explorer/ExplorerStartupLog.etl
+/Users/temporary/AppData/Local/Microsoft/Windows/Explorer/ExplorerStartupLog.etl
+/ProgramData/Microsoft/Windows/Power Efficiency Diagnostics/energy-trace.etl
+/ProgramData/Microsoft/Windows/Power Efficiency Diagnostics/energy-ntkl.etl
+/Windows/System32/wdi/{86432a0b-3c7d-4ddf-a89c-172faa90485d}/{2c5f5048-4e9b-487e-b245-7e0e9b604606}/snapshot.etl
+/Windows/System32/LogFiles/WMI/RtBackup/EtwRTMsMpPsSession7.etl<!----></code></pre></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p>結構いっぱいありますね。抽出する場合は次のようにパイプで<code>ntfsdump</code>に渡してあげます。</p><!----></div><!--]--><!--[-1--><div class="code-block"><pre><code><!----><span class="hljs-meta prompt_">&gt; </span><span class="language-bash">ntfsfind.exe cfreds_2015_data_leakage_pc.E01 -e etl | ntfsdump.exe cfreds_2015_data_leakage_pc.E01 -o etl</span><!----></code></pre></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p>その他詳しい方法については <a href="https://sumeshi.github.io/posts/works/ntfsfind-dump">NTFS脊髄剣</a> を参照。</p><!----></div><!--]--><!--[1--><a href="../../posts/works/ntfsfind-dump" target="_blank" rel="noopener noreferrer" class="group my-5 flex gap-3.5 rounded-lg border border-gray-800 bg-gray-900/50 px-4 py-3.5 transition-colors hover:border-indigo-400/40 hover:bg-indigo-950/20 "><span class="flex shrink-0 items-center border-r border-gray-800 pr-3.5"><img src="../../img/sipdep-wordmark.svg" alt="" aria-hidden="true" width="1460" height="235" draggable="false" loading="lazy" class="h-3.5 w-auto opacity-70 transition-opacity group-hover:opacity-100"/></span> <span class="flex min-w-0 flex-col gap-1"><span class="font-mono text-[10px] font-medium uppercase tracking-[0.14em] text-indigo-400">works</span> <span class="font-sans text-base font-semibold leading-relaxed text-white transition-colors group-hover:text-indigo-300">NTFS脊髄剣</span> <!--[0--><span class="text-sm leading-snug text-gray-400">Windowsイメージファイルから直接ファイルをぶっこ抜く方法。ボボボボボボボボボボボ</span><!--]--> <span class="mt-0.5 flex items-center gap-1.5 font-mono text-[11px] text-gray-500"><svg class="h-3 w-3 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"></path></svg> <span class="truncate">sumeshi.github.io</span></span></span><!----></a><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><h3 id="一緒に残しておくとよい情報">一緒に残しておくとよい情報</h3>
+<p>証拠性を担保するためには、取得したログをどの機器から、どのような方法で取得したのかを記録しておく必要があります。
+実用上の話としても、環境情報などを残しておくことでいちいち調べ直す手間を減らせます。</p>
+<p>少なくとも以下はあったほうがよいでしょう。</p>
+<table>
+<thead>
+<tr>
+<th>情報</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>取得元のコンピュータ名、ユーザー、元のパス、取得日時、ツールや方法</td>
+<td>複数端末や複数ユーザーのログを区別し、どこから取り出したものかを確認する</td>
+</tr>
+<tr>
+<td>Windowsのビルド・アーキテクチャ、関連アプリのバージョン</td>
+<td>別の解析端末で内容を読めないときに、取得元との違いを確認する（最悪レジストリからも調べられますが）</td>
+</tr>
+<tr>
+<td>タイムゾーン</td>
+<td>ローカル時刻で表示されるログを、ほかの端末やUTCの記録と照合して補正する</td>
+</tr>
+<tr>
+<td>対象Providerの定義を含むファイル</td>
+<td>解析端末に定義がない場合に、イベントの項目名や値を読み取る</td>
+</tr>
+<tr>
+<td>ファイルのハッシュ</td>
+<td>コピーや受け渡しの前後で、同じファイルを扱っているか確認する</td>
+</tr>
+</tbody>
+</table><!----></div><!--]--><!--[-1--><div class="code-block"><pre><code><!----><span class="hljs-keyword">Get</span><span class="hljs-operator">-</span>CimInstance Win32_OperatingSystem <span class="hljs-operator">|</span>
+    <span class="hljs-keyword">Select</span><span class="hljs-operator">-</span>Object Caption, Version, BuildNumber, OSArchitecture <span class="hljs-operator">|</span>
+    Export<span class="hljs-operator">-</span>Clixml <span class="hljs-operator">-</span>LiteralPath <span class="hljs-string">&#x27;E:\Cases\os.xml&#x27;</span>
+
+<span class="hljs-keyword">Get</span><span class="hljs-operator">-</span>TimeZone <span class="hljs-operator">|</span> Export<span class="hljs-operator">-</span>Clixml <span class="hljs-operator">-</span>LiteralPath <span class="hljs-string">&#x27;E:\Cases\timezone.xml&#x27;</span>
+<span class="hljs-keyword">Get</span><span class="hljs-operator">-</span><span class="hljs-type">Date</span> <span class="hljs-operator">-</span>Format o <span class="hljs-operator">|</span> <span class="hljs-keyword">Out</span><span class="hljs-operator">-</span>File <span class="hljs-operator">-</span>FilePath <span class="hljs-string">&#x27;E:\Cases\collection-time.txt&#x27;</span><!----></code></pre></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p>Live取得の場合は、<a href="https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/logman-query">logman query</a>で現在のセッションやProviderも記録できるので活用しましょう。</p><!----></div><!--]--><!--[-1--><div class="code-block"><pre><code><!---->logman query <span class="hljs-operator">-</span>ets <span class="hljs-operator">|</span> <span class="hljs-keyword">Out</span><span class="hljs-operator">-</span>File <span class="hljs-operator">-</span>FilePath <span class="hljs-string">&#x27;E:\Cases\sessions.txt&#x27;</span>
+logman query <span class="hljs-string">&#x27;SessionName&#x27;</span> <span class="hljs-operator">-</span>ets <span class="hljs-operator">|</span> <span class="hljs-keyword">Out</span><span class="hljs-operator">-</span>File <span class="hljs-operator">-</span>FilePath <span class="hljs-string">&#x27;E:\Cases\session-details.txt&#x27;</span>
+logman query providers <span class="hljs-operator">|</span> <span class="hljs-keyword">Out</span><span class="hljs-operator">-</span>File <span class="hljs-operator">-</span>FilePath <span class="hljs-string">&#x27;E:\Cases\providers.txt&#x27;</span><!----></code></pre></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p>当然ですが、この一覧は取得時点の状態です。過去の設定や定義は消えてしまっている場合があります。
+可能なら<code>.man</code>や定義を含むDLL・EXEも取得できるとよいのですが、初動でそれをやるのは現実的に難しいかもしれません。詳細は後述。</p>
+<h2 id="3-etlを変換する">3. ETLを変換する</h2>
+<p>ETLは別のPCに持ち込んでも読み取ることができますが、アプリケーションやProviderの定義がない、バージョンが合わないなど、イベントを解釈するための定義が欠落していると正しくパースできません。
+取得元と同じ環境でパースしたり、定義を含むファイルを保全しておいたりすることで、読める情報が増える場合もあります。</p>
+<h3 id="イベントメタデータの方式">イベントメタデータの方式</h3>
+<p>ペイロード（イベント固有項目）部分は、定義がないと項目名や型を正しく解釈できません。詳細は<a href="https://learn.microsoft.com/en-us/windows/win32/etw/event-metadata-overview">Event Metadata Overview</a>を参照。</p>
+<p>代表的な方式は次のとおりです。</p>
+<table>
+<thead>
+<tr>
+<th>方式</th>
+<th>定義の持ち方</th>
+<th>解釈に必要なもの</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Manifest-based</td>
+<td>イベントの種類・項目をManifestであらかじめ定義する</td>
+<td>対応する<code>.man</code>、または定義を含むDLL・EXEなど</td>
+</tr>
+<tr>
+<td>TraceLogging</td>
+<td>項目名や型などの定義をイベントに含める</td>
+<td>その自己記述形式に対応したツール。個別のManifestを必要としない</td>
+</tr>
+<tr>
+<td>MOF / Classic</td>
+<td>MOF（<code>.mof</code>）という定義を使う従来方式</td>
+<td>登録されたMOFスキーマや、そのイベントを解釈できるツール内の定義</td>
+</tr>
+<tr>
+<td>WPP</td>
+<td>デバッグ用のトレースメッセージを、外部の書式情報で読み取る</td>
+<td>対応するPDB（デバッグ情報ファイル）、またはそこから取り出したTMFと、WPP対応ツール</td>
+</tr>
+</tbody>
+</table>
+<p>定義の欠落だけでなく、ツールが未対応の場合もあるので、うまくいかないときはまずそこを切り分けるとよいでしょう。</p>
+<h3 id="os標準機能で変換する">OS標準機能で変換する</h3>
+<p><code>tracerpt</code>や<code>Get-WinEvent</code>を使うことで内容を確認できます。
+人間様が確認しやすいのはCSVですが、項目名やデータ構造を詳しく調べたい場合はXMLも使えます。</p><!----></div><!--]--><!--[-1--><div class="code-block"><pre><code><!---->tracerpt <span class="hljs-string">&#x27;C:\Cases\trace.etl&#x27;</span> -o <span class="hljs-string">&#x27;C:\Cases\trace.csv&#x27;</span> -of CSV
+
+Get-WinEvent -Path <span class="hljs-string">&#x27;C:\Cases\trace.etl&#x27;</span> -Oldest -MaxEvents 5 |
+    ForEach-Object { <span class="hljs-variable">$_</span>.ToXml() }<!----></code></pre></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p>得られるのはこんな感じの情報です。</p>
+<table>
+<thead>
+<tr>
+<th>Event Name</th>
+<th>Type</th>
+<th>Event ID</th>
+<th>Version</th>
+<th>Channel</th>
+<th>Level</th>
+<th>Opcode</th>
+<th>Task</th>
+<th>Keyword</th>
+<th>PID</th>
+<th>TID</th>
+<th>Processor Number</th>
+<th>Instance ID</th>
+<th>Parent Instance ID</th>
+<th>Activity ID</th>
+<th>Related Activity ID</th>
+<th>Clock-Time</th>
+<th>Kernel(ms)</th>
+<th>User(ms)</th>
+<th>User Data</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Microsoft-Windows-Shell-Core</td>
+<td>Start</td>
+<td>9601</td>
+<td>0</td>
+<td>16</td>
+<td>4</td>
+<td>1</td>
+<td>9601</td>
+<td>0x0000000004010000</td>
+<td>0x000005A8</td>
+<td>0x00000594</td>
+<td>0</td>
+<td></td>
+<td></td>
+<td>{00000000-0000-0000-0000-000000000000}</td>
+<td></td>
+<td>1.30715084822146E+017</td>
+<td>0</td>
+<td>0</td>
+<td>DataSize=0</td>
+</tr>
+<tr>
+<td>Microsoft-Windows-Shell-Core</td>
+<td>Start</td>
+<td>9703</td>
+<td>0</td>
+<td>16</td>
+<td>4</td>
+<td>1</td>
+<td>9703</td>
+<td>0x0000000004010000</td>
+<td>0x000005A8</td>
+<td>0x00000594</td>
+<td>0</td>
+<td></td>
+<td></td>
+<td>{00000000-0000-0000-0000-000000000000}</td>
+<td></td>
+<td>1.30715084826663E+017</td>
+<td>0</td>
+<td>0</td>
+<td>DataSize=0</td>
+</tr>
+<tr>
+<td>Microsoft-Windows-Shell-Core</td>
+<td>Stop</td>
+<td>9704</td>
+<td>0</td>
+<td>16</td>
+<td>4</td>
+<td>2</td>
+<td>9703</td>
+<td>0x0000000004010000</td>
+<td>0x000005A8</td>
+<td>0x00000594</td>
+<td>0</td>
+<td></td>
+<td></td>
+<td>{00000000-0000-0000-0000-000000000000}</td>
+<td></td>
+<td>1.30715084834634E+017</td>
+<td>0</td>
+<td>0</td>
+<td>DataSize=0</td>
+</tr>
+<tr>
+<td>Microsoft-Windows-Shell-Core</td>
+<td>Start</td>
+<td>9707</td>
+<td>0</td>
+<td>16</td>
+<td>4</td>
+<td>1</td>
+<td>9707</td>
+<td>0x0000000004010000</td>
+<td>0x000005A8</td>
+<td>0x00000594</td>
+<td>0</td>
+<td></td>
+<td></td>
+<td>{00000000-0000-0000-0000-000000000000}</td>
+<td></td>
+<td>1.30715084836727E+017</td>
+<td>0</td>
+<td>0</td>
+<td>C:\Windows\SysWOW64\ie4uinit.exe -BaseSettings</td>
+</tr>
+</tbody>
+</table>
+<p>詳細は<a href="https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/tracerpt">tracerpt</a>と<a href="https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.diagnostics/get-winevent?view=powershell-5.1">Get-WinEvent</a>を参照。</p>
+<p>ETLを別のPCへ持っていくと、取得元にしかないProviderの定義が必要になる場合があります。取得元の環境を利用できるのであれば、<code>wevtutil gp</code>で登録されている関連ファイルを確認できます。</p><!----></div><!--]--><!--[-1--><div class="code-block"><pre><code><!---->wevtutil gp <span class="hljs-string">&#x27;Microsoft-Windows-DNS-Client&#x27;</span> /f:xml<!----></code></pre></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p><code>resourceFileName</code>や<code>messageFileName</code>に示されたDLL・EXEや、SOFTWAREハイブの<code>Microsoft\Windows\CurrentVersion\WINEVT\Publishers</code>を手掛かりに探します。</p>
+<p>また、元の定義を用意できたとしても、ツールがその方式に対応していなければ読み取れません。どうしても読めなければ、バイナリを直接調べたり、AIにぶん投げてみたりするのも手かもしれません。</p>
+<h3 id="etw2jsonで変換する">ETW2JSONで変換する</h3>
+<p>複数ファイルを横断して検索・集計したい場合は、統一したフォーマットへ変換するのが便利です。
+Microsoftの<a href="https://github.com/microsoft/ETW2JSON">ETW2JSON</a>を使うと、次のようにJSONに変換できます。</p><!----></div><!--]--><!--[-1--><div class="code-block"><pre><code><!---->ETW2JSON <span class="hljs-string">&#x27;C:\Cases\trace.etl&#x27;</span> <span class="hljs-string">&#x27;--output=C:\Cases\trace.json&#x27;</span><!----></code></pre></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p>ただし、取得元から持ち帰ったManifestやDLLを直接指定できない、読み取れなかったイベントの元データや使用した定義を確認しにくい <del>、exeが配られていなくていちいちコンパイルするのが面倒</del> などの課題があったため、フォークして改良しました。</p><!----></div><!--]--><!--[2--><a href="https://github.com/sumeshi/ETW2JSON" target="_blank" rel="noopener noreferrer" class="group my-5 flex gap-3.5 rounded-lg border border-gray-800 bg-gray-900/50 px-4 py-3.5 transition-colors hover:border-indigo-400/40 hover:bg-indigo-950/20 "><span class="flex shrink-0 items-center border-r border-gray-800 pr-3.5"><svg class="h-8 w-8 text-gray-300 transition-colors group-hover:text-white" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"></path></svg></span> <span class="flex min-w-0 flex-col gap-1"><span class="font-mono text-[10px] font-medium uppercase tracking-[0.14em] text-indigo-400">GitHub</span> <span class="truncate font-mono text-base font-semibold leading-relaxed text-white transition-colors group-hover:text-indigo-300">sumeshi/ETW2JSON</span> <!--[-1--><!--]--> <span class="mt-0.5 flex flex-wrap items-center gap-x-4 gap-y-1 font-mono text-[11px] text-gray-500"><!--[1--><span class="animate-pulse">loading…</span><!--]--> <span class="flex min-w-0 max-w-full items-center gap-1.5"><svg class="h-3 w-3 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"></path></svg> <span class="truncate">github.com/sumeshi/ETW2JSON</span></span></span></span><!----></a><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p><strong>主な変更点</strong></p>
+<ul>
+<li>ローカルの定義を使用するかどうかを<code>--allow-local-metadata</code>で選択可能にし、使用した定義元も記録するよう変更。</li>
+<li>外部のイベント定義として<code>--manifest</code>、<code>--resource</code>、<code>--provider-info</code>を追加し、ManifestやDLLなどを指定可能に変更。</li>
+<li>デコードできない場合にも、元のイベントID・バージョン・生データ・デコード状態を保持するよう変更。</li>
+<li>事前調査用に<code>--scan</code>や<code>--report-missing</code>を追加し、不足するメタデータを確認可能に変更。</li>
+<li>JSONL出力を追加。</li>
+<li>既存ファイルの上書き防止機能を追加。</li>
+</ul>
+<p>上記のとおり、既定では解析PCに登録されたメタデータを使用しないため、とりあえず中身を見たいときには<code>--allow-local-metadata</code>を指定して変換できます。
+ただし、取得元と解析PCで定義が異なる可能性がある点には注意してください。</p><!----></div><!--]--><!--[-1--><div class="code-block"><pre><code><!----><span class="hljs-variable constant_">ETW2JSON</span>.exe <span class="hljs-string">&#x27;C:\Cases\ExplorerStartupLog.etl&#x27;</span> <span class="hljs-string">`
+    --allow-local-metadata `</span>
+    --output <span class="hljs-string">&#x27;C:\Cases\ExplorerStartupLog.jsonl&#x27;</span><!----></code></pre></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p>出力はこんな感じです。</p><!----></div><!--]--><!--[-1--><div class="code-block"><pre><code><!----><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;timestamp&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;10031861934&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;raw_timestamp&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">10031861934</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;trace_clock&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;performance_frequency&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">10000000</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;start_time&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">130715084822135124</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;boot_time&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">130715074949265519</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;reserved_flags&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">1</span>
+  <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;provider_guid&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;30336ed4-e327-447c-9de0-51b652c86108&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;provider_name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Microsoft-Windows-Shell-Core&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;event_id&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">9707</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;version&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">0</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;level&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">4</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;opcode&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">1</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;task&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">9707</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;keyword&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">9223372036921950208</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;process_id&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">1448</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;thread_id&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">1428</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;processor_number&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">0</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;activity_id&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">null</span></span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;related_activity_id&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">null</span></span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;event_name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Microsoft-Windows-Shell-Core/Explorer_ExecutingFromRunKey/Start&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;properties&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;Command&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;C:\\Windows\\SysWOW64\\ie4uinit.exe -BaseSettings&quot;</span>
+  <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;metadata_source&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;local_cache&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;decode_status&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;decoded&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;metadata_provenance&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;tdh:analysis-host-provider-registration&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;raw_payload&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;QwA6AFwAVwBpAG4AZABvAHcAcwBcAFMAeQBzAFcATwBXADYANABcAGkAZQA0AHUAaQBuAGkAdAAuAGUAeABlACAALQBCAGEAcwBlAFMAZQB0AHQAaQBuAGcAcwAAAA==&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;source_file&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;ExplorerStartupLog.etl&quot;</span>
+<span class="hljs-punctuation">}</span><!----></code></pre></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p>なお、<code>timestamp</code>はUTC日時ではなく生のETWタイムスタンプです。別のログと時刻を照合する際は、トレースの時計情報を基に日時へ変換する必要があります。</p>
+<p><code>--resource</code>でDLLやEXEを指定できます。読み取りに使うだけなので実行はされません。</p><!----></div><!--]--><!--[-1--><div class="code-block"><pre><code><!---->ETW2JSON.exe <span class="hljs-string">&#x27;C:\Cases\trace.etl&#x27;</span> `
+    --resource &#x27;C:\Cases\Metadata\provider.dll&#x27; `
+    <span class="hljs-operator">-</span><span class="hljs-operator">-</span>output <span class="hljs-string">&#x27;C:\Cases\trace-with-metadata.jsonl&#x27;</span><!----></code></pre></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p><code>.man</code>を指定する場合は<code>--manifest</code>を使います。</p>
+<p>読み取りできたかは<code>decode_status</code>で確認できます。</p>
+<ul>
+<li><code>decoded</code>：読み取り成功</li>
+<li><code>metadata_missing</code>：定義不足</li>
+<li><code>unsupported</code>：ツール側の未対応</li>
+</ul>
+<p>うまくいかない場合は<code>--report-missing</code>を使って、不足している定義を洗い出すとよいでしょう。</p>
+<h3 id="用途に特化したツールを使う">用途に特化したツールを使う</h3>
+<p>Windows Updateなどのよく使われるログであれば、それに特化したツールやコマンドを探して使うのが丸い。</p>
+<table>
+<thead>
+<tr>
+<th>対象</th>
+<th>ツール</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Windows Update</td>
+<td><code>Get-WindowsUpdateLog</code></td>
+</tr>
+<tr>
+<td>Delivery Optimization</td>
+<td><code>Get-DeliveryOptimizationLog</code>、<code>Get-DeliveryOptimizationLogAnalysis</code></td>
+</tr>
+<tr>
+<td>CPU・ディスクI/Oなど</td>
+<td>WPA、PerfView</td>
+</tr>
+<tr>
+<td>WPP</td>
+<td>Tracefmt</td>
+</tr>
+<tr>
+<td>パケットを含むETL</td>
+<td><a href="https://github.com/microsoft/etl2pcapng">Microsoft etl2pcapng</a></td>
+</tr>
+</tbody>
+</table>
+<p>次の2つはMicrosoft製のGUIツールとして有名です。</p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>機能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://github.com/microsoft/perfview">PerfView</a></td>
+<td>収録期間・イベント数・ロスト数を確認し、種類やプロセスで絞ることが可能</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/ja-jp/windows-hardware/test/wpt/windows-performance-analyzer">Windows Performance Analyzer（WPA）</a></td>
+<td>Provider、時刻、各イベントの項目で絞り込み、CPU・I/Oなどの情報と合わせてグラフ表示などが可能</td>
+</tr>
+</tbody>
+</table>
+<p>イベントのグラフ表示など、詳細な情報を確認できます。ただし、主な用途はデバッグやパフォーマンスチューニングのような気がします。以下の記事が詳しいです。</p>
+<p><a href="https://qiita.com/kouzimiso/items/a74466f8fc2032683845">PerfView / Windows Performance Analyzer (WPA) の使い方</a></p>
+<h3 id="linuxで解析したい場合">Linuxで解析したい場合</h3>
+<p><a href="https://github.com/airbus-cert/etl-parser">Airbus CERT etl-parser</a>や<a href="https://docs.dissect.tools/en/stable/projects/dissect.etl/index.html">Dissect</a>などの、Windows以外でも利用できるツールを使うとよいでしょう。</p>
+<p><code>etl-parser</code>は現在もメンテナンスされており、非常に有用です。以下のようにXML形式に変換できます。</p><!----></div><!--]--><!--[-1--><div class="code-block"><pre><code><!---->etl2xml -i example.etl -o example.xml<!----></code></pre></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p>Dissectは有名なOSSのフォレンジックフレームワークです。<a href="https://docs.dissect.tools/en/stable/plugins/etl.etl.html">ETL関連のプラグイン</a>があるので、用途に応じて使えます。</p><!----></div><!--]--><!--[-1--><div class="code-block"><pre><code><!---->target-query <span class="hljs-string">&#x27;case.E01&#x27;</span> -f etl.boot,etl.shutdown -j &gt; etl-events.jsonl<!----></code></pre></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p>ディスクイメージからBoot・ShutdownのETLをまとめて出力する場合は、上記のように実行します。</p>
+<h2 id="4-情報をまとめる">4. 情報をまとめる</h2>
+<p>概念の理解と変換のコツさえ押さえれば、あとはイベントログの調査と同じです。</p>
+<p>ログによって記録されている項目は大きく異なるので、時間という共通する一つの軸で情報を整理し、仮説と検証を繰り返しながらまとめていきます。</p>
+<p>知識とひらめき。あとはひたすら根気の作業ですね。</p>
+<p>Windowsイベントログの調査については、以前公開した<a href="https://sumeshi.github.io/posts/knowledges/windows-eventlog-analysis-101">こちらの記事</a>も参考にしてください。</p><!----></div><!--]--><!--[1--><a href="../../posts/knowledges/windows-eventlog-analysis-101" target="_blank" rel="noopener noreferrer" class="group my-5 flex gap-3.5 rounded-lg border border-gray-800 bg-gray-900/50 px-4 py-3.5 transition-colors hover:border-indigo-400/40 hover:bg-indigo-950/20 "><span class="flex shrink-0 items-center border-r border-gray-800 pr-3.5"><img src="../../img/sipdep-wordmark.svg" alt="" aria-hidden="true" width="1460" height="235" draggable="false" loading="lazy" class="h-3.5 w-auto opacity-70 transition-opacity group-hover:opacity-100"/></span> <span class="flex min-w-0 flex-col gap-1"><span class="font-mono text-[10px] font-medium uppercase tracking-[0.14em] text-indigo-400">knowledges</span> <span class="font-sans text-base font-semibold leading-relaxed text-white transition-colors group-hover:text-indigo-300">君たちはどうWindowsイベントログを調査するか</span> <!--[0--><span class="text-sm leading-snug text-gray-400">イベントログ調査のぼんやりメモ。思い出したら追記。</span><!--]--> <span class="mt-0.5 flex items-center gap-1.5 font-mono text-[11px] text-gray-500"><svg class="h-3 w-3 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"></path></svg> <span class="truncate">sumeshi.github.io</span></span></span><!----></a><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><h2 id="appendix-etl調査のヒント">Appendix. ETL調査のヒント</h2>
+<p>前述のとおり、ETLはいろんなところに散らばっているので、何を調べたいときにはどこを見るか、というのを備忘としてまとめておきます。</p>
+<p>ただし、ETLはまだ謎が多く、対象システムの構成や設定によってもかなり違いがありそうなので、ノウハウを一般化するにはまだ時間がかかりそうです。</p>
+<p>今後自分で検証できたことも追記予定。</p>
+<table>
+<thead>
+<tr>
+<th>調査項目</th>
+<th>保存先</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>プログラムの実行</td>
+<td><code>%ProgramData%\Microsoft\Diagnosis\ETLLogs\AutoLogger\AutoLogger-Diagtrack-Listener.etl</code></td>
+</tr>
+<tr>
+<td>システム起動・終了時のファイル操作など</td>
+<td><code>%SystemRoot%\System32\WDI\LogFiles\</code></td>
+</tr>
+<tr>
+<td>記録時点のディスク構成</td>
+<td><code>%ProgramData%\Microsoft\Windows\Power Efficiency Diagnostics\energy-ntkl.etl</code></td>
+</tr>
+<tr>
+<td>Explorerが扱ったパス・Runキー</td>
+<td><code>%LOCALAPPDATA%\Microsoft\Windows\Explorer\ExplorerStartupLog.etl</code></td>
+</tr>
+<tr>
+<td>旧Store版Remote Desktop</td>
+<td><code>%LOCALAPPDATA%\Packages\Microsoft.RemoteDesktop_8wekyb3d8bbwe\LocalState\Logs\</code></td>
+</tr>
+<tr>
+<td>Wi-Fi</td>
+<td><code>%SystemRoot%\System32\LogFiles\WMI\Wifi.etl</code></td>
+</tr>
+<tr>
+<td>外部IPアドレスなど</td>
+<td><code>%SystemRoot%\ServiceProfiles\NetworkService\AppData\Local\Microsoft\Windows\DeliveryOptimization\Logs\</code></td>
+</tr>
+<tr>
+<td>Windows Update</td>
+<td><code>%SystemRoot%\Logs\WindowsUpdate\</code>、<code>%ProgramData%\USOShared\Logs\</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="プログラムの実行">プログラムの実行</h3>
+<p><a href="https://www.fortinet.com/blog/threat-research/uncovering-hidden-forensic-evidence-in-windows-mystery-of-autologger">Uncovering Hidden Forensic Evidence in Windows: The Mystery of AutoLogger-Diagtrack-Listener.etl</a>によると、Windows Server 2016の<code>AutoLogger-Diagtrack-Listener.etl</code>から、削除された実行ファイルのパスとコマンドラインが見つかったとのことです。</p>
+<p>ただし、同ファイルがどのような条件下で書き込まれるのかは依然として不明とのことです。</p>
+<h3 id="起動-終了時のファイル操作など">起動・終了時のファイル操作など</h3>
+<p><code>BootCKCL.etl</code>や<code>ShutdownCKCL.etl</code>には、システム起動・終了時のファイル操作やプロセスの動き、DLLのロードが残る場合があります。</p>
+<p><code>FileIo/FileCreate</code>、<code>FileIo/FileDelete</code>、<code>Process/Start</code>、<code>Process/End</code>など、興味深いイベントが記録されている場合があります。ただし、<code>FileIo/FileCreate</code>はファイルの新規作成を単独で証明するものではありません。イベント名だけで操作の成否を判断せず、関連するイベントやほかのアーティファクトと照合する必要があります。</p>
+<p><a href="https://www.hecfblog.com/2018/06/etw-event-tracing-for-windows-and-etl.html">ETW Event Tracing for Windows and ETL Files</a>では、実際に不審な実行ファイルに関する情報を追跡する過程が解説されています。</p>
+<h3 id="ディスクやボリュームの構成">ディスクやボリュームの構成</h3>
+<p><code>energy-ntkl.etl</code>には、記録時点のディスクやデバイスの情報が含まれる場合があります。<code>SystemConfig/PhyDisk</code>、<code>SystemConfig/LogDisk</code>、<code>SystemConfig/PnP</code>など、ディスクの詳細を知りたいときに有用そうです。レジストリなどと突き合わせて確認するとよいでしょう。</p>
+<p>参考：<a href="https://www.hecfblog.com/2018/06/etw-event-tracing-for-windows-and-etl.html">ETW Event Tracing for Windows and ETL Files</a></p>
+<h3 id="explorerが扱ったパスやrunキー">Explorerが扱ったパスやRunキー</h3>
+<p><code>ExplorerStartupLog.etl</code>には、Explorerが扱ったパスや共有先、Runキーに関するイベントが含まれる場合があります。</p>
+<p><a href="https://github.com/repnz/etw-providers-docs">etw-providers-docs</a>にはProviderに関する定義がまとめられており、次のようなイベントが確認できます。</p>
+<table>
+<thead>
+<tr>
+<th>Event ID</th>
+<th>項目</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>9705 / 9706</td>
+<td>Runキーの列挙。<code>KeyName</code>を確認する</td>
+</tr>
+<tr>
+<td>9707 / 9708</td>
+<td>Runキーからの起動処理。<code>Command</code>や<code>PID</code>を確認する</td>
+</tr>
+<tr>
+<td>19501 / 19502</td>
+<td>パスの解析。<code>Name</code>や結果を確認する</td>
+</tr>
+</tbody>
+</table>
+<p>これに限ったことではありませんが、LNK、Jump List、ShellBagsなど、ほかの痕跡とも突き合わせて確認しましょう。</p>
+<h3 id="remote-desktop接続">Remote Desktop接続</h3>
+<p><a href="https://www.zerofox.com/blog/remote-desktop-application-vs-mstsc-forensics-the-rdp-artifacts-you-might-be-missing/">Remote Desktop Application vs MSTSC Forensics: The RDP Artifacts You Might Be Missing</a>では、旧Store版Remote DesktopのETLから、接続先やユーザー名、ログイン完了・切断に関する情報が確認できたとのことです。</p>
+<p>また、関連する<code>.model</code>ファイルには、保存された資格情報を特定するための情報が含まれる場合もあるとのことです。</p>
+<h3 id="wi-fi接続">Wi-Fi接続</h3>
+<p><code>Wifi.etl</code>には無線接続のイベントが残る場合があります。ただし、SSIDが見つかったからといって接続に成功したとは限りません。関連するイベントを読み、認証中、接続済み、切断など、どの段階まで進んだのかを確認しましょう。</p>
+<p>参考：<a href="https://learn.microsoft.com/en-us/troubleshoot/windows-client/networking/wireless-network-connectivity-issues-troubleshooting">Advanced troubleshooting wireless network connectivity</a></p>
+<h3 id="外部ipアドレス">外部IPアドレス</h3>
+<p>Windows Updateなどのコンテンツ配信に利用されるDelivery Optimization（DoSvc）のETLから、外部IPアドレスを調べられる場合があります。</p>
+<p><a href="https://forensenellanebbia.blogspot.com/2018/12/what-was-my-ip-ask-dosvc-on-windows-10.html">What was my IP? Ask DoSvc on Windows 10</a>によると、<code>ExternalIpAddress</code>というキーワードから、VPN利用時のIPアドレスなどを確認できたとのことです。</p>
+<p>Windows 10 2004以降であれば、<code>Get-DeliveryOptimizationLogAnalysis</code>コマンドで接続先・ピア種別・転送量などを確認できます。</p><!----></div><!--]--><!--[-1--><div class="code-block"><pre><code><!----><span class="hljs-keyword">Get</span><span class="hljs-operator">-</span>DeliveryOptimizationLogAnalysis <span class="hljs-string">&#x27;C:\Cases\DeliveryOptimization\trace.etl&#x27;</span> `
+    <span class="hljs-operator">-</span>ListConnections<!----></code></pre></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><h3 id="windows-update">Windows Update</h3>
+<p><code>Get-WindowsUpdateLog</code>コマンドを使うことで、Windows Updateに関する情報を取得できます。</p><!----></div><!--]--><!--[-1--><div class="code-block"><pre><code><!----><span class="hljs-keyword">Get</span><span class="hljs-operator">-</span>WindowsUpdateLog <span class="hljs-operator">-</span>ETLPath <span class="hljs-string">&#x27;C:\Cases\WindowsUpdate&#x27;</span> `
+    <span class="hljs-operator">-</span>LogPath <span class="hljs-string">&#x27;C:\Cases\WindowsUpdate.log&#x27;</span><!----></code></pre></div><!--]--><!--[0--><div class="html-wrapper text-gray-300 text-sm leading-relaxed"><!----><p>更新GUIDから前後の処理を追っていきます。例えば<code>ProtocolTalker</code>は更新サーバーとのやり取り、<code>DownloadManager</code>はダウンロード、<code>Handler</code>や<code>Setup</code>はインストール関連の処理です。</p>
+<p><code>UpdateSessionOrchestration.etl</code>には更新や再起動の調整、<code>NotificationUxBroker.etl</code>には通知に関するログが含まれています。</p>
+<h2 id="おわりに">おわりに</h2>
+<p>ETLにはイベントログに記録されない有用な情報が残っていることがあります。しかし、環境によって得られる情報にかなり差があるためイベントログ以上の魔境感がありますね。</p>
+<p>私も情報を取捨選択できるほどノウハウが貯まっているわけではないので、とりあえず全部取って分析！くらいの勢いでやったほうがいいのかもと思っています。あるいはLLMに投げる前提でやるか。</p>
+<p>おしまい</p><!----></div><!--]--><!--]--><!--]--></div> <footer class="mt-2 flex justify-center border-t border-gray-800/80 pt-5"><a href="../../posts" class="inline-flex items-center justify-center rounded-md px-5 py-2 text-sm transition-colors border border-indigo-400/20 bg-indigo-400/10 text-indigo-100 hover:border-indigo-300/40 hover:bg-indigo-400/15 hover:text-white shadow-[0_0_0_1px_rgba(99,102,241,0.08)] gap-2 rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-[0.16em]"><svg class="h-3.5 w-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 18l-6-6 6-6"></path></svg> <span>All Posts</span><!----></a><!----></footer></article> <!--[0--><aside class="hidden min-w-0 pt-28 2xl:block"><nav class="sticky top-12 max-h-[calc(100vh-4rem)] overflow-y-auto border-l border-gray-800 pl-4" aria-label="Table of Contents"><p class="mb-2 font-mono text-[10px] font-semibold uppercase tracking-[0.12em] text-gray-500">Table of Contents</p> <ol class="space-y-1"><!--[--><li><a href="#はじめに" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">はじめに</a></li><li><a href="#1-etw概要" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">1. ETW概要</a></li><li class="pl-3"><a href="#etwとは" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">ETWとは</a></li><li class="pl-3"><a href="#イベントログとの違い" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">イベントログとの違い</a></li><li class="pl-3"><a href="#etwの構成要素" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">ETWの構成要素</a></li><li><a href="#2-etlを保全する" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">2. ETLを保全する</a></li><li class="pl-3"><a href="#live取得する" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">Live取得する</a></li><li class="pl-3"><a href="#ディスクイメージから取得する" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">ディスクイメージから取得する</a></li><li class="pl-3"><a href="#一緒に残しておくとよい情報" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">一緒に残しておくとよい情報</a></li><li><a href="#3-etlを変換する" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">3. ETLを変換する</a></li><li class="pl-3"><a href="#イベントメタデータの方式" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">イベントメタデータの方式</a></li><li class="pl-3"><a href="#os標準機能で変換する" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">OS標準機能で変換する</a></li><li class="pl-3"><a href="#etw2jsonで変換する" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">ETW2JSONで変換する</a></li><li class="pl-3"><a href="#用途に特化したツールを使う" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">用途に特化したツールを使う</a></li><li class="pl-3"><a href="#linuxで解析したい場合" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">Linuxで解析したい場合</a></li><li><a href="#4-情報をまとめる" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">4. 情報をまとめる</a></li><li><a href="#appendix-etl調査のヒント" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">Appendix. ETL調査のヒント</a></li><li class="pl-3"><a href="#プログラムの実行" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">プログラムの実行</a></li><li class="pl-3"><a href="#起動-終了時のファイル操作など" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">起動・終了時のファイル操作など</a></li><li class="pl-3"><a href="#ディスクやボリュームの構成" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">ディスクやボリュームの構成</a></li><li class="pl-3"><a href="#explorerが扱ったパスやrunキー" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">Explorerが扱ったパスやRunキー</a></li><li class="pl-3"><a href="#remote-desktop接続" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">Remote Desktop接続</a></li><li class="pl-3"><a href="#wi-fi接続" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">Wi-Fi接続</a></li><li class="pl-3"><a href="#外部ipアドレス" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">外部IPアドレス</a></li><li class="pl-3"><a href="#windows-update" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">Windows Update</a></li><li><a href="#おわりに" class="block text-[11px] leading-snug text-gray-600 transition-colors hover:text-indigo-300">おわりに</a></li><!--]--></ol></nav></aside><!--]--></div><!--]--><!--]--><!--]--><!----></div></main> <dialog id="privacy-policy-dialog" tabindex="-1" aria-labelledby="privacy-policy-title" class="site-dialog m-auto w-[calc(100%-2rem)] p-6 text-left max-w-md"><h2 id="privacy-policy-title" class="mb-4 text-lg font-semibold text-white svelte-12qhfyh">Privacy Policy</h2> <p class="mb-3 text-sm leading-relaxed text-gray-400 svelte-12qhfyh">This website uses Google Analytics to collect traffic information for site improvement. Google Analytics may use cookies and similar technologies to measure page views and usage patterns.</p> <p class="mb-6 text-sm leading-relaxed text-gray-400 svelte-12qhfyh">By continuing to use this site, you acknowledge that your site usage may be recorded for analytics purposes.</p> <button type="button" class="text-sm font-medium text-indigo-400 transition-colors hover:text-indigo-300 svelte-12qhfyh">Close</button><!----></dialog><!----> <dialog id="disclaimer-dialog" tabindex="-1" aria-labelledby="disclaimer-title" class="site-dialog m-auto w-[calc(100%-2rem)] p-6 text-left max-w-xl"><h2 id="disclaimer-title" class="mb-4 text-lg font-semibold text-white svelte-12qhfyh">Disclaimer</h2> <p class="mb-3 text-sm leading-relaxed text-gray-400 svelte-12qhfyh">The content published on this website is based on publicly accessible information available on the Internet and other open sources, and represents the author's personal views. Paid training materials, non-public materials, and similar sources are not used as information sources.</p> <p class="mb-3 text-sm leading-relaxed text-gray-400 svelte-12qhfyh">The content of this website does not represent the views, policies, or positions of any organization, group, company, or other third party with which the author is affiliated or has a relationship.</p> <p class="mb-6 text-sm leading-relaxed text-gray-400 svelte-12qhfyh">No warranty is made as to the accuracy, completeness, or usefulness of the information on this website. The author assumes no responsibility for any damages arising from the use of, or inability to use, the content of this website.</p> <button type="button" class="text-sm font-medium text-indigo-400 transition-colors hover:text-indigo-300 svelte-12qhfyh">Close</button><!----></dialog><!----><!--]--><!--]--><!--]--><!----> <!--[-1--><!--]--><!--]-->
+			
+			<script>
+				{
+					__sveltekit_1y6llyu = {
+						base: new URL("../..", location).pathname.slice(0, -1),
+						version: "1794165883559"
+					};
+
+					const element = document.currentScript.parentElement;
+
+					import("../../_app/immutable/entry/start.Cq5CBjf6.js").then(async (kit) => {
+						kit.init(__sveltekit_1y6llyu);
+						const app = await import("../../_app/immutable/entry/app.DMK_KLBo.js");
+						kit.start(app, element, {
+							node_ids: [0, 8],
+							data: [null,null],
+							form: null,
+							error: null
+						});
+					});
+				}
+			</script>
+		</div>
+  </body>
+</html>
