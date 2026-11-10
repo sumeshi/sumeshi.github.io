@@ -15,11 +15,29 @@ export type MentionedArticle = {
 
 export const articles: MentionedArticle[] = [
     {
+      titleEn: 'The World Ends with ETW',
+      titleJa: 'すばらしきこのETW',
+      sourceEn: '/posts/knowledges/windows-etl-analysis-101-en',
+      sourceJa: '/posts/knowledges/windows-etl-analysis-101',
+      mentions: [
+        {
+          date: '2026-11-09',
+          media: 'Forensic Focus / DFIR News, 09 Nov 2026',
+          url: 'https://www.forensicfocus.com/news/headlines/dfir-news-09-nov-2026/',
+        },
+      ],
+    },
+    {
       titleEn: 'NTFS Spinal Cord Sword',
       titleJa: 'NTFS脊髄剣',
       sourceEn: '/posts/works/ntfsfind-dump-en',
       sourceJa: '/posts/works/ntfsfind-dump',
       mentions: [
+        {
+          date: '2026-10-16',
+          media: 'Forensic Focus / Forensic Focus Digest, 16 Oct 2026',
+          url: 'https://www.forensicfocus.com/news/forensic-focus-digest-16-oct-2026/',
+        },
         {
           date: '2026-10-12',
           media: 'Forensic Focus / DFIR News, 12 Oct 2026',
@@ -38,6 +56,11 @@ export const articles: MentionedArticle[] = [
       sourceEn: '/posts/knowledges/windows-memory-forensics-101-en',
       sourceJa: '/posts/knowledges/windows-memory-forensics-101',
       mentions: [
+        {
+          date: '2026-10-28',
+          media: 'CCE Intelligence Hub / CCE Technical Intelligence Briefing - Volume 18',
+          url: 'https://intelligence.isfce.com/edition/volume-18-2026-10-28',
+        },
         {
           date: '2026-10-05',
           media: 'Forensic Focus / DFIR News, 05 Oct 2026',
@@ -101,9 +124,24 @@ export const articles: MentionedArticle[] = [
       sourceJa: '/posts/knowledges/windows-eventlog-analysis-101',
       mentions: [
         {
+          date: '2026-11-01',
+          media: 'This Week in 4n6 / WEEK 44 - 2026',
+          url: 'https://thisweekin4n6.com/2026/11/01/week-44-2026/',
+        },
+        {
+          date: '2026-10-28',
+          media: 'CCE Intelligence Hub / CCE Technical Intelligence Briefing - Volume 18',
+          url: 'https://intelligence.isfce.com/edition/volume-18-2026-10-28',
+        },
+        {
           date: '2026-10-19',
           media: 'Windows Incident Response / Investigations and Analysis (Harlan Carvey)',
           url: 'https://windowsir.blogspot.com/2026/10/investigations-and-analysis.html',
+        },
+        {
+          date: '2026-10-16',
+          media: 'Forensic Focus / Forensic Focus Digest, 16 Oct 2026',
+          url: 'https://www.forensicfocus.com/news/forensic-focus-digest-16-oct-2026/',
         },
         {
           date: '2026-10-12',
