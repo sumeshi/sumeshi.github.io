@@ -21,6 +21,11 @@ export const articles: MentionedArticle[] = [
       sourceJa: '/posts/knowledges/windows-etl-analysis-101',
       mentions: [
         {
+          date: '2026-11-13',
+          media: 'Forensic Focus / Forensic Focus Digest, 13 Nov 2026',
+          url: 'https://www.forensicfocus.com/news/forensic-focus-digest-13-nov-2026/',
+        },
+        {
           date: '2026-11-09',
           media: 'Forensic Focus / DFIR News, 09 Nov 2026',
           url: 'https://www.forensicfocus.com/news/headlines/dfir-news-09-nov-2026/',
@@ -33,6 +38,11 @@ export const articles: MentionedArticle[] = [
       sourceEn: '/posts/works/ntfsfind-dump-en',
       sourceJa: '/posts/works/ntfsfind-dump',
       mentions: [
+        {
+          date: '2026-11-30',
+          media: 'CCE Intelligence Hub / CCE Technical Intelligence Briefing - Volume 19',
+          url: 'https://intelligence.isfce.com/edition/volume-19-2026-11-30',
+        },
         {
           date: '2026-10-16',
           media: 'Forensic Focus / Forensic Focus Digest, 16 Oct 2026',
@@ -111,6 +121,11 @@ export const articles: MentionedArticle[] = [
       sourceJa: '/posts/works/do-localllms-dream-of-forensic-investigator-2',
       mentions: [
         {
+          date: '2026-11-30',
+          media: 'CCE Intelligence Hub / CCE Technical Intelligence Briefing - Volume 19',
+          url: 'https://intelligence.isfce.com/edition/volume-19-2026-11-30',
+        },
+        {
           date: '2026-10-18',
           media: 'This Week in 4n6 / WEEK 42 - 2026',
           url: 'https://thisweekin4n6.com/2026/10/18/week-42-2026/',
@@ -123,6 +138,11 @@ export const articles: MentionedArticle[] = [
       sourceEn: '/posts/knowledges/windows-eventlog-analysis-101-en',
       sourceJa: '/posts/knowledges/windows-eventlog-analysis-101',
       mentions: [
+        {
+          date: '2026-11-30',
+          media: 'CCE Intelligence Hub / CCE Technical Intelligence Briefing - Volume 19',
+          url: 'https://intelligence.isfce.com/edition/volume-19-2026-11-30',
+        },
         {
           date: '2026-11-01',
           media: 'This Week in 4n6 / WEEK 44 - 2026',
