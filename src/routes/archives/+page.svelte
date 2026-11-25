@@ -3,6 +3,7 @@
   import Badge from '#lib/components/Badge.svelte';
   import PageMeta from '#lib/components/PageMeta.svelte';
   import PageHeader from '#lib/components/PageHeader.svelte';
+  import { pathWithBase } from '#lib/paths.ts';
   import { pageTitle } from '#lib/site.ts';
   import { archives } from '#lib/content/archives.ts';
 
@@ -34,7 +35,7 @@
           <div class="flex shrink-0 flex-wrap gap-1.5">
             {#each archive.hrefs as link}
               <Badge href={link.url} external={true} variant="gray" size="xs" shape="rounded" className="font-mono">
-                {link.label}
+                {link.label[$language]}
               </Badge>
             {/each}
           </div>
@@ -46,7 +47,7 @@
           rel="noopener noreferrer"
           class="mt-5 block overflow-hidden rounded-lg border border-gray-800 transition-colors hover:border-gray-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-400"
         >
-          <img src={archive.imageUrl} alt={archive.imageAlt[$language]} class="h-auto w-full" loading="lazy" decoding="async" />
+          <img src={pathWithBase(archive.imageUrl)} alt={archive.imageAlt[$language]} class="h-auto w-full" loading="lazy" decoding="async" />
         </a>
       </article>
     {/each}

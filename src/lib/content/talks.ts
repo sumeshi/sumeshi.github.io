@@ -8,35 +8,39 @@ export type Slide = {
 
 export type Talk = {
     title: Record<SiteLanguage, string>;
-    event?: Record<SiteLanguage, string>;
     date: string;
-    hrefs: { label: string; url: string }[];
+    detailsUrl: string;
     summary: Array<Record<SiteLanguage, string>>;
-    /** 先頭をデフォルト表示、2枚目以降は + で展開 */
+    /** 日本語版、英語版の順 */
     slides: Slide[];
   };
 
 export const talks: Talk[] = [
     {
-      title: { ja: "【実施予定】ローカルLLMによるデジタルフォレンジック支援ハーネスの設計と実装", en: "[Upcoming] Designing and implementing a local LLM harness for digital forensics" },
-      event: { ja: "IDF 「AI」分科会（第23期第3回）", en: "IDF AI Subcommittee (23rd term, 3rd meeting)" },
+      title: { ja: "ローカルLLMによるデジタルフォレンジック支援ハーネスの設計と実装", en: "Design and Implementation of a Local LLM Harness for Digital Forensics" },
       date: '2026-11-25',
-      hrefs: [
-        { label: 'IDF', url: 'https://digitalforensic.jp/2026/09/15/ai23-3/' },
-      ],
+      detailsUrl: 'https://digitalforensic.jp/2026/09/15/ai23-3/',
       summary: [
         { ja: "ローカルLLMの特徴と制約、自律的なAIエージェントを支える概念の紹介。", en: "An introduction to the capabilities and limitations of local LLMs and the concepts behind autonomous AI agents." },
         { ja: "これをデジタルフォレンジックに適用するために求められる要件、設計思想、実装についての解説。", en: "Requirements, design principles, and implementation for applying these concepts to digital forensics." },
       ],
-      slides: [],
+      slides: [
+        {
+          title: 'ローカルLLMによるデジタルフォレンジック支援ハーネスの設計と実装',
+          speakerDeckId: 'b87de62202564e90ae531b36a982d776',
+          speakerDeckUrl: 'https://speakerdeck.com/sumeshi/design-and-implementation-of-a-local-llm-harness-for-digital-forensics-ja',
+        },
+        {
+          title: 'Design and Implementation of a Local LLM Harness for Digital Forensics',
+          speakerDeckId: '79bc4427eaae4ce895d7ccfb7be7e108',
+          speakerDeckUrl: 'https://speakerdeck.com/sumeshi/design-and-implementation-of-a-local-llm-harness-for-digital-forensics-en',
+        },
+      ],
     },
     {
       title: { ja: "FORENSIA: ローカルLLMフォレンジックハーネス", en: "FORENSIA: Local LLM Forensic Harness" },
-      event: { ja: "IDF 若手活動WG 技術交流会LT", en: "IDF Young Professionals Working Group lightning talk" },
       date: '2026-08-07',
-      hrefs: [
-        { label: 'IDF', url: 'https://digitalforensic.jp/2026/06/16/nextgen-wg-23-1/' },
-      ],
+      detailsUrl: 'https://digitalforensic.jp/2026/06/16/nextgen-wg-23-1/',
       summary: [
         { ja: "ローカルLLMでフォレンジック調査を支援するツール「FORENSIA」の設計思想と実装知見。", en: "Design principles and implementation lessons from FORENSIA, a tool that assists forensic investigations with local LLMs." },
         { ja: "弱いモデルを部品として使うためのハーネス設計（仮説検証ループ・記憶の構造化）について。", en: "Harness design for using weaker models as components, including hypothesis-testing loops and structured memory." },

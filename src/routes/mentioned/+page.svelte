@@ -9,6 +9,10 @@
   const language = getSiteLanguage();
 
   const mentionCount = articles.reduce((count, article) => count + article.mentions.length, 0);
+
+  function sourceHref(source: string): string {
+    return source.startsWith('https://') ? source : pathWithBase(source);
+  }
 </script>
 
 <PageMeta
@@ -25,12 +29,12 @@
       <section aria-label={`${article.titleEn} / ${article.titleJa}`} class="min-w-0 break-words">
         <h2 class="mb-4 leading-6">
           {#if article.sourceEn}
-            <a href={pathWithBase(article.sourceEn)} class="block text-base font-semibold text-white transition-colors hover:text-indigo-300 focus-visible:rounded-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-400">{article.titleEn}</a>
+            <a href={sourceHref(article.sourceEn)} class="block text-base font-semibold text-white transition-colors hover:text-indigo-300 focus-visible:rounded-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-400">{article.titleEn}</a>
           {:else}
             <span class="block text-base font-semibold text-white">{article.titleEn}</span>
           {/if}
           {#if article.sourceJa}
-            <a href={pathWithBase(article.sourceJa)} class="mt-1 block w-fit text-xs font-normal leading-5 text-gray-500 transition-colors hover:text-indigo-300 focus-visible:rounded-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-400">{article.titleJa}</a>
+            <a href={sourceHref(article.sourceJa)} class="mt-1 block w-fit text-xs font-normal leading-5 text-gray-500 transition-colors hover:text-indigo-300 focus-visible:rounded-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-400">{article.titleJa}</a>
           {:else}
             <span class="mt-1 block text-xs font-normal leading-5 text-gray-500">{article.titleJa}</span>
           {/if}

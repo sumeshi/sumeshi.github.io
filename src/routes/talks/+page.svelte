@@ -1,6 +1,5 @@
 <script lang="ts">
   import { getSiteLanguage } from '#lib/site-language.ts';
-  import Badge from '#lib/components/Badge.svelte';
   import PageMeta from '#lib/components/PageMeta.svelte';
   import PageHeader from '#lib/components/PageHeader.svelte';
   import SpeakerDeckEmbed from '#lib/components/SpeakerDeckEmbed.svelte';
@@ -8,13 +7,10 @@
   import { talks, type Slide, type Talk } from '#lib/content/talks.ts';
 
   const language = getSiteLanguage();
+  const detailsLabel = $derived($language === 'ja' ? '詳細を見る' : 'View details');
 
   function primarySlide(talk: Talk): Slide | undefined {
     return talk.slides[$language === 'en' && talk.slides.length > 1 ? 1 : 0];
-  }
-
-  function extraSlides(talk: Talk): Slide[] {
-    return talk.slides.filter((slide) => slide !== primarySlide(talk));
   }
 </script>
 
@@ -49,33 +45,26 @@
   <section class="divide-y divide-gray-800/60">
     {#each talks as talk}
       {@const primary = primarySlide(talk)}
-      {@const extras = extraSlides(talk)}
       <article class="py-6 first:pt-1 sm:py-7">
-        <div class="mb-1 flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-[10px] uppercase tracking-[0.14em] text-gray-500">
-          <time datetime={talk.date}>{talk.date}</time>
-          {#if talk.event}
-            <span class="normal-case tracking-normal text-gray-600">{talk.event[$language]}</span>
-          {/if}
+        <div class="flex items-baseline justify-between gap-3 text-xs">
+          <time datetime={talk.date} class="font-mono text-gray-500">{talk.date}</time>
+          <a
+            href={talk.detailsUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={`${detailsLabel} · ${talk.title[$language]}`}
+            class="whitespace-nowrap rounded-sm text-indigo-300 underline decoration-indigo-400/30 underline-offset-4 transition-colors hover:text-indigo-200 hover:decoration-indigo-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-400"
+          >
+            {detailsLabel} <span aria-hidden="true">↗</span>
+          </a>
         </div>
 
-        <div class="mt-2.5 flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between sm:gap-6">
-          <h2 class="min-w-0 font-sans text-base font-semibold leading-relaxed text-white">
-            {talk.title[$language]}
-          </h2>
-
-          {#if talk.hrefs.length > 0}
-            <div class="flex shrink-0 flex-wrap gap-1.5 sm:max-w-[42%] sm:justify-end">
-              {#each talk.hrefs as link}
-                <Badge href={link.url} external={true} variant="gray" size="xs" shape="rounded" className="font-mono">
-                  {link.label}
-                </Badge>
-              {/each}
-            </div>
-          {/if}
-        </div>
+        <h2 class="mt-2.5 font-sans text-base font-semibold leading-relaxed text-white">
+          {talk.title[$language]}
+        </h2>
 
         {#if talk.summary.length > 0}
-          <div class="mt-3 max-w-3xl space-y-1.5 text-sm leading-relaxed text-gray-400">
+          <div class="mt-2 max-w-3xl space-y-0.5 text-sm leading-5 text-gray-400">
             {#each talk.summary as line}
               <p>{line[$language]}</p>
             {/each}
@@ -86,23 +75,6 @@
           <div class="mt-5">
             {@render slideBlock(primary)}
           </div>
-        {/if}
-
-        {#if extras.length > 0}
-          <details class="mt-4 rounded-lg border border-gray-800 bg-gray-950/20 transition-colors open:border-gray-700 hover:border-gray-700">
-            <summary class="flex cursor-pointer list-none items-center justify-between gap-3 rounded-lg px-3.5 py-2.5 text-xs text-gray-300 marker:hidden">
-              <span class="font-medium tracking-wide">{$language === 'ja' ? 'English Version' : 'Japanese Version'}</span>
-              <span class="rounded-full border border-gray-700 bg-gray-950/70 px-1.5 py-0.5 font-mono text-[10px] text-gray-400 transition-transform details-open:rotate-45">+</span>
-            </summary>
-            <div class="space-y-6 border-t border-gray-800/80 px-3.5 py-4">
-              {#each extras as slide}
-                <div class="space-y-2">
-                  <p class="font-mono text-[10px] tracking-[0.12em] text-gray-500">{slide.title}</p>
-                  {@render slideBlock(slide)}
-                </div>
-              {/each}
-            </div>
-          </details>
         {/if}
       </article>
     {/each}

@@ -15,11 +15,29 @@ export type MentionedArticle = {
 
 export const articles: MentionedArticle[] = [
     {
+      titleEn: 'Trivium',
+      titleJa: 'A simple CSV/JSON log viewer for incident response.',
+      sourceEn: 'https://github.com/sumeshi/trivium',
+      sourceJa: 'https://github.com/sumeshi/trivium',
+      mentions: [
+        {
+          date: '2026-11-22',
+          media: 'This Week in 4n6 / WEEK 47 - 2026',
+          url: 'https://thisweekin4n6.com/2026/11/22/week-47-2026/',
+        },
+      ],
+    },
+    {
       titleEn: 'The World Ends with ETW',
       titleJa: 'すばらしきこのETW',
       sourceEn: '/posts/knowledges/windows-etl-analysis-101-en',
       sourceJa: '/posts/knowledges/windows-etl-analysis-101',
       mentions: [
+        {
+          date: '2026-11-15',
+          media: 'This Week in 4n6 / WEEK 46 - 2026',
+          url: 'https://thisweekin4n6.com/2026/11/15/week-46-2026/',
+        },
         {
           date: '2026-11-13',
           media: 'Forensic Focus / Forensic Focus Digest, 13 Nov 2026',

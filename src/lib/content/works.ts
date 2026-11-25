@@ -54,8 +54,8 @@ export const projects: Project[] = [
         { ja: "個人PCで動く小規模ローカルLLMによるファストフォレンジック支援ツールの開発。", en: "A fast-forensics tool powered by small local LLMs that run on a personal computer." },
       ],
       xEmbedUrls: [
+        'https://x.com/sum3sh1/status/2125532203375571074',
         'https://x.com/sum3sh1/status/2085747700495216855',
-        'https://x.com/sum3sh1/status/2078930110611378291',
         'https://x.com/sum3sh1/status/2078930325603078152',
         'https://x.com/sum3sh1/status/2069054729058124256',
         'https://x.com/sum3sh1/status/2069056858770620867',
@@ -133,12 +133,14 @@ export const projects: Project[] = [
         { label: 'Quilt', url: 'https://github.com/sumeshi/quilt' }
       ],
       summary: [
+        { ja: "Triviumは、CSV・JSONログの検索、絞り込み、タイムライン分析、IOC照合、注釈付けができるインシデント対応向けデスクトップアプリ。", en: "Trivium is a desktop app for incident response that supports searching and filtering CSV and JSON logs, timeline analysis, IOC matching, and annotations." },
         { ja: "数百GBオーダーを想定した、巨大なCSV形式ファイルを高速かつ複雑な条件のもとフィルタ可能な Python/Rust 製ツール。", en: "Python and Rust tools for quickly filtering large CSV files, including files of several hundred GB, using complex conditions." },
         { ja: "フィルタされたCSVファイルに対してIOCによるフラグ付けなどが可能な Rust - Tauri 製ツール。", en: "A Rust and Tauri tool for flagging indicators of compromise (IOCs) in filtered CSV files." },
       ],
       xEmbedUrls: [
+        'https://x.com/sum3sh1/status/2121595505545453666',
+        'https://x.com/sum3sh1/status/2123810955465560392',
         'https://x.com/sum3sh1/status/2091904742444442101',
-        'https://x.com/sum3sh1/status/1980679577941995839',
         'https://x.com/sum3sh1/status/1854231023787339958'
       ]
     },
@@ -230,6 +232,7 @@ export const projects: Project[] = [
       ],
       summary: [],
       xEmbedUrls: [
+        'https://x.com/sum3sh1/status/2107037255575703804',
         'https://x.com/sum3sh1/status/1908263331745661252'
       ]
     },
