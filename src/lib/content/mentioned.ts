@@ -57,9 +57,9 @@ export const articles: MentionedArticle[] = [
       sourceJa: '/posts/works/ntfsfind-dump',
       mentions: [
         {
-          date: '2026-11-30',
+          date: '2026-11-11',
           media: 'CCE Intelligence Hub / CCE Technical Intelligence Briefing - Volume 19',
-          url: 'https://intelligence.isfce.com/edition/volume-19-2026-11-30',
+          url: 'https://intelligence.isfce.com/edition/volume-19-2026-11-11',
         },
         {
           date: '2026-10-16',
@@ -139,9 +139,9 @@ export const articles: MentionedArticle[] = [
       sourceJa: '/posts/works/do-localllms-dream-of-forensic-investigator-2',
       mentions: [
         {
-          date: '2026-11-30',
+          date: '2026-11-11',
           media: 'CCE Intelligence Hub / CCE Technical Intelligence Briefing - Volume 19',
-          url: 'https://intelligence.isfce.com/edition/volume-19-2026-11-30',
+          url: 'https://intelligence.isfce.com/edition/volume-19-2026-11-11',
         },
         {
           date: '2026-10-18',
@@ -157,9 +157,9 @@ export const articles: MentionedArticle[] = [
       sourceJa: '/posts/knowledges/windows-eventlog-analysis-101',
       mentions: [
         {
-          date: '2026-11-30',
+          date: '2026-11-11',
           media: 'CCE Intelligence Hub / CCE Technical Intelligence Briefing - Volume 19',
-          url: 'https://intelligence.isfce.com/edition/volume-19-2026-11-30',
+          url: 'https://intelligence.isfce.com/edition/volume-19-2026-11-11',
         },
         {
           date: '2026-11-01',
@@ -202,7 +202,7 @@ export const articles: MentionedArticle[] = [
           url: 'https://www.forensicfocus.com/news/headlines/dfir-news-28-sep-2026/',
         },
         {
-          date: '2026-09-06',
+          date: '2026-09-27',
           media: 'This Week in 4n6 / WEEK 39 - 2026',
           url: 'https://thisweekin4n6.com/2026/09/27/week-39-2026/',
         },
